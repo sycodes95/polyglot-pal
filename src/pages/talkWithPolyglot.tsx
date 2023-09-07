@@ -3,7 +3,7 @@ import { Message } from "../features/talkWithPolyglot/types"
 import { getGPTMessageResponse } from "../features/talkWithPolyglot/services/getGPTMessageResponse"
 import Icon from '@mdi/react';
 import { mdiSendOutline } from '@mdi/js';
-import { Oval } from "react-loader-spinner";
+import { Oval, ThreeDots } from "react-loader-spinner";
 
 
 export default function TalkWithPolyGlot () {
@@ -45,7 +45,7 @@ export default function TalkWithPolyGlot () {
 
   
   return (
-    <div className="relative flex flex-col flex-grow w-full h-full max-w-5xl gap-8"> 
+    <div className="relative flex flex-col flex-grow w-full h-full max-w-5xl gap-8 p-2"> 
       <div className="flex flex-col flex-1 w-full gap-4 overflow-y-auto h-min" ref={messageContainerRef}>
         {
         messages.map((msg, index) => {
@@ -72,7 +72,20 @@ export default function TalkWithPolyGlot () {
           }
         })
         }
-
+        {
+        isLoading &&
+        <div className="flex justify-end w-full">
+            <ThreeDots 
+            height="40" 
+            width="40" 
+            radius="9"
+            color="#000000" 
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            visible={true}
+            />
+        </div>
+        }
       </div>
       <div className="sticky bottom-0 w-full h-24 max-w-5xl backdrop-blur-lg" >
         <form className="flex items-center w-full gap-2" onSubmit={(e)=> {
