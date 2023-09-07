@@ -1,0 +1,8 @@
+@font-face {
+  font-family: Lemon;
+  src: url(/src/assets/fonts/Lemon-round.ttf);
+}
+
+.font-logo{
+  font-family: Lemon, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
