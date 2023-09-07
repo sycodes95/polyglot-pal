@@ -13,9 +13,9 @@ export const getGPTMessageResponse = async (
       },
       body: JSON.stringify({
         messages: [...messages, { role: 'user', content: `${input}`  }],
-        model: "gpt-3.5-turbo",
+        model: "gpt-3.5-turbo-16k",
         temperature: 1,
-        max_tokens: 3500,
+        max_tokens: 1000,
         top_p: 1,
         frequency_penalty: 0,
         presence_penalty: 0,
@@ -23,7 +23,7 @@ export const getGPTMessageResponse = async (
     });
 
     const data = await response.json();
-
+    console.log(data);
     const assistantMessage = data.choices[0].message.content;
     return assistantMessage
     
