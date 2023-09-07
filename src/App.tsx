@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
 import TalkWithPolyGlot from './pages/talkWithPolyglot'
 import Header from './components/header/header'
@@ -10,10 +8,9 @@ function App() {
  
 
   return (
-    <main className='flex flex-col w-full gap-8 min-h-screen'>
+    <main className='flex flex-col items-center w-full min-h-screen gap-8'>
       <Header/>
-      <TalkWithPolyGlot/>
-      <Footer/>
+        <TalkWithPolyGlot/>
     </main>
   )
 }
