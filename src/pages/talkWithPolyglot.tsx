@@ -5,7 +5,6 @@ import { mdiSendOutline } from '@mdi/js';
 import { Oval, ThreeDots } from "react-loader-spinner";
 import { useAction } from "convex/react";
 import { api } from "../../convex/_generated/api";
-
 export default function TalkWithPolyGlot () {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState<Message[] | []>([])
@@ -16,20 +15,19 @@ export default function TalkWithPolyGlot () {
   const [isLoading, setIsLoading] = useState(false)
   const messageContainerRef = useRef(null)
   const getGPTMsg = useAction(api.actions.getGPTMessageResponse.getGPTMessageResponseConvex)
-
+  const getTextToSpeech = useAction(api.actions.getTextToSpeech.getTextToSpeech)
+  
   useEffect(()=>{
     if(messages.length < 1) {
       console.log('test');
-      const prompt = `Roleplay: You are my friend named ${aiName}. I speak ${nativeLanguage}, but I'm learning ${learningLanguage}. You're fluent in both. Speak only in ${learningLanguage} at CEFR level ${cefrLevel}. Begin by directly asking how I'm doing in ${learningLanguage}. Do not include your name in the response or use a colon. Stay in character, avoid using ${nativeLanguage} or any other language besides ${learningLanguage}, if I say I need help understanding something use ${nativeLanguage}, and engage with me in real-time.
+      const prompt = `Roleplay: You are my friend named ${aiName}. I speak ${nativeLanguage}, but I'm learning ${learningLanguage}. You're fluent in both. Speak only in ${learningLanguage} at CEFR level ${cefrLevel}. Begin by directly asking how I'm doing in ${learningLanguage}. Stay in character, avoid using ${nativeLanguage} or any other language besides ${learningLanguage}, if I say I need help understanding something use ${nativeLanguage}, and engage with me in real-time. Do not include your name in the response. 
       `
-      // getGPTMessageResponse(messages, prompt).then(assistantMessage => {
-      //   setMessages(messages => [...messages, { role: 'user', content: prompt }, { role: 'assistant', content: assistantMessage }]);
-      // })
       const input = prompt;
       getGPTMsg({messages, input}).then(assistantMessage => {
       setMessages(messages => [...messages, { role: 'user', content: prompt }, { role: 'assistant', content: assistantMessage }]);
       setIsLoading(false)
     });
+    
     }
   },[])
 
@@ -46,10 +44,17 @@ export default function TalkWithPolyGlot () {
   }
 
   useEffect(()=> {
-    window.scrollTo(0, document.documentElement.scrollHeight);
+    if(messages.length > 0 && messages[messages.length - 1].role === 'assistant'){
+      getTextToSpeech({ input: {text: messages[messages.length - 1].content}, voice: { languageCode: 'en-US', ssmlGender: 'FEMALE'} }).then(aud => {
+        console.log('check', aud);
+        if(aud) {
+          const audio = new Audio(aud);
+          audio.play();
+        }
+        
+      })
+    }
   },[messages])
-
- 
   
   return (
     <div className="relative flex flex-col flex-grow w-full h-full max-w-5xl gap-8 p-2"> 
