@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { Message } from "../features/talkWithPolyglot/types"
+import { Message, Voice } from "../features/talkWithPolyglot/types"
 import Icon from '@mdi/react';
 import { mdiSendOutline } from '@mdi/js';
 import { Oval, ThreeDots } from "react-loader-spinner";
@@ -9,6 +9,12 @@ import { api } from "../../convex/_generated/api";
 
 
 export default function TalkWithPolyGlot () {
+
+  const getGPTMsg = useAction(api.actions.getGPTMessageResponse.getGPTMessageResponseConvex)
+  const getTextToSpeech = useAction(api.actions.getTextToSpeech.getTextToSpeech)
+  const getVoicesList = useAction(api.actions.getTTSVoices.getTTSVoices)
+
+  
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState<Message[] | []>([])
   const [aiName, setAiName] = useState('Lexi')
@@ -16,10 +22,12 @@ export default function TalkWithPolyGlot () {
   const [learningLanguage, setLearningLanguage] = useState('English')
   const [cefrLevel, setCefrLevel] = useState('C2')
   const [isLoading, setIsLoading] = useState(false)
-  const messageContainerRef = useRef(null)
-  const getGPTMsg = useAction(api.actions.getGPTMessageResponse.getGPTMessageResponseConvex)
-  const getTextToSpeech = useAction(api.actions.getTextToSpeech.getTextToSpeech)
+
+  const [voicesList, setVoicesList] = useState<Voice | []>([])
+
   
+  const messageContainerRef = useRef(null)
+
   useEffect(()=>{
     if(messages.length < 1) {
       console.log('test');
@@ -59,6 +67,17 @@ export default function TalkWithPolyGlot () {
       })
     }
   },[messages])
+
+  useEffect(()=> {
+    getVoicesList().then(voices => {
+      console.log(voices);
+      setVoicesList(voices)
+    })
+  },[])
+
+  useEffect(() => {
+    console.log(voicesList);
+  },[voicesList])
   
   return (
     <div className="relative flex flex-col flex-grow w-full h-full max-w-5xl gap-8 p-2"> 
