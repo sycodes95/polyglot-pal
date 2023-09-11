@@ -5,10 +5,13 @@ import { mdiSendOutline } from '@mdi/js';
 import { Oval, ThreeDots } from "react-loader-spinner";
 import { useAction } from "convex/react";
 import { api } from "../../convex/_generated/api";
+
+
+
 export default function TalkWithPolyGlot () {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState<Message[] | []>([])
-  const [aiName, setAiName] = useState('Brian')
+  const [aiName, setAiName] = useState('Lexi')
   const [nativeLanguage, setNativeLanguage] = useState('Spanish')
   const [learningLanguage, setLearningLanguage] = useState('English')
   const [cefrLevel, setCefrLevel] = useState('C2')
@@ -20,7 +23,7 @@ export default function TalkWithPolyGlot () {
   useEffect(()=>{
     if(messages.length < 1) {
       console.log('test');
-      const prompt = `Roleplay: You are my friend named ${aiName}. I speak ${nativeLanguage}, but I'm learning ${learningLanguage}. You're fluent in both. Speak only in ${learningLanguage} at CEFR level ${cefrLevel}. Begin by directly asking how I'm doing in ${learningLanguage}. Stay in character, avoid using ${nativeLanguage} or any other language besides ${learningLanguage}, if I say I need help understanding something use ${nativeLanguage}, and engage with me in real-time. Do not include your name in the response. 
+      const prompt = `Roleplay: You are my friend named ${aiName} and you have a sarcastic personality. I speak ${nativeLanguage}, but I'm learning ${learningLanguage}. You're fluent in both. Speak only in ${learningLanguage} at CEFR level ${cefrLevel} to help my conversation skills. Begin by directly asking how I'm doing in ${learningLanguage}. Stay in character, avoid using ${nativeLanguage} or any other language besides ${learningLanguage}, if I say I need help understanding something use ${nativeLanguage}, and engage with me in real-time. Do not include your name in the response. 
       `
       const input = prompt;
       getGPTMsg({messages, input}).then(assistantMessage => {
@@ -34,7 +37,7 @@ export default function TalkWithPolyGlot () {
   const handleMessageSend = () => {
     setIsLoading(true)
     let userInput = input
-    if(messages.length < 1) userInput = prompt + input;
+    if(messages.length < 1) userInput = prompt + input; ``
     setMessages([...messages, { role: 'user', content: userInput }])
     setInput(''); 
     getGPTMsg({messages, input}).then(assistantMessage => {
@@ -45,7 +48,8 @@ export default function TalkWithPolyGlot () {
 
   useEffect(()=> {
     if(messages.length > 0 && messages[messages.length - 1].role === 'assistant'){
-      getTextToSpeech({ input: {text: messages[messages.length - 1].content}, voice: { languageCode: 'en-US', ssmlGender: 'FEMALE'} }).then(aud => {
+      getTextToSpeech({ input: {text: messages[messages.length - 1].content}, voice: { languageCode: 'en-US', name: "en-US-Studio-O"}})
+      .then(aud => {
         console.log('check', aud);
         if(aud) {
           const audio = new Audio(aud);
@@ -69,7 +73,7 @@ export default function TalkWithPolyGlot () {
             ${msg.role === 'user' ? 'justify-start' : 'justify-end'}
             `}
             key={index}>
-              <div className="p-4 rounded-2xl bg-stone-300">
+              <div className={`${msg.role === 'user' ? 'bg-stone-300' : 'bg-orange-200'} p-4 rounded-2xl bg-stone-300`}>
                 {
                 msg.role === 'user' 
                 ?

@@ -22,7 +22,7 @@ export const getGPTMessageResponseConvex = action({
       },
       body: JSON.stringify({
         messages: [...messages, { role: 'user', content: `${input}`  }],
-        model: "gpt-3.5-turbo-16k",
+        model: "gpt-3.5-turbo",
         temperature: 1,
         max_tokens: 1000,
         top_p: 1,
