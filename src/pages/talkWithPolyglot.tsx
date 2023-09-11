@@ -5,6 +5,7 @@ import { mdiSendOutline } from '@mdi/js';
 import { Oval, ThreeDots } from "react-loader-spinner";
 import { useAction } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import CountryFlag from "../components/countryFlag/countryFlag";
 
 
 
@@ -93,6 +94,7 @@ export default function TalkWithPolyGlot () {
             `}
             key={index}>
               <div className={`${msg.role === 'user' ? 'bg-stone-300' : 'bg-orange-200'} p-4 rounded-2xl bg-stone-300`}>
+                <CountryFlag className="object-contain w-12 h-12" countryCode={`US`} />
                 {
                 msg.role === 'user' 
                 ?
