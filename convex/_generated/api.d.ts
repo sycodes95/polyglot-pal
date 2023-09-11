@@ -15,6 +15,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as actions_getGPTMessageResponse from "../actions/getGPTMessageResponse";
+import type * as actions_getTTSVoices from "../actions/getTTSVoices";
 import type * as actions_getTextToSpeech from "../actions/getTextToSpeech";
 import type * as query_getTTSKey from "../query/getTTSKey";
 import type * as types from "../types";
@@ -29,6 +30,7 @@ import type * as types from "../types";
  */
 declare const fullApi: ApiFromModules<{
   "actions/getGPTMessageResponse": typeof actions_getGPTMessageResponse;
+  "actions/getTTSVoices": typeof actions_getTTSVoices;
   "actions/getTextToSpeech": typeof actions_getTextToSpeech;
   "query/getTTSKey": typeof query_getTTSKey;
   types: typeof types;

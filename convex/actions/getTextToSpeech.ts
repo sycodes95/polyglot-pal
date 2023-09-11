@@ -28,8 +28,8 @@ export const getTextToSpeech = action({
       audioEncoding: 'MP3'
     }
 
-    if(!process.env.GC_TTS_CONVEX_STORAGE_ID) return null
-    const keyUrl = await ctx.storage.get(process.env.GC_TTS_CONVEX_STORAGE_ID)
+    if(!process.env.GC_TTS_KEY_STORAGE_ID) return null
+    const keyUrl = await ctx.storage.get(process.env.GC_TTS_KEY_STORAGE_ID)
     console.log(keyUrl);
     if(!keyUrl) return null
     const keyJson = await new Response(keyUrl).json()
