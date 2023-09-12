@@ -8,6 +8,10 @@ import { api } from "../../convex/_generated/api";
 import CountryFlag from "../components/countryFlag/countryFlag";
 import ISO6391 from 'iso-639-1';
 import { cefrLevels } from "../constants/cefrLevels";
+import TalkMessageInput from "../features/talkWithPolyglot/components/talkMessageInput/talkMessageInput";
+
+
+
 
 
 export default function TalkWithPolyGlot () {
@@ -20,21 +24,18 @@ export default function TalkWithPolyGlot () {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState<Message[] | []>([])
   const [aiName, setAiName] = useState('Lexi')
-  const [nativeLanguage, setNativeLanguage] = useState('')
   const [cefrLevel, setCefrLevel] = useState('C2')
-  const [isLoading, setIsLoading] = useState(false)
+  const [messageIsLoading, setmessageIsLoading] = useState(false)
 
   const [languageOptions, setLanguageOptions] = useState<LanguageOption[] | []>([])
   const [selectedLanguageData, setSelectedLanguageData] = useState<LanguageOption | null>(null)
-  const [selectedCEFRLevel, setSelectedCEFRLevel] = useState('')
   const [aiVoiceAudio, setAiVoiceAudio] = useState<HTMLAudioElement | null>(null)
 
   
-  const messageContainerRef = useRef(null)
 
   useEffect(()=>{ 
     if(messages.length < 1 && selectedLanguageData) {
-      setIsLoading(true)
+      setmessageIsLoading(true)
       console.log('test');
       const selectedLanguage = selectedLanguageData.languageName
       // // const prompt = `You are my friend named ${aiName}. I'm learning ${selectedLanguage}. You're fluent in ${selectedLanguage}. Speak only in ${selectedLanguage} at CEFR level ${cefrLevel} to help my conversation skills, if i speak in any other language other than ${selectedLanguage}, say you don't understand. Begin by directly asking how I'm doing in ${selectedLanguage}, it's important you act like my friend or acquaintance , not an assistant or tutor. Stay in character, avoid using any other language besides ${selectedLanguage} and engage with me in real-time. 
@@ -43,21 +44,21 @@ export default function TalkWithPolyGlot () {
       const input = prompt;
       getGPTMsg({messages, input}).then(assistantMessage => {
       setMessages(messages => [...messages, { role: 'user', content: prompt }, { role: 'assistant', content: assistantMessage }]);
-      setIsLoading(false)
+      setmessageIsLoading(false)
     });
     
     }
   },[selectedLanguageData, cefrLevel])
 
   const handleMessageSend = () => {
-    setIsLoading(true)
+    setmessageIsLoading(true)
     let userInput = input
     if(messages.length < 1) userInput = prompt + input; ``
     setMessages([...messages, { role: 'user', content: userInput }])
     setInput(''); 
     getGPTMsg({messages, input}).then(assistantMessage => {
       setMessages(messages => [...messages, { role: 'assistant', content: assistantMessage }]);
-      setIsLoading(false)
+      setmessageIsLoading(false)
     });
   }
 
@@ -103,8 +104,6 @@ export default function TalkWithPolyGlot () {
         }
         return 0
       })
-
-      
       setLanguageOptions(langOptions)
     })
   },[])
@@ -157,7 +156,7 @@ export default function TalkWithPolyGlot () {
         </div>
       </div>
       
-      <div className="flex flex-col flex-1 w-full gap-4 overflow-y-auto h-min" ref={messageContainerRef}>
+      <div className="flex flex-col flex-1 w-full gap-4 overflow-y-auto h-min" >
         {
         messages.map((msg, index) => {
           if(index !== 0){
@@ -183,7 +182,7 @@ export default function TalkWithPolyGlot () {
         })
         }
         {
-        isLoading &&
+        messageIsLoading &&
         <div className="flex justify-end w-full">
           <ThreeDots 
           height="40" 
@@ -197,39 +196,13 @@ export default function TalkWithPolyGlot () {
         </div>
         }
       </div>
-      <div className="sticky bottom-0 w-full h-24 max-w-5xl backdrop-blur-lg" >
-        <form className="flex items-center w-full gap-2" onSubmit={(e)=> {
-          e.preventDefault()
-          handleMessageSend()
-          
-        }}>
-          <div className="flex items-center w-full border-2 border-stone-700 rounded-2xl">
-            <input className="w-full h-12 outline-none rounded-2xl" type="text" value={input} onChange={(e)=> setInput(e.target.value)}/>
-                  
-            <button className="flex items-center justify-center w-12 h-12" type="submit" >
-              {
-              isLoading ? 
-              <Oval
-                height={25}
-                width={25}
-                color="#000000"
-                wrapperStyle={{}}
-                wrapperClass=""
-                visible={true}
-                ariaLabel='oval-loading'
-                secondaryColor="#4fa94d"
-                strokeWidth={4}
-                strokeWidthSecondary={4}
-
-              />
-              :
-              <Icon path={mdiSendOutline} size={1} />
-              }
-              
-            </button>
-          </div>
-        </form>
-      </div>
+      <TalkMessageInput 
+      messageIsLoading={messageIsLoading}   
+      input={input}
+      setInput={setInput}
+      handleMessageSend={handleMessageSend}
+      />
+      
     </div>
   )
 }
