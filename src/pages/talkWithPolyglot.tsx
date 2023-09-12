@@ -32,13 +32,14 @@ export default function TalkWithPolyGlot () {
   
   const messageContainerRef = useRef(null)
 
-  useEffect(()=>{
+  useEffect(()=>{ 
     if(messages.length < 1 && selectedLanguageData) {
       setIsLoading(true)
       console.log('test');
       const selectedLanguage = selectedLanguageData.languageName
-      const prompt = `You are my friend named ${aiName}. I'm learning ${selectedLanguage}. You're fluent in ${selectedLanguage}. Speak only in ${selectedLanguage} at CEFR level ${cefrLevel} to help my conversation skills. Begin by directly asking how I'm doing in ${selectedLanguage}. Stay in character, avoid using any other language besides ${selectedLanguage} and engage with me in real-time. 
-      `
+      // // const prompt = `You are my friend named ${aiName}. I'm learning ${selectedLanguage}. You're fluent in ${selectedLanguage}. Speak only in ${selectedLanguage} at CEFR level ${cefrLevel} to help my conversation skills, if i speak in any other language other than ${selectedLanguage}, say you don't understand. Begin by directly asking how I'm doing in ${selectedLanguage}, it's important you act like my friend or acquaintance , not an assistant or tutor. Stay in character, avoid using any other language besides ${selectedLanguage} and engage with me in real-time. 
+      // `
+      const prompt = `You are my friend named ${aiName}. I'm learning ${selectedLanguage}. You're fluent in ${selectedLanguage}. Speak only in ${selectedLanguage} at CEFR level ${cefrLevel} to help my conversation skills. Begin by directly asking how I'm doing in ${selectedLanguage}, it's important you act like my friend or acquaintance, not an assistant or tutor. Stay in character, avoid using any other language besides ${selectedLanguage} and engage with me in real-time. Make sure you have a personality and don't like an AI `
       const input = prompt;
       getGPTMsg({messages, input}).then(assistantMessage => {
       setMessages(messages => [...messages, { role: 'user', content: prompt }, { role: 'assistant', content: assistantMessage }]);
@@ -93,7 +94,7 @@ export default function TalkWithPolyGlot () {
           ssmlGender: voiceData.ssmlGender
         }
       })
-      .filter((option : LanguageOption) => option.languageCode.length < 3)
+      .filter((option : LanguageOption) => option.languageCode.length < 3 && !option.voiceName.includes('Standard'))
       .sort((a: LanguageOption, b: LanguageOption) => {
         if(a.languageName < b.languageName) {
           return -1
@@ -118,8 +119,8 @@ export default function TalkWithPolyGlot () {
     <div className="relative flex flex-col flex-grow w-full h-full max-w-5xl gap-8 p-2"> 
       <div className="sticky flex flex-col h-full gap-2 p-2 bg-white top-20 rounded-b-2xl">
         <div className="flex items-center h-12 gap-2 p-2 border-2 rounded-2xl border-stone-300">
-          <label className="w-40 p-2 border-r-2 border-stone-300 whitespace-nowrap">Language & Voice</label>
-          <select className="w-full h-full outline-none" value={selectedLanguageData?.voiceName} onChange={(e)=> {
+          <label className="flex items-center w-40 p-2 border-stone-300 whitespace-nowrap">Language & Voice</label>
+          <select className="w-full h-full outline-none text-stone-600" value={selectedLanguageData?.voiceName} onChange={(e)=> {
             const selectedVoiceName = e.target.value
             const selectedLanguageData = languageOptions.find(opt => opt.voiceName === selectedVoiceName)
             selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
@@ -140,12 +141,12 @@ export default function TalkWithPolyGlot () {
           }
         </div>
 
-        <div className="flex h-12 gap-2 border-2 rounded-2xl border-stone-300">
-          <label className="w-40 p-2 text-center border-r-2 border-stone-300"> CEFR Level</label>
-          <div className="flex items-center w-full p-2 justify-evenly">
+        <div className="flex items-center h-12 gap-2 p-2 border-2 rounded-2xl border-stone-300">
+          <label className="flex items-center w-40 p-2 "> CEFR Level</label>
+          <div className="grid items-center w-full gap-2 md:grid-cols-6">
             {
             Object.keys(cefrLevels).map((level) => (
-              <button className={`flex items-center ${level === cefrLevel ? 'bg-black text-white' : 'bg-stone-300 text-black'} justify-center w-20 h-full p-2  rounded-2xl`} onClick={()=> {
+              <button className={`flex items-center ${level === cefrLevel ? 'bg-black text-white' : 'bg-stone-300 text-stone-600'} justify-center w-full h-full p-2  rounded-2xl`} onClick={()=> {
                 setCefrLevel(level)
                 setMessages([])   
               }}>{level}</button>
@@ -166,7 +167,7 @@ export default function TalkWithPolyGlot () {
             ${msg.role === 'user' ? 'justify-start' : 'justify-end'}
             `}
             key={index}>
-              <div className={`${msg.role === 'user' ? 'bg-stone-300' : 'bg-emerald-200'} p-4 rounded-2xl`}>
+              <div className={`${msg.role === 'user' ? 'bg-stone-300' : 'bg-emerald-200'} p-4 rounded-2xl max-w-66pct`}>
                 {
                 msg.role === 'user' 
                 ?
