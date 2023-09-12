@@ -30,7 +30,6 @@ export const getTextToSpeech = action({
 
     if(!process.env.GC_TTS_KEY_STORAGE_ID) return null
     const keyUrl = await ctx.storage.get(process.env.GC_TTS_KEY_STORAGE_ID)
-    console.log(keyUrl);
     if(!keyUrl) return null
     const keyJson = await new Response(keyUrl).json()
     const client = new TextToSpeechClient({
@@ -41,9 +40,7 @@ export const getTextToSpeech = action({
     });
 
     const [response] = await client.synthesizeSpeech({ input, voice, audioConfig});
-    console.log(response.audioContent);
     const audioData = (response.audioContent as Buffer)?.toString('base64');
-    console.log(audioData);
     const dataUrl = 'data:audio/mpeg;base64,' + audioData;
     return dataUrl
     
