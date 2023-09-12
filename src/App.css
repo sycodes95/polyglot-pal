@@ -6,3 +6,7 @@
 .font-logo{
   font-family: Lemon, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
+
+.max-w-66pct{
+  max-width: 66%;
+}
