@@ -32,7 +32,7 @@ export default function TalkWithPolyGlot () {
   useEffect(()=>{
     if(messages.length < 1) {
       console.log('test');
-      const prompt = `Roleplay: You are my friend named ${aiName} and you have a sarcastic personality. I speak ${nativeLanguage}, but I'm learning ${learningLanguage}. You're fluent in both. Speak only in ${learningLanguage} at CEFR level ${cefrLevel} to help my conversation skills. Begin by directly asking how I'm doing in ${learningLanguage}. Stay in character, avoid using ${nativeLanguage} or any other language besides ${learningLanguage}, if I say I need help understanding something use ${nativeLanguage}, and engage with me in real-time. Do not include your name in the response. 
+      const prompt = `You are my friend named ${aiName}. I'm learning ${learningLanguage}. You're fluent in ${learningLanguage}. Speak only in ${learningLanguage} at CEFR level ${cefrLevel} to help my conversation skills. Begin by directly asking how I'm doing in ${learningLanguage}. Stay in character, avoid using any other language besides ${learningLanguage} and engage with me in real-time. 
       `
       const input = prompt;
       getGPTMsg({messages, input}).then(assistantMessage => {
@@ -82,6 +82,11 @@ export default function TalkWithPolyGlot () {
   
   return (
     <div className="relative flex flex-col flex-grow w-full h-full max-w-5xl gap-8 p-2"> 
+      <div className="sticky h-24 p-2 border border-black top-20 rounded-2xl">
+        <div>
+          <label>Language</label>
+        </div>
+      </div>
       
       <div className="flex flex-col flex-1 w-full gap-4 overflow-y-auto h-min" ref={messageContainerRef}>
         {
@@ -93,7 +98,7 @@ export default function TalkWithPolyGlot () {
             ${msg.role === 'user' ? 'justify-start' : 'justify-end'}
             `}
             key={index}>
-              <div className={`${msg.role === 'user' ? 'bg-stone-300' : 'bg-orange-200'} p-4 rounded-2xl bg-stone-300`}>
+              <div className={`${msg.role === 'user' ? 'bg-stone-300' : 'bg-emerald-200'} p-4 rounded-2xl`}>
                 <CountryFlag className="object-contain w-12 h-12" countryCode={`US`} />
                 {
                 msg.role === 'user' 
@@ -102,7 +107,7 @@ export default function TalkWithPolyGlot () {
                 :
                 <span>Pal : </span>
                 }
-                <span>{msg.content}</span>
+                <span className="text-sm">{msg.content}</span>
               </div>
             </div>
             )
@@ -112,15 +117,15 @@ export default function TalkWithPolyGlot () {
         {
         isLoading &&
         <div className="flex justify-end w-full">
-            <ThreeDots 
-            height="40" 
-            width="40" 
-            radius="9"
-            color="#000000" 
-            ariaLabel="three-dots-loading"
-            wrapperStyle={{}}
-            visible={true}
-            />
+          <ThreeDots 
+          height="40" 
+          width="40" 
+          radius="9"
+          color="#000000" 
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          visible={true}
+          />
         </div>
         }
       </div>
