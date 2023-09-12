@@ -93,6 +93,7 @@ export default function TalkWithPolyGlot () {
           ssmlGender: voiceData.ssmlGender
         }
       })
+      .filter((option : LanguageOption) => option.languageCode.length < 3)
       .sort((a: LanguageOption, b: LanguageOption) => {
         if(a.languageName < b.languageName) {
           return -1
@@ -101,6 +102,7 @@ export default function TalkWithPolyGlot () {
         }
         return 0
       })
+
       
       setLanguageOptions(langOptions)
     })
@@ -114,7 +116,7 @@ export default function TalkWithPolyGlot () {
   
   return (
     <div className="relative flex flex-col flex-grow w-full h-full max-w-5xl gap-8 p-2"> 
-      <div className="sticky flex flex-col h-24 gap-2 p-2 top-20 rounded-2xl">
+      <div className="sticky flex flex-col h-full gap-2 p-2 bg-white top-20 rounded-b-2xl">
         <div className="flex items-center h-12 gap-2 p-2 border-2 rounded-2xl border-stone-300">
           <label className="w-40 p-2 border-r-2 border-stone-300 whitespace-nowrap">Language & Voice</label>
           <select className="w-full h-full outline-none" value={selectedLanguageData?.voiceName} onChange={(e)=> {
@@ -123,11 +125,12 @@ export default function TalkWithPolyGlot () {
             selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
             setMessages([])
           }}>
+            <option value=""></option>
             {
             languageOptions.map((opt, index) => (
-              <option className="text-sm md:text-lg" value={opt.voiceName} key={index}>
-                {opt.languageName} ({opt.countryCode}) {opt.voiceName} ({opt.ssmlGender})
-              </option>
+            <option className="text-sm md:text-lg" value={opt.voiceName} key={index}>
+              {opt.languageName} ({opt.countryCode}) {opt.voiceName} ({opt.ssmlGender})
+            </option>
             ))
             }
           </select>
