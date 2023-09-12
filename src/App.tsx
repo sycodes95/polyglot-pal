@@ -1,4 +1,4 @@
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css'
 import TalkWithPolyGlot from './pages/talkWithPolyglot'
 import Header from './components/header/header'
@@ -8,10 +8,16 @@ function App() {
  
 
   return (
-    <main className='flex flex-col items-center w-full min-h-screen gap-8'>
-      <Header/>
-        <TalkWithPolyGlot/>
-    </main>
+    <BrowserRouter>
+      <main className='flex flex-col items-center w-full min-h-screen '>
+        <Header/>
+        <Routes>
+          <Route path='/' element={<TalkWithPolyGlot />}/>
+        </Routes>
+      </main>
+    
+    </BrowserRouter>
+    
   )
 }
 
