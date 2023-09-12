@@ -24,8 +24,9 @@ export const getTextToSpeech = action({
   },
   handler: async (ctx, args) => {
     const { input, voice  } = args;
-    const audioConfig: {audioEncoding : 'MP3'} = {
-      audioEncoding: 'MP3'
+    const audioConfig: {audioEncoding : 'MP3', speakingRate: number} = {
+      audioEncoding: 'MP3',
+      speakingRate: 1
     }
 
     if(!process.env.GC_TTS_KEY_STORAGE_ID) return null
