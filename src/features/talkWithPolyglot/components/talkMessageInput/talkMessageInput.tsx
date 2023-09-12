@@ -14,7 +14,6 @@ export default function TalkMessageInput ({messageIsLoading, input, setInput, ha
       <form className="flex items-center w-full gap-2" onSubmit={(e)=> {
         e.preventDefault()
         handleMessageSend()
-        
       }}>
         <div className="flex items-center w-full border-2 border-stone-700 rounded-2xl">
           <input className="w-full h-12 outline-none rounded-2xl" type="text" value={input} onChange={(e)=> setInput(e.target.value)}/>

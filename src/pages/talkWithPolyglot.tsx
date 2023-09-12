@@ -1,16 +1,13 @@
-import { useEffect, useRef, useState } from "react"
-import { LanguageAndVoice, LanguageOption, LanguageOptions, Message, Voice, VoiceData } from "../features/talkWithPolyglot/types"
-import Icon from '@mdi/react';
-import { mdiSendOutline } from '@mdi/js';
-import { Oval, ThreeDots } from "react-loader-spinner";
+import { useEffect, useState } from "react"
+import { LanguageOption, Message, VoiceData } from "../features/talkWithPolyglot/types"
 import { useAction } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import CountryFlag from "../components/countryFlag/countryFlag";
 import ISO6391 from 'iso-639-1';
 import { cefrLevels } from "../constants/cefrLevels";
 import TalkMessageInput from "../features/talkWithPolyglot/components/talkMessageInput/talkMessageInput";
-
-
+import TalkMessages from "../features/talkWithPolyglot/components/talkMessages/talkMessages";
+import TalkSetupOptions from "../features/talkWithPolyglot/components/talkSetupOptions/talkSetupOptions";
 
 
 
@@ -23,46 +20,36 @@ export default function TalkWithPolyGlot () {
   
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState<Message[] | []>([])
-  const [aiName, setAiName] = useState('Lexi')
-  const [cefrLevel, setCefrLevel] = useState('C2')
   const [messageIsLoading, setmessageIsLoading] = useState(false)
 
+  const [cefrLevel, setCefrLevel] = useState('C2')
   const [languageOptions, setLanguageOptions] = useState<LanguageOption[] | []>([])
+
   const [selectedLanguageData, setSelectedLanguageData] = useState<LanguageOption | null>(null)
+
   const [aiVoiceAudio, setAiVoiceAudio] = useState<HTMLAudioElement | null>(null)
 
-  
-
   useEffect(()=>{ 
+    // clears and restarts messages starting with prompt and ai starts conversation, when any of talk setup options changes.
+
     if(messages.length < 1 && selectedLanguageData) {
       setmessageIsLoading(true)
-      console.log('test');
       const selectedLanguage = selectedLanguageData.languageName
-      // // const prompt = `You are my friend named ${aiName}. I'm learning ${selectedLanguage}. You're fluent in ${selectedLanguage}. Speak only in ${selectedLanguage} at CEFR level ${cefrLevel} to help my conversation skills, if i speak in any other language other than ${selectedLanguage}, say you don't understand. Begin by directly asking how I'm doing in ${selectedLanguage}, it's important you act like my friend or acquaintance , not an assistant or tutor. Stay in character, avoid using any other language besides ${selectedLanguage} and engage with me in real-time. 
-      // `
-      const prompt = `You are my friend named ${aiName}. I'm learning ${selectedLanguage}. You're fluent in ${selectedLanguage}. Speak only in ${selectedLanguage} at CEFR level ${cefrLevel} to help my conversation skills. Begin by directly asking how I'm doing in ${selectedLanguage}, it's important you act like my friend or acquaintance, not an assistant or tutor. Stay in character, avoid using any other language besides ${selectedLanguage} and engage with me in real-time. Make sure you have a personality and don't like an AI `
+      
+      const prompt = `You are my friend named. I'm learning ${selectedLanguage}. You're fluent in ${selectedLanguage}. Speak only in ${selectedLanguage} at CEFR level ${cefrLevel} to help my conversation skills. Begin by directly asking how I'm doing in ${selectedLanguage}, it's important you act like my friend or acquaintance, not an assistant or tutor. Stay in character, avoid using any other language besides ${selectedLanguage} and engage with me in real-time. Make sure you have a personality and don't like an AI `
       const input = prompt;
       getGPTMsg({messages, input}).then(assistantMessage => {
-      setMessages(messages => [...messages, { role: 'user', content: prompt }, { role: 'assistant', content: assistantMessage }]);
-      setmessageIsLoading(false)
-    });
+        setMessages(messages => [...messages, { role: 'user', content: prompt }, { role: 'assistant', content: assistantMessage }]);
+        setmessageIsLoading(false)
+      });
     
     }
   },[selectedLanguageData, cefrLevel])
-
-  const handleMessageSend = () => {
-    setmessageIsLoading(true)
-    let userInput = input
-    if(messages.length < 1) userInput = prompt + input; ``
-    setMessages([...messages, { role: 'user', content: userInput }])
-    setInput(''); 
-    getGPTMsg({messages, input}).then(assistantMessage => {
-      setMessages(messages => [...messages, { role: 'assistant', content: assistantMessage }]);
-      setmessageIsLoading(false)
-    });
-  }
+  
 
   useEffect(()=> {
+
+    //sends last user input message to TTS api, receives audio in base64 string format then plays the audio
     
     if(messages.length > 0 && messages[messages.length - 1].role === 'assistant'){
       getTextToSpeech({ input: {text: messages[messages.length - 1].content}, voice: { languageCode: `${selectedLanguageData?.languageCode + '-' + selectedLanguageData?.countryCode}`, name: `${selectedLanguageData?.voiceName}`}})
@@ -83,8 +70,10 @@ export default function TalkWithPolyGlot () {
   },[aiVoiceAudio])
 
   useEffect(()=> {
+
+    //creates a list for language & voice select options and sets state for language options.
+    
     getTTSVoiceOptionList().then(voiceDataList => {
-      console.log(voiceDataList);
       const langOptions = voiceDataList.map((voiceData: VoiceData) => {
         const [ languageCode, countryCode ] = voiceData.languageCodes[0].split('-')
         return {
@@ -108,94 +97,38 @@ export default function TalkWithPolyGlot () {
     })
   },[])
 
-
-
-  useEffect(() => {
-    console.log(selectedLanguageData);
-  },[selectedLanguageData])
+  const handleMessageSend = () => {
+    //sends user message to open ai to get response from ai assistant.
+    setmessageIsLoading(true)
+    let userInput = input
+    if(messages.length < 1) userInput = prompt + input; ``
+    setMessages([...messages, { role: 'user', content: userInput }])
+    setInput(''); 
+    getGPTMsg({messages, input}).then(assistantMessage => {
+      setMessages(messages => [...messages, { role: 'assistant', content: assistantMessage }]);
+      setmessageIsLoading(false)
+    });
+  }
   
   return (
     <div className="relative flex flex-col flex-grow w-full h-full max-w-5xl gap-8 p-2"> 
-      <div className="sticky flex flex-col h-full gap-2 p-2 bg-white top-20 rounded-b-2xl">
-        <div className="flex items-center h-12 gap-2 p-2 border-2 rounded-2xl border-stone-300">
-          <label className="flex items-center w-40 p-2 border-stone-300 whitespace-nowrap">Language & Voice</label>
-          <select className="w-full h-full outline-none text-stone-600" value={selectedLanguageData?.voiceName} onChange={(e)=> {
-            const selectedVoiceName = e.target.value
-            const selectedLanguageData = languageOptions.find(opt => opt.voiceName === selectedVoiceName)
-            selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
-            setMessages([])
-          }}>
-            <option value=""></option>
-            {
-            languageOptions.map((opt, index) => (
-            <option className="text-sm md:text-lg" value={opt.voiceName} key={index}>
-              {opt.languageName} ({opt.countryCode}) {opt.voiceName} ({opt.ssmlGender})
-            </option>
-            ))
-            }
-          </select>
-          {
-          selectedLanguageData &&
-          <CountryFlag className="object-contain w-10 h-10" countryCode={selectedLanguageData?.countryCode}/>
-          }
-        </div>
 
-        <div className="flex items-center h-12 gap-2 p-2 border-2 rounded-2xl border-stone-300">
-          <label className="flex items-center w-40 p-2 "> CEFR Level</label>
-          <div className="grid items-center w-full gap-2 md:grid-cols-6">
-            {
-            Object.keys(cefrLevels).map((level) => (
-              <button className={`flex items-center ${level === cefrLevel ? 'bg-black text-white' : 'bg-stone-300 text-stone-600'} justify-center w-full h-full p-2  rounded-2xl`} onClick={()=> {
-                setCefrLevel(level)
-                setMessages([])   
-              }}>{level}</button>
-            ))
-            }
-          </div>
-          
-        </div>
-      </div>
+      <TalkSetupOptions
+      selectedLanguageData={selectedLanguageData} 
+      setSelectedLanguageData={setSelectedLanguageData}
+      languageOptions={languageOptions}
+      cefrLevel={cefrLevel}
+      setCefrLevel={setCefrLevel}
+      setMessages={setMessages}
+      />
       
-      <div className="flex flex-col flex-1 w-full gap-4 overflow-y-auto h-min" >
-        {
-        messages.map((msg, index) => {
-          if(index !== 0){
-            return ( 
-            <div className={`
-            flex w-full
-            ${msg.role === 'user' ? 'justify-start' : 'justify-end'}
-            `}
-            key={index}>
-              <div className={`${msg.role === 'user' ? 'bg-stone-300' : 'bg-emerald-200'} p-4 rounded-2xl max-w-66pct`}>
-                {
-                msg.role === 'user' 
-                ?
-                <span>You : </span>
-                :
-                <span>Pal : </span>
-                }
-                <span className="text-sm">{msg.content}</span>
-              </div>
-            </div>
-            )
-          }
-        })
-        }
-        {
-        messageIsLoading &&
-        <div className="flex justify-end w-full">
-          <ThreeDots 
-          height="40" 
-          width="40" 
-          radius="9"
-          color="#000000" 
-          ariaLabel="three-dots-loading"
-          wrapperStyle={{}}
-          visible={true}
-          />
-        </div>
-        }
-      </div>
+
+      <TalkMessages 
+      messages={messages} 
+      messageIsLoading={messageIsLoading}
+      />
+      
+      
       <TalkMessageInput 
       messageIsLoading={messageIsLoading}   
       input={input}
