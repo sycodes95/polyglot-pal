@@ -27,7 +27,7 @@ export default function TalkWithPolyGlot () {
   const [languageOptions, setLanguageOptions] = useState<LanguageOption[] | []>([])
   const [selectedLanguageData, setSelectedLanguageData] = useState<LanguageOption | null>(null)
   const [selectedCEFRLevel, setSelectedCEFRLevel] = useState('')
-
+  const [aiVoiceAudio, setAiVoiceAudio] = useState<HTMLAudioElement | null>(null)
 
   
   const messageContainerRef = useRef(null)
@@ -68,12 +68,17 @@ export default function TalkWithPolyGlot () {
         console.log('check', aud);
         if(aud) {
           const audio = new Audio(aud);
-          audio.play();
+          if(aiVoiceAudio) aiVoiceAudio.pause()
+          setAiVoiceAudio(audio)
         }
         
       })
     }
   },[messages, selectedLanguageData])
+
+  useEffect(() => {
+    if(aiVoiceAudio) aiVoiceAudio.play()
+  },[aiVoiceAudio])
 
   useEffect(()=> {
     getTTSVoiceOptionList().then(voiceDataList => {
