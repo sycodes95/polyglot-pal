@@ -58,6 +58,7 @@ export default function TalkWithPolyGlot () {
   }
 
   useEffect(()=> {
+    
     if(messages.length > 0 && messages[messages.length - 1].role === 'assistant'){
       getTextToSpeech({ input: {text: messages[messages.length - 1].content}, voice: { languageCode: `${selectedLanguageData?.languageCode + '-' + selectedLanguageData?.countryCode}`, name: `${selectedLanguageData?.voiceName}`}})
       .then(aud => {
@@ -117,11 +118,19 @@ export default function TalkWithPolyGlot () {
             {
             languageOptions.map((opt, index) => (
               <option value={opt.voiceName} key={index}>
-                {opt.languageName} ({opt.countryCode}) {opt.voiceName} {opt.ssmlGender}
+                {opt.languageName} ({opt.countryCode}) {opt.voiceName} ({opt.ssmlGender})
               </option>
             ))
             }
           </select>
+          {
+          selectedLanguageData &&
+          <CountryFlag className="object-contain w-10 h-10" countryCode={selectedLanguageData?.countryCode}/>
+          }
+        </div>
+
+        <div className="flex gap-2">
+          <label className="p-2"> CEFR Level</label>
         </div>
       </div>
       
