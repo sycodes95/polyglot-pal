@@ -7,6 +7,7 @@ import { useAction } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import CountryFlag from "../components/countryFlag/countryFlag";
 import ISO6391 from 'iso-639-1';
+import { cefrLevels } from "../constants/cefrLevels";
 
 
 export default function TalkWithPolyGlot () {
@@ -25,6 +26,7 @@ export default function TalkWithPolyGlot () {
 
   const [languageOptions, setLanguageOptions] = useState<LanguageOption[] | []>([])
   const [selectedLanguageData, setSelectedLanguageData] = useState<LanguageOption | null>(null)
+  const [selectedCEFRLevel, setSelectedCEFRLevel] = useState('')
 
 
   
@@ -32,6 +34,7 @@ export default function TalkWithPolyGlot () {
 
   useEffect(()=>{
     if(messages.length < 1 && selectedLanguageData) {
+      setIsLoading(true)
       console.log('test');
       const selectedLanguage = selectedLanguageData.languageName
       const prompt = `You are my friend named ${aiName}. I'm learning ${selectedLanguage}. You're fluent in ${selectedLanguage}. Speak only in ${selectedLanguage} at CEFR level ${cefrLevel} to help my conversation skills. Begin by directly asking how I'm doing in ${selectedLanguage}. Stay in character, avoid using any other language besides ${selectedLanguage} and engage with me in real-time. 
@@ -43,7 +46,7 @@ export default function TalkWithPolyGlot () {
     });
     
     }
-  },[selectedLanguageData])
+  },[selectedLanguageData, cefrLevel])
 
   const handleMessageSend = () => {
     setIsLoading(true)
@@ -106,10 +109,10 @@ export default function TalkWithPolyGlot () {
   
   return (
     <div className="relative flex flex-col flex-grow w-full h-full max-w-5xl gap-8 p-2"> 
-      <div className="sticky h-24 p-2 top-20 rounded-2xl">
-        <div className="flex gap-2">
-          <label className="p-2 rounded-2xl bg-stone-300">Language & Voice</label>
-          <select value={selectedLanguageData?.voiceName} onChange={(e)=> {
+      <div className="sticky flex flex-col h-24 gap-2 p-2 top-20 rounded-2xl">
+        <div className="flex items-center h-12 gap-2 p-2 border-2 rounded-2xl border-stone-300">
+          <label className="w-40 p-2 border-r-2 border-stone-300 whitespace-nowrap">Language & Voice</label>
+          <select className="w-full h-full outline-none" value={selectedLanguageData?.voiceName} onChange={(e)=> {
             const selectedVoiceName = e.target.value
             const selectedLanguageData = languageOptions.find(opt => opt.voiceName === selectedVoiceName)
             selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
@@ -117,7 +120,7 @@ export default function TalkWithPolyGlot () {
           }}>
             {
             languageOptions.map((opt, index) => (
-              <option value={opt.voiceName} key={index}>
+              <option className="text-sm md:text-lg" value={opt.voiceName} key={index}>
                 {opt.languageName} ({opt.countryCode}) {opt.voiceName} ({opt.ssmlGender})
               </option>
             ))
@@ -129,8 +132,19 @@ export default function TalkWithPolyGlot () {
           }
         </div>
 
-        <div className="flex gap-2">
-          <label className="p-2"> CEFR Level</label>
+        <div className="flex h-12 gap-2 border-2 rounded-2xl border-stone-300">
+          <label className="w-40 p-2 text-center border-r-2 border-stone-300"> CEFR Level</label>
+          <div className="flex items-center w-full p-2 justify-evenly">
+            {
+            Object.keys(cefrLevels).map((level) => (
+              <button className={`flex items-center ${level === cefrLevel ? 'bg-black text-white' : 'bg-stone-300 text-black'} justify-center w-20 h-full p-2  rounded-2xl`} onClick={()=> {
+                setCefrLevel(level)
+                setMessages([])   
+              }}>{level}</button>
+            ))
+            }
+          </div>
+          
         </div>
       </div>
       
