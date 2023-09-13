@@ -6,13 +6,14 @@ import ISO6391 from 'iso-639-1';
 import TalkMessageInput from "../features/talkWithPolyglot/components/talkMessageInput/talkMessageInput";
 import TalkMessages from "../features/talkWithPolyglot/components/talkMessages/talkMessages";
 import TalkSetupOptions from "../features/talkWithPolyglot/components/talkSetupOptions/talkSetupOptions";
+import { getSampleRateFromBase64 } from "../utils/getSampleRateFromBase64";
 
 export default function TalkWithPolyGlot () {
 
   const getGPTMsg = useAction(api.actions.getGPTMessageResponse.getGPTMessageResponseConvex)
   const getTextToSpeech = useAction(api.actions.getTextToSpeech.getTextToSpeech)
   const getTTSVoiceOptionList = useAction(api.actions.getTTSVoices.getTTSVoices)
-
+  const getSpeechToText = useAction(api.actions.getSpeechToText.getSpeechToText)
   
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState<Message[] | []>([])
@@ -50,12 +51,21 @@ export default function TalkWithPolyGlot () {
     
     if(messages.length > 0 && messages[messages.length - 1].role === 'assistant'){
       getTextToSpeech({ input: {text: messages[messages.length - 1].content}, voice: { languageCode: `${selectedLanguageData?.languageCode + '-' + selectedLanguageData?.countryCode}`, name: `${selectedLanguageData?.voiceName}`}})
-      .then(aud => {
-        console.log('check', aud);
-        if(aud) {
-          const audio = new Audio(aud);
+      .then(voiceBase64Audio => {
+        if(voiceBase64Audio) {
+          const audio = new Audio(voiceBase64Audio);
           if(aiVoiceAudio) aiVoiceAudio.pause()
           setAiVoiceAudio(audio)
+          if(selectedLanguageData?.languageCode){
+            console.log(voiceBase64Audio);            
+            const [_, base64] = voiceBase64Audio.split('data:audio/wav;base64,')
+            getSampleRateFromBase64(base64)
+            getSpeechToText({
+              base64: base64, 
+              languageCode: selectedLanguageData?.languageCode + '-' + selectedLanguageData.countryCode,
+              sampleRate: 44100
+            })
+          }
         }
         
       })

@@ -2,7 +2,6 @@
 import { TextToSpeechClient } from "@google-cloud/text-to-speech";
 import { action } from "../_generated/server";
 import { v } from "convex/values";
-
 export const getTextToSpeech = action({
   args: { 
     input: v.object({
@@ -24,8 +23,8 @@ export const getTextToSpeech = action({
   },
   handler: async (ctx, args) => {
     const { input, voice  } = args;
-    const audioConfig: {audioEncoding : 'MP3', speakingRate: number} = {
-      audioEncoding: 'MP3',
+    const audioConfig: {audioEncoding : 'LINEAR16', speakingRate: number} = {
+      audioEncoding: 'LINEAR16',
       speakingRate: 1
     }
 
@@ -41,8 +40,9 @@ export const getTextToSpeech = action({
     });
 
     const [response] = await client.synthesizeSpeech({ input, voice, audioConfig});
+    console.log(response);
     const audioData = (response.audioContent as Buffer)?.toString('base64');
-    const dataUrl = 'data:audio/mpeg;base64,' + audioData;
+    const dataUrl = 'data:audio/wav;base64,' + audioData;
     return dataUrl
     
   },
