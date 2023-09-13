@@ -7,7 +7,7 @@ type Request = {
   audio: { content: string },
   config: {
     encoding: "LINEAR16" | "ENCODING_UNSPECIFIED" | "FLAC" | "MULAW" | "AMR" | "AMR_WB" | "OGG_OPUS" | "SPEEX_WITH_HEADER_BYTE" | "WEBM_OPUS" | null | undefined,
-    sampleRateHertz: number,
+    sampleRateHertz?: number,
     languageCode: string
   }
 }
@@ -15,18 +15,23 @@ type Request = {
 export const getSpeechToText = action({
   args: { 
     base64: v.string(),
-    languageCode: v.string()
+    languageCode: v.string(),
+    sampleRate: v.number()
   },
   handler: async (ctx, args) => {
-    const { base64, languageCode } = args;
+    const { base64, languageCode, sampleRate } = args;
+
+    
+
     const request: Request = {
       audio: { content: base64 },
       config: {
         encoding: 'LINEAR16',
-        sampleRateHertz: 16000,
+        sampleRateHertz: sampleRate,
         languageCode: languageCode
       }
     }
+    console.log(request);
     if(!process.env.GC_TTS_KEY_STORAGE_ID) return null
     const keyUrl = await ctx.storage.get(process.env.GC_TTS_KEY_STORAGE_ID)
     if(!keyUrl) return null

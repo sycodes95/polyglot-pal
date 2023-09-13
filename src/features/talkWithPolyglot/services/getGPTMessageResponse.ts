@@ -23,7 +23,6 @@ export const getGPTMessageResponse = async (
     });
 
     const data = await response.json();
-    console.log(data);
     const assistantMessage = data.choices[0].message.content;
     return assistantMessage
     
