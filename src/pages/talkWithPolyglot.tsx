@@ -2,14 +2,10 @@ import { useEffect, useState } from "react"
 import { LanguageOption, Message, VoiceData } from "../features/talkWithPolyglot/types"
 import { useAction } from "convex/react";
 import { api } from "../../convex/_generated/api";
-import CountryFlag from "../components/countryFlag/countryFlag";
 import ISO6391 from 'iso-639-1';
-import { cefrLevels } from "../constants/cefrLevels";
 import TalkMessageInput from "../features/talkWithPolyglot/components/talkMessageInput/talkMessageInput";
 import TalkMessages from "../features/talkWithPolyglot/components/talkMessages/talkMessages";
 import TalkSetupOptions from "../features/talkWithPolyglot/components/talkSetupOptions/talkSetupOptions";
-
-
 
 export default function TalkWithPolyGlot () {
 
@@ -28,6 +24,8 @@ export default function TalkWithPolyGlot () {
   const [selectedLanguageData, setSelectedLanguageData] = useState<LanguageOption | null>(null)
 
   const [aiVoiceAudio, setAiVoiceAudio] = useState<HTMLAudioElement | null>(null)
+  
+  const [voiceEnabled, setVoiceEnabled] = useState(false)
 
   useEffect(()=>{ 
     // clears and restarts messages starting with prompt and ai starts conversation, when any of talk setup options changes.
@@ -37,8 +35,7 @@ export default function TalkWithPolyGlot () {
       const selectedLanguage = selectedLanguageData.languageName
       
       const prompt = `You are my friend named. I'm learning ${selectedLanguage}. You're fluent in ${selectedLanguage}. Speak only in ${selectedLanguage} at CEFR level ${cefrLevel} to help my conversation skills. Begin by directly asking how I'm doing in ${selectedLanguage}, it's important you act like my friend or acquaintance, not an assistant or tutor. Stay in character, avoid using any other language besides ${selectedLanguage} and engage with me in real-time. Make sure you have a personality and don't like an AI `
-      const input = prompt;
-      getGPTMsg({messages, input}).then(assistantMessage => {
+      getGPTMsg({messages, input : prompt}).then(assistantMessage => {
         setMessages(messages => [...messages, { role: 'user', content: prompt }, { role: 'assistant', content: assistantMessage }]);
         setmessageIsLoading(false)
       });
@@ -114,20 +111,20 @@ export default function TalkWithPolyGlot () {
     <div className="relative flex flex-col flex-grow w-full h-full max-w-5xl gap-8 p-2"> 
 
       <TalkSetupOptions
+      className="sticky flex flex-col h-full gap-2 p-2 bg-white top-20 rounded-b-2xl"
       selectedLanguageData={selectedLanguageData} 
       setSelectedLanguageData={setSelectedLanguageData}
       languageOptions={languageOptions}
       cefrLevel={cefrLevel}
       setCefrLevel={setCefrLevel}
       setMessages={setMessages}
+      setVoiceEnabled={setVoiceEnabled}
       />
-      
 
       <TalkMessages 
       messages={messages} 
       messageIsLoading={messageIsLoading}
       />
-      
       
       <TalkMessageInput 
       messageIsLoading={messageIsLoading}   
