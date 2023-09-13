@@ -63,8 +63,9 @@ export default function TalkWithPolyGlot () {
             getSpeechToText({
               base64: base64, 
               languageCode: selectedLanguageData?.languageCode + '-' + selectedLanguageData.countryCode,
-              sampleRate: 44100
+              sampleRate: 24000
             })
+            .then(res => console.log(res?.results[0].alternatives[0].transcript))
           }
         }
         
