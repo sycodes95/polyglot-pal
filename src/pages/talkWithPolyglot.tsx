@@ -28,6 +28,8 @@ export default function TalkWithPolyGlot () {
   
   const [voiceEnabled, setVoiceEnabled] = useState(false)
 
+  const [userVoiceBase64, setUserVoiceBase64] = useState('')
+
   useEffect(()=>{ 
     // clears and restarts messages starting with prompt and ai starts conversation, when any of talk setup options changes.
 
@@ -56,22 +58,23 @@ export default function TalkWithPolyGlot () {
           const audio = new Audio(voiceBase64Audio);
           if(aiVoiceAudio) aiVoiceAudio.pause()
           setAiVoiceAudio(audio)
-          if(selectedLanguageData?.languageCode){
-            console.log(voiceBase64Audio);            
-            const [_, base64] = voiceBase64Audio.split('data:audio/wav;base64,')
-            getSampleRateFromBase64(base64)
-            getSpeechToText({
-              base64: base64, 
-              languageCode: selectedLanguageData?.languageCode + '-' + selectedLanguageData.countryCode,
-              sampleRate: 24000
-            })
-            .then(res => console.log(res?.results[0].alternatives[0].transcript))
-          }
         }
         
       })
     }
   },[messages, selectedLanguageData])
+
+  useEffect(() => {
+    if(userVoiceBase64 && selectedLanguageData) {
+      getSampleRateFromBase64(userVoiceBase64)
+      getSpeechToText({
+        base64: userVoiceBase64, 
+        languageCode: selectedLanguageData?.languageCode + '-' + selectedLanguageData.countryCode,
+        sampleRate: 48000
+      })
+      .then(res => console.log(res?.results[0].alternatives[0].transcript))
+    }
+  },[userVoiceBase64])
 
   useEffect(() => {
     if(aiVoiceAudio) aiVoiceAudio.play()
@@ -142,6 +145,7 @@ export default function TalkWithPolyGlot () {
       input={input}
       setInput={setInput}
       handleMessageSend={handleMessageSend}
+      setUserVoiceBase64={setUserVoiceBase64}
       />
       
     </div>

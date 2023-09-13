@@ -26,7 +26,7 @@ export const getSpeechToText = action({
     const request: Request = {
       audio: { content: base64 },
       config: {
-        encoding: 'LINEAR16',
+        encoding: 'WEBM_OPUS',
         sampleRateHertz: sampleRate,
         languageCode: languageCode
       }
