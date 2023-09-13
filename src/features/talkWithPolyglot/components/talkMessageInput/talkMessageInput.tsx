@@ -15,6 +15,7 @@ export default function TalkMessageInput ({messageIsLoading, input, setInput, ha
   const [recording, setRecording] = useState<boolean>(false);
   const [audioData, setAudioData] = useState<string | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const recordingStopped = useRef(false);
 
   const startVoiceRecord = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -37,12 +38,20 @@ export default function TalkMessageInput ({messageIsLoading, input, setInput, ha
       }
     };
 
-    mediaRecorderRef.current.onstop = () => {
-      const audioBlob = new Blob(audioChunks, { type: mimeType });  // Changed type to be dynamic based on the mimeType.
-      blobToBase64(audioBlob, setAudioData)
-      
+    mediaRecorderRef.current.ondataavailable = event => {
+      if (event.data.size > 0) {
+        audioChunks.push(event.data);
+      }
+
+      if (recordingStopped.current && mediaRecorderRef.current && mediaRecorderRef.current.state !== 'recording') {
+        const audioBlob = new Blob(audioChunks, { type: mimeType });
+        blobToBase64(audioBlob, setAudioData);
+      }
     };
 
+    mediaRecorderRef.current.onstop = () => {
+      recordingStopped.current = true; 
+    };
     mediaRecorderRef.current.start();
     setRecording(true);
   };
@@ -51,6 +60,7 @@ export default function TalkMessageInput ({messageIsLoading, input, setInput, ha
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
     }
+    recordingStopped.current = true;
     setRecording(false);
   };
 
