@@ -72,7 +72,17 @@ export default function TalkWithPolyGlot () {
         languageCode: selectedLanguageData?.languageCode + '-' + selectedLanguageData.countryCode,
         sampleRate: 48000
       })
-      .then(res => console.log(res?.results[0].alternatives[0].transcript))
+      .then(res => {
+        const transcript = res?.results?.[0]?.alternatives?.[0]?.transcript;
+        if(transcript){
+          setMessages([...messages, { role: 'user', content: transcript }])
+          const input = transcript
+          getGPTMsg({messages, input}).then(assistantMessage => {
+            setMessages(messages => [...messages, { role: 'assistant', content: assistantMessage }]);
+            setmessageIsLoading(false)
+          });
+        }
+      })
     }
   },[userVoiceBase64])
 
