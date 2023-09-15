@@ -11,6 +11,7 @@ import TalkMessageInput from "../features/talkWithPolyglot/components/talkMessag
 import TalkMessages from "../features/talkWithPolyglot/components/talkMessages/talkMessages";
 import TalkSetupOptions from "../features/talkWithPolyglot/components/talkSetupOptions/talkSetupOptions";
 import { getSampleRateFromBase64 } from "../utils/getSampleRateFromBase64";
+import { getGPTPrompt } from "../features/talkWithPolyglot/services/getGPTPrompt";
 
 export default function TalkWithPolyGlot() {
   const getGPTMsg = useAction(
@@ -28,7 +29,7 @@ export default function TalkWithPolyGlot() {
 
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[] | []>([]);
-  const [messageIsLoading, setmessageIsLoading] = useState(false);
+  const [messageIsLoading, setMessageIsLoading] = useState(false);
 
   const [selectedLanguageData, setSelectedLanguageData] = useState<LanguageOption | null>(null);
   const [cefrLevel, setCefrLevel] = useState("C2");
@@ -39,23 +40,38 @@ export default function TalkWithPolyGlot() {
   const [userVoiceBase64, setUserVoiceBase64] = useState("");
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [userVoiceError, setUserVoiceError] = useState(false)
+  
 
   useEffect(() => {
-    // clears and restarts messages starting with prompt and ai starts conversation, when any of talk setup options changes.
-    if (aiVoiceAudio) aiVoiceAudio.pause()
-    if (messages.length < 1 && selectedLanguageData) {
-      setmessageIsLoading(true);
-      const selectedLanguage = selectedLanguageData.languageName;
+    async function getFirstMessageFromPal () {
 
-      const prompt = `You are my friend named. I'm learning ${selectedLanguage}. You're fluent in ${selectedLanguage}. Speak only in ${selectedLanguage} at CEFR level ${cefrLevel} to help my conversation skills. Begin by directly asking how I'm doing in ${selectedLanguage}, it's important you act like my friend or acquaintance, not an assistant or tutor. Stay in character, avoid using any other language besides ${selectedLanguage} and engage with me in real-time. Make sure you have a personality and don't like an AI `;
-      getGPTMsg({ messages, input: prompt }).then((assistantMessage) => {
-        setMessages(() => [
+      //pause pal's previous voice audio if playing atm.
+      if (aiVoiceAudio) aiVoiceAudio.pause()  
+
+      //check if no messages has been sent or received and user has selected a language
+      //then get first message from gpt using prompt and add to messages state
+
+      if (messages.length < 1 && selectedLanguageData) { 
+
+        setMessageIsLoading(true);
+
+        const selectedLanguageName = selectedLanguageData.languageName;
+
+        const prompt = getGPTPrompt(selectedLanguageName, cefrLevel)
+
+        const palMessage = await getGPTMsg({ messages, input: prompt })
+
+        setMessages([
           { role: "user", content: prompt },
-          { role: "assistant", content: assistantMessage },
+          { role: "assistant", content: palMessage },
         ]);
-        setmessageIsLoading(false);
-      });
+        
+        setMessageIsLoading(false);
+      }
+        
     }
+    getFirstMessageFromPal ()
+  
   }, [selectedLanguageData, cefrLevel]);
 
   useEffect(() => {
@@ -103,7 +119,7 @@ export default function TalkWithPolyGlot() {
   useEffect(() => {
     if (userVoiceBase64 && selectedLanguageData) {
       setUserVoiceError(false)
-      setmessageIsLoading(true);
+      setMessageIsLoading(true);
       getSampleRateFromBase64(userVoiceBase64);
       getSpeechToText({
         base64: userVoiceBase64,
@@ -123,7 +139,7 @@ export default function TalkWithPolyGlot() {
               ...messages,
               { role: "assistant", content: assistantMessage },
             ]);
-            setmessageIsLoading(false);
+            setMessageIsLoading(false);
           });
         } else {
           setUserVoiceError(true)
@@ -168,7 +184,7 @@ export default function TalkWithPolyGlot() {
 
   const handleMessageSend = () => {
     //sends user message to open ai to get response from ai assistant.
-    setmessageIsLoading(true);
+    setMessageIsLoading(true);
     let userInput = input;
     if (messages.length < 1) userInput = prompt + input;
     ``;
@@ -179,7 +195,7 @@ export default function TalkWithPolyGlot() {
         ...messages,
         { role: "assistant", content: assistantMessage },
       ]);
-      setmessageIsLoading(false);
+      setMessageIsLoading(false);
     });
   };
 
