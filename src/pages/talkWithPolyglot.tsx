@@ -13,6 +13,7 @@ import TalkSetupOptions from "../features/talkWithPolyglot/components/talkSetupO
 import { getSampleRateFromBase64 } from "../utils/getSampleRateFromBase64";
 import { getGPTPrompt } from "../features/talkWithPolyglot/services/getGPTPrompt";
 import { combineLangAndCountryCode } from "../utils/combineLangAndCountryCode";
+import { formatGCTTSVoiceOptions } from "../utils/formatGCTTSVoiceOptions";
 
 export default function TalkWithPolyGlot() {
   const getGPTMsg = useAction(
@@ -32,22 +33,33 @@ export default function TalkWithPolyGlot() {
   const [messages, setMessages] = useState<Message[] | []>([]);
   const [messageIsLoading, setMessageIsLoading] = useState(false);
 
+  const [languageOptions, setLanguageOptions] = useState<LanguageOption[] | []>([]);
   const [selectedLanguageData, setSelectedLanguageData] = useState<LanguageOption | null>(null);
   const [cefrLevel, setCefrLevel] = useState("C2");
-  const [languageOptions, setLanguageOptions] = useState<LanguageOption[] | []>([]);
   const [ttsEnabled, setTtsEnabled] = useState(true)
 
-  const [aiVoiceAudio, setAiVoiceAudio] = useState<HTMLAudioElement | null>(null);
+  const [palVoiceAudioElement, setPalVoiceAudioElement] = useState<HTMLAudioElement | null>(null);
   const [userVoiceBase64, setUserVoiceBase64] = useState("");
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [userVoiceError, setUserVoiceError] = useState(false)
-  
+
+  useEffect(() => {
+    //creates a list from GC for language & voice select options and sets state for language options.
+
+    async function getLangAndVoiceOptions () {
+      const gcVoiceList = await getTTSVoiceOptionList()
+      const formattedVoiceList = formatGCTTSVoiceOptions(gcVoiceList)
+      setLanguageOptions(formattedVoiceList);
+    }
+    getLangAndVoiceOptions()
+    
+  }, []);
 
   useEffect(() => {
     async function getFirstMessageFromPal () {
 
       //pause pal's previous voice audio if playing atm.
-      if (aiVoiceAudio) aiVoiceAudio.pause()  
+      if (palVoiceAudioElement) palVoiceAudioElement.pause()  
 
       //check if no messages has been sent or received and user has selected a language
       //then get first message from gpt using prompt and add to messages state
@@ -108,11 +120,10 @@ export default function TalkWithPolyGlot() {
         });
 
         if(ttsBase64) {
-          if (aiVoiceAudio) aiVoiceAudio.pause();
+          if (palVoiceAudioElement) palVoiceAudioElement.pause();
           const palVoiceAudio = new Audio(ttsBase64);
-          setAiVoiceAudio(palVoiceAudio);
+          setPalVoiceAudioElement(palVoiceAudio);
         }
-        
       }
 
     }
@@ -121,96 +132,68 @@ export default function TalkWithPolyGlot() {
   }, [messages]);
 
   useEffect(()=> {
-    if(aiVoiceAudio) {
-      ttsEnabled ? !aiVoiceAudio.ended && aiVoiceAudio.play() : aiVoiceAudio.pause()
+    if(palVoiceAudioElement) {
+      ttsEnabled ? !palVoiceAudioElement.ended && palVoiceAudioElement.play() : palVoiceAudioElement.pause()
     }
   },[ttsEnabled])
 
   useEffect(() => {
-    if (aiVoiceAudio) aiVoiceAudio.play();
-  }, [aiVoiceAudio]);
+    if (palVoiceAudioElement) palVoiceAudioElement.play();
+  }, [palVoiceAudioElement]);
 
   useEffect(() => {
-    if (userVoiceBase64 && selectedLanguageData) {
-      setUserVoiceError(false)
-      setMessageIsLoading(true);
-      getSampleRateFromBase64(userVoiceBase64);
-      getSpeechToText({
-        base64: userVoiceBase64,
-        languageCode:
-          selectedLanguageData?.languageCode +
-          "-" +
-          selectedLanguageData.countryCode,
-        sampleRate: 48000,
-      }).then((res) => {
-        const transcript = res?.results?.[0]?.alternatives?.[0]?.transcript;
-        
-        if (transcript) {
-          setMessages([...messages, { role: "user", content: transcript }]);
-          const input = transcript;
-          getGPTMsg({ messages, input }).then((assistantMessage) => {
-            setMessages((messages) => [
-              ...messages,
-              { role: "assistant", content: assistantMessage },
-            ]);
-            setMessageIsLoading(false);
-          });
-        } else {
-          setUserVoiceError(true)
-        }
-      });
-    }
-  }, [userVoiceBase64]);
 
-  
-  useEffect(() => {
-    //creates a list for language & voice select options and sets state for language options.
+    async function getUserSTTAndSend () {
+      if (userVoiceBase64 && selectedLanguageData) {
+        setUserVoiceError(false)
+        setMessageIsLoading(true);
 
-    getTTSVoiceOptionList().then((voiceDataList) => {
-      const langOptions = voiceDataList
-        .map((voiceData: VoiceData) => {
-          const [languageCode, countryCode] =
-            voiceData.languageCodes[0].split("-");
-          return {
-            languageCode,
-            countryCode,
-            voiceName: voiceData.name,
-            languageName: ISO6391.getName(languageCode),
-            ssmlGender: voiceData.ssmlGender,
-          };
+        const selectedLanguageCode = combineLangAndCountryCode(selectedLanguageData?.languageCode, selectedLanguageData?.countryCode)
+
+        const userSTT = await getSpeechToText({
+          base64: userVoiceBase64,
+          languageCode: selectedLanguageCode,
+          sampleRate: 48000,
         })
-        .filter(
-          (option: LanguageOption) =>
-            option.languageCode.length < 3 &&
-            !option.voiceName.includes("Standard")
-        )
-        .sort((a: LanguageOption, b: LanguageOption) => {
-          if (a.languageName < b.languageName) {
-            return -1;
-          } else if (a.languageName > b.languageName) {
-            return 1;
-          }
-          return 0;
-        });
-      setLanguageOptions(langOptions);
-    });
-  }, []);
+        
+        const transcript = userSTT?.results?.[0]?.alternatives?.[0]?.transcript;
 
-  const handleMessageSend = () => {
+        if(!userSTT || !transcript) return setUserVoiceError(true)
+
+        setMessages([...messages, { role: "user", content: transcript }]);
+        
+        const palResponse = await getGPTMsg({ messages, input : transcript })
+
+        setMessages((messages) => [
+          ...messages,
+          { role: "assistant", content: palResponse },
+        ]);
+
+        setMessageIsLoading(false);
+        
+      }
+
+    }
+    getUserSTTAndSend()
+    
+  }, [userVoiceBase64]);
+  
+
+  const handleMessageSend = async () => {
     //sends user message to open ai to get response from ai assistant.
     setMessageIsLoading(true);
     let userInput = input;
     if (messages.length < 1) userInput = prompt + input;
-    ``;
+    
     setMessages([...messages, { role: "user", content: userInput }]);
     setInput("");
-    getGPTMsg({ messages, input }).then((assistantMessage) => {
-      setMessages((messages) => [
-        ...messages,
-        { role: "assistant", content: assistantMessage },
-      ]);
-      setMessageIsLoading(false);
-    });
+    const msg = await getGPTMsg({ messages, input });
+    setMessages((messages) => [
+      ...messages,
+      { role: "assistant", content: msg },
+    ]);
+    setMessageIsLoading(false);
+    
   };
 
   return (

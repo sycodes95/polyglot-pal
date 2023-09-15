@@ -1,5 +1,6 @@
 import { ThreeDots } from "react-loader-spinner"
 import { Message } from "../../types"
+import { useEffect, useRef } from "react";
 
 
 type TalkMessagesProps = {
@@ -9,10 +10,17 @@ type TalkMessagesProps = {
 }
 
 export default function TalkMessages ({className, messages, messageIsLoading} : TalkMessagesProps) {
+  const messagesEndRef = useRef<null | HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
   return (
-    <div className={`${className} flex flex-grow flex-col h-full w-full gap-4 overflow-y-auto rounded-2xl
+    <div className={`${className} flex flex-grow flex-col h-1 w-full gap-4 overflow-y-auto rounded-2xl
       p-2`} >
-      <div className="">
         {
         messages.map((msg, index) => {
           if(index !== 0){
@@ -51,7 +59,7 @@ export default function TalkMessages ({className, messages, messageIsLoading} : 
           />
         </div>
         }
-      </div>
+        <div className="hidden" ref={messagesEndRef}></div>
     </div>
   )
 }
