@@ -6,8 +6,10 @@ import { blobToBase64 } from "../../../../utils/getBase64FromBlob";
 import Icon from "@mdi/react";
 import { mdiMicrophone } from "@mdi/js";
 import { LanguageOption } from "../../types";
+import { AudioVisualizer } from "react-audio-visualize";
 
 type TalkMessageInputProps = {
+  className?: string,
   selectedLanguageData: LanguageOption | null;
   messageIsLoading: boolean;
   input: string;
@@ -18,6 +20,7 @@ type TalkMessageInputProps = {
 };
 
 export default function TalkMessageInput({
+  className,
   selectedLanguageData,
   messageIsLoading,
   input,
@@ -30,6 +33,9 @@ export default function TalkMessageInput({
   const [audioData, setAudioData] = useState<string | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordingStopped = useRef(false);
+  const [recordedBlob, setRecordedBlob] = useState<Blob | null>()
+  const visualizerRef = useRef<HTMLCanvasElement>(null)
+
 
   const startVoiceRecord = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -65,6 +71,7 @@ export default function TalkMessageInput({
         mediaRecorderRef.current.state !== "recording"
       ) {
         const audioBlob = new Blob(audioChunks, { type: mimeType });
+        
         blobToBase64(audioBlob, setAudioData);
       }
     };
@@ -93,77 +100,53 @@ export default function TalkMessageInput({
   }, [audioData]);
 
   return (
-    <div className="sticky bottom-0 w-full h-24 max-w-5xl backdrop-blur-lg">
+    <div className={`${className} w-full h-24 max-w-7xl backdrop-blur-lg mb-8`}>
       <form
+      aria-disabled
         className="flex items-center w-full gap-2"
         onSubmit={(e) => {
           e.preventDefault();
           handleMessageSend();
         }}
-      >             
-        <div className="flex items-center w-full border-2 border-stone-700 rounded-2xl">
+      > 
+                    
+        <div className={`relative flex items-center w-full border-2 border-stone-700 rounded-2xl`}>
+          {
+          !selectedLanguageData &&
+          <div className="absolute top-0 left-0 z-10 w-full h-full bg-opacity-50 bg-stone-300 group rounded-2xl">
+            <span 
+            className="absolute right-0 hidden p-2 mb-2 text-sm border bottom-full group-hover:flex rounded-2xl bg-stone-300 border-stone-500"
+            >Please select a language.</span>
+          </div>
+          }
           <input
-            className="w-full h-12 outline-none rounded-2xl"
+            className={` w-full h-12 outline-none rounded-2xl p-2`}
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
           <div className="flex gap-2">
             {
-            selectedLanguageData && recording &&
+            recording ?
             <button type="button" onClick={stopVoiceRecord}>
               <Icon className="text-red-600" path={mdiMicrophone} size={1} />
             </button>
-            }
-
-            {
-            selectedLanguageData && !recording &&
+            :
             <button type="button" onClick={startVoiceRecord}>
-                <Icon className="" path={mdiMicrophone} size={1} />
-              </button>
-            }
-
-            {
-            !selectedLanguageData &&
-            <button className="group" disabled type="button" onClick={stopVoiceRecord}>
-              <Icon className="text-stone-400" path={mdiMicrophoneOff} size={1} />
-              <span className="absolute right-0 hidden p-2 text-sm font-thin bottom-full group-hover:flex bg-stone-300 rounded-2xl">Please choose a language first.</span>
+              <Icon className="" path={mdiMicrophone} size={1} />
             </button>
             }
-            {/* {recording && selectedLanguageData ? (
-              <button type="button" onClick={stopVoiceRecord}>
-                <Icon className="text-red-600" path={mdiMicrophone} size={1} />
-              </button>
-            ) : (
-              <button type="button" onClick={startVoiceRecord}>
-                <Icon className="" path={mdiMicrophone} size={1} />
-              </button>
-            )} */}
 
             {audioData && <input hidden readOnly value={audioData} />}
           </div>
-
+          
           <button
             className="flex items-center justify-center w-12 h-12"
             type="submit"
           >
-            {messageIsLoading ? (
-              <Oval
-                height={25}
-                width={25}
-                color="#000000"
-                wrapperStyle={{}}
-                wrapperClass=""
-                visible={true}
-                ariaLabel="oval-loading"
-                secondaryColor="#4fa94d"
-                strokeWidth={4}
-                strokeWidthSecondary={4}
-              />
-            ) : (
-              <Icon path={mdiSendOutline} size={1} />
-            )}
+            <Icon path={mdiSendOutline} size={1} />
           </button>
+          
         </div>
       </form>
     </div>

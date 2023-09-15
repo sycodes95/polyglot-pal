@@ -11,7 +11,7 @@ export default function TalkOptionSetupContainer({
 }: TalkOptionSetupContainerProps) {
   return (
     <div
-      className={`${className} flex items-center h-12 gap-2 border-2 rounded-2xl border-stone-300`}
+      className={`${className} flex items-center gap-2 border-2 rounded-2xl border-stone-300 p-1`}
     >
       {children}
     </div>

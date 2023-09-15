@@ -40,7 +40,7 @@ export default function TalkSetupOptions ({
           <option value=""></option>
           {
           languageOptions.map((opt, index) => (
-          <option className="text-sm md:text-lg" value={opt.voiceName} key={index}>
+          <option className="text-sm md:text-sm" value={opt.voiceName} key={index}>
             {opt.languageName} ({opt.countryCode}) {opt.voiceName} ({opt.ssmlGender})
           </option>
           ))
@@ -48,13 +48,13 @@ export default function TalkSetupOptions ({
         </select>
         {
         selectedLanguageData &&
-        <CountryFlag className="object-contain w-10 h-10" countryCode={selectedLanguageData?.countryCode}/>
+        <CountryFlag className="object-contain w-10 h-10 mr-2 rounded-2xl" countryCode={selectedLanguageData?.countryCode}/>
         }
       </TalkOptionSetupContainer>
       
       <TalkOptionSetupContainer>
-        <label className="flex items-center w-40 p-2 "> CEFR Level</label>
-        <div className="grid items-center w-full gap-2 md:grid-cols-6">
+        <label className="flex p-2 whitespace-nowrap"> CEFR Level</label>
+        <div className="grid items-center w-full grid-cols-3 gap-1 md:grid-cols-6">
           {
           Object.keys(cefrLevels).map((level) => (
             <button className={`flex items-center ${level === cefrLevel ? 'bg-black text-white' : 'bg-stone-300 text-stone-600'} justify-center w-full h-full p-2  rounded-2xl`} onClick={()=> {
@@ -67,12 +67,12 @@ export default function TalkSetupOptions ({
       </TalkOptionSetupContainer>
       
       <TalkOptionSetupContainer
-      className="w-1/2">
+      className="w-full md:w-1/2">
         <label className="p-2 whitespace-nowrap"> Enable TTS</label>
-        <div className="flex items-center w-full h-full gap-2">
-          <button className={`w-full h-full rounded-2xl  ${ttsEnabled && 'bg-stone-300'}`}
+        <div className="grid items-center w-full h-full grid-cols-2 gap-2">
+          <button className={`w-full h-full p-2 rounded-2xl  ${ttsEnabled && 'bg-stone-300'}`}
           onClick={()=> setTtsEnabled(true)}>Enabled</button>
-          <button className={`w-full h-full rounded-2xl ${!ttsEnabled && 'bg-stone-300'}`} 
+          <button className={`w-full h-full p-2 rounded-2xl ${!ttsEnabled && 'bg-stone-300'}`} 
           onClick={()=> setTtsEnabled(false)}>Disabled</button>
         </div>
       </TalkOptionSetupContainer>
