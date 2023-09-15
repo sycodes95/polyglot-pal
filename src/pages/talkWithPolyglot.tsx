@@ -12,6 +12,7 @@ import TalkMessages from "../features/talkWithPolyglot/components/talkMessages/t
 import TalkSetupOptions from "../features/talkWithPolyglot/components/talkSetupOptions/talkSetupOptions";
 import { getSampleRateFromBase64 } from "../utils/getSampleRateFromBase64";
 import { getGPTPrompt } from "../features/talkWithPolyglot/services/getGPTPrompt";
+import { combineLangAndCountryCode } from "../utils/combineLangAndCountryCode";
 
 export default function TalkWithPolyGlot() {
   const getGPTMsg = useAction(
@@ -59,11 +60,11 @@ export default function TalkWithPolyGlot() {
 
         const prompt = getGPTPrompt(selectedLanguageName, cefrLevel)
 
-        const palMessage = await getGPTMsg({ messages, input: prompt })
+        const palMsg = await getGPTMsg({ messages, input: prompt })
 
         setMessages([
           { role: "user", content: prompt },
-          { role: "assistant", content: palMessage },
+          { role: "assistant", content: palMsg },
         ]);
         
         setMessageIsLoading(false);
@@ -76,35 +77,48 @@ export default function TalkWithPolyGlot() {
 
   useEffect(() => {
     //sends last user input message to TTS api, receives audio in base64 string format then plays the audio
+    async function getTTSFromPalMessage () {
 
-    if (
-      selectedLanguageData 
-      && messages.length > 0 
-      && messages[messages.length - 1].role === "assistant"
-      && ttsEnabled
-    ) {
-      setUserVoiceError(false)
-      getTextToSpeech({
-        input: {
-          text: messages[messages.length - 1].content,
-        },
-        voice: {
-          languageCode: `${
-            selectedLanguageData?.languageCode +
-            "-" +
-            selectedLanguageData?.countryCode
-          }`,
-          name: `${selectedLanguageData?.voiceName}`,
-        },
-      }).then((voiceBase64Audio) => {
-        if (voiceBase64Audio) {
-          const audio = new Audio(voiceBase64Audio);
+      const lastMsg = messages[messages.length - 1]
+
+      //check if messages exist, if last message was from pal (gpt), and user has TTS enabled
+      //then get TTS from last msg from pal and play audio
+
+      if (
+        selectedLanguageData 
+        && messages.length > 0 
+        && lastMsg.role === "assistant"
+        && ttsEnabled
+      ) {
+
+        setUserVoiceError(false)
+
+        const selectedLanguageCode = combineLangAndCountryCode(selectedLanguageData?.languageCode, selectedLanguageData?.countryCode)
+
+        const selectedVoice = selectedLanguageData.voiceName
+
+        const ttsBase64 = await getTextToSpeech({
+          input: {
+            text: lastMsg.content,
+          },
+          voice: {
+            languageCode: selectedLanguageCode,
+            name: selectedVoice,
+          },
+        });
+
+        if(ttsBase64) {
           if (aiVoiceAudio) aiVoiceAudio.pause();
-          setAiVoiceAudio(audio);
+          const palVoiceAudio = new Audio(ttsBase64);
+          setAiVoiceAudio(palVoiceAudio);
         }
-      });
+        
+      }
+
     }
-  }, [messages, selectedLanguageData]);
+    getTTSFromPalMessage()
+    
+  }, [messages]);
 
   useEffect(()=> {
     if(aiVoiceAudio) {
