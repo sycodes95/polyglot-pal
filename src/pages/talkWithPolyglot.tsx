@@ -89,7 +89,7 @@ export default function TalkWithPolyGlot() {
 
   useEffect(()=> {
     if(aiVoiceAudio) {
-      ttsEnabled ? aiVoiceAudio.play() : aiVoiceAudio.pause()
+      ttsEnabled ? !aiVoiceAudio.ended && aiVoiceAudio.play() : aiVoiceAudio.pause()
     }
   },[ttsEnabled])
 
