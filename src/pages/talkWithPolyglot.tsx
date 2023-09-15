@@ -38,6 +38,7 @@ export default function TalkWithPolyGlot() {
   const [aiVoiceAudio, setAiVoiceAudio] = useState<HTMLAudioElement | null>(null);
   const [userVoiceBase64, setUserVoiceBase64] = useState("");
   const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [userVoiceError, setUserVoiceError] = useState(false)
 
   useEffect(() => {
     // clears and restarts messages starting with prompt and ai starts conversation, when any of talk setup options changes.
@@ -61,10 +62,12 @@ export default function TalkWithPolyGlot() {
     //sends last user input message to TTS api, receives audio in base64 string format then plays the audio
 
     if (
-      messages.length > 0 
+      selectedLanguageData 
+      && messages.length > 0 
       && messages[messages.length - 1].role === "assistant"
       && ttsEnabled
     ) {
+      setUserVoiceError(false)
       getTextToSpeech({
         input: {
           text: messages[messages.length - 1].content,
@@ -99,6 +102,8 @@ export default function TalkWithPolyGlot() {
 
   useEffect(() => {
     if (userVoiceBase64 && selectedLanguageData) {
+      setUserVoiceError(false)
+      setmessageIsLoading(true);
       getSampleRateFromBase64(userVoiceBase64);
       getSpeechToText({
         base64: userVoiceBase64,
@@ -109,6 +114,7 @@ export default function TalkWithPolyGlot() {
         sampleRate: 48000,
       }).then((res) => {
         const transcript = res?.results?.[0]?.alternatives?.[0]?.transcript;
+        
         if (transcript) {
           setMessages([...messages, { role: "user", content: transcript }]);
           const input = transcript;
@@ -119,6 +125,8 @@ export default function TalkWithPolyGlot() {
             ]);
             setmessageIsLoading(false);
           });
+        } else {
+          setUserVoiceError(true)
         }
       });
     }
@@ -176,9 +184,9 @@ export default function TalkWithPolyGlot() {
   };
 
   return (
-    <div className="relative flex flex-col flex-grow w-full h-full max-w-5xl gap-8 p-2">
+    <div className="relative flex flex-col flex-grow w-full gap-4 p-2 max-w-7xl ">
       <TalkSetupOptions
-        className="sticky flex flex-col h-full gap-2 p-2 bg-white top-20 rounded-b-2xl"
+        className="flex flex-col gap-2 bg-white h-fit top-20 rounded-b-2xl"
         selectedLanguageData={selectedLanguageData}
         setSelectedLanguageData={setSelectedLanguageData}
         languageOptions={languageOptions}
@@ -190,7 +198,8 @@ export default function TalkWithPolyGlot() {
         setTtsEnabled={setTtsEnabled}
       />
 
-      <TalkMessages messages={messages} messageIsLoading={messageIsLoading} />
+      <TalkMessages 
+      messages={messages} messageIsLoading={messageIsLoading} />
 
       <TalkMessageInput
         messageIsLoading={messageIsLoading}
