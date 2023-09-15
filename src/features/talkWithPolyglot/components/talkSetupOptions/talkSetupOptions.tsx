@@ -11,7 +11,8 @@ type TalkSetupOptionsProps = {
   cefrLevel: string,
   setCefrLevel: React.Dispatch<React.SetStateAction<string>>,
   setMessages: React.Dispatch<React.SetStateAction<Message[] | []>>,
-  setVoiceEnabled: React.Dispatch<React.SetStateAction<boolean>>,
+  ttsEnabled: boolean,
+  setTtsEnabled: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 export default function TalkSetupOptions ({ 
@@ -22,7 +23,8 @@ export default function TalkSetupOptions ({
   cefrLevel,
   setCefrLevel,
   setMessages,
-  setVoiceEnabled
+  ttsEnabled,
+  setTtsEnabled
 }: TalkSetupOptionsProps) {
   return (
     <div className={` ${className}`}>
@@ -68,8 +70,10 @@ export default function TalkSetupOptions ({
       className="w-1/2">
         <label className="p-2 whitespace-nowrap"> Enable TTS</label>
         <div className="flex items-center w-full h-full gap-2">
-          <button className="w-full h-full rounded-2xl bg-stone-300">Enabled</button>
-          <button className="w-full">Disabled</button>
+          <button className={`w-full h-full rounded-2xl  ${ttsEnabled && 'bg-stone-300'}`}
+          onClick={()=> setTtsEnabled(true)}>Enabled</button>
+          <button className={`w-full h-full rounded-2xl ${!ttsEnabled && 'bg-stone-300'}`} 
+          onClick={()=> setTtsEnabled(false)}>Disabled</button>
         </div>
       </TalkOptionSetupContainer>
 
