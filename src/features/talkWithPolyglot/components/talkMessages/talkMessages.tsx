@@ -1,15 +1,28 @@
 import { ThreeDots } from "react-loader-spinner"
-import { Message } from "../../types"
-import { useEffect, useRef } from "react";
+import { LanguageOption, Message } from "../../types"
+import { useEffect, useRef, useState } from "react";
+import { mdiReplay } from "@mdi/js";
+import Icon from "@mdi/react";
+import OvalSpinnerBlackGray from "../../../../components/loadSpinners/ ovalSpinnerBlackGray";
+import { combineLangAndCountryCode } from "../../../../utils/combineLangAndCountryCode";
+import { getTextToSpeech } from "../../../../../convex/actions/getTextToSpeech";
+import { useAction } from "convex/react";
+import { api } from "../../../../../convex/_generated/api";
 
 
 type TalkMessagesProps = {
   className?: string,
   messages: Message[],
-  messageIsLoading: boolean
+  messageIsLoading: boolean,
+  selectedLanguageData: LanguageOption | null,
+
 }
 
-export default function TalkMessages ({className, messages, messageIsLoading} : TalkMessagesProps) {
+export default function TalkMessages ({className, messages, messageIsLoading, selectedLanguageData} : TalkMessagesProps) {
+  const getTextToSpeech = useAction(api.actions.getTextToSpeech.getTextToSpeech);
+  
+  const [palVoiceReplayElement, setPalVoiceReplayElement] = useState<HTMLAudioElement | null> (null)
+  const [palVoiceReplayIsLoading, setPalVoiceReplayIsLoading] = useState<number | null>(null)
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
   useEffect(() => {
@@ -18,15 +31,53 @@ export default function TalkMessages ({className, messages, messageIsLoading} : 
     }
   }, [messages]);
 
+  useEffect(()=> {
+    if(palVoiceReplayElement) {
+      setPalVoiceReplayIsLoading(null)
+      palVoiceReplayElement.play()
+    }
+  },[palVoiceReplayElement])
+
+  useEffect(()=> {
+    console.log(selectedLanguageData);
+  },[selectedLanguageData])
+
+  const playPalVoiceReplay = async (palMessage: string, index: number) => {
+    if(!selectedLanguageData) return
+    setPalVoiceReplayIsLoading(index)
+
+    const selectedLanguageCode = combineLangAndCountryCode(selectedLanguageData?.languageCode, selectedLanguageData?.countryCode)
+
+    const selectedVoice = selectedLanguageData.voiceName
+
+    const ttsBase64 = await getTextToSpeech({
+      input: {
+        text: palMessage,
+      },
+      voice: {
+        languageCode: selectedLanguageCode,
+        name: selectedVoice,
+      },
+    });
+
+    if(ttsBase64) {
+      if (palVoiceReplayElement) palVoiceReplayElement.pause();
+      const palVoiceAudio = new Audio(ttsBase64);
+      setPalVoiceReplayElement(palVoiceAudio);
+    }
+  }
+
+
+
   return (
-    <div className={`${className} flex flex-grow flex-col h-1 w-full gap-4 overflow-y-auto rounded-2xl
+    <div className={`${className} flex flex-grow flex-col h-1 w-full gap-8 overflow-y-auto rounded-2xl
       p-2`} >
         {
         messages.map((msg, index) => {
           if(index !== 0){
             return ( 
             <div className={`
-            flex w-full
+            relative flex w-full
             ${msg.role === 'user' ? 'justify-start' : 'justify-end'}
             `}
             key={index}>
@@ -40,6 +91,28 @@ export default function TalkMessages ({className, messages, messageIsLoading} : 
                 }
                 <span className="text-sm">{msg.content}</span>
               </div>
+              {
+              msg.role === 'assistant' &&
+              <div className="absolute right-0 p-1 text-black border top-full rounded-2xl border-stone-400">
+                {
+                palVoiceReplayIsLoading === index ?
+                <OvalSpinnerBlackGray />
+                :
+                <button 
+                className="flex items-center h-full transition-all cursor-pointer hover:-rotate-90"
+                onClick={()=> playPalVoiceReplay(msg.content, index)}
+                >
+                  <Icon 
+                  className="" 
+                  path={mdiReplay} 
+                  size={1} 
+                  />
+                </button>
+                
+                }
+              </div>
+              }
+              
             </div>
             )
           }
@@ -59,7 +132,7 @@ export default function TalkMessages ({className, messages, messageIsLoading} : 
           />
         </div>
         }
-        <div className="hidden" ref={messagesEndRef}></div>
+        <div className="" ref={messagesEndRef}></div>
     </div>
   )
 }

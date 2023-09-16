@@ -212,6 +212,7 @@ export default function TalkWithPolyGlot() {
       />
 
       <TalkMessages 
+      selectedLanguageData={selectedLanguageData}
       messages={messages} messageIsLoading={messageIsLoading} />
 
       <TalkMessageInput

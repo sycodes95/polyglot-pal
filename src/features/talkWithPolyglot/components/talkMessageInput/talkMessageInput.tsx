@@ -100,7 +100,7 @@ export default function TalkMessageInput({
   }, [audioData]);
 
   return (
-    <div className={`${className} w-full h-24 max-w-7xl backdrop-blur-lg mb-8`}>
+    <div className={`${className} flex items-center w-full h-24 max-w-7xl mb-8`}>
       <form
       aria-disabled
         className="flex items-center w-full gap-2"
@@ -109,13 +109,12 @@ export default function TalkMessageInput({
           handleMessageSend();
         }}
       > 
-                    
         <div className={`relative flex items-center w-full border-2 border-stone-700 rounded-2xl`}>
           {
           !selectedLanguageData &&
           <div className="absolute top-0 left-0 z-10 w-full h-full bg-opacity-70 bg-stone-300 group rounded-2xl">
             <span 
-            className="absolute right-0 hidden p-2 mb-2 text-sm border bottom-full group-hover:flex rounded-2xl bg-stone-300 border-stone-500"
+            className="absolute right-0 hidden p-2 mb-2 text-sm text-red-600 bg-white border border-red-600 bottom-full group-hover:flex rounded-2xl"
             >Please select a language.</span>
           </div>
           }
