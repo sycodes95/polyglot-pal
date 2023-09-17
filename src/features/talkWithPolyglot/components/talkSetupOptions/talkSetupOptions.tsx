@@ -57,7 +57,7 @@ export default function TalkSetupOptions ({
         <div className="grid items-center w-full grid-cols-3 gap-1 md:grid-cols-6">
           {
           Object.keys(cefrLevels).map((level) => (
-            <button className={`flex items-center ${level === cefrLevel ? 'bg-black text-white' : 'bg-stone-300 text-stone-600'} justify-center w-full h-full p-2  rounded-2xl`} onClick={()=> {
+            <button className={`flex items-center ${level === cefrLevel ? 'bg-black text-white' : 'bg-stone-300 text-stone-600'} justify-center w-full h-10 p-2  rounded-2xl`} onClick={()=> {
               setCefrLevel(level)
               setMessages([])   
             }}>{level}</button>
@@ -70,9 +70,9 @@ export default function TalkSetupOptions ({
       className="w-full md:w-1/2">
         <label className="p-2 whitespace-nowrap"> Enable TTS</label>
         <div className="grid items-center w-full h-full grid-cols-2 gap-2">
-          <button className={`w-full h-full p-2 rounded-2xl  ${ttsEnabled && 'bg-stone-300'}`}
+          <button className={`w-full h-full p-2 rounded-2xl flex items-center justify-center  ${ttsEnabled ? 'bg-black text-white' : 'bg-stone-300 text-black'}`}
           onClick={()=> setTtsEnabled(true)}>Enabled</button>
-          <button className={`w-full h-full p-2 rounded-2xl ${!ttsEnabled && 'bg-stone-300'}`} 
+          <button className={`w-full h-full p-2 rounded-2xl flex items-center justify-center ${!ttsEnabled ? 'bg-black text-white' : 'bg-stone-300 text-black'}`} 
           onClick={()=> setTtsEnabled(false)}>Disabled</button>
         </div>
       </TalkOptionSetupContainer>
