@@ -1,7 +1,7 @@
 import { ThreeDots } from "react-loader-spinner"
 import { LanguageOption, Message } from "../../types"
 import { useEffect, useRef, useState } from "react";
-import { mdiReplay, mdiTranslate } from "@mdi/js";
+import { mdiReplay, mdiTranslate, mdiCloseCircleOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 import OvalSpinnerBlackGray from "../../../../components/loadSpinners/ ovalSpinnerBlackGray";
 import { combineLangAndCountryCode } from "../../../../utils/combineLangAndCountryCode";
@@ -11,7 +11,7 @@ import { api } from "../../../../../convex/_generated/api";
 
 type TalkMessagesProps = {
   className?: string,
-  messages: Message[],
+  messages: Message[], 
   messageIsLoading: boolean,
   selectedLanguageData: LanguageOption | null,
   palVoiceAudioElement: HTMLAudioElement | null
@@ -66,6 +66,8 @@ export default function TalkMessages ({
     console.log(selectedLanguageData);
   },[selectedLanguageData])
 
+
+
   const playPalVoiceReplay = async (palMessage: string, index: number) => {
     if(!selectedLanguageData) return
     setPalVoiceReplayIndex(index)
@@ -99,6 +101,8 @@ export default function TalkMessages ({
       index: index,
       isLoading: true
     })
+
+    
     const translation = await getTranslation({text, targetLanguage: 'es'})
     console.log(translation);
     if(!translation) return
@@ -133,7 +137,7 @@ export default function TalkMessages ({
               </div>
               {
               msg.role === 'assistant' &&
-              <div className="flex gap-2 p-1 mt-1 text-black righ t-0 top-full rounded-2xl">
+              <div className="right-0 flex items-center h-12 gap-2 p-2 text-black top-full rounded-2xl">
                 {
                 palVoiceReplayIndex === index ?
                 <OvalSpinnerBlackGray />
@@ -165,8 +169,15 @@ export default function TalkMessages ({
               }
               {
               translationData.index === index && !translationData.isLoading && translationData.trans &&
-              <div className="flex flex-col p-4 text-sm bg-emerald-200 rounded-2xl max-w-66pct">
+              <div className="relative flex flex-col p-4 text-sm bg-emerald-200 rounded-2xl max-w-66pct">
                 <span>{translationData.trans}</span>
+                <button className="absolute right-0 flex items-center justify-center text-red-600 rounded-full -bottom-4" onClick={()=> setTranslationData({
+                  index: -1,
+                  trans: '',
+                  isLoading: false
+                })}>
+                  <Icon className="w-full h-full rounded-full" path={mdiCloseCircleOutline} size={1} />
+                </button>
               </div>
               }
             </div>
