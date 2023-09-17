@@ -15,6 +15,9 @@ import { getGPTPrompt } from "../features/talkWithPolyglot/services/getGPTPrompt
 import { combineLangAndCountryCode } from "../utils/combineLangAndCountryCode";
 import { formatGCTTSVoiceOptions } from "../utils/formatGCTTSVoiceOptions";
 
+
+
+
 export default function TalkWithPolyGlot() {
   const getGPTMsg = useAction(
     api.actions.getGPTMessageResponse.getGPTMessageResponseConvex
@@ -56,6 +59,8 @@ export default function TalkWithPolyGlot() {
   }, []);
 
   useEffect(() => {
+
+    console.log(selectedLanguageData);
     async function getFirstMessageFromPal () {
 
       //pause pal's previous voice audio if playing atm.
@@ -70,7 +75,9 @@ export default function TalkWithPolyGlot() {
 
         const selectedLanguageName = selectedLanguageData.languageName;
 
-        const prompt = getGPTPrompt(selectedLanguageName, cefrLevel)
+        const selectedVoiceGender = selectedLanguageData.ssmlGender
+
+        const prompt = getGPTPrompt(selectedLanguageName, cefrLevel, selectedVoiceGender)
 
         const palMsg = await getGPTMsg({ messages, input: prompt })
 
@@ -213,7 +220,10 @@ export default function TalkWithPolyGlot() {
 
       <TalkMessages 
       selectedLanguageData={selectedLanguageData}
-      messages={messages} messageIsLoading={messageIsLoading} />
+      messages={messages}
+      messageIsLoading={messageIsLoading} 
+      palVoiceAudioElement={palVoiceAudioElement}
+      />
 
       <TalkMessageInput
         messageIsLoading={messageIsLoading}

@@ -1,11 +1,10 @@
 import { ThreeDots } from "react-loader-spinner"
 import { LanguageOption, Message } from "../../types"
 import { useEffect, useRef, useState } from "react";
-import { mdiReplay } from "@mdi/js";
+import { mdiReplay, mdiTranslate } from "@mdi/js";
 import Icon from "@mdi/react";
 import OvalSpinnerBlackGray from "../../../../components/loadSpinners/ ovalSpinnerBlackGray";
 import { combineLangAndCountryCode } from "../../../../utils/combineLangAndCountryCode";
-import { getTextToSpeech } from "../../../../../convex/actions/getTextToSpeech";
 import { useAction } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 
@@ -15,15 +14,31 @@ type TalkMessagesProps = {
   messages: Message[],
   messageIsLoading: boolean,
   selectedLanguageData: LanguageOption | null,
+  palVoiceAudioElement: HTMLAudioElement | null
 
 }
 
-export default function TalkMessages ({className, messages, messageIsLoading, selectedLanguageData} : TalkMessagesProps) {
+export default function TalkMessages ({
+  className, 
+  messages, 
+  messageIsLoading, 
+  selectedLanguageData, 
+  palVoiceAudioElement
+} : TalkMessagesProps) {
+
   const getTextToSpeech = useAction(api.actions.getTextToSpeech.getTextToSpeech);
-  
+  const getDetectedLanguage = useAction(api.actions.getDetectedLanguage.getDetectedLanguage)
+  const getTranslation = useAction(api.actions.getTranslation.getTranslation)
+
   const [palVoiceReplayElement, setPalVoiceReplayElement] = useState<HTMLAudioElement | null> (null)
-  const [palVoiceReplayIsLoading, setPalVoiceReplayIsLoading] = useState<number | null>(null)
+  const [palVoiceReplayIndex, setPalVoiceReplayIndex] = useState<number | null>(null)
+  const [translationData, setTranslationData] = useState({
+    index: -1,
+    trans: '',
+    isLoading: false
+  })
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
+  
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -33,10 +48,19 @@ export default function TalkMessages ({className, messages, messageIsLoading, se
 
   useEffect(()=> {
     if(palVoiceReplayElement) {
-      setPalVoiceReplayIsLoading(null)
+      setPalVoiceReplayIndex(null)
+      palVoiceAudioElement?.pause()
       palVoiceReplayElement.play()
     }
   },[palVoiceReplayElement])
+
+  useEffect(()=> {
+     console.log(translationData);
+  },[translationData])
+
+  useEffect(()=> {
+    if(palVoiceAudioElement && palVoiceReplayElement) palVoiceReplayElement.pause()
+  },[palVoiceAudioElement])
 
   useEffect(()=> {
     console.log(selectedLanguageData);
@@ -44,7 +68,7 @@ export default function TalkMessages ({className, messages, messageIsLoading, se
 
   const playPalVoiceReplay = async (palMessage: string, index: number) => {
     if(!selectedLanguageData) return
-    setPalVoiceReplayIsLoading(index)
+    setPalVoiceReplayIndex(index)
 
     const selectedLanguageCode = combineLangAndCountryCode(selectedLanguageData?.languageCode, selectedLanguageData?.countryCode)
 
@@ -67,7 +91,23 @@ export default function TalkMessages ({className, messages, messageIsLoading, se
     }
   }
 
-
+  const handleTranslation = async (index: number, text: string) => {
+    // const language = await getDetectedLanguage({ text: text})
+    // if(!language) return 
+    setTranslationData({
+      ...translationData,
+      index: index,
+      isLoading: true
+    })
+    const translation = await getTranslation({text, targetLanguage: 'es'})
+    console.log(translation);
+    if(!translation) return
+    setTranslationData({
+      index: index,
+      trans: translation,
+      isLoading: false
+    })
+  }
 
   return (
     <div className={`${className} flex flex-grow flex-col h-1 w-full gap-8 overflow-y-auto rounded-2xl
@@ -77,8 +117,8 @@ export default function TalkMessages ({className, messages, messageIsLoading, se
           if(index !== 0){
             return ( 
             <div className={`
-            relative flex w-full
-            ${msg.role === 'user' ? 'justify-start' : 'justify-end'}
+            relative flex flex-col w-full
+            ${msg.role === 'user' ? 'items-start' : 'items-end'}
             `}
             key={index}>
               <div className={`${msg.role === 'user' ? 'bg-stone-300' : 'bg-orange-200'} p-4 rounded-2xl max-w-66pct`}>
@@ -93,13 +133,13 @@ export default function TalkMessages ({className, messages, messageIsLoading, se
               </div>
               {
               msg.role === 'assistant' &&
-              <div className="absolute right-0 p-1 text-black border top-full rounded-2xl border-stone-400">
+              <div className="flex gap-2 p-1 mt-1 text-black righ t-0 top-full rounded-2xl">
                 {
-                palVoiceReplayIsLoading === index ?
+                palVoiceReplayIndex === index ?
                 <OvalSpinnerBlackGray />
                 :
                 <button 
-                className="flex items-center h-full transition-all cursor-pointer hover:-rotate-90"
+                className="flex items-center h-full transition-all cursor-pointer hover:text-stone-400"
                 onClick={()=> playPalVoiceReplay(msg.content, index)}
                 >
                   <Icon 
@@ -108,11 +148,27 @@ export default function TalkMessages ({className, messages, messageIsLoading, se
                   size={1} 
                   />
                 </button>
-                
+                }
+
+                {
+                translationData.index === index && translationData.isLoading ?
+                <OvalSpinnerBlackGray />
+                :
+                <button 
+                className="flex items-center h-full transition-all cursor-pointer hover:text-stone-400"
+                onClick={()=> handleTranslation(index, msg.content)}
+                >
+                  <Icon path={mdiTranslate} size={1} />
+                </button>
                 }
               </div>
               }
-              
+              {
+              translationData.index === index && !translationData.isLoading && translationData.trans &&
+              <div className="flex flex-col p-4 text-sm bg-emerald-200 rounded-2xl max-w-66pct">
+                <span>{translationData.trans}</span>
+              </div>
+              }
             </div>
             )
           }

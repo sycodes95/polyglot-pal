@@ -15,7 +15,7 @@ export const formatGCTTSVoiceOptions = (voiceList: any[]) => {
     };
   })
   .filter((option: LanguageOption) => 
-    option.languageCode.length < 3 && !option.voiceName.includes("Standard")
+    option.languageCode.length < 3
   )
   .sort((a: LanguageOption, b: LanguageOption) => {
     if (a.languageName < b.languageName) {

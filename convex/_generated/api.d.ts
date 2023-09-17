@@ -14,10 +14,12 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as actions_getDetectedLanguage from "../actions/getDetectedLanguage";
 import type * as actions_getGPTMessageResponse from "../actions/getGPTMessageResponse";
 import type * as actions_getSpeechToText from "../actions/getSpeechToText";
 import type * as actions_getTTSVoices from "../actions/getTTSVoices";
 import type * as actions_getTextToSpeech from "../actions/getTextToSpeech";
+import type * as actions_getTranslation from "../actions/getTranslation";
 import type * as query_getTTSKey from "../query/getTTSKey";
 import type * as types from "../types";
 
@@ -30,10 +32,12 @@ import type * as types from "../types";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  "actions/getDetectedLanguage": typeof actions_getDetectedLanguage;
   "actions/getGPTMessageResponse": typeof actions_getGPTMessageResponse;
   "actions/getSpeechToText": typeof actions_getSpeechToText;
   "actions/getTTSVoices": typeof actions_getTTSVoices;
   "actions/getTextToSpeech": typeof actions_getTextToSpeech;
+  "actions/getTranslation": typeof actions_getTranslation;
   "query/getTTSKey": typeof query_getTTSKey;
   types: typeof types;
 }>;
