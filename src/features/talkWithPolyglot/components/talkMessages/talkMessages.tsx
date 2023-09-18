@@ -8,14 +8,13 @@ import { combineLangAndCountryCode } from "../../../../utils/combineLangAndCount
 import { useAction } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 
-
 type TalkMessagesProps = {
   className?: string,
   messages: Message[], 
   messageIsLoading: boolean,
   selectedLanguageData: LanguageOption | null,
   palVoiceAudioElement: HTMLAudioElement | null
-
+  ttsEnabled: boolean
 }
 
 export default function TalkMessages ({
@@ -23,7 +22,8 @@ export default function TalkMessages ({
   messages, 
   messageIsLoading, 
   selectedLanguageData, 
-  palVoiceAudioElement
+  palVoiceAudioElement,
+  ttsEnabled
 } : TalkMessagesProps) {
 
   const getTextToSpeech = useAction(api.actions.getTextToSpeech.getTextToSpeech);
@@ -47,16 +47,12 @@ export default function TalkMessages ({
   }, [messages]);
 
   useEffect(()=> {
-    if(palVoiceReplayElement) {
+    if(palVoiceReplayElement && ttsEnabled) {
       setPalVoiceReplayIndex(null)
       palVoiceAudioElement?.pause()
       palVoiceReplayElement.play()
     }
-  },[palVoiceReplayElement])
-
-  useEffect(()=> {
-     console.log(translationData);
-  },[translationData])
+  },[palVoiceReplayElement, ttsEnabled])
 
   useEffect(()=> {
     if(palVoiceAudioElement && palVoiceReplayElement) palVoiceReplayElement.pause()
@@ -143,7 +139,7 @@ export default function TalkMessages ({
                 <OvalSpinnerBlackGray />
                 :
                 <button 
-                className="flex items-center h-full transition-all cursor-pointer hover:text-stone-400"
+                className={`${!ttsEnabled && 'text-stone-400 pointer-events-none'} flex items-center h-full transition-all cursor-pointer hover:text-stone-400`}
                 onClick={()=> playPalVoiceReplay(msg.content, index)}
                 >
                   <Icon 
@@ -169,9 +165,9 @@ export default function TalkMessages ({
               }
               {
               translationData.index === index && !translationData.isLoading && translationData.trans &&
-              <div className="relative flex flex-col p-4 text-sm bg-emerald-200 rounded-2xl max-w-66pct">
+              <div className="relative flex flex-col p-4 text-sm bg-emerald-100 rounded-2xl max-w-66pct">
                 <span>{translationData.trans}</span>
-                <button className="absolute right-0 flex items-center justify-center text-red-600 rounded-full -bottom-4" onClick={()=> setTranslationData({
+                <button className="absolute flex items-center justify-center text-black rounded-full -right-2 -bottom-3" onClick={()=> setTranslationData({
                   index: -1,
                   trans: '',
                   isLoading: false

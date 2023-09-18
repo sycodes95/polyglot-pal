@@ -223,6 +223,7 @@ export default function TalkWithPolyGlot() {
       messages={messages}
       messageIsLoading={messageIsLoading} 
       palVoiceAudioElement={palVoiceAudioElement}
+      ttsEnabled={ttsEnabled}
       />
 
       <TalkMessageInput
