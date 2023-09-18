@@ -141,6 +141,7 @@ export default function TalkWithPolyGlot() {
   useEffect(()=> {
     if(palVoiceAudioElement) {
       ttsEnabled ? !palVoiceAudioElement.ended && palVoiceAudioElement.play() : palVoiceAudioElement.pause()
+      
     }
   },[ttsEnabled])
 
@@ -206,7 +207,7 @@ export default function TalkWithPolyGlot() {
   return (
     <div className="relative flex flex-col flex-grow w-full gap-4 p-2 max-w-7xl ">
       <TalkSetupOptions
-        className="flex flex-col gap-2 bg-white h-fit top-20 rounded-b-2xl"
+        className="flex flex-col gap-2 p-4 bg-white border-b shadow-md h-fit top-20 shadow-stone-300"
         selectedLanguageData={selectedLanguageData}
         setSelectedLanguageData={setSelectedLanguageData}
         languageOptions={languageOptions}

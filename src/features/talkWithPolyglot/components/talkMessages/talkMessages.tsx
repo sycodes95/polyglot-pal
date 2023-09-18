@@ -14,7 +14,7 @@ type TalkMessagesProps = {
   messageIsLoading: boolean,
   selectedLanguageData: LanguageOption | null,
   palVoiceAudioElement: HTMLAudioElement | null
-  ttsEnabled: boolean
+  ttsEnabled: boolean,
 }
 
 export default function TalkMessages ({
@@ -23,7 +23,8 @@ export default function TalkMessages ({
   messageIsLoading, 
   selectedLanguageData, 
   palVoiceAudioElement,
-  ttsEnabled
+  ttsEnabled,
+  setPalVoiceAudioElement
 } : TalkMessagesProps) {
 
   const getTextToSpeech = useAction(api.actions.getTextToSpeech.getTextToSpeech);
@@ -44,6 +45,11 @@ export default function TalkMessages ({
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
+    setTranslationData({
+      index: -1,
+      trans: '',
+      isLoading: false
+    })
   }, [messages]);
 
   useEffect(()=> {
@@ -100,7 +106,6 @@ export default function TalkMessages ({
 
     
     const translation = await getTranslation({text, targetLanguage: 'es'})
-    console.log(translation);
     if(!translation) return
     setTranslationData({
       index: index,
@@ -134,33 +139,36 @@ export default function TalkMessages ({
               {
               msg.role === 'assistant' &&
               <div className="right-0 flex items-center h-12 gap-2 p-2 text-black top-full rounded-2xl">
-                {
-                palVoiceReplayIndex === index ?
-                <OvalSpinnerBlackGray />
-                :
-                <button 
-                className={`${!ttsEnabled && 'text-stone-400 pointer-events-none'} flex items-center h-full transition-all cursor-pointer hover:text-stone-400`}
-                onClick={()=> playPalVoiceReplay(msg.content, index)}
-                >
-                  <Icon 
-                  className="" 
-                  path={mdiReplay} 
-                  size={1} 
-                  />
-                </button>
-                }
-
-                {
-                translationData.index === index && translationData.isLoading ?
-                <OvalSpinnerBlackGray />
-                :
-                <button 
-                className="flex items-center h-full transition-all cursor-pointer hover:text-stone-400"
-                onClick={()=> handleTranslation(index, msg.content)}
-                >
-                  <Icon path={mdiTranslate} size={1} />
-                </button>
-                }
+                <div className="flex items-center justify-center w-6 h-6">
+                  {
+                  palVoiceReplayIndex === index ?
+                  <OvalSpinnerBlackGray />
+                  :
+                  <button 
+                  className={`${!ttsEnabled && 'text-stone-400 pointer-events-none'} flex items-center h-full transition-all cursor-pointer hover:text-stone-400`}
+                  onClick={()=> playPalVoiceReplay(msg.content, index)}
+                  >
+                    <Icon 
+                    className="" 
+                    path={mdiReplay} 
+                    size={1} 
+                    />
+                  </button>
+                  }
+                </div>
+                <div className="flex items-center justify-center w-6 h-6">
+                  {
+                  translationData.index === index && translationData.isLoading ?
+                  <OvalSpinnerBlackGray />
+                  :
+                  <button 
+                  className="flex items-center h-full transition-all cursor-pointer hover:text-stone-400"
+                  onClick={()=> handleTranslation(index, msg.content)}
+                  >
+                    <Icon path={mdiTranslate} size={1} />
+                  </button>
+                  }
+                </div>
               </div>
               }
               {
