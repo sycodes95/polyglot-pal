@@ -3,8 +3,8 @@ import { Oval } from "react-loader-spinner";
 export default function OvalSpinnerBlackGray () {
   return (
     <Oval
-      height={25}
-      width={25}
+      height={20}
+      width={20}
       color="#000000"
       wrapperStyle={{}}
       wrapperClass=""

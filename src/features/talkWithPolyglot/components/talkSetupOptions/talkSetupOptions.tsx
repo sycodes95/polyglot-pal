@@ -29,21 +29,23 @@ export default function TalkSetupOptions ({
   ttsEnabled,
   setTtsEnabled
 }: TalkSetupOptionsProps) {
+
   const cefrTipDialogRef = useRef(null)
   const [cefrToolTipIsOpen, setCefrToolTipIsOpen] = useState(false)
   
   return (
     <div className={` ${className}`}>
 
-      <TalkOptionSetupContainer>
-        <label className="flex items-center w-40 p-2 border-stone-300 whitespace-nowrap">Language & Voice</label>
-        <select className="w-full h-full outline-none text-stone-600 rounded-2xl" value={selectedLanguageData?.voiceName} onChange={(e)=> {
+      <TalkOptionSetupContainer
+      >
+        <label className="flex items-center w-40 border-stone-300 text-stone-600 whitespace-nowrap">Language & Voice</label>
+        <select className="w-full h-full p-1 border rounded-lg outline-none border-stone-300 text-stone-600" value={selectedLanguageData?.voiceName} onChange={(e)=> {
           const selectedVoiceName = e.target.value
           const selectedLanguageData = languageOptions.find(opt => opt.voiceName === selectedVoiceName)
           selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
           setMessages([])
         }}>
-          <option value=""></option>
+          <option value="">...</option>
           {
           languageOptions.map((opt : LanguageOption , index) => (
           <option className="text-sm md:text-sm" value={opt.voiceName} key={index}>
@@ -58,18 +60,19 @@ export default function TalkSetupOptions ({
         }
       </TalkOptionSetupContainer>
       
-      <TalkOptionSetupContainer>
-        <div className="relative flex items-center h-full">
-          <label className="flex p-2 w-28 whitespace-nowrap"> CEFR Level</label>
+      <TalkOptionSetupContainer
+      >
+        <div className="relative flex items-center h-full ">
+          <label className="flex items-center w-24 rounded-lg text-stone-600 whitespace-nowrap "> CEFR Level</label>
           <button className="absolute right-0 -translate-y-1/2 top-1/2 group" onClick={()=> setCefrToolTipIsOpen(true)}>
             <Icon className="" path={mdiHelpCircleOutline} size={0.7} />
           </button>
         </div>
         
-        <div className="grid items-center w-full grid-cols-3 gap-1 md:grid-cols-6">
+        <div className="grid items-center w-full h-full grid-cols-3 gap-2 md:grid-cols-6">
           {
           Object.keys(cefrLevels).map((level) => (
-            <button className={`flex items-center ${level === cefrLevel ? 'bg-black text-white' : 'bg-stone-300 text-stone-600'} justify-center w-full h-10 p-2  rounded-2xl`} onClick={()=> {
+            <button className={`flex items-center border text-black ${level === cefrLevel ? 'border-emerald-300 text-emerald-500 ' : 'border-stone-300 text-stone-400'} justify-center w-full h-full text-sm rounded-lg`} onClick={()=> {
               setCefrLevel(level)
               setMessages([])   
             }}>{level}</button>
@@ -79,14 +82,15 @@ export default function TalkSetupOptions ({
       </TalkOptionSetupContainer>
       
       <TalkOptionSetupContainer
-      className="w-full md:w-1/2">
+      className="w-1/2"
+      >
         <div className="flex items-center">
-          <label className="p-2 w-28 whitespace-nowrap"> Enable TTS</label>
+          <label className="w-24 whitespace-nowrap text-stone-600"> Enable TTS</label>
         </div>
-        <div className="grid items-center w-full h-full grid-cols-2 gap-2">
-          <button className={`w-full h-full p-2 rounded-2xl flex items-center justify-center  ${ttsEnabled ? 'bg-black text-white' : 'bg-stone-300 text-black'}`}
+        <div className="grid items-center w-full h-full grid-cols-2 gap-2 text-sm">
+          <button className={`border w-full h-full rounded-lg flex items-center justify-center  ${ttsEnabled ? 'border-emerald-400 text-emerald-500' : 'border-stone-300 text-stone-400'}`}
           onClick={()=> setTtsEnabled(true)}>Enabled</button>
-          <button className={`w-full h-full p-2 rounded-2xl flex items-center justify-center ${!ttsEnabled ? 'bg-black text-white' : 'bg-stone-300 text-black'}`} 
+          <button className={`w-full h-full border rounded-lg  flex items-center justify-center ${!ttsEnabled ? 'border-emerald-400 text-emerald-500' : 'border-stone-300 text-stone-400'}`} 
           onClick={()=> setTtsEnabled(false)}>Disabled</button>
         </div>
       </TalkOptionSetupContainer>
