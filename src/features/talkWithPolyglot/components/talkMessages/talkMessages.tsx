@@ -15,6 +15,7 @@ type TalkMessagesProps = {
   selectedLanguageData: LanguageOption | null,
   palVoiceAudioElement: HTMLAudioElement | null
   ttsEnabled: boolean,
+  setPalVoiceAudioElement: React.Dispatch<React.SetStateAction<HTMLAudioElement | null>>
 }
 
 export default function TalkMessages ({
@@ -28,10 +29,8 @@ export default function TalkMessages ({
 } : TalkMessagesProps) {
 
   const getTextToSpeech = useAction(api.actions.getTextToSpeech.getTextToSpeech);
-  const getDetectedLanguage = useAction(api.actions.getDetectedLanguage.getDetectedLanguage)
   const getTranslation = useAction(api.actions.getTranslation.getTranslation)
 
-  const [palVoiceReplayElement, setPalVoiceReplayElement] = useState<HTMLAudioElement | null> (null)
   const [palVoiceReplayIndex, setPalVoiceReplayIndex] = useState<number | null>(null)
   const [translationData, setTranslationData] = useState({
     index: -1,
@@ -53,22 +52,10 @@ export default function TalkMessages ({
   }, [messages]);
 
   useEffect(()=> {
-    if(palVoiceReplayElement && ttsEnabled) {
+    if(palVoiceAudioElement && ttsEnabled) {
       setPalVoiceReplayIndex(null)
-      palVoiceAudioElement?.pause()
-      palVoiceReplayElement.play()
     }
-  },[palVoiceReplayElement, ttsEnabled])
-
-  useEffect(()=> {
-    if(palVoiceAudioElement && palVoiceReplayElement) palVoiceReplayElement.pause()
-  },[palVoiceAudioElement])
-
-  useEffect(()=> {
-    console.log(selectedLanguageData);
-  },[selectedLanguageData])
-
-
+  },[palVoiceAudioElement, ttsEnabled])
 
   const playPalVoiceReplay = async (palMessage: string, index: number) => {
     if(!selectedLanguageData) return
@@ -89,9 +76,9 @@ export default function TalkMessages ({
     });
 
     if(ttsBase64) {
-      if (palVoiceReplayElement) palVoiceReplayElement.pause();
+      if (palVoiceAudioElement) palVoiceAudioElement.pause();
       const palVoiceAudio = new Audio(ttsBase64);
-      setPalVoiceReplayElement(palVoiceAudio);
+      setPalVoiceAudioElement(palVoiceAudio);
     }
   }
 

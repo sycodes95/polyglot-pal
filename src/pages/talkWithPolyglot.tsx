@@ -220,11 +220,13 @@ export default function TalkWithPolyGlot() {
       />
 
       <TalkMessages 
+      
       selectedLanguageData={selectedLanguageData}
       messages={messages}
       messageIsLoading={messageIsLoading} 
       palVoiceAudioElement={palVoiceAudioElement}
       ttsEnabled={ttsEnabled}
+      setPalVoiceAudioElement={setPalVoiceAudioElement}
       />
 
       <TalkMessageInput
