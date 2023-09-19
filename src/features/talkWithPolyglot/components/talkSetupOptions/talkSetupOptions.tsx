@@ -82,7 +82,7 @@ export default function TalkSetupOptions ({
       </TalkOptionSetupContainer>
       
       <TalkOptionSetupContainer
-      className="w-1/2"
+      className="md:w-1/2"
       >
         <div className="flex items-center">
           <label className="w-24 whitespace-nowrap text-stone-600"> Enable TTS</label>
@@ -105,6 +105,9 @@ export default function TalkSetupOptions ({
           <Icon className="w-full h-full rounded-full" path={mdiCloseCircleOutline} size={1} />
         </button>
         <div className="flex flex-col max-w-md gap-2 overflow-y-scroll text-sm max-h-80">
+          <p className="pt-4 pb-4 text-2xl">
+            CEFR Levels
+          </p>
           <p>
             A1: The most basic level demonstrates an ability to communicate and exchange simple information. The language learner can utilize and understand familiar common expressions and basic phrases to satisfy their needs. For example, they can introduce themselves and others and have conversations about personal details, such as things they have, people they know and where they live. At this level, the language learner can understand the conversation when the other person speaks slowly and wants to help them.
           </p>

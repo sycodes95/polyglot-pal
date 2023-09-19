@@ -14,6 +14,7 @@ import { getSampleRateFromBase64 } from "../utils/getSampleRateFromBase64";
 import { getGPTPrompt } from "../features/talkWithPolyglot/services/getGPTPrompt";
 import { combineLangAndCountryCode } from "../utils/combineLangAndCountryCode";
 import { formatGCTTSVoiceOptions } from "../utils/formatGCTTSVoiceOptions";
+import { base64ToBlob } from "../utils/base64ToBlob";
 
 
 
@@ -34,7 +35,8 @@ export default function TalkWithPolyGlot() {
 
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[] | []>([]);
-  const [messageIsLoading, setMessageIsLoading] = useState(false);
+  const [userMessageIsLoading, setUserMessageIsLoading] = useState(false)
+  const [palMessageIsLoading, setPalMessageIsLoading] = useState(false);
 
   const [languageOptions, setLanguageOptions] = useState<LanguageOption[] | []>([]);
   const [selectedLanguageData, setSelectedLanguageData] = useState<LanguageOption | null>(null);
@@ -43,6 +45,8 @@ export default function TalkWithPolyGlot() {
 
   const [palVoiceAudioElement, setPalVoiceAudioElement] = useState<HTMLAudioElement | null>(null);
   const [userVoiceBase64, setUserVoiceBase64] = useState("");
+
+  const [palAudioBlob, setPalAudioBlob] = useState<Blob | null>(null)
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [userVoiceError, setUserVoiceError] = useState(false)
 
@@ -71,7 +75,7 @@ export default function TalkWithPolyGlot() {
 
       if (messages.length < 1 && selectedLanguageData) { 
 
-        setMessageIsLoading(true);
+        setPalMessageIsLoading(true);
 
         const selectedLanguageName = selectedLanguageData.languageName;
 
@@ -86,7 +90,7 @@ export default function TalkWithPolyGlot() {
           { role: "assistant", content: palMsg },
         ]);
         
-        setMessageIsLoading(false);
+        setPalMessageIsLoading(false);
       }
         
     }
@@ -125,9 +129,12 @@ export default function TalkWithPolyGlot() {
             name: selectedVoice,
           },
         });
-
+        console.log(ttsBase64);
         if(ttsBase64) {
           if (palVoiceAudioElement) palVoiceAudioElement.pause();
+          const [_, base64WithoutContentType] = ttsBase64.split('data:audio/wav;base64,')
+          const blob = base64ToBlob(base64WithoutContentType)
+          setPalAudioBlob(blob)
           const palVoiceAudio = new Audio(ttsBase64);
           setPalVoiceAudioElement(palVoiceAudio);
         }
@@ -139,9 +146,12 @@ export default function TalkWithPolyGlot() {
   }, [messages]);
 
   useEffect(()=> {
+    console.log(palAudioBlob);
+  },[palAudioBlob])
+
+  useEffect(()=> {
     if(palVoiceAudioElement) {
       ttsEnabled ? !palVoiceAudioElement.ended && palVoiceAudioElement.play() : palVoiceAudioElement.pause()
-      
     }
   },[ttsEnabled])
 
@@ -154,7 +164,7 @@ export default function TalkWithPolyGlot() {
     async function getUserSTTAndSend () {
       if (userVoiceBase64 && selectedLanguageData) {
         setUserVoiceError(false)
-        setMessageIsLoading(true);
+        setUserMessageIsLoading(true);
 
         const selectedLanguageCode = combineLangAndCountryCode(selectedLanguageData?.languageCode, selectedLanguageData?.countryCode)
 
@@ -169,6 +179,10 @@ export default function TalkWithPolyGlot() {
         if(!userSTT || !transcript) return setUserVoiceError(true)
 
         setMessages([...messages, { role: "user", content: transcript }]);
+
+        setUserMessageIsLoading(false);
+
+        setPalMessageIsLoading(true)
         
         const palResponse = await getGPTMsg({ messages, input : transcript })
 
@@ -177,7 +191,7 @@ export default function TalkWithPolyGlot() {
           { role: "assistant", content: palResponse },
         ]);
 
-        setMessageIsLoading(false);
+        setPalMessageIsLoading(false);
         
       }
 
@@ -189,7 +203,7 @@ export default function TalkWithPolyGlot() {
 
   const handleMessageSend = async () => {
     //sends user message to open ai to get response from ai assistant.
-    setMessageIsLoading(true);
+    setPalMessageIsLoading(true);
     let userInput = input;
     if (messages.length < 1) userInput = prompt + input;
     
@@ -200,7 +214,7 @@ export default function TalkWithPolyGlot() {
       ...messages,
       { role: "assistant", content: msg },
     ]);
-    setMessageIsLoading(false);
+    setPalMessageIsLoading(false);
     
   };
 
@@ -220,17 +234,19 @@ export default function TalkWithPolyGlot() {
       />
 
       <TalkMessages 
-      
-      selectedLanguageData={selectedLanguageData}
-      messages={messages}
-      messageIsLoading={messageIsLoading} 
-      palVoiceAudioElement={palVoiceAudioElement}
-      ttsEnabled={ttsEnabled}
-      setPalVoiceAudioElement={setPalVoiceAudioElement}
+        selectedLanguageData={selectedLanguageData}
+        messages={messages}
+        palMessageIsLoading={palMessageIsLoading} 
+        ttsEnabled={ttsEnabled}
+        userMessageIsLoading={userMessageIsLoading}
+        palVoiceAudioElement={palVoiceAudioElement}
+        setPalVoiceAudioElement={setPalVoiceAudioElement}
+        palAudioBlob={palAudioBlob}
+        setPalAudioBlob={setPalAudioBlob}
       />
 
       <TalkMessageInput
-        messageIsLoading={messageIsLoading}
+        palMessageIsLoading={palMessageIsLoading}
         input={input}
         setInput={setInput}
         handleMessageSend={handleMessageSend}
