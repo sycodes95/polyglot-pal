@@ -43,8 +43,17 @@ export const getSpeechToText = action({
       }
     });
 
-    const [response] = await client.recognize(request);
-    return response
+    try {
+      const [response] = await client.recognize(request);
+      return response;
+    } catch (error: unknown) {
+      if (error instanceof Error) { 
+      console.error('Error processing audio:', error.message);
+    } else {
+      console.error('An unknown error occurred:', error);
+    }
+      return null;
+    }
     
     // const audioData = (response.audioContent as Buffer)?.toString('base64');
     // const dataUrl = 'data:audio/mpeg;base64,' + audioData;

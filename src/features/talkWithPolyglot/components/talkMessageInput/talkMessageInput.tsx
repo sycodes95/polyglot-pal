@@ -6,12 +6,12 @@ import { blobToBase64 } from "../../../../utils/getBase64FromBlob";
 import Icon from "@mdi/react";
 import { mdiMicrophone } from "@mdi/js";
 import { LanguageOption } from "../../types";
-import { AudioVisualizer } from "react-audio-visualize";
+import { AudioVisualizer, LiveAudioVisualizer } from "react-audio-visualize";
 
 type TalkMessageInputProps = {
   className?: string,
   selectedLanguageData: LanguageOption | null;
-  messageIsLoading: boolean;
+  palMessageIsLoading: boolean;
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
   handleMessageSend: () => void;
@@ -22,7 +22,7 @@ type TalkMessageInputProps = {
 export default function TalkMessageInput({
   className,
   selectedLanguageData,
-  messageIsLoading,
+  palMessageIsLoading,
   input,
   setInput,
   handleMessageSend,
@@ -124,6 +124,19 @@ export default function TalkMessageInput({
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
+
+          <div className="w-40 h-full">
+            {
+            mediaRecorderRef && mediaRecorderRef.current && recording &&
+            <LiveAudioVisualizer
+              mediaRecorder={mediaRecorderRef.current}
+              width={100}
+              height={30}
+              backgroundColor="rgba(0,0,0,0)"
+            />
+            }
+            
+          </div>
           <div className="flex gap-2">
             {
             recording ?

@@ -7,25 +7,32 @@ import OvalSpinnerBlackGray from "../../../../components/loadSpinners/ ovalSpinn
 import { combineLangAndCountryCode } from "../../../../utils/combineLangAndCountryCode";
 import { useAction } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
+import { AudioVisualizer, LiveAudioVisualizer } from "react-audio-visualize";
 
 type TalkMessagesProps = {
   className?: string,
   messages: Message[], 
-  messageIsLoading: boolean,
+  palMessageIsLoading: boolean,
   selectedLanguageData: LanguageOption | null,
-  palVoiceAudioElement: HTMLAudioElement | null
   ttsEnabled: boolean,
+  userMessageIsLoading: boolean,
+  palVoiceAudioElement: HTMLAudioElement | null,
   setPalVoiceAudioElement: React.Dispatch<React.SetStateAction<HTMLAudioElement | null>>
+  palAudioBlob: Blob | null,
+  setPalAudioBlob: React.Dispatch<React.SetStateAction<Blob | null>>
 }
 
 export default function TalkMessages ({
   className, 
   messages, 
-  messageIsLoading, 
+  palMessageIsLoading, 
   selectedLanguageData, 
-  palVoiceAudioElement,
   ttsEnabled,
-  setPalVoiceAudioElement
+  userMessageIsLoading,
+  palVoiceAudioElement,
+  setPalVoiceAudioElement,
+  palAudioBlob,
+  setPalAudioBlob
 } : TalkMessagesProps) {
 
   const getTextToSpeech = useAction(api.actions.getTextToSpeech.getTextToSpeech);
@@ -37,8 +44,8 @@ export default function TalkMessages ({
     trans: '',
     isLoading: false
   })
+
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
-  
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -126,6 +133,7 @@ export default function TalkMessages ({
               {
               msg.role === 'assistant' &&
               <div className="right-0 flex items-center h-12 gap-2 p-2 text-black top-full rounded-2xl">
+                
                 <div className="flex items-center justify-center w-6 h-6">
                   {
                   palVoiceReplayIndex === index ?
@@ -177,8 +185,8 @@ export default function TalkMessages ({
         })
         }
         {
-        messageIsLoading &&
-        <div className="flex justify-end w-full">
+        (palMessageIsLoading || userMessageIsLoading) &&
+        <div className={`flex ${palMessageIsLoading ? 'justify-end' : 'justify-start'}  w-full`}>
           <ThreeDots
           height="40" 
           width="40" 
