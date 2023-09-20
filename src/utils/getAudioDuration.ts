@@ -1,4 +1,4 @@
-export const getAudioDuration = (base64) => {
+export const getAudioDuration = (base64: string) => {
   return new Promise((resolve, reject) => {
     const audio = new Audio(`data:audio/wav;base64,${base64}`);
     audio.onloadedmetadata = () => {

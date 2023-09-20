@@ -4,7 +4,7 @@ import {
   Message,
   VoiceData,
 } from "../features/talkWithPolyglot/types";
-import { useAction } from "convex/react";
+import { useAction, useConvexAuth } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import ISO6391 from "iso-639-1";
 import TalkMessageInput from "../features/talkWithPolyglot/components/talkMessageInput/talkMessageInput";
@@ -15,11 +15,16 @@ import { getGPTPrompt } from "../features/talkWithPolyglot/services/getGPTPrompt
 import { combineLangAndCountryCode } from "../utils/combineLangAndCountryCode";
 import { formatGCTTSVoiceOptions } from "../utils/formatGCTTSVoiceOptions";
 import { base64ToBlob } from "../utils/base64ToBlob";
+import { useNavigate } from "react-router-dom";
 
 
 
 
 export default function TalkWithPolyGlot() {
+  const navigate = useNavigate()
+
+  const { isLoading, isAuthenticated } = useConvexAuth()
+
   const getGPTMsg = useAction(
     api.actions.getGPTMessageResponse.getGPTMessageResponseConvex
   );
@@ -49,6 +54,10 @@ export default function TalkWithPolyGlot() {
   const [palAudioBlob, setPalAudioBlob] = useState<Blob | null>(null)
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [userVoiceError, setUserVoiceError] = useState(false)
+
+  useEffect(()=> {
+    if(!isLoading && !isAuthenticated) navigate('/log-in')
+  },[isAuthenticated, isLoading])
 
   useEffect(() => {
     //creates a list from GC for language & voice select options and sets state for language options.
@@ -158,6 +167,10 @@ export default function TalkWithPolyGlot() {
   useEffect(() => {
     if (palVoiceAudioElement) palVoiceAudioElement.play();
   }, [palVoiceAudioElement]);
+
+  useEffect(() => {
+    if (palVoiceAudioElement) setPalVoiceAudioElement(null);
+  }, [selectedLanguageData, cefrLevel]);
 
   useEffect(() => {
 

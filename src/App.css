@@ -7,11 +7,22 @@
   font-family: main;
   src: url(/src/assets/fonts/Bender.otf);
 }
+
+@font-face {
+  font-family: display;
+  src: url(/src/assets/fonts/DMSerifDisplay-Regular.ttf);
+}
+
+
 .font-main{
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 .font-logo{
   font-family: Lemon, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.font-display{
+  font-family: display, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .max-w-66pct{
