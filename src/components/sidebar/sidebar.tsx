@@ -1,7 +1,10 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { languageNameAndCodes } from "../../constants/languageNameAndCodes"
-
+import { useMutation, useQuery } from "convex/react"
+import { api } from "../../../convex/_generated/api";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Id } from "convex/dist/cjs-types/values/value";
 type SidebarProps = {
   className?: string
 }
@@ -9,20 +12,46 @@ type SidebarProps = {
 
 export default function Sidebar ({className} : SidebarProps) {
 
+  const { user } = useAuth0();
+  const mutateNativeLanguage = useMutation(api.mutation.mutateNativeLanguage.mutateNativeLanguage)
+
+  const nativeLanguage = useQuery(api.query.getNativeLanguage.getNativeLanguage, { sub: user && user.sub ? user.sub : '' })
+
+  const nativeLanguageExists = nativeLanguage && nativeLanguage[0] && nativeLanguage[0]._id
+
   const [userNativeLanguage, setUserNativeLanguage] = useState({
     languageName: '',
     languageCode: ''
   })
 
   const handleUserNativeLanguage = (languageName: string) => {
-    const languageCode = languageNameAndCodes.find(langObj => langObj.languageName)?.languageCode
-    if(!languageCode) return
+    const languageCode = languageNameAndCodes.find(langObj => langObj.languageName === languageName)?.languageCode
+    console.log(languageCode);
+    if(!languageCode || !user || user && !user.sub) return
+
+    const args: {
+      id?: Id<"nativeLanguage">,
+      sub:string,
+      languageName: string,
+      languageCode: string
+    } = {
+      sub: user && user.sub ? user.sub : '', 
+      languageName, 
+      languageCode 
+    }
+
+    if(nativeLanguage && nativeLanguage[0] && nativeLanguage[0]._id) args.id = nativeLanguage[0]._id
+    
+    if(nativeLanguage) mutateNativeLanguage(args)
     setUserNativeLanguage({
       languageName,
       languageCode
     });
-
   }
+
+  useEffect(()=> {
+    console.log(nativeLanguage);
+  },[nativeLanguage])
   return (
     <div className={`${className} p-2  w-80  rounded-2xl flex flex-col gap-2`}>
       <div className="p-4">
@@ -40,7 +69,7 @@ export default function Sidebar ({className} : SidebarProps) {
           <Select className="!rounded-lg !h-8 !outline-none"
             labelId="user-native-language-label"
             id="user-native-language"
-            value={userNativeLanguage.languageName}
+            value={nativeLanguageExists ? nativeLanguage[0].languageName : userNativeLanguage.languageName}
             label="Age"
             onChange={(e) => handleUserNativeLanguage(e.target.value)}
             sx={{ 

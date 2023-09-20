@@ -5,9 +5,10 @@ import { mdiReplay, mdiTranslate, mdiCloseCircleOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 import OvalSpinnerBlackGray from "../../../../components/loadSpinners/ ovalSpinnerBlackGray";
 import { combineLangAndCountryCode } from "../../../../utils/combineLangAndCountryCode";
-import { useAction } from "convex/react";
+import { useAction, useQuery } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { AudioVisualizer, LiveAudioVisualizer } from "react-audio-visualize";
+import { useAuth0 } from "@auth0/auth0-react";
 
 type TalkMessagesProps = {
   className?: string,
@@ -35,9 +36,11 @@ export default function TalkMessages ({
   setPalAudioBlob
 } : TalkMessagesProps) {
 
+  const { user } = useAuth0();
+
   const getTextToSpeech = useAction(api.actions.getTextToSpeech.getTextToSpeech);
   const getTranslation = useAction(api.actions.getTranslation.getTranslation)
-
+  const nativeLanguage = useQuery(api.query.getNativeLanguage.getNativeLanguage, { sub: user && user.sub ? user.sub : '' })
   const [palVoiceReplayIndex, setPalVoiceReplayIndex] = useState<number | null>(null)
   const [translationData, setTranslationData] = useState({
     index: -1,
@@ -98,8 +101,12 @@ export default function TalkMessages ({
       isLoading: true
     })
 
-    
-    const translation = await getTranslation({text, targetLanguage: 'es'})
+    let targetLanguage = 'en'
+    if(nativeLanguage && nativeLanguage[0] && nativeLanguage[0]._id) {
+      targetLanguage = nativeLanguage[0].languageCode
+    }
+    console.log(targetLanguage);
+    const translation = await getTranslation({text, targetLanguage})
     if(!translation) return
     setTranslationData({
       index: index,
