@@ -9,4 +9,10 @@ export default defineSchema({
     dateCreated: v.string(),
     dateDeadline: v.string(),
   }),
+  nativeLanguage: defineTable({
+    sub: v.string(),
+    languageName: v.string(),
+    languageCode: v.string()
+  })
+
 });

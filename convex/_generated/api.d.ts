@@ -20,6 +20,8 @@ import type * as actions_getSpeechToText from "../actions/getSpeechToText";
 import type * as actions_getTTSVoices from "../actions/getTTSVoices";
 import type * as actions_getTextToSpeech from "../actions/getTextToSpeech";
 import type * as actions_getTranslation from "../actions/getTranslation";
+import type * as mutation_mutateNativeLanguage from "../mutation/mutateNativeLanguage";
+import type * as query_getNativeLanguage from "../query/getNativeLanguage";
 import type * as query_getTTSKey from "../query/getTTSKey";
 import type * as types from "../types";
 
@@ -38,6 +40,8 @@ declare const fullApi: ApiFromModules<{
   "actions/getTTSVoices": typeof actions_getTTSVoices;
   "actions/getTextToSpeech": typeof actions_getTextToSpeech;
   "actions/getTranslation": typeof actions_getTranslation;
+  "mutation/mutateNativeLanguage": typeof mutation_mutateNativeLanguage;
+  "query/getNativeLanguage": typeof query_getNativeLanguage;
   "query/getTTSKey": typeof query_getTTSKey;
   types: typeof types;
 }>;

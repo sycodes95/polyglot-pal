@@ -169,7 +169,7 @@ export default function TalkWithPolyGlot() {
   }, [palVoiceAudioElement]);
 
   useEffect(() => {
-    if (palVoiceAudioElement) setPalVoiceAudioElement(null);
+    if (palVoiceAudioElement) palVoiceAudioElement.pause();
   }, [selectedLanguageData, cefrLevel]);
 
   useEffect(() => {
