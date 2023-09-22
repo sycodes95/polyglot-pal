@@ -7,14 +7,24 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Id } from "convex/dist/cjs-types/values/value";
 import CountryFlag from "../countryFlag/countryFlag";
 import { format } from "date-fns";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Button } from "../../@/components/ui/button"
+
 type SidebarProps = {
-  className?: string
+  className?: string,
+  resetState: ()=> void
 }
 
 
-export default function Sidebar ({className} : SidebarProps) {
+export default function Sidebar ({
+  className,
+  resetState
+} : SidebarProps) {
   const { user } = useAuth0();
+
+  const navigate = useNavigate()
+
+  const location = useLocation();
 
   const getAllConversations = useQuery(api.query.getAllConversations.getAllConversations, { sub: (user && user.sub) ? user.sub : ''})
 
@@ -56,7 +66,17 @@ export default function Sidebar ({className} : SidebarProps) {
   }
 
   return (
-    <div className={`relative ${className} p-2 pt-8 pb-8  w-80  rounded-2xl flex flex-col gap-2 overflow-y-scroll`}>
+    <div className={`relative ${className} p-2 pt-8 pb-8  w-80  rounded-2xl flex flex-col gap-8 overflow-y-scroll`}>
+      <div >
+        <Button className="w-full bg-primary text-secondary" color={'default'} variant={'default'} size={'default'} onClick={()=> {
+          setCurrentConversationId(null)
+          if(location.pathname === '/'){
+            resetState()
+          } else {
+            navigate('/')
+          }
+        }}> +    New Conversation</Button>
+      </div>
       <div className="sticky ">
       
         <FormControl className="!m-0" sx={{ 
@@ -106,8 +126,6 @@ export default function Sidebar ({className} : SidebarProps) {
           </Link>
         ))
         }
-        
-        
       </div>
       }
     </div>

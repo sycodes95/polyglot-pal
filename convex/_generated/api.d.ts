@@ -20,6 +20,7 @@ import type * as actions_getSpeechToText from "../actions/getSpeechToText";
 import type * as actions_getTTSVoices from "../actions/getTTSVoices";
 import type * as actions_getTextToSpeech from "../actions/getTextToSpeech";
 import type * as actions_getTranslation from "../actions/getTranslation";
+import type * as constants_gptModel from "../constants/gptModel";
 import type * as mutation_mutateConversation from "../mutation/mutateConversation";
 import type * as mutation_mutateNativeLanguage from "../mutation/mutateNativeLanguage";
 import type * as query_getAllConversations from "../query/getAllConversations";
@@ -43,6 +44,7 @@ declare const fullApi: ApiFromModules<{
   "actions/getTTSVoices": typeof actions_getTTSVoices;
   "actions/getTextToSpeech": typeof actions_getTextToSpeech;
   "actions/getTranslation": typeof actions_getTranslation;
+  "constants/gptModel": typeof constants_gptModel;
   "mutation/mutateConversation": typeof mutation_mutateConversation;
   "mutation/mutateNativeLanguage": typeof mutation_mutateNativeLanguage;
   "query/getAllConversations": typeof query_getAllConversations;
