@@ -22,7 +22,6 @@ export const mutateConversation = mutation({
   handler: async (ctx, args) => {
     const { id, sub, messages , selectedLanguageData, cefrLevel, ttsEnabled } = args
     const conversationExists = ctx.db.query("conversation").filter((q) => q.eq(q.field("sub"), args.sub))
-    console.log(conversationExists);
     if(conversationExists && id) {
       return await ctx.db.replace(id, { sub, messages, selectedLanguageData, cefrLevel, ttsEnabled });
     }

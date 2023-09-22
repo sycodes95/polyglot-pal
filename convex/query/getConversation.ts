@@ -13,7 +13,6 @@ export const getConversation = query({
       .query("conversation")
       .filter((q) => q.eq(q.field("sub"), sub) && q.eq(q.field("_id"), id))
       .take(1)
-      console.log(conversation);
       return conversation;
     }
     return null

@@ -11,7 +11,6 @@ export const getSampleRateFromBase64 = async (base64: string): Promise<number> =
     const AudioContextClass = window.AudioContext ;
     const audioContext = new AudioContextClass();
     const decodedData = await audioContext.decodeAudioData(arrayBuffer);
-    console.log(decodedData);
     return decodedData.sampleRate;
 
   } catch (error) {
