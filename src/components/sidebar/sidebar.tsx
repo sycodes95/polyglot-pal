@@ -66,7 +66,7 @@ export default function Sidebar ({
   }
 
   return (
-    <div className={`relative ${className} p-2 pt-8 pb-8  w-80  rounded-2xl flex flex-col gap-8 overflow-y-scroll`}>
+    <div className={`relative ${className} p-2   w-80  rounded-2xl flex flex-col gap-8 overflow-y-scroll`}>
       <div >
         <Button className="w-full bg-primary text-secondary" color={'default'} variant={'default'} size={'default'} onClick={()=> {
           setCurrentConversationId(null)
@@ -90,10 +90,7 @@ export default function Sidebar ({
           }}} id="user-native-language"> Native Language</InputLabel>
           
           <Select className="!rounded-lg !h-8 !outline-none"
-            labelId="user-native-language-label"
-            id="user-native-language"
             value={nativeLanguageExists ? nativeLanguage[0].languageName : userNativeLanguage.languageName}
-            label="Age"
             onChange={(e) => handleUserNativeLanguage(e.target.value)}
             sx={{ 
               color: 'gray', 

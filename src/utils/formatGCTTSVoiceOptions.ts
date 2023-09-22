@@ -3,20 +3,24 @@ import ISO6391 from "iso-639-1";
 
 
 export const formatGCTTSVoiceOptions = (voiceList: any[]) => {
-  const langAndVoiceOptions = voiceList
-  .map((voiceData: VoiceData) => {
+  console.log(voiceList.length);
+  const voices : LanguageOption[] = []
+
+  voiceList.forEach((voiceData: VoiceData) => {
     const [languageCode, countryCode] = voiceData.languageCodes[0].split("-");
-    return {
-      languageCode,
-      countryCode,
-      voiceName: voiceData.name,
-      languageName: ISO6391.getName(languageCode),
-      ssmlGender: voiceData.ssmlGender,
-    };
+    if(!voices.find(voice => voice.voiceName == voiceData.name)){
+      voices.push({
+        languageCode,
+        countryCode,
+        voiceName: voiceData.name,
+        languageName: ISO6391.getName(languageCode),
+        ssmlGender: voiceData.ssmlGender,
+      });
+    }
   })
-  .filter((option: LanguageOption) => 
-    option.languageCode.length < 3
-  )
+  
+  return voices.filter((option: LanguageOption) => 
+    option.languageCode.length < 3 )
   .sort((a: LanguageOption, b: LanguageOption) => {
     if (a.languageName < b.languageName) {
       return -1;
@@ -25,5 +29,33 @@ export const formatGCTTSVoiceOptions = (voiceList: any[]) => {
     }
     return 0;
   });
-  return langAndVoiceOptions
 }
+
+// export const formatGCTTSVoiceOptions = (voiceList: any[]) => {
+//   console.log(voiceList.length);
+//   const langAndVoiceOptions = voiceList
+//   .map((voiceData: VoiceData) => {
+//     const [languageCode, countryCode] = voiceData.languageCodes[0].split("-");
+//     return {
+//       languageCode,
+//       countryCode,
+//       voiceName: voiceData.name,
+//       languageName: ISO6391.getName(languageCode),
+//       ssmlGender: voiceData.ssmlGender,
+//     };
+//   })
+//   .filter((option: LanguageOption) => 
+//     option.languageCode.length < 3
+//   )
+//   .sort((a: LanguageOption, b: LanguageOption) => {
+//     if (a.languageName < b.languageName) {
+//       return -1;
+//     } else if (a.languageName > b.languageName) {
+//       return 1;
+//     }
+//     return 0;
+//   });
+  
+//   console.log(langAndVoiceOptions);
+//   return langAndVoiceOptions
+// }

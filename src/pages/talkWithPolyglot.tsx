@@ -108,7 +108,10 @@ export default function TalkWithPolyGlot() {
 
     async function getLangAndVoiceOptions () {
       const gcVoiceList = await getTTSVoiceOptionList()
+      console.log(gcVoiceList);
+
       const formattedVoiceList = formatGCTTSVoiceOptions(gcVoiceList)
+      console.log(formattedVoiceList);
       setLanguageOptions(formattedVoiceList);
     }
     getLangAndVoiceOptions()
@@ -303,7 +306,7 @@ export default function TalkWithPolyGlot() {
 
   return (
 
-    <div className="flex w-full max-w-7xl ">
+    <div className="flex w-full pt-4 max-w-7xl ">
       
       <Sidebar className="flex-col hidden md:flex" 
       resetState={resetState}/>
@@ -311,7 +314,7 @@ export default function TalkWithPolyGlot() {
       <div className="relative flex flex-col flex-grow w-full gap-4 p-2 ">
         <TalkSetupOptions
           
-          className="flex flex-col gap-2 p-4 bg-white border-b shadow-md h-fit top-20 shadow-stone-300"
+          className="flex flex-col gap-2 pb-4 bg-white border-b shadow-md h-fit top-20 shadow-stone-300"
           c_id={c_id}
           selectedLanguageData={selectedLanguageData}
           setSelectedLanguageData={setSelectedLanguageData}
