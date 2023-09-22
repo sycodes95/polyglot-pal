@@ -6,10 +6,13 @@ import Icon from '@mdi/react';
 import { mdiHelpCircleOutline, mdiCloseCircleOutline } from '@mdi/js';
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../../../../@/components/ui/button"
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material"
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { Id } from "convex/dist/cjs-types/values/value";
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 
 type TalkSetupOptionsProps = {
   c_id: Id<'conversation'>,
@@ -66,16 +69,78 @@ export default function TalkSetupOptions ({
 
       <TalkOptionSetupContainer
       >
-        <label className="flex items-center w-40 border-stone-300 text-stone-600 whitespace-nowrap">Language & Voice</label>
-        <select className="w-full h-full p-1 border rounded-lg outline-none border-stone-300 text-stone-600" 
-        value={(selectedLanguageData && selectedLanguageData.voiceName) ?  selectedLanguageData.voiceName : ''} 
+        {
+        
+        languageOptions && languageOptions.length > 0 &&
+        <Autocomplete
+          disablePortal
+          value={(selectedLanguageData && selectedLanguageData.voiceName) ? selectedLanguageData.voiceName : ''}
+          onChange={(event: any, newValue: string | null) => {
+            if(newValue) {
+              const [one, two, selectedVoiceName] = newValue.split(' ')
+              const selectedLanguageData = languageOptions.find(opt => opt.voiceName === selectedVoiceName)
+              selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
+              setMessages([])
+            }
+          }}
+          inputValue={languageOptions[0].languageName + ' ' + languageOptions[0].countryCode + ' ' + languageOptions[0].voiceName + ' ' + languageOptions[0].ssmlGender}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+          }}
+          id="combo-box-demo"
+          options={languageOptions.map((opt : LanguageOption) => (
+            opt.languageName + ' ' + opt.countryCode + ' ' + opt.voiceName + ' ' + opt.ssmlGender
+          ))}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} 
+          label="Language And Voice" 
+          />}
+          
+        />
+        }
+        {/* <label className="flex items-center w-40 border-stone-300 text-stone-600 whitespace-nowrap">Language & Voice</label> */}
+        {/* <FormControl className="!m-0" sx={{ 
+        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+        borderColor: 'gray',}}}
+        fullWidth>
+      
+          <InputLabel className="!flex !items-center !-top-3 !text-sm !text-stone-500" sx={{ 
+          '&.MuiInputLabel-shrink': {
+          transform: 'translate(10px, -12px) scale(0.8)',  
+          }}} id="user-native-language"> Language & Voice</InputLabel>
+          
+          <Select className="!rounded-lg !h-8 !outline-none"
+            value={(selectedLanguageData && selectedLanguageData.voiceName) ?  selectedLanguageData.voiceName : ''}
+            onChange={(e)=> {
+              const selectedVoiceName = e.target.value
+              const selectedLanguageData = languageOptions.find(opt => opt.voiceName === selectedVoiceName)
+              selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
+              setMessages([])
+            }}
+            sx={{ 
+              color: 'gray', 
+              '& legend': { display: 'none'},
+            }}
+          >
+            {
+            languageOptions.map((opt : LanguageOption, index) => (
+              <MenuItem className="!text-sm" value={opt.voiceName} key={index}>
+              {opt.languageName} ({opt.countryCode}) {opt.voiceName} ({opt.ssmlGender})
+              </MenuItem>
+            ))
+            }
+          </Select>
+        </FormControl> */}
+        {/* <select className="w-full h-full p-1 border rounded-lg outline-none border-stone-300 text-stone-600" 
+        value={(selectedLanguageData && selectedLanguageData.voiceName) ?  selectedLanguageData.voiceName : ''}
+        placeholder="Select a language." 
         onChange={(e)=> {
           const selectedVoiceName = e.target.value
           const selectedLanguageData = languageOptions.find(opt => opt.voiceName === selectedVoiceName)
           selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
           setMessages([])
         }}>
-          <option value="">...</option>
+          <option  value="">...</option>
           {
           languageOptions.map((opt : LanguageOption , index) => (
           <option className="text-sm md:text-sm" value={opt.voiceName} key={index}>
@@ -83,7 +148,7 @@ export default function TalkSetupOptions ({
           </option>
           ))
           }
-        </select>
+        </select> */}
         {
         selectedLanguageData &&
         <CountryFlag className="object-contain w-8 h-8 mr-2 rounded-2xl" countryCode={selectedLanguageData?.countryCode}/>
@@ -102,7 +167,7 @@ export default function TalkSetupOptions ({
         <div className="grid items-center w-full h-full grid-cols-3 gap-2 md:grid-cols-6">
           {
           Object.keys(cefrLevels).map((level) => (
-            <button className={`flex items-center border text-black ${level === cefrLevel ? 'border-emerald-300 text-emerald-500 ' : 'border-stone-300 text-stone-400'} justify-center w-full h-full text-sm rounded-lg`} onClick={()=> {
+            <button className={`flex items-center border text-black ${level === cefrLevel ? 'border-black text-black ' : 'border-stone-300 text-stone-400'} hover:border-stone-500 justify-center w-full h-full text-sm rounded-lg transition-all`} onClick={()=> {
               if(palVoiceElement && palVoiceElement.current){
               palVoiceElement.current.remove()
               }
@@ -129,8 +194,23 @@ export default function TalkSetupOptions ({
           </div>
         </TalkOptionSetupContainer>
         <TalkOptionSetupContainer
-        className="flex justify-end">
-          <Button className={`${selectedLanguageData ? 'bg-primary' : 'bg-stone-300'} w-30 text-secondary`} color={'default'} variant={'default'} size={'default'} onClick={handleConvoSave}>Save Conversation / Settings</Button>
+        className="flex justify-end ">
+          <div className="relative h-full group">
+          
+            <Button disabled={selectedLanguageData ? false : true} className={`
+            ${selectedLanguageData ? 'bg-primary' : 'bg-stone-400 hover:!pointer-events-none z-10'} 
+            relative w-30 text-secondary group h-full `} 
+
+            color={'default'} 
+            variant={'default'} 
+            size={'default'} 
+            onClick={handleConvoSave}>
+              <span>Save Conversation / Settings</span>
+              
+            </Button>
+            <span className={` ${!selectedLanguageData ? 'group-hover:flex' : 'group-hover:hidden' }
+              hidden absolute left-0 border border-red-500 rounded-lg top-full `}>Select a language</span>
+          </div>
         </TalkOptionSetupContainer>
 
       </div>

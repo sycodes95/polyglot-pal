@@ -1,7 +1,7 @@
 import { ThreeDots } from "react-loader-spinner"
 import { LanguageOption, Message } from "../../types"
 import { useEffect, useRef, useState } from "react";
-import { mdiReplay, mdiTranslate, mdiCloseCircleOutline } from "@mdi/js";
+import { mdiReplay, mdiTranslate, mdiCloseCircleOutline, mdiEarth } from "@mdi/js";
 import Icon from "@mdi/react";
 import OvalSpinnerBlackGray from "../../../../components/loadSpinners/ ovalSpinnerBlackGray";
 import { combineLangAndCountryCode } from "../../../../utils/combineLangAndCountryCode";
@@ -113,8 +113,13 @@ export default function TalkMessages ({
   }
 
   return (
-    <div className={`${className} flex flex-grow flex-col h-1 w-full gap-8 overflow-y-auto rounded-2xl
+    <div className={`${className} relative flex flex-grow flex-col h-1 w-full gap-8 overflow-y-auto rounded-2xl
       p-2`} >
+        {
+        messages && messages.length < 1 &&
+        <Icon className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 text-opacity-80 text-stone-300" path={mdiEarth} size={7} />
+        }
+        
         {
         messages.map((msg, index) => {
           if(index !== 0){

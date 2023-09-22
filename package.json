@@ -20,6 +20,7 @@
     "@mdi/js": "^7.2.96",
     "@mdi/react": "^1.6.1",
     "@mui/material": "^5.14.10",
+    "@radix-ui/react-select": "^1.2.2",
     "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
