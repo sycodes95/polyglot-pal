@@ -4,7 +4,7 @@ import {
   Message,
   VoiceData,
 } from "../features/talkWithPolyglot/types";
-import { useAction, useConvexAuth } from "convex/react";
+import { useAction, useConvexAuth, useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import ISO6391 from "iso-639-1";
 import TalkMessageInput from "../features/talkWithPolyglot/components/talkMessageInput/talkMessageInput";
@@ -15,13 +15,23 @@ import { getGPTPrompt } from "../features/talkWithPolyglot/services/getGPTPrompt
 import { combineLangAndCountryCode } from "../utils/combineLangAndCountryCode";
 import { formatGCTTSVoiceOptions } from "../utils/formatGCTTSVoiceOptions";
 import { base64ToBlob } from "../utils/base64ToBlob";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Sidebar from "../components/sidebar/sidebar";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Id } from "convex/dist/cjs-types/values/value";
 
-
+type Params = {
+  c_id: Id<'conversation'>
+}
 
 
 export default function TalkWithPolyGlot() {
   const navigate = useNavigate()
+
+  const { c_id } = useParams<Params>()
+  console.log('cid', c_id);
+
+  const { user } = useAuth0();
 
   const { isLoading, isAuthenticated } = useConvexAuth()
 
@@ -38,6 +48,25 @@ export default function TalkWithPolyGlot() {
     api.actions.getSpeechToText.getSpeechToText
   );
 
+  const [test, setTest] = useState(c_id)
+
+  useEffect(()=> {
+    console.log(test);
+  },[test])
+
+  const getConvoArgs : {
+    id?: Id<'conversation'>,
+    sub: string
+  } = {
+    sub: (user && user.sub) ? user.sub : ''
+  }
+  if(c_id) getConvoArgs.id = c_id
+  
+  const getConversation = useQuery(api.query.getConversation.getConversation, getConvoArgs)
+ 
+
+  const mutateConversation = useMutation(api.mutation.mutateConversation.mutateConversation)
+
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[] | []>([]);
   const [userMessageIsLoading, setUserMessageIsLoading] = useState(false)
@@ -52,12 +81,24 @@ export default function TalkWithPolyGlot() {
   const [userVoiceBase64, setUserVoiceBase64] = useState("");
 
   const [palAudioBlob, setPalAudioBlob] = useState<Blob | null>(null)
-  const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [userVoiceError, setUserVoiceError] = useState(false)
 
+  const userExists = user && user.sub;
+
+  useEffect(()=> {
+    if(getConversation) {
+      const convo = getConversation[0]
+      setMessages(convo.messages)
+      setSelectedLanguageData(convo.selectedLanguageData)
+      setCefrLevel(convo.cefrLevel)
+      setTtsEnabled(convo.ttsEnabled)
+    }
+  },[getConversation])
+  
   useEffect(()=> {
     if(!isLoading && !isAuthenticated) navigate('/log-in')
   },[isAuthenticated, isLoading])
+
 
   useEffect(() => {
     //creates a list from GC for language & voice select options and sets state for language options.
@@ -232,41 +273,48 @@ export default function TalkWithPolyGlot() {
   };
 
   return (
-    <div className="relative flex flex-col flex-grow w-full gap-4 p-2 max-w-7xl ">
-      <TalkSetupOptions
-        className="flex flex-col gap-2 p-4 bg-white border-b shadow-md h-fit top-20 shadow-stone-300"
-        selectedLanguageData={selectedLanguageData}
-        setSelectedLanguageData={setSelectedLanguageData}
-        languageOptions={languageOptions}
-        cefrLevel={cefrLevel}
-        setCefrLevel={setCefrLevel}
-        setMessages={setMessages}
-        ttsEnabled={ttsEnabled}
 
-        setTtsEnabled={setTtsEnabled}
-      />
+    <div className="flex w-full max-w-7xl ">
+      
+      <Sidebar className="flex-col hidden md:flex" />
+      <div className="relative flex flex-col flex-grow w-full gap-4 p-2 ">
+        <TalkSetupOptions
+          
+          className="flex flex-col gap-2 p-4 bg-white border-b shadow-md h-fit top-20 shadow-stone-300"
+          c_id={c_id}
+          selectedLanguageData={selectedLanguageData}
+          setSelectedLanguageData={setSelectedLanguageData}
+          languageOptions={languageOptions}
+          cefrLevel={cefrLevel}
+          setCefrLevel={setCefrLevel}
+          setMessages={setMessages}
+          ttsEnabled={ttsEnabled}
+          setTtsEnabled={setTtsEnabled}
+          messages={messages}
+        />
 
-      <TalkMessages 
-        selectedLanguageData={selectedLanguageData}
-        messages={messages}
-        palMessageIsLoading={palMessageIsLoading} 
-        ttsEnabled={ttsEnabled}
-        userMessageIsLoading={userMessageIsLoading}
-        palVoiceAudioElement={palVoiceAudioElement}
-        setPalVoiceAudioElement={setPalVoiceAudioElement}
-        palAudioBlob={palAudioBlob}
-        setPalAudioBlob={setPalAudioBlob}
-      />
+        <TalkMessages 
+          selectedLanguageData={selectedLanguageData}
+          messages={messages}
+          palMessageIsLoading={palMessageIsLoading} 
+          ttsEnabled={ttsEnabled}
+          userMessageIsLoading={userMessageIsLoading}
+          palVoiceAudioElement={palVoiceAudioElement}
+          setPalVoiceAudioElement={setPalVoiceAudioElement}
+          palAudioBlob={palAudioBlob}
+          setPalAudioBlob={setPalAudioBlob}
+        />
 
-      <TalkMessageInput
-        palMessageIsLoading={palMessageIsLoading}
-        input={input}
-        setInput={setInput}
-        handleMessageSend={handleMessageSend}
-        setUserVoiceBase64={setUserVoiceBase64}
-        ttsEnabled={ttsEnabled}
-        selectedLanguageData={selectedLanguageData}
-      />
+        <TalkMessageInput
+          palMessageIsLoading={palMessageIsLoading}
+          input={input}
+          setInput={setInput}
+          handleMessageSend={handleMessageSend}
+          setUserVoiceBase64={setUserVoiceBase64}
+          ttsEnabled={ttsEnabled}
+          selectedLanguageData={selectedLanguageData}
+        />
+      </div>
     </div>
   );
 }

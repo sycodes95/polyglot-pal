@@ -5,14 +5,19 @@ import { useMutation, useQuery } from "convex/react"
 import { api } from "../../../convex/_generated/api";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Id } from "convex/dist/cjs-types/values/value";
+import CountryFlag from "../countryFlag/countryFlag";
+import { format } from "date-fns";
+import { Link, useNavigate } from "react-router-dom";
 type SidebarProps = {
   className?: string
 }
 
 
 export default function Sidebar ({className} : SidebarProps) {
-
   const { user } = useAuth0();
+
+  const getAllConversations = useQuery(api.query.getAllConversations.getAllConversations, { sub: (user && user.sub) ? user.sub : ''})
+
   const mutateNativeLanguage = useMutation(api.mutation.mutateNativeLanguage.mutateNativeLanguage)
 
   const nativeLanguage = useQuery(api.query.getNativeLanguage.getNativeLanguage, { sub: user && user.sub ? user.sub : '' })
@@ -23,6 +28,8 @@ export default function Sidebar ({className} : SidebarProps) {
     languageName: '',
     languageCode: ''
   })
+
+  const [currentConversationId, setCurrentConversationId] = useState<Id<'conversation'> | null>(null)
 
   const handleUserNativeLanguage = (languageName: string) => {
     const languageCode = languageNameAndCodes.find(langObj => langObj.languageName === languageName)?.languageCode
@@ -50,11 +57,13 @@ export default function Sidebar ({className} : SidebarProps) {
   }
 
   useEffect(()=> {
-    console.log(nativeLanguage);
-  },[nativeLanguage])
+    if(getAllConversations && getAllConversations.length > 0){
+
+    }
+  },[getAllConversations])
   return (
-    <div className={`${className} p-2  w-80  rounded-2xl flex flex-col gap-2`}>
-      <div className="p-4">
+    <div className={`relative ${className} p-2 pt-8 pb-8  w-80  rounded-2xl flex flex-col gap-2 overflow-y-scroll`}>
+      <div className="sticky ">
       
         <FormControl className="!m-0" sx={{ 
         '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
@@ -78,13 +87,35 @@ export default function Sidebar ({className} : SidebarProps) {
             }}
           >
             {
-            languageNameAndCodes.map((data, index) => (
+            languageNameAndCodes.map((data) => (
               <MenuItem className="!text-sm" key={data.languageCode} value={data.languageName}>{data.languageName}</MenuItem>
             ))
             }
           </Select>
         </FormControl>
       </div>
+      {
+        getAllConversations && getAllConversations.length > 0 &&
+      <div className="flex flex-col w-full gap-2">
+        {
+        getAllConversations.map((c, index) => (
+          <Link 
+          className={`${c._id === currentConversationId && 'bg-stone-300'} flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all border rounded-lg border-stone-300 hover:border-stone-400`} 
+          key={index} to={`/c/${c._id}`} onClick={()=> setCurrentConversationId(c._id)}
+          >
+            <div className="flex items-center gap-2">
+              <CountryFlag className="object-contain w-6 h-6 rounded-2xl" countryCode={c.selectedLanguageData.countryCode} />
+              <span>{c.selectedLanguageData.languageName} {c.cefrLevel}</span>
+            </div>
+            <span className="text-xs font-light">{c.selectedLanguageData.voiceName} {c.selectedLanguageData.ssmlGender}</span>
+            <span className="text-xs font-light">{format(new Date(c._creationTime), 'yyyy-MM-dd HH:mm:ss')}</span>
+          </Link>
+        ))
+        }
+        
+        
+      </div>
+      }
     </div>
   )
 }

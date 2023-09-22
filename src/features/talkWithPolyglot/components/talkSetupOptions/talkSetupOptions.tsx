@@ -5,8 +5,14 @@ import { LanguageOption, Message } from "../../types"
 import Icon from '@mdi/react';
 import { mdiHelpCircleOutline, mdiCloseCircleOutline } from '@mdi/js';
 import { useEffect, useRef, useState } from "react";
+import { Button } from "../../../../@/components/ui/button"
+import { useAuth0 } from "@auth0/auth0-react";
+import { useMutation } from "convex/react";
+import { api } from "../../../../../convex/_generated/api";
+import { Id } from "convex/dist/cjs-types/values/value";
 
 type TalkSetupOptionsProps = {
+  c_id: Id<'conversation'>,
   className?: string,
   selectedLanguageData: LanguageOption | null,
   setSelectedLanguageData: React.Dispatch<React.SetStateAction<LanguageOption | null>>,
@@ -16,9 +22,11 @@ type TalkSetupOptionsProps = {
   setMessages: React.Dispatch<React.SetStateAction<Message[] | []>>,
   ttsEnabled: boolean,
   setTtsEnabled: React.Dispatch<React.SetStateAction<boolean>>,
+  messages: Message[] | []
 }
 
 export default function TalkSetupOptions ({ 
+  c_id,
   className,
   selectedLanguageData, 
   setSelectedLanguageData,  
@@ -27,11 +35,29 @@ export default function TalkSetupOptions ({
   setCefrLevel,
   setMessages,
   ttsEnabled,
-  setTtsEnabled
+  setTtsEnabled,
+  messages
 }: TalkSetupOptionsProps) {
 
+  const { user } = useAuth0();
+  const mutateConversation = useMutation(api.mutation.mutateConversation.mutateConversation)
   const cefrTipDialogRef = useRef(null)
   const [cefrToolTipIsOpen, setCefrToolTipIsOpen] = useState(false)
+  
+  const handleConvoSave = () => {
+    if(!user || !user.sub || !selectedLanguageData) return
+    const args = {
+      messages,
+      sub: user.sub,
+      selectedLanguageData,
+      cefrLevel,
+      ttsEnabled 
+    } 
+    if(c_id) {
+      args.id = c_id
+    }
+    mutateConversation(args)
+  }
   
   return (
     <div className={` ${className}`}>
@@ -81,19 +107,27 @@ export default function TalkSetupOptions ({
         </div>
       </TalkOptionSetupContainer>
       
-      <TalkOptionSetupContainer
-      className="md:w-1/2"
-      >
-        <div className="flex items-center">
-          <label className="w-24 whitespace-nowrap text-stone-600"> Enable TTS</label>
-        </div>
-        <div className="grid items-center w-full h-full grid-cols-2 gap-2 text-sm">
-          <button className={`border w-full h-full rounded-lg flex items-center justify-center  ${ttsEnabled ? 'border-emerald-400 text-emerald-500' : 'border-stone-300 text-stone-400'}`}
-          onClick={()=> setTtsEnabled(true)}>Enabled</button>
-          <button className={`w-full h-full border rounded-lg  flex items-center justify-center ${!ttsEnabled ? 'border-emerald-400 text-emerald-500' : 'border-stone-300 text-stone-400'}`} 
-          onClick={()=> setTtsEnabled(false)}>Disabled</button>
-        </div>
-      </TalkOptionSetupContainer>
+      <div className="flex items-center gap-4">
+        <TalkOptionSetupContainer
+        className=""
+        >
+          <div className="flex items-center">
+            <label className="w-24 whitespace-nowrap text-stone-600"> Enable TTS</label>
+          </div>
+          <div className="grid items-center w-full h-full grid-cols-2 gap-2 text-sm">
+            <button className={`border w-full h-full rounded-lg flex items-center justify-center  ${ttsEnabled ? 'border-emerald-400 text-emerald-500' : 'border-stone-300 text-stone-400'}`}
+            onClick={()=> setTtsEnabled(true)}>Enabled</button>
+            <button className={`w-full h-full border rounded-lg  flex items-center justify-center ${!ttsEnabled ? 'border-emerald-400 text-emerald-500' : 'border-stone-300 text-stone-400'}`} 
+            onClick={()=> setTtsEnabled(false)}>Disabled</button>
+          </div>
+        </TalkOptionSetupContainer>
+        <TalkOptionSetupContainer
+        className="flex justify-end">
+          <Button className="w-30 bg-primary text-secondary" color={'default'} variant={'outline'} size={'default'} onClick={handleConvoSave}>Save Conversation / Settings</Button>
+        </TalkOptionSetupContainer>
+
+      </div>
+
       {
       cefrToolTipIsOpen &&
       <div className="fixed top-0 left-0 z-20 w-full h-full bg-black bg-opacity-25 backdrop-blur-sm" onClick={()=> setCefrToolTipIsOpen(false)}></div>
