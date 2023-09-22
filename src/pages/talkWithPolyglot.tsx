@@ -72,18 +72,22 @@ export default function TalkWithPolyGlot() {
 
   const [userVoiceBase64, setUserVoiceBase64] = useState("");
 
-  const [palAudioBlob, setPalAudioBlob] = useState<Blob | null>(null)
   const [userVoiceError, setUserVoiceError] = useState(false)
 
+  const [palVoiceBase64, setPalVoiceBase64] = useState("")
+
   const palVoiceElement = useRef<HTMLAudioElement | null>(null);
-  const [palVoiceBase64, setPalVoiceBase64] = useState('')
 
-
-  const userExists = user && user.sub;
-  
   useEffect(()=> {
-
-  })
+    if(!c_id) {
+      resetState()
+      if(palVoiceElement && palVoiceElement.current) {
+        palVoiceElement.current.pause()
+        palVoiceElement.current = null
+      }
+    }
+  },[c_id])
+  
   useEffect(()=> {
     if(getConversation) {
       const convo = getConversation[0]
@@ -132,6 +136,8 @@ export default function TalkWithPolyGlot() {
         const selectedVoiceGender = selectedLanguageData.ssmlGender
 
         const prompt = getGPTPrompt(selectedLanguageName, cefrLevel, selectedVoiceGender)
+
+        console.log(prompt);
 
         const palMsg = await getGPTMsg({ messages, input: prompt })
 
@@ -195,9 +201,8 @@ export default function TalkWithPolyGlot() {
           },
         });
         if(ttsBase64) {
-          const [_, base64WithoutContentType] = ttsBase64.split('data:audio/wav;base64,');
-          const blob = base64ToBlob(base64WithoutContentType);
-          setPalAudioBlob(blob);
+          // const [_, base64WithoutContentType] = ttsBase64.split('data:audio/wav;base64,');
+          // const blob = base64ToBlob(base64WithoutContentType);
           setPalVoiceBase64(ttsBase64)
           // const palVoiceAudio = new Audio(ttsBase64);
           // palVoiceElement.current = palVoiceAudio;
@@ -218,26 +223,6 @@ export default function TalkWithPolyGlot() {
     // };
     
   }, [messages]);
-
-  // useEffect(() => {
-  //   if (palVoiceElement) palVoiceElement.play();
-  // }, [palVoiceElement]);
-
-  
-
-  // useEffect(()=> {
-  //   if(palVoiceElement && palVoiceElement.current) {
-  //     ttsEnabled ? !palVoiceElement.current.ended && palVoiceElement.current.play() : palVoiceElement.current.pause()
-  //   }
-  // },[ttsEnabled, palVoiceElement])
-
-  // useEffect(() => {
-  //   if (palVoiceElement) palVoiceElement.play();
-  // }, [palVoiceElement]);
-
-  // useEffect(() => {
-  //   if (palVoiceElement) palVoiceElement.pause();
-  // }, [selectedLanguageData, cefrLevel, c_id]);
 
   useEffect(() => {
 
@@ -298,11 +283,31 @@ export default function TalkWithPolyGlot() {
     
   };
 
+  const resetState = () => {
+    setInput("")
+    setMessages([])
+    setUserMessageIsLoading(false)
+    setPalMessageIsLoading(false)
+    setSelectedLanguageData(null)
+    setCefrLevel("C2")
+    setTtsEnabled(true)
+    setUserVoiceBase64("")
+    setUserVoiceError(false)
+    setPalVoiceBase64("")
+    if(palVoiceElement && palVoiceElement.current) {
+      palVoiceElement.current.pause()
+      palVoiceElement.current = null
+    }
+  }
+
+
   return (
 
     <div className="flex w-full max-w-7xl ">
       
-      <Sidebar className="flex-col hidden md:flex" />
+      <Sidebar className="flex-col hidden md:flex" 
+      resetState={resetState}/>
+      
       <div className="relative flex flex-col flex-grow w-full gap-4 p-2 ">
         <TalkSetupOptions
           
@@ -327,8 +332,6 @@ export default function TalkWithPolyGlot() {
           ttsEnabled={ttsEnabled}
           userMessageIsLoading={userMessageIsLoading}
           palVoiceElement={palVoiceElement}
-          palAudioBlob={palAudioBlob}
-          setPalAudioBlob={setPalAudioBlob}
         />
 
         <TalkMessageInput

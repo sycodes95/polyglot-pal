@@ -16,7 +16,7 @@ function App() {
         <div className="flex justify-center flex-grow w-full h-full max-w-7xl">
           <Routes>
             <Route path="/" element={<TalkWithPolyGlot />} />
-            <Route path="/c/:c_id" element={<TalkWithPolyGlot />} />
+            <Route path="/c/:c_id" element={<TalkWithPolyGlot/>} />
             <Route path="/log-in" element={<LogIn />} />
           </Routes>
         </div>

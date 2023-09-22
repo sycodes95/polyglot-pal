@@ -18,8 +18,6 @@ type TalkMessagesProps = {
   ttsEnabled: boolean,
   userMessageIsLoading: boolean,
   palVoiceElement: React.RefObject<HTMLAudioElement> | null,
-  palAudioBlob: Blob | null,
-  setPalAudioBlob: React.Dispatch<React.SetStateAction<Blob | null>>
 }
 
 export default function TalkMessages ({
@@ -30,8 +28,6 @@ export default function TalkMessages ({
   ttsEnabled,
   userMessageIsLoading,
   palVoiceElement,
-  palAudioBlob,
-  setPalAudioBlob
 } : TalkMessagesProps) {
 
   const { user } = useAuth0();

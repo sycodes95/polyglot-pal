@@ -67,7 +67,9 @@ export default function TalkSetupOptions ({
       <TalkOptionSetupContainer
       >
         <label className="flex items-center w-40 border-stone-300 text-stone-600 whitespace-nowrap">Language & Voice</label>
-        <select className="w-full h-full p-1 border rounded-lg outline-none border-stone-300 text-stone-600" value={selectedLanguageData?.voiceName} onChange={(e)=> {
+        <select className="w-full h-full p-1 border rounded-lg outline-none border-stone-300 text-stone-600" 
+        value={(selectedLanguageData && selectedLanguageData.voiceName) ?  selectedLanguageData.voiceName : ''} 
+        onChange={(e)=> {
           const selectedVoiceName = e.target.value
           const selectedLanguageData = languageOptions.find(opt => opt.voiceName === selectedVoiceName)
           selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
@@ -128,7 +130,7 @@ export default function TalkSetupOptions ({
         </TalkOptionSetupContainer>
         <TalkOptionSetupContainer
         className="flex justify-end">
-          <Button className="w-30 bg-primary text-secondary" color={'default'} variant={'outline'} size={'default'} onClick={handleConvoSave}>Save Conversation / Settings</Button>
+          <Button className={`${selectedLanguageData ? 'bg-primary' : 'bg-stone-300'} w-30 text-secondary`} color={'default'} variant={'default'} size={'default'} onClick={handleConvoSave}>Save Conversation / Settings</Button>
         </TalkOptionSetupContainer>
 
       </div>
