@@ -14,6 +14,6 @@ export default function CountryFlag ({ countryCode, className } : CountryFlagPro
     setFlagImage(`https://flagsapi.com/${countryCode}/flat/64.png`)
   },[countryCode])
   return (
-    <img className={`${className}`} src={flagImage} alt='' onError={()=> setFlagImage(defaultFlag)}/>
+    <img className={`${className}`} src={flagImage} alt='' />
   )
 }
