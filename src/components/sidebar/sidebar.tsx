@@ -33,7 +33,6 @@ export default function Sidebar ({className} : SidebarProps) {
 
   const handleUserNativeLanguage = (languageName: string) => {
     const languageCode = languageNameAndCodes.find(langObj => langObj.languageName === languageName)?.languageCode
-    console.log(languageCode);
     if(!languageCode || !user || user && !user.sub) return
 
     const args: {
@@ -56,11 +55,6 @@ export default function Sidebar ({className} : SidebarProps) {
     });
   }
 
-  useEffect(()=> {
-    if(getAllConversations && getAllConversations.length > 0){
-
-    }
-  },[getAllConversations])
   return (
     <div className={`relative ${className} p-2 pt-8 pb-8  w-80  rounded-2xl flex flex-col gap-2 overflow-y-scroll`}>
       <div className="sticky ">

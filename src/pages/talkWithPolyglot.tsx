@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   LanguageOption,
   Message,
@@ -29,7 +29,6 @@ export default function TalkWithPolyGlot() {
   const navigate = useNavigate()
 
   const { c_id } = useParams<Params>()
-  console.log('cid', c_id);
 
   const { user } = useAuth0();
 
@@ -47,12 +46,6 @@ export default function TalkWithPolyGlot() {
   const getSpeechToText = useAction(
     api.actions.getSpeechToText.getSpeechToText
   );
-
-  const [test, setTest] = useState(c_id)
-
-  useEffect(()=> {
-    console.log(test);
-  },[test])
 
   const getConvoArgs : {
     id?: Id<'conversation'>,
@@ -77,14 +70,20 @@ export default function TalkWithPolyGlot() {
   const [cefrLevel, setCefrLevel] = useState("C2");
   const [ttsEnabled, setTtsEnabled] = useState(true)
 
-  const [palVoiceAudioElement, setPalVoiceAudioElement] = useState<HTMLAudioElement | null>(null);
   const [userVoiceBase64, setUserVoiceBase64] = useState("");
 
   const [palAudioBlob, setPalAudioBlob] = useState<Blob | null>(null)
   const [userVoiceError, setUserVoiceError] = useState(false)
 
-  const userExists = user && user.sub;
+  const palVoiceElement = useRef<HTMLAudioElement | null>(null);
+  const [palVoiceBase64, setPalVoiceBase64] = useState('')
 
+
+  const userExists = user && user.sub;
+  
+  useEffect(()=> {
+
+  })
   useEffect(()=> {
     if(getConversation) {
       const convo = getConversation[0]
@@ -113,12 +112,13 @@ export default function TalkWithPolyGlot() {
   }, []);
 
   useEffect(() => {
-
-    console.log(selectedLanguageData);
+      if (palVoiceElement.current) {
+        palVoiceElement.current.pause();
+        // Release the resources held by the audio element
+      }
     async function getFirstMessageFromPal () {
 
       //pause pal's previous voice audio if playing atm.
-      if (palVoiceAudioElement) palVoiceAudioElement.pause()  
 
       //check if no messages has been sent or received and user has selected a language
       //then get first message from gpt using prompt and add to messages state
@@ -148,10 +148,25 @@ export default function TalkWithPolyGlot() {
   
   }, [selectedLanguageData, cefrLevel]);
 
+  useEffect(()=> {
+    if(palVoiceBase64){
+      if(palVoiceElement && palVoiceElement.current) palVoiceElement.current.pause()
+      const palAudio = new Audio(palVoiceBase64)
+      palVoiceElement.current = palAudio
+      palVoiceElement.current.play()
+    }
+  },[palVoiceBase64])
+
   useEffect(() => {
     //sends last user input message to TTS api, receives audio in base64 string format then plays the audio
-    async function getTTSFromPalMessage () {
 
+    async function getTTSFromPalMessage () {
+      
+      // if(palVoiceElement && palVoiceElement.current) {
+      //   palVoiceElement.current.pause()
+      //   palVoiceElement.current.remove()
+      //   palVoiceElement.current.src = ''
+      // }
       const lastMsg = messages[messages.length - 1]
 
       //check if messages exist, if last message was from pal (gpt), and user has TTS enabled
@@ -179,39 +194,50 @@ export default function TalkWithPolyGlot() {
             name: selectedVoice,
           },
         });
-        console.log(ttsBase64);
         if(ttsBase64) {
-          if (palVoiceAudioElement) palVoiceAudioElement.pause();
-          const [_, base64WithoutContentType] = ttsBase64.split('data:audio/wav;base64,')
-          const blob = base64ToBlob(base64WithoutContentType)
-          setPalAudioBlob(blob)
-          const palVoiceAudio = new Audio(ttsBase64);
-          setPalVoiceAudioElement(palVoiceAudio);
+          const [_, base64WithoutContentType] = ttsBase64.split('data:audio/wav;base64,');
+          const blob = base64ToBlob(base64WithoutContentType);
+          setPalAudioBlob(blob);
+          setPalVoiceBase64(ttsBase64)
+          // const palVoiceAudio = new Audio(ttsBase64);
+          // palVoiceElement.current = palVoiceAudio;
+          // palVoiceElement.current.play()
         }
       }
 
     }
     getTTSFromPalMessage()
+
+    // return () => {
+    //   if (palVoiceElement) {
+    //     palVoiceElement.pause();
+    //     // Release the resources held by the audio element
+    //     palVoiceElement.src = '';
+    //     setPalVoiceAudioElement(null);
+    //   }
+    // };
     
   }, [messages]);
 
-  useEffect(()=> {
-    console.log(palAudioBlob);
-  },[palAudioBlob])
+  // useEffect(() => {
+  //   if (palVoiceElement) palVoiceElement.play();
+  // }, [palVoiceElement]);
 
-  useEffect(()=> {
-    if(palVoiceAudioElement) {
-      ttsEnabled ? !palVoiceAudioElement.ended && palVoiceAudioElement.play() : palVoiceAudioElement.pause()
-    }
-  },[ttsEnabled])
+  
 
-  useEffect(() => {
-    if (palVoiceAudioElement) palVoiceAudioElement.play();
-  }, [palVoiceAudioElement]);
+  // useEffect(()=> {
+  //   if(palVoiceElement && palVoiceElement.current) {
+  //     ttsEnabled ? !palVoiceElement.current.ended && palVoiceElement.current.play() : palVoiceElement.current.pause()
+  //   }
+  // },[ttsEnabled, palVoiceElement])
 
-  useEffect(() => {
-    if (palVoiceAudioElement) palVoiceAudioElement.pause();
-  }, [selectedLanguageData, cefrLevel]);
+  // useEffect(() => {
+  //   if (palVoiceElement) palVoiceElement.play();
+  // }, [palVoiceElement]);
+
+  // useEffect(() => {
+  //   if (palVoiceElement) palVoiceElement.pause();
+  // }, [selectedLanguageData, cefrLevel, c_id]);
 
   useEffect(() => {
 
@@ -291,6 +317,7 @@ export default function TalkWithPolyGlot() {
           ttsEnabled={ttsEnabled}
           setTtsEnabled={setTtsEnabled}
           messages={messages}
+          palVoiceElement={palVoiceElement}
         />
 
         <TalkMessages 
@@ -299,8 +326,7 @@ export default function TalkWithPolyGlot() {
           palMessageIsLoading={palMessageIsLoading} 
           ttsEnabled={ttsEnabled}
           userMessageIsLoading={userMessageIsLoading}
-          palVoiceAudioElement={palVoiceAudioElement}
-          setPalVoiceAudioElement={setPalVoiceAudioElement}
+          palVoiceElement={palVoiceElement}
           palAudioBlob={palAudioBlob}
           setPalAudioBlob={setPalAudioBlob}
         />

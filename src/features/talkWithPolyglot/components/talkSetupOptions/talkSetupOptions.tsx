@@ -22,7 +22,8 @@ type TalkSetupOptionsProps = {
   setMessages: React.Dispatch<React.SetStateAction<Message[] | []>>,
   ttsEnabled: boolean,
   setTtsEnabled: React.Dispatch<React.SetStateAction<boolean>>,
-  messages: Message[] | []
+  messages: Message[] | [],
+  palVoiceElement: React.RefObject<HTMLAudioElement> | null,
 }
 
 export default function TalkSetupOptions ({ 
@@ -36,7 +37,8 @@ export default function TalkSetupOptions ({
   setMessages,
   ttsEnabled,
   setTtsEnabled,
-  messages
+  messages,
+  palVoiceElement
 }: TalkSetupOptionsProps) {
 
   const { user } = useAuth0();
@@ -99,6 +101,9 @@ export default function TalkSetupOptions ({
           {
           Object.keys(cefrLevels).map((level) => (
             <button className={`flex items-center border text-black ${level === cefrLevel ? 'border-emerald-300 text-emerald-500 ' : 'border-stone-300 text-stone-400'} justify-center w-full h-full text-sm rounded-lg`} onClick={()=> {
+              if(palVoiceElement && palVoiceElement.current){
+              palVoiceElement.current.remove()
+              }
               setCefrLevel(level)
               setMessages([])   
             }}>{level}</button>

@@ -13,7 +13,6 @@ export const getAllConversations = query({
     .filter((q) => q.eq(q.field("sub"), sub))
     .order('desc')
     .collect()
-    console.log(conversations);
     return conversations;
   },
 });

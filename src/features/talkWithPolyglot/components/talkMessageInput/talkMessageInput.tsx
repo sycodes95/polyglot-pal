@@ -92,7 +92,6 @@ export default function TalkMessageInput({
   };
 
   useEffect(() => {
-    console.log(audioData);
   }, [audioData]);
 
   useEffect(() => {

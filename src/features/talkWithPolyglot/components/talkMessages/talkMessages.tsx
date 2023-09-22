@@ -17,8 +17,7 @@ type TalkMessagesProps = {
   selectedLanguageData: LanguageOption | null,
   ttsEnabled: boolean,
   userMessageIsLoading: boolean,
-  palVoiceAudioElement: HTMLAudioElement | null,
-  setPalVoiceAudioElement: React.Dispatch<React.SetStateAction<HTMLAudioElement | null>>
+  palVoiceElement: React.RefObject<HTMLAudioElement> | null,
   palAudioBlob: Blob | null,
   setPalAudioBlob: React.Dispatch<React.SetStateAction<Blob | null>>
 }
@@ -30,8 +29,7 @@ export default function TalkMessages ({
   selectedLanguageData, 
   ttsEnabled,
   userMessageIsLoading,
-  palVoiceAudioElement,
-  setPalVoiceAudioElement,
+  palVoiceElement,
   palAudioBlob,
   setPalAudioBlob
 } : TalkMessagesProps) {
@@ -62,10 +60,10 @@ export default function TalkMessages ({
   }, [messages]);
 
   useEffect(()=> {
-    if(palVoiceAudioElement && ttsEnabled) {
+    if(palVoiceElement && ttsEnabled) {
       setPalVoiceReplayIndex(null)
     }
-  },[palVoiceAudioElement, ttsEnabled])
+  },[palVoiceElement, ttsEnabled])
 
   const playPalVoiceReplay = async (palMessage: string, index: number) => {
     if(!selectedLanguageData) return
@@ -86,9 +84,13 @@ export default function TalkMessages ({
     });
 
     if(ttsBase64) {
-      if (palVoiceAudioElement) palVoiceAudioElement.pause();
-      const palVoiceAudio = new Audio(ttsBase64);
-      setPalVoiceAudioElement(palVoiceAudio);
+      if (palVoiceElement && palVoiceElement.current){
+        palVoiceElement.current.src = '';
+        // const palVoiceAudio = new Audio(ttsBase64);
+        palVoiceElement.current.src = ttsBase64;
+        palVoiceElement.current.play()
+        setPalVoiceReplayIndex(null)
+      } 
     }
   }
 
@@ -105,7 +107,6 @@ export default function TalkMessages ({
     if(nativeLanguage && nativeLanguage[0] && nativeLanguage[0]._id) {
       targetLanguage = nativeLanguage[0].languageCode
     }
-    console.log(targetLanguage);
     const translation = await getTranslation({text, targetLanguage})
     if(!translation) return
     setTranslationData({

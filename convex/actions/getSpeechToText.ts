@@ -31,7 +31,6 @@ export const getSpeechToText = action({
         languageCode: languageCode
       }
     }
-    console.log(request);
     if(!process.env.GC_TTS_KEY_STORAGE_ID) return null
     const keyUrl = await ctx.storage.get(process.env.GC_TTS_KEY_STORAGE_ID)
     if(!keyUrl) return null

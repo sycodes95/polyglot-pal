@@ -8,9 +8,6 @@ export default function Header() {
   const { logout } = useAuth0();
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(false)
 
-  useEffect(()=> {
-    console.log(user);
-  },[ user])
   return (
     <div className="sticky top-0 z-10 flex items-center justify-center w-full h-20 bg-white">
       <div className="flex justify-between w-full p-4 max-w-7xl">

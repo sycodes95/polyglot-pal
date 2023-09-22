@@ -40,7 +40,6 @@ export const getTextToSpeech = action({
     });
 
     const [response] = await client.synthesizeSpeech({ input, voice, audioConfig});
-    console.log(response);
     const audioData = (response.audioContent as Buffer)?.toString('base64');
     const dataUrl = 'data:audio/wav;base64,' + audioData;
     return dataUrl

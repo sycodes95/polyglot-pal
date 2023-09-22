@@ -8,7 +8,6 @@ export const getNativeLanguage = query({
       .query("nativeLanguage")
       .filter((q) => q.eq(q.field("sub"), args.sub))
       .take(100);
-    console.log(nativeLanguage);
     return nativeLanguage;
   },
 });
