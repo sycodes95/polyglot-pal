@@ -111,7 +111,7 @@ export default function Sidebar ({
         {
         getAllConversations.map((c, index) => (
           <Link 
-          className={`${c._id === currentConversationId && 'bg-stone-300'}  flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all border rounded-lg shadow-lg shadow-stone-300 hover:bg-stone-300`} 
+          className={`${c._id === currentConversationId && 'bg-stone-300'}  flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all  rounded-lg  border-stone-300 hover:bg-stone-300 `} 
           key={index} to={`/c/${c._id}`} onClick={()=> setCurrentConversationId(c._id)}
           >
             <div className="flex items-center gap-2">

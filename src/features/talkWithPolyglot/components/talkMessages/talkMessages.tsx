@@ -129,7 +129,7 @@ export default function TalkMessages ({
             ${msg.role === 'user' ? 'items-start' : 'items-end'}
             `}
             key={index}>
-              <div className={`${msg.role === 'user' ? 'bg-stone-300' : 'bg-orange-200'} p-4 rounded-2xl max-w-66pct`}>
+              <div className={`${msg.role === 'user' ? 'bg-stone-300' : 'bg-emerald-200'} p-4 rounded-2xl max-w-66pct`}>
                 {
                 msg.role === 'user' 
                 ?

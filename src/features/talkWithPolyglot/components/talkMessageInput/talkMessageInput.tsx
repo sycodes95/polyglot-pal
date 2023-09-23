@@ -99,10 +99,10 @@ export default function TalkMessageInput({
   }, [audioData]);
 
   return (
-    <div className={`${className} flex items-center w-full h-24 max-w-7xl mb-8`}>
+    <div className={`${className} flex w-full max-w-7xl mb-8`}>
       <form
       aria-disabled
-        className="flex items-center w-full gap-2"
+        className="flex w-full h-12 gap-2"
         onSubmit={(e) => {
           e.preventDefault();
           handleMessageSend();
@@ -118,7 +118,7 @@ export default function TalkMessageInput({
           </div>
           }
           <input
-            className={` w-full h-12 outline-none rounded-2xl p-2`}
+            className={` w-full h-full outline-none rounded-2xl p-2`}
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -136,7 +136,7 @@ export default function TalkMessageInput({
             }
             
           </div>
-          <div className="flex gap-2">
+          <div className="flex w-8 gap-2">
             {
             recording ?
             <button type="button" onClick={stopVoiceRecord}>
