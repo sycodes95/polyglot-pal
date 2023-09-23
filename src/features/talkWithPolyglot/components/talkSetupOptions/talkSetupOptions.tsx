@@ -96,7 +96,7 @@ export default function TalkSetupOptions ({
               variant="outline"
               role="combobox"
               aria-expanded={open}
-              className="justify-between w-full h-8 text-sm"
+              className="justify-between w-full h-8 overflow-hidden text-sm whitespace-nowrap text-ellipsis"
             >
               {(selectedLanguageData && selectedLanguageData.voiceName) 
               ? `${selectedLanguageData.languageName} ${selectedLanguageData.countryCode} ${selectedLanguageData.voiceName} ${selectedLanguageData.ssmlGender}` 
@@ -106,10 +106,10 @@ export default function TalkSetupOptions ({
             </Button>
           </PopoverTrigger>
           <PopoverContent className="z-50 w-full p-0 border border-stone-300 ">
-            <Command className="w-full overflow-y-scroll max-w-max">
+            <Command className="w-full max-w-max">
               <CommandInput placeholder="Search language voice." />
               <CommandEmpty>No language found.</CommandEmpty>
-              <CommandGroup className="w-full overflow-y-scroll h-96">
+              <CommandGroup className="overflow-auto w-80 h-96">
                 <CommandItem 
                 className="cursor-pointer"
                 onSelect={() => {
@@ -128,7 +128,7 @@ export default function TalkSetupOptions ({
                 
                 {languageOptions.map((lang : LanguageOption, index: number) => (
                   <CommandItem
-                    className="flex items-center w-full gap-2 hover:cursor-pointer"
+                    className="flex items-start w-full gap-2 hover:cursor-pointer"
                     key={index}
                     onSelect={(currentValue) => {
                       console.log(currentValue);
@@ -146,7 +146,7 @@ export default function TalkSetupOptions ({
                         selectedLanguageData?.voiceName === lang.voiceName ? "opacity-100" : "opacity-0"
                       )}
                     />
-                    <CountryFlag className="object-contain w-4 h-4 rounded-lg" countryCode={lang.countryCode}/>
+                    <CountryFlag className="object-contain w-4 h-4 mt-0.5 rounded-lg" countryCode={lang.countryCode}/>
                     {lang.languageName} ({lang.countryCode}) {lang.voiceName} ({lang.ssmlGender})
                   </CommandItem>
                 ))}
@@ -162,63 +162,69 @@ export default function TalkSetupOptions ({
         }
       </div>
       
-      <TalkOptionSetupContainer
-      className="!h-8"
+      <div
+      className="flex items-center justify-between w-full h-8 gap-4"
       >
-        <div className="relative flex items-center h-full ">
-          <label className="flex items-center w-24 rounded-lg text-stone-600 whitespace-nowrap "> CEFR Level</label>
-          <button className="absolute right-0 -translate-y-1/2 top-1/2 group" onClick={()=> setCefrToolTipIsOpen(true)}>
-            <Icon className="" path={mdiHelpCircleOutline} size={0.7} />
-          </button>
+        <div className="flex items-center">
+          <Popover>
+            <PopoverTrigger className="flex items-center gap-2 p-2 transition-all border rounded-lg whitespace-nowrap hover:text-stone-600">
+              <span>CEFR Level</span>
+            </PopoverTrigger>
+            
+            <PopoverContent className="grid w-full grid-cols-3 gap-2">
+              {
+              Object.keys(cefrLevels).map((level) => (
+                <button className={`flex items-center border text-black ${level === cefrLevel ? 'bg-black text-white ' : 'border-stone-300 text-stone-400'} hover:bg-stone-700 justify-center w-12 h-12 text-sm rounded-full transition-all`} onClick={()=> {
+                  if(palVoiceElement && palVoiceElement.current){
+                  palVoiceElement.current.remove()
+                  }
+                  setCefrLevel(level)
+                  setMessages([])   
+                }}>{level}</button>
+              ))
+              }
+
+            </PopoverContent>
+            <button className="" onClick={()=> setCefrToolTipIsOpen(true)}>
+              <Icon className="" path={mdiHelpCircleOutline} size={0.7} />
+            </button>
+          </Popover>
+
+          <Popover>
+            <PopoverTrigger className="flex items-center gap-2 p-2 transition-all border rounded-lg whitespace-nowrap hover:text-stone-600">
+              <span>AI TTS</span>
+            </PopoverTrigger>
+            
+            <PopoverContent className="w-full">
+              <Switch className="" checked={ttsEnabled} onChange={()=> setTtsEnabled(!ttsEnabled)} />
+            </PopoverContent>
+          </Popover>
+
+          
+          
+          
+        </div>
+
+        <div className="relative h-full group">
+          
+          <Button disabled={selectedLanguageData ? false : true} className={`
+          ${selectedLanguageData ? 'bg-primary' : 'bg-stone-400 hover:!pointer-events-none z-10'} 
+          relative w-30 text-secondary group h-full `} 
+
+          color={'default'} 
+          variant={'default'} 
+          size={'default'} 
+          onClick={handleConvoSave}>
+            <span>Save</span>
+            
+          </Button>
+          <span className={` ${!selectedLanguageData ? 'group-hover:flex' : 'group-hover:hidden' }
+            hidden absolute left-0 border border-red-500 rounded-lg top-full `}>Select a language</span>
         </div>
         
-        <div className="grid items-center w-full h-full grid-cols-3 gap-2 md:grid-cols-6">
-          {
-          Object.keys(cefrLevels).map((level) => (
-            <button className={`flex items-center border text-black ${level === cefrLevel ? 'border-black text-black ' : 'border-stone-300 text-stone-400'} hover:border-stone-500 justify-center w-full h-full text-sm rounded-lg transition-all`} onClick={()=> {
-              if(palVoiceElement && palVoiceElement.current){
-              palVoiceElement.current.remove()
-              }
-              setCefrLevel(level)
-              setMessages([])   
-            }}>{level}</button>
-          ))
-          }
-        </div>
-      </TalkOptionSetupContainer>
-      
-      <div className="flex items-center gap-4">
-        <TalkOptionSetupContainer
-        className=""
-        >
-          <div className="flex items-center">
-            <label className="w-24 whitespace-nowrap text-stone-600">AI TTS</label>
-          </div>
-
-          <Switch className="" checked={ttsEnabled} onChange={()=> setTtsEnabled(!ttsEnabled)} />
-          
-        </TalkOptionSetupContainer>
-        <TalkOptionSetupContainer
-        className="flex justify-end ">
-          <div className="relative h-full group">
-          
-            <Button disabled={selectedLanguageData ? false : true} className={`
-            ${selectedLanguageData ? 'bg-primary' : 'bg-stone-400 hover:!pointer-events-none z-10'} 
-            relative w-30 text-secondary group h-full `} 
-
-            color={'default'} 
-            variant={'default'} 
-            size={'default'} 
-            onClick={handleConvoSave}>
-              <span>Save Conversation</span>
-              
-            </Button>
-            <span className={` ${!selectedLanguageData ? 'group-hover:flex' : 'group-hover:hidden' }
-              hidden absolute left-0 border border-red-500 rounded-lg top-full `}>Select a language</span>
-          </div>
-        </TalkOptionSetupContainer>
-
       </div>
+      
+      
 
       {
       cefrToolTipIsOpen &&
@@ -226,7 +232,7 @@ export default function TalkSetupOptions ({
       }
       
 
-      <dialog className="fixed p-4 -translate-x-1/2 -translate-y-1/2 border top-1/2 left-1/2 rounded-2xl border-stone-300" open={cefrToolTipIsOpen} ref={cefrTipDialogRef}>
+      <dialog className="fixed z-50 p-4 -translate-x-1/2 -translate-y-1/2 border top-1/2 left-1/2 rounded-2xl border-stone-300" open={cefrToolTipIsOpen} ref={cefrTipDialogRef}>
         <button  className="absolute rounded-full -top-2 -right-2" onClick={()=> setCefrToolTipIsOpen(false)}>
           <Icon className="w-full h-full rounded-full" path={mdiCloseCircleOutline} size={1} />
         </button>

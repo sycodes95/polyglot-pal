@@ -311,10 +311,10 @@ export default function TalkWithPolyGlot() {
       <Sidebar className="flex-col hidden md:flex" 
       resetState={resetState}/>
       
-      <div className="relative flex flex-col flex-grow w-full gap-4 p-2 ">
+      <div className="relative flex flex-col flex-grow w-full gap-4 ">
         <TalkSetupOptions
           
-          className="flex flex-col gap-2 pb-4 bg-white border-b shadow-md h-fit top-20 shadow-stone-300"
+          className="flex flex-col gap-2 p-2 bg-white border-b shadow-lg h-fit top-20 shadow-stone-300"
           c_id={c_id}
           selectedLanguageData={selectedLanguageData}
           setSelectedLanguageData={setSelectedLanguageData}

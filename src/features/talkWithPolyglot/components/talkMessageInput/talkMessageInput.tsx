@@ -102,7 +102,7 @@ export default function TalkMessageInput({
     <div className={`${className} flex w-full max-w-7xl mb-8`}>
       <form
       aria-disabled
-        className="flex w-full h-12 gap-2"
+        className="flex w-full h-12 gap-2 pl-2 pr-2"
         onSubmit={(e) => {
           e.preventDefault();
           handleMessageSend();
