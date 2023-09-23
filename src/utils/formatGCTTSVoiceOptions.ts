@@ -18,6 +18,8 @@ export const formatGCTTSVoiceOptions = (voiceList: any[]) => {
       });
     }
   })
+
+  
   
   return voices.filter((option: LanguageOption) => 
     option.languageCode.length < 3 )
