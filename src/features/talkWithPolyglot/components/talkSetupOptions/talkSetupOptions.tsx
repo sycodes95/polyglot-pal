@@ -13,6 +13,21 @@ import { api } from "../../../../../convex/_generated/api";
 import { Id } from "convex/dist/cjs-types/values/value";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import { Check, ChevronsUpDown } from "lucide-react"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "../../../../@/components/ui/command"
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../../../../@/components/ui/popover"
+import { cn } from "../../../../@/lib/utils";
 
 type TalkSetupOptionsProps = {
   c_id: Id<'conversation'>,
@@ -48,7 +63,10 @@ export default function TalkSetupOptions ({
   const mutateConversation = useMutation(api.mutation.mutateConversation.mutateConversation)
   const cefrTipDialogRef = useRef(null)
   const [cefrToolTipIsOpen, setCefrToolTipIsOpen] = useState(false)
-  
+  const [inputValue, setInputValue] = useState('')
+
+  const [open, setOpen] = useState(false)
+
   const handleConvoSave = () => {
     if(!user || !user.sub || !selectedLanguageData) return
     const args = {
@@ -70,33 +88,104 @@ export default function TalkSetupOptions ({
       <TalkOptionSetupContainer
       >
         {
-        
         languageOptions && languageOptions.length > 0 &&
-        <Autocomplete
-          disablePortal
-          value={(selectedLanguageData && selectedLanguageData.voiceName) ? selectedLanguageData.voiceName : ''}
-          onChange={(event: any, newValue: string | null) => {
-            if(newValue) {
-              const [one, two, selectedVoiceName] = newValue.split(' ')
-              const selectedLanguageData = languageOptions.find(opt => opt.voiceName === selectedVoiceName)
-              selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
-              setMessages([])
-            }
-          }}
-          inputValue={languageOptions[0].languageName + ' ' + languageOptions[0].countryCode + ' ' + languageOptions[0].voiceName + ' ' + languageOptions[0].ssmlGender}
-          onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-          }}
-          id="combo-box-demo"
-          options={languageOptions.map((opt : LanguageOption) => (
-            opt.languageName + ' ' + opt.countryCode + ' ' + opt.voiceName + ' ' + opt.ssmlGender
-          ))}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} 
-          label="Language And Voice" 
-          />}
+
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger className="w-full border rounded-lg border-stone-300" asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className="justify-between w-full"
+            >
+              {(selectedLanguageData && selectedLanguageData.voiceName) 
+              ? `${selectedLanguageData.languageName} ${selectedLanguageData.countryCode} ${selectedLanguageData.voiceName} ${selectedLanguageData.ssmlGender}` 
+              : 'Select a language'
+              }
+
+
+                
+              <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="z-50 w-full p-0 border border-stone-300 ">
+            <Command className="w-full overflow-y-scroll max-w-max">
+              <CommandInput placeholder="Search language voice." />
+              <CommandEmpty>No language found.</CommandEmpty>
+              <CommandGroup className="w-full overflow-y-scroll h-96">
+                <CommandItem 
+                className="cursor-pointer"
+                onSelect={() => {
+                  setSelectedLanguageData(null)
+                  setOpen(false)
+                }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      !selectedLanguageData ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  ...
+                </CommandItem>
+                
+                {languageOptions.map((lang : LanguageOption, index: number) => (
+                  <CommandItem
+                    className="flex items-center w-full gap-2 hover:cursor-pointer"
+                    key={index}
+                    onSelect={(currentValue) => {
+                      console.log(currentValue);
+                      const [ country, languageCode, voiceName, gender ] = currentValue.split(' ')
+                      const selectedLanguageData = languageOptions.find(opt => opt.voiceName.toLowerCase() === voiceName)
+                      console.log(selectedLanguageData);
+                      selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
+                      setMessages([])
+                      setOpen(false)
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        selectedLanguageData?.voiceName === lang.voiceName ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    <CountryFlag className="object-contain w-4 h-4 rounded-lg" countryCode={lang.countryCode}/>
+                    {lang.languageName} ({lang.countryCode}) {lang.voiceName} ({lang.ssmlGender})
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </Command>
+          </PopoverContent>
+        </Popover>
+
+        
+        // <Autocomplete
+        //   className=" !text-sm !w-full !h-full "
+        //   disablePortal
+        //   value={(selectedLanguageData && selectedLanguageData.voiceName) ? selectedLanguageData.voiceName : ''}
+        //   onChange={(event: any, newValue: string | null) => {
+        //     if(newValue) {
+        //       const [one, two, selectedVoiceName] = newValue.split(' ')
+        //       const selectedLanguageData = languageOptions.find(opt => opt.voiceName === selectedVoiceName)
+        //       selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
+        //       setMessages([])
+        //     }
+        //   }}
+        //   inputValue={inputValue}
+        //   onInputChange={(event, newInputValue) => {
+        //     console.log(newInputValue);
+        //     setInputValue(newInputValue);
+        //   }}
+        //   id="combo-box-demo"
+        //   options={languageOptions.map((opt : LanguageOption) => (
+        //     opt.languageName + ' ' + opt.countryCode + ' ' + opt.voiceName + ' ' + opt.ssmlGender
+        //   ))}
+        //   renderInput={(params) => <TextField {...params} 
+        //   sx={{ height: 20 }}
+        //   label="Language And Voice" 
+        //   />}
           
-        />
+        // />
         }
         {/* <label className="flex items-center w-40 border-stone-300 text-stone-600 whitespace-nowrap">Language & Voice</label> */}
         {/* <FormControl className="!m-0" sx={{ 
@@ -221,7 +310,7 @@ export default function TalkSetupOptions ({
       }
       
 
-      <dialog className="fixed z-50 p-4 -translate-x-1/2 -translate-y-1/2 border top-1/2 left-1/2 rounded-2xl border-stone-300" open={cefrToolTipIsOpen} ref={cefrTipDialogRef}>
+      <dialog className="fixed p-4 -translate-x-1/2 -translate-y-1/2 border top-1/2 left-1/2 rounded-2xl border-stone-300" open={cefrToolTipIsOpen} ref={cefrTipDialogRef}>
         <button  className="absolute rounded-full -top-2 -right-2" onClick={()=> setCefrToolTipIsOpen(false)}>
           <Icon className="w-full h-full rounded-full" path={mdiCloseCircleOutline} size={1} />
         </button>

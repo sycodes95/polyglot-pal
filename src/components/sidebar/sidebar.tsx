@@ -66,8 +66,8 @@ export default function Sidebar ({
   }
 
   return (
-    <div className={`relative ${className} p-2   w-80  rounded-2xl flex flex-col gap-8 overflow-y-scroll`}>
-      <div >
+    <div className={`relative ${className} p-2 w-80 flex-grow rounded-2xl flex flex-col gap-4`}>
+      <div className="sticky" >
         <Button className="w-full bg-primary text-secondary" color={'default'} variant={'default'} size={'default'} onClick={()=> {
           setCurrentConversationId(null)
           if(location.pathname === '/'){
@@ -77,7 +77,7 @@ export default function Sidebar ({
           }
         }}> +    New Conversation</Button>
       </div>
-      <div className="sticky ">
+      <div className="sticky pt-4">
       
         <FormControl className="!m-0" sx={{ 
         '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
@@ -107,11 +107,11 @@ export default function Sidebar ({
       </div>
       {
         getAllConversations && getAllConversations.length > 0 &&
-      <div className="flex flex-col w-full gap-2">
+      <div className="flex flex-col flex-grow w-full h-0 gap-2 mb-12 overflow-y-scroll rounded-lg scroll">
         {
         getAllConversations.map((c, index) => (
           <Link 
-          className={`${c._id === currentConversationId && 'bg-stone-300'} flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all border rounded-lg border-stone-300 hover:border-stone-400`} 
+          className={`${c._id === currentConversationId && 'bg-stone-300'}  flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all border rounded-lg shadow-lg shadow-stone-300 hover:bg-stone-300`} 
           key={index} to={`/c/${c._id}`} onClick={()=> setCurrentConversationId(c._id)}
           >
             <div className="flex items-center gap-2">
