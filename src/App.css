@@ -42,7 +42,7 @@
 
 /* Handle (the moving part) */
 ::-webkit-scrollbar-thumb {
-  background-color: #bebdbd;
+  background-color: #cdcbcb;
   border-radius: 10px;
 }
 

@@ -6,7 +6,7 @@ import Icon from '@mdi/react';
 import { mdiHelpCircleOutline, mdiCloseCircleOutline } from '@mdi/js';
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../../../../@/components/ui/button"
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material"
+import { FormControl, InputLabel, MenuItem, Select, Switch } from "@mui/material"
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
@@ -85,26 +85,23 @@ export default function TalkSetupOptions ({
   return (
     <div className={` ${className}`}>
 
-      <TalkOptionSetupContainer
+      <div
+      className="flex items-center gap-2"
       >
         {
         languageOptions && languageOptions.length > 0 &&
-
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger className="w-full border rounded-lg border-stone-300" asChild>
             <Button
               variant="outline"
               role="combobox"
               aria-expanded={open}
-              className="justify-between w-full"
+              className="justify-between w-full h-8 text-sm"
             >
               {(selectedLanguageData && selectedLanguageData.voiceName) 
               ? `${selectedLanguageData.languageName} ${selectedLanguageData.countryCode} ${selectedLanguageData.voiceName} ${selectedLanguageData.ssmlGender}` 
               : 'Select a language'
               }
-
-
-                
               <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </Button>
           </PopoverTrigger>
@@ -157,94 +154,16 @@ export default function TalkSetupOptions ({
             </Command>
           </PopoverContent>
         </Popover>
-
-        
-        // <Autocomplete
-        //   className=" !text-sm !w-full !h-full "
-        //   disablePortal
-        //   value={(selectedLanguageData && selectedLanguageData.voiceName) ? selectedLanguageData.voiceName : ''}
-        //   onChange={(event: any, newValue: string | null) => {
-        //     if(newValue) {
-        //       const [one, two, selectedVoiceName] = newValue.split(' ')
-        //       const selectedLanguageData = languageOptions.find(opt => opt.voiceName === selectedVoiceName)
-        //       selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
-        //       setMessages([])
-        //     }
-        //   }}
-        //   inputValue={inputValue}
-        //   onInputChange={(event, newInputValue) => {
-        //     console.log(newInputValue);
-        //     setInputValue(newInputValue);
-        //   }}
-        //   id="combo-box-demo"
-        //   options={languageOptions.map((opt : LanguageOption) => (
-        //     opt.languageName + ' ' + opt.countryCode + ' ' + opt.voiceName + ' ' + opt.ssmlGender
-        //   ))}
-        //   renderInput={(params) => <TextField {...params} 
-        //   sx={{ height: 20 }}
-        //   label="Language And Voice" 
-        //   />}
-          
-        // />
         }
-        {/* <label className="flex items-center w-40 border-stone-300 text-stone-600 whitespace-nowrap">Language & Voice</label> */}
-        {/* <FormControl className="!m-0" sx={{ 
-        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'gray',}}}
-        fullWidth>
-      
-          <InputLabel className="!flex !items-center !-top-3 !text-sm !text-stone-500" sx={{ 
-          '&.MuiInputLabel-shrink': {
-          transform: 'translate(10px, -12px) scale(0.8)',  
-          }}} id="user-native-language"> Language & Voice</InputLabel>
-          
-          <Select className="!rounded-lg !h-8 !outline-none"
-            value={(selectedLanguageData && selectedLanguageData.voiceName) ?  selectedLanguageData.voiceName : ''}
-            onChange={(e)=> {
-              const selectedVoiceName = e.target.value
-              const selectedLanguageData = languageOptions.find(opt => opt.voiceName === selectedVoiceName)
-              selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
-              setMessages([])
-            }}
-            sx={{ 
-              color: 'gray', 
-              '& legend': { display: 'none'},
-            }}
-          >
-            {
-            languageOptions.map((opt : LanguageOption, index) => (
-              <MenuItem className="!text-sm" value={opt.voiceName} key={index}>
-              {opt.languageName} ({opt.countryCode}) {opt.voiceName} ({opt.ssmlGender})
-              </MenuItem>
-            ))
-            }
-          </Select>
-        </FormControl> */}
-        {/* <select className="w-full h-full p-1 border rounded-lg outline-none border-stone-300 text-stone-600" 
-        value={(selectedLanguageData && selectedLanguageData.voiceName) ?  selectedLanguageData.voiceName : ''}
-        placeholder="Select a language." 
-        onChange={(e)=> {
-          const selectedVoiceName = e.target.value
-          const selectedLanguageData = languageOptions.find(opt => opt.voiceName === selectedVoiceName)
-          selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
-          setMessages([])
-        }}>
-          <option  value="">...</option>
-          {
-          languageOptions.map((opt : LanguageOption , index) => (
-          <option className="text-sm md:text-sm" value={opt.voiceName} key={index}>
-            {opt.languageName} ({opt.countryCode}) {opt.voiceName} ({opt.ssmlGender})
-          </option>
-          ))
-          }
-        </select> */}
+        
         {
         selectedLanguageData &&
         <CountryFlag className="object-contain w-8 h-8 mr-2 rounded-2xl" countryCode={selectedLanguageData?.countryCode}/>
         }
-      </TalkOptionSetupContainer>
+      </div>
       
       <TalkOptionSetupContainer
+      className="!h-8"
       >
         <div className="relative flex items-center h-full ">
           <label className="flex items-center w-24 rounded-lg text-stone-600 whitespace-nowrap "> CEFR Level</label>
@@ -273,14 +192,11 @@ export default function TalkSetupOptions ({
         className=""
         >
           <div className="flex items-center">
-            <label className="w-24 whitespace-nowrap text-stone-600"> Enable TTS</label>
+            <label className="w-24 whitespace-nowrap text-stone-600">AI TTS</label>
           </div>
-          <div className="grid items-center w-full h-full grid-cols-2 gap-2 text-sm">
-            <button className={`border w-full h-full rounded-lg flex items-center justify-center  ${ttsEnabled ? 'border-emerald-400 text-emerald-500' : 'border-stone-300 text-stone-400'}`}
-            onClick={()=> setTtsEnabled(true)}>Enabled</button>
-            <button className={`w-full h-full border rounded-lg  flex items-center justify-center ${!ttsEnabled ? 'border-emerald-400 text-emerald-500' : 'border-stone-300 text-stone-400'}`} 
-            onClick={()=> setTtsEnabled(false)}>Disabled</button>
-          </div>
+
+          <Switch className="" checked={ttsEnabled} onChange={()=> setTtsEnabled(!ttsEnabled)} />
+          
         </TalkOptionSetupContainer>
         <TalkOptionSetupContainer
         className="flex justify-end ">
@@ -294,7 +210,7 @@ export default function TalkSetupOptions ({
             variant={'default'} 
             size={'default'} 
             onClick={handleConvoSave}>
-              <span>Save Conversation / Settings</span>
+              <span>Save Conversation</span>
               
             </Button>
             <span className={` ${!selectedLanguageData ? 'group-hover:flex' : 'group-hover:hidden' }

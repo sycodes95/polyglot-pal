@@ -306,7 +306,7 @@ export default function TalkWithPolyGlot() {
 
   return (
 
-    <div className="flex w-full pt-4 max-w-7xl ">
+    <div className="flex w-full max-w-7xl ">
       
       <Sidebar className="flex-col hidden md:flex" 
       resetState={resetState}/>
