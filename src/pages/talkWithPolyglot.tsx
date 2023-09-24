@@ -58,7 +58,7 @@ export default function TalkWithPolyGlot() {
   
   const getConversation = useQuery(api.query.getConversation.getConversation, getConvoArgs)
  
-  const mutateConversation = useMutation(api.mutation.mutateConversation.mutateConversation)
+  // const mutateConversation = useMutation(api.mutation.mutateConversation.mutateConversation)
 
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[] | []>([]);
@@ -89,29 +89,28 @@ export default function TalkWithPolyGlot() {
   },[c_id])
   
   useEffect(()=> {
-    // if(getConversation) {
-    //   const convo = getConversation[0]
-
-    //   if(convo) {
-    //     setMessages(convo.messages)
-    //     setSelectedLanguageData(convo.selectedLanguageData)
-    //     setCefrLevel(convo.cefrLevel)
-    //     setTtsEnabled(convo.ttsEnabled)
-    //   } else {
-    //     navigate('/')
-    //     resetState()
-    //   }
-      
-    // }
-
     if(getConversation) {
       const convo = getConversation[0]
 
-      setMessages(convo.messages)
-      setSelectedLanguageData(convo.selectedLanguageData)
-      setCefrLevel(convo.cefrLevel)
-      setTtsEnabled(convo.ttsEnabled)
+      if(convo) {
+        setMessages(convo.messages)
+        setSelectedLanguageData(convo.selectedLanguageData)
+        setCefrLevel(convo.cefrLevel)
+        setTtsEnabled(convo.ttsEnabled)
+      } else {
+        resetState()
+      }
+      
     }
+
+    // if(getConversation) {
+    //   const convo = getConversation[0]
+
+    //   setMessages(convo.messages)
+    //   setSelectedLanguageData(convo.selectedLanguageData)
+    //   setCefrLevel(convo.cefrLevel)
+    //   setTtsEnabled(convo.ttsEnabled)
+    // }
   },[getConversation])
   
   useEffect(()=> {
