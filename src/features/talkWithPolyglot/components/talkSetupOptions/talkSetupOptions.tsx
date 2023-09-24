@@ -94,12 +94,12 @@ export default function TalkSetupOptions ({
         {
         languageOptions && languageOptions.length > 0 &&
         <Popover open={languageOptionsIsOpen} onOpenChange={setLanguageOptionsIsOpen}>
-          <PopoverTrigger className="w-full border rounded-lg border-stone-300" asChild>
+          <PopoverTrigger className="w-full border rounded-lg border-accent text-secondary bg-primary !hover:bg-black " asChild>
             <Button
               variant="outline"
               role="combobox"
               aria-expanded={languageOptionsIsOpen}
-              className="justify-between w-full h-8 overflow-hidden text-sm whitespace-nowrap text-ellipsis"
+              className="justify-between w-full h-8 overflow-hidden text-sm text-accent whitespace-nowrap text-ellipsis "
             >
               {(selectedLanguageData && selectedLanguageData.voiceName) 
               ? `${selectedLanguageData.languageName} ${selectedLanguageData.countryCode} ${selectedLanguageData.voiceName} ${selectedLanguageData.ssmlGender}` 
@@ -108,11 +108,11 @@ export default function TalkSetupOptions ({
               <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="z-50 w-full p-0 border border-stone-300 ">
-            <Command className="w-full max-w-max">
+          <PopoverContent className="z-50 w-full p-0 border border-primary !bg-black">
+            <Command className="w-full max-w-max bg-primary border-accent">
               <CommandInput placeholder="Search language voice." />
               <CommandEmpty>No language found.</CommandEmpty>
-              <CommandGroup className="overflow-auto w-80 h-96">
+              <CommandGroup className="overflow-auto w-80 h-96 ">
                 <CommandItem 
                 className="cursor-pointer"
                 onSelect={() => {
