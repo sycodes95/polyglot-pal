@@ -25,6 +25,7 @@ import {
   PopoverTrigger,
 } from "../../../../@/components/ui/popover"
 import { cn } from "../../../../@/lib/utils";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type TalkSetupOptionsProps = {
   c_id: Id<'conversation'>,
@@ -60,11 +61,10 @@ export default function TalkSetupOptions ({
   const mutateConversation = useMutation(api.mutation.mutateConversation.mutateConversation)
   const cefrTipDialogRef = useRef(null)
   const [cefrToolTipIsOpen, setCefrToolTipIsOpen] = useState(false)
-  const [inputValue, setInputValue] = useState('')
-
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false)
 
-  const handleConvoSave = () => {
+  const handleConvoSave = async () => {
     if(!user || !user.sub || !selectedLanguageData) return
     const args = {
       messages,
@@ -76,7 +76,9 @@ export default function TalkSetupOptions ({
     if(c_id) {
       args.id = c_id
     }
-    mutateConversation(args)
+    const convoId = await mutateConversation(args);
+    if(convoId) navigate(`/c/${convoId}`)
+    
   }
   
   return (
