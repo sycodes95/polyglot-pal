@@ -134,7 +134,8 @@ export default function TalkSetupOptions ({
                     className="flex items-start w-full gap-2 hover:cursor-pointer"
                     key={index}
                     onSelect={(currentValue) => {
-                      const [ country, languageCode, voiceName, gender ] = currentValue.split(' ')
+                      const values = currentValue.split(' ')
+                      const voiceName = values[2]
                       const selectedLanguageData = languageOptions.find(opt => opt.voiceName.toLowerCase() === voiceName)
                       selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
                       setMessages([])
