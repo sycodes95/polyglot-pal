@@ -8,7 +8,6 @@ export const getTTSVoices = action({
     .then(res => res.json())
     .then(data => {
       if(data && data.voices.length > 0) {
-        console.log(data.voices);
         return data.voices
       }
       return []

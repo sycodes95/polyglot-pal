@@ -3,7 +3,6 @@ import ISO6391 from "iso-639-1";
 
 
 export const formatGCTTSVoiceOptions = (voiceList: any[]) => {
-  console.log(voiceList.length);
   const voices : LanguageOption[] = []
 
   voiceList.forEach((voiceData: VoiceData) => {

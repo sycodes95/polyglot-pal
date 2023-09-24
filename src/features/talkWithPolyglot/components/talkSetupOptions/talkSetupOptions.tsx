@@ -62,7 +62,8 @@ export default function TalkSetupOptions ({
   const cefrTipDialogRef = useRef(null)
   const [cefrToolTipIsOpen, setCefrToolTipIsOpen] = useState(false)
   const navigate = useNavigate()
-  const [open, setOpen] = useState(false)
+  const location = useLocation()
+  const [languageOptionsIsOpen, setLanguageOptionsIsOpen] = useState(false)
 
   const handleConvoSave = async () => {
     if(!user || !user.sub || !selectedLanguageData) return
@@ -77,7 +78,10 @@ export default function TalkSetupOptions ({
       args.id = c_id
     }
     const convoId = await mutateConversation(args);
-    if(convoId) navigate(`/c/${convoId}`)
+    const updatedURL = `/c/${convoId}`
+    if((location.state !== updatedURL) && convoId){
+      navigate(`/c/${convoId}`)
+    }
     
   }
   
@@ -89,12 +93,12 @@ export default function TalkSetupOptions ({
       >
         {
         languageOptions && languageOptions.length > 0 &&
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover open={languageOptionsIsOpen} onOpenChange={setLanguageOptionsIsOpen}>
           <PopoverTrigger className="w-full border rounded-lg border-stone-300" asChild>
             <Button
               variant="outline"
               role="combobox"
-              aria-expanded={open}
+              aria-expanded={languageOptionsIsOpen}
               className="justify-between w-full h-8 overflow-hidden text-sm whitespace-nowrap text-ellipsis"
             >
               {(selectedLanguageData && selectedLanguageData.voiceName) 
@@ -113,7 +117,7 @@ export default function TalkSetupOptions ({
                 className="cursor-pointer"
                 onSelect={() => {
                   setSelectedLanguageData(null)
-                  setOpen(false)
+                  setLanguageOptionsIsOpen(false)
                 }}
                 >
                   <Check
@@ -130,13 +134,11 @@ export default function TalkSetupOptions ({
                     className="flex items-start w-full gap-2 hover:cursor-pointer"
                     key={index}
                     onSelect={(currentValue) => {
-                      console.log(currentValue);
                       const [ country, languageCode, voiceName, gender ] = currentValue.split(' ')
                       const selectedLanguageData = languageOptions.find(opt => opt.voiceName.toLowerCase() === voiceName)
-                      console.log(selectedLanguageData);
                       selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
                       setMessages([])
-                      setOpen(false)
+                      setLanguageOptionsIsOpen(false)
                     }}
                   >
                     <Check
@@ -179,7 +181,8 @@ export default function TalkSetupOptions ({
                   }
                   setCefrLevel(level)
                   setMessages([])   
-                }}>{level}</button>
+                }}
+                key={level}>{level}</button>
               ))
               }
 
