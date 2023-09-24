@@ -318,8 +318,7 @@ export default function TalkWithPolyGlot() {
       
       <div className="relative flex flex-col flex-grow w-full gap-4 ">
         <TalkSetupOptions
-          
-          className="flex flex-col gap-2 p-2 bg-white border-b-2 h-fit top-20 shadow-stone-300"
+          className="flex flex-col gap-2 p-2 bg-primary h-fit top-20 "
           c_id={c_id}
           selectedLanguageData={selectedLanguageData}
           setSelectedLanguageData={setSelectedLanguageData}

@@ -97,7 +97,7 @@ export default function Sidebar ({
   return (
     <div className={`relative ${className} p-2 w-80 flex-grow rounded-2xl flex flex-col gap-4`}>
       <div className="sticky" >
-        <Button className="w-full bg-primary text-secondary" color={'default'} variant={'default'} size={'default'} onClick={()=> {
+        <Button className="w-full text-accent bg-secondary"  variant={'default'} size={'default'} onClick={()=> {
           setCurrentConversationId(null)
           if(location.pathname === '/'){
             resetState()
@@ -136,11 +136,11 @@ export default function Sidebar ({
       </div>
       {
       getAllConversations && getAllConversations.length > 0 ?
-      <div className="flex flex-col flex-grow w-full h-0 gap-2 mb-12 overflow-y-scroll rounded-lg scroll">
+      <div className="flex flex-col flex-grow w-full h-0 gap-2 mb-12 overflow-y-scroll rounded-lg scroll text-secondary">
         {
         getAllConversations.map((c, index) => (
           <Link 
-          className={`${c._id === currentConversationId && 'bg-stone-300 bg-opacity-80'} relative flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all  rounded-lg  border-stone-300 hover:bg-stone-300  `} 
+          className={`${c._id === currentConversationId && 'bg-stone-300 bg-opacity-80'} relative flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all  rounded-lg  hover:bg-stone-300 border border-accent`} 
           key={index} to={`/c/${c._id}`} 
           >
             <div className="flex items-center gap-2">
