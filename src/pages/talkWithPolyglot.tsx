@@ -54,10 +54,10 @@ export default function TalkWithPolyGlot() {
     sub: (user && user.sub) ? user.sub : ''
   }
   if(c_id) getConvoArgs.id = c_id
+
   
   const getConversation = useQuery(api.query.getConversation.getConversation, getConvoArgs)
  
-
   const mutateConversation = useMutation(api.mutation.mutateConversation.mutateConversation)
 
   const [input, setInput] = useState("");
@@ -91,11 +91,27 @@ export default function TalkWithPolyGlot() {
   useEffect(()=> {
     if(getConversation) {
       const convo = getConversation[0]
-      setMessages(convo.messages)
-      setSelectedLanguageData(convo.selectedLanguageData)
-      setCefrLevel(convo.cefrLevel)
-      setTtsEnabled(convo.ttsEnabled)
+
+      if(convo) {
+        setMessages(convo.messages)
+        setSelectedLanguageData(convo.selectedLanguageData)
+        setCefrLevel(convo.cefrLevel)
+        setTtsEnabled(convo.ttsEnabled)
+      } else {
+        navigate('/')
+        resetState()
+      }
+      
     }
+
+    // if(getConversation) {
+    //   const convo = getConversation[0]
+
+    //   setMessages(convo.messages)
+    //   setSelectedLanguageData(convo.selectedLanguageData)
+    //   setCefrLevel(convo.cefrLevel)
+    //   setTtsEnabled(convo.ttsEnabled)
+    // }
   },[getConversation])
   
   useEffect(()=> {
@@ -308,7 +324,7 @@ export default function TalkWithPolyGlot() {
       <div className="relative flex flex-col flex-grow w-full gap-4 ">
         <TalkSetupOptions
           
-          className="flex flex-col gap-2 p-2 bg-white border-b shadow-lg h-fit top-20 shadow-stone-300"
+          className="flex flex-col gap-2 p-2 bg-white border-b-2 h-fit top-20 shadow-stone-300"
           c_id={c_id}
           selectedLanguageData={selectedLanguageData}
           setSelectedLanguageData={setSelectedLanguageData}

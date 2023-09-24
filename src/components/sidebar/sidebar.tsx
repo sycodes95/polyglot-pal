@@ -9,6 +9,21 @@ import CountryFlag from "../countryFlag/countryFlag";
 import { format } from "date-fns";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../../@/components/ui/button"
+import { FaTrash } from 'react-icons/fa';
+
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "../../@/components/ui/command"
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../../@/components/ui/popover"
 
 type SidebarProps = {
   className?: string,
@@ -28,9 +43,11 @@ export default function Sidebar ({
 
   const getAllConversations = useQuery(api.query.getAllConversations.getAllConversations, { sub: (user && user.sub) ? user.sub : ''})
 
+  const nativeLanguage = useQuery(api.query.getNativeLanguage.getNativeLanguage, { sub: user && user.sub ? user.sub : '' })
+
   const mutateNativeLanguage = useMutation(api.mutation.mutateNativeLanguage.mutateNativeLanguage)
 
-  const nativeLanguage = useQuery(api.query.getNativeLanguage.getNativeLanguage, { sub: user && user.sub ? user.sub : '' })
+  const deleteConversation = useMutation(api.mutation.deleteConversation.deleteConversation)
 
   const nativeLanguageExists = nativeLanguage && nativeLanguage[0] && nativeLanguage[0]._id
 
@@ -40,6 +57,8 @@ export default function Sidebar ({
   })
 
   const [currentConversationId, setCurrentConversationId] = useState<Id<'conversation'> | null>(null)
+
+  const [deleteConvoPopoverIsOpen, setDeleteConvoPopoverIsOpen] = useState(false)
 
   const handleUserNativeLanguage = (languageName: string) => {
     const languageCode = languageNameAndCodes.find(langObj => langObj.languageName === languageName)?.languageCode
@@ -111,7 +130,7 @@ export default function Sidebar ({
         {
         getAllConversations.map((c, index) => (
           <Link 
-          className={`${c._id === currentConversationId && 'bg-stone-300'}  flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all  rounded-lg  border-stone-300 hover:bg-stone-300 `} 
+          className={`${c._id === currentConversationId && 'bg-stone-300 bg-opacity-80'} relative flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all  rounded-lg  border-stone-300 hover:bg-stone-300  `} 
           key={index} to={`/c/${c._id}`} onClick={()=> setCurrentConversationId(c._id)}
           >
             <div className="flex items-center gap-2">
@@ -120,6 +139,32 @@ export default function Sidebar ({
             </div>
             <span className="text-xs font-light">{c.selectedLanguageData.voiceName} {c.selectedLanguageData.ssmlGender}</span>
             <span className="text-xs font-light">{format(new Date(c._creationTime), 'yyyy-MM-dd HH:mm:ss')}</span>
+            {
+            currentConversationId === c._id &&
+            <div className="absolute top-0 right-0">
+              <Popover open={deleteConvoPopoverIsOpen}>
+                <PopoverTrigger className="flex items-center gap-2 pr-2 transition-all rounded-lg hover:text-white whitespace-nowrap " onClick={()=> setDeleteConvoPopoverIsOpen(true)}>
+                  <span className="text-lg">x</span>
+                </PopoverTrigger>
+                
+                <PopoverContent className="flex flex-col gap-2" >
+                  <span className="text-sm">Are you sure you want to delete this conversation?</span>
+                  <div className="flex items-center justify-end gap-2">
+                    <Button className="hover:text-stone-500" variant={'ghost'} onClick={()=> setDeleteConvoPopoverIsOpen(false)}>
+                       Cancel 
+                    </Button>
+                    <Button variant={'destructive'} onClick={ ()=> {
+                      navigate('/')
+                      deleteConversation({id : c._id, sub: c.sub})
+                      setDeleteConvoPopoverIsOpen(false)
+                    }}> Delete </Button>
+                  </div>
+                </PopoverContent>
+                
+              </Popover>
+            </div>
+            
+            }
           </Link>
         ))
         }
