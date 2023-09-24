@@ -1,18 +1,15 @@
 import CountryFlag from "../../../../components/countryFlag/countryFlag"
-import TalkOptionSetupContainer from "../../../../components/talkSetupOptionContainer/talkSetupOptionContainer"
 import { cefrLevels } from "../../../../constants/cefrLevels"
 import { LanguageOption, Message } from "../../types"
 import Icon from '@mdi/react';
 import { mdiHelpCircleOutline, mdiCloseCircleOutline } from '@mdi/js';
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../../../../@/components/ui/button"
-import { FormControl, InputLabel, MenuItem, Select, Switch } from "@mui/material"
+import { Switch } from "@mui/material"
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { Id } from "convex/dist/cjs-types/values/value";
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
 import { Check, ChevronsUpDown } from "lucide-react"
 import {
   Command,
@@ -199,10 +196,6 @@ export default function TalkSetupOptions ({
               <Switch className="" checked={ttsEnabled} onChange={()=> setTtsEnabled(!ttsEnabled)} />
             </PopoverContent>
           </Popover>
-
-          
-          
-          
         </div>
 
         <div className="relative h-full group">

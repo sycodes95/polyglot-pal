@@ -102,6 +102,12 @@ export default function TalkWithPolyGlot() {
     if(!isLoading && !isAuthenticated) navigate('/log-in')
   },[isAuthenticated, isLoading])
 
+  useEffect(()=> {
+    if(palVoiceElement && palVoiceElement.current){
+      ttsEnabled ? !palVoiceElement.current.ended && palVoiceElement.current.play() : palVoiceElement.current.pause()
+    } 
+  },[ttsEnabled])
+
 
   useEffect(() => {
     //creates a list from GC for language & voice select options and sets state for language options.
@@ -171,11 +177,9 @@ export default function TalkWithPolyGlot() {
 
     async function getTTSFromPalMessage () {
       
-      // if(palVoiceElement && palVoiceElement.current) {
-      //   palVoiceElement.current.pause()
-      //   palVoiceElement.current.remove()
-      //   palVoiceElement.current.src = ''
-      // }
+      if(palVoiceElement && palVoiceElement.current) {
+        palVoiceElement.current.src = ''
+      }
       const lastMsg = messages[messages.length - 1]
 
       //check if messages exist, if last message was from pal (gpt), and user has TTS enabled
@@ -215,15 +219,6 @@ export default function TalkWithPolyGlot() {
 
     }
     getTTSFromPalMessage()
-
-    // return () => {
-    //   if (palVoiceElement) {
-    //     palVoiceElement.pause();
-    //     // Release the resources held by the audio element
-    //     palVoiceElement.src = '';
-    //     setPalVoiceAudioElement(null);
-    //   }
-    // };
     
   }, [messages]);
 
@@ -302,7 +297,6 @@ export default function TalkWithPolyGlot() {
       palVoiceElement.current = null
     }
   }
-
 
   return (
 
