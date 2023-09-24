@@ -25,6 +25,7 @@ export const mutateConversation = mutation({
     if(conversationExists && id) {
       await ctx.db.replace(id, { sub, messages, selectedLanguageData, cefrLevel, ttsEnabled });
       const data = await ctx.db.get(id);
+      console.log(data);
       return data?._id
     }
     return await  ctx.db.insert("conversation", {  sub, messages, selectedLanguageData, cefrLevel, ttsEnabled })
