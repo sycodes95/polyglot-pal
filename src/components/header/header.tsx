@@ -2,18 +2,23 @@ import Icon from "@mdi/react";
 import { mdiEarth } from "@mdi/js";
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Squash as Hamburger} from 'hamburger-react'
 
 export default function Header() {
   const { user } = useAuth0();
   const { logout } = useAuth0();
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(false)
+  const [menuIsOpen, setMenuIsOpen] = useState(false)
 
   return (
     <div className="sticky top-0 z-10 flex items-center justify-center w-full h-20 bg-white">
-      <div className="flex justify-between w-full p-4 max-w-7xl">
+      <div className="flex justify-between w-full p-2 max-w-7xl">
+        <div className="md:hidden text-stone-700">
+          <Hamburger toggled={menuIsOpen} toggle={()=> setMenuIsOpen(!menuIsOpen)} />
+        </div>
         <div className="flex items-center gap-2">
-          <Icon className="text-stone-700" path={mdiEarth} size={1.5} />
-          <span className="text-3xl font-logo text-stone-700">
+          <Icon className="text-stone-700" path={mdiEarth} size={1} />
+          <span className="text-lg md:text-3xl font-logo text-stone-700 whitespace-nowrap">
             Polyglot Pal
           </span>
         </div>

@@ -311,9 +311,9 @@ export default function TalkWithPolyGlot() {
 
   return (
 
-    <div className="flex w-full max-w-7xl ">
+    <div className="relative flex w-full max-w-7xl ">
       
-      <Sidebar className="flex-col hidden md:flex" 
+      <Sidebar className="absolute flex-col hidden md:flex" 
       resetState={resetState}/>
       
       <div className="relative flex flex-col flex-grow w-full gap-4 ">

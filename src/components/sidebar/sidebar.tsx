@@ -9,7 +9,8 @@ import CountryFlag from "../countryFlag/countryFlag";
 import { format } from "date-fns";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button } from "../../@/components/ui/button"
-import { FaTrash } from 'react-icons/fa';
+import Icon from '@mdi/react';
+import { mdiMessage } from '@mdi/js';
 
 import {
   Command,
@@ -134,7 +135,7 @@ export default function Sidebar ({
         </FormControl>
       </div>
       {
-        getAllConversations && getAllConversations.length > 0 &&
+      getAllConversations && getAllConversations.length > 0 ?
       <div className="flex flex-col flex-grow w-full h-0 gap-2 mb-12 overflow-y-scroll rounded-lg scroll">
         {
         getAllConversations.map((c, index) => (
@@ -156,7 +157,7 @@ export default function Sidebar ({
                   <span className="text-lg">x</span>
                 </PopoverTrigger>
                 
-                <PopoverContent className="flex flex-col gap-2" >
+                <PopoverContent className="flex flex-col gap-2"  onInteractOutside={()=> setDeleteConvoPopoverIsOpen(false)}>
                   <span className="text-sm">Are you sure you want to delete this conversation?</span>
                   <div className="flex items-center justify-end gap-2">
                     <Button className="hover:text-stone-500" variant={'ghost'} onClick={()=> setDeleteConvoPopoverIsOpen(false)}>
@@ -177,6 +178,13 @@ export default function Sidebar ({
           </Link>
         ))
         }
+      </div>
+      :
+      <div className="flex items-center justify-center w-full h-full mb-12 rounded-lg text-stone-400">
+        <div className="flex items-center gap-2">
+          <Icon className="text-stone-300" path={mdiMessage} size={1} />
+          <span>No Conversations...</span>
+        </div>
       </div>
       }
     </div>
