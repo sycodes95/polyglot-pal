@@ -89,29 +89,29 @@ export default function TalkWithPolyGlot() {
   },[c_id])
   
   useEffect(()=> {
-    if(getConversation) {
-      const convo = getConversation[0]
-
-      if(convo) {
-        setMessages(convo.messages)
-        setSelectedLanguageData(convo.selectedLanguageData)
-        setCefrLevel(convo.cefrLevel)
-        setTtsEnabled(convo.ttsEnabled)
-      } else {
-        navigate('/')
-        resetState()
-      }
-      
-    }
-
     // if(getConversation) {
     //   const convo = getConversation[0]
 
-    //   setMessages(convo.messages)
-    //   setSelectedLanguageData(convo.selectedLanguageData)
-    //   setCefrLevel(convo.cefrLevel)
-    //   setTtsEnabled(convo.ttsEnabled)
+    //   if(convo) {
+    //     setMessages(convo.messages)
+    //     setSelectedLanguageData(convo.selectedLanguageData)
+    //     setCefrLevel(convo.cefrLevel)
+    //     setTtsEnabled(convo.ttsEnabled)
+    //   } else {
+    //     navigate('/')
+    //     resetState()
+    //   }
+      
     // }
+
+    if(getConversation) {
+      const convo = getConversation[0]
+
+      setMessages(convo.messages)
+      setSelectedLanguageData(convo.selectedLanguageData)
+      setCefrLevel(convo.cefrLevel)
+      setTtsEnabled(convo.ttsEnabled)
+    }
   },[getConversation])
   
   useEffect(()=> {
@@ -130,10 +130,8 @@ export default function TalkWithPolyGlot() {
 
     async function getLangAndVoiceOptions () {
       const gcVoiceList = await getTTSVoiceOptionList()
-      console.log(gcVoiceList);
 
       const formattedVoiceList = formatGCTTSVoiceOptions(gcVoiceList)
-      console.log(formattedVoiceList);
       setLanguageOptions(formattedVoiceList);
     }
     getLangAndVoiceOptions()
@@ -161,8 +159,6 @@ export default function TalkWithPolyGlot() {
         const selectedVoiceGender = selectedLanguageData.ssmlGender
 
         const prompt = getGPTPrompt(selectedLanguageName, cefrLevel, selectedVoiceGender)
-
-        console.log(prompt);
 
         const palMsg = await getGPTMsg({ messages, input: prompt })
 
