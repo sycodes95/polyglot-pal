@@ -24,6 +24,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../../../../@/components/ui/popover"
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../../../../@/components/ui/tooltip"
+
 import { cn } from "../../../../@/lib/utils";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -92,14 +100,13 @@ export default function TalkSetupOptions ({
       className="flex items-center gap-2"
       >
         {
-        
         <Popover open={languageOptionsIsOpen} onOpenChange={setLanguageOptionsIsOpen}>
-          <PopoverTrigger className="w-full border rounded-lg border-accent text-secondary bg-primary !hover:bg-black " asChild>
+          <PopoverTrigger className="w-full border rounded-lg border-border hover:bg-accent text-primary bg-background" asChild>
             <Button
               variant="outline"
               role="combobox"
               aria-expanded={languageOptionsIsOpen}
-              className="justify-between w-full h-8 overflow-hidden text-sm text-accent whitespace-nowrap text-ellipsis "
+              className="justify-between w-full h-8 overflow-hidden text-sm text-primary whitespace-nowrap text-ellipsis "
             >
               {(selectedLanguageData && selectedLanguageData.voiceName) 
               ? `${selectedLanguageData.languageName} ${selectedLanguageData.countryCode} ${selectedLanguageData.voiceName} ${selectedLanguageData.ssmlGender}` 
@@ -108,8 +115,8 @@ export default function TalkSetupOptions ({
               <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="z-50 w-full p-0 border border-primary !bg-black">
-            <Command className="w-full max-w-max bg-primary border-accent">
+          <PopoverContent className="z-50 w-full p-0 border border-border ">
+            <Command className="w-full max-w-max bg-secondary border-accent">
               <CommandInput placeholder="Search language voice." />
               <CommandEmpty>No language found.</CommandEmpty>
               <CommandGroup className="overflow-auto w-80 h-96 ">
@@ -131,7 +138,7 @@ export default function TalkSetupOptions ({
                 
                 {languageOptions.map((lang : LanguageOption, index: number) => (
                   <CommandItem
-                    className="flex items-start w-full gap-2 hover:cursor-pointer"
+                    className="flex items-start w-full gap-2 text-primary hover:cursor-pointer"
                     key={index}
                     onSelect={(currentValue) => {
                       const values = currentValue.split(' ')
@@ -165,18 +172,19 @@ export default function TalkSetupOptions ({
       </div>
       
       <div
-      className="flex items-center justify-between w-full h-8 gap-4"
+      className="flex items-center justify-between w-full h-8 h-full gap-2"
       >
-        <div className="flex items-center">
+        <div className="flex items-center h-full gap-2">
           <Popover>
-            <PopoverTrigger className="flex items-center gap-2 p-2 transition-all border rounded-lg whitespace-nowrap hover:text-stone-600">
-              <span>CEFR Level</span>
+            <PopoverTrigger className="flex items-center pl-2 pr-2 text-sm transition-all border rounded-lg whitespace-nowrap hover:text-stone-600 text-primary hover:bg-accent">
+              <span className="flex items-center h-8 pl-2">CEFR</span>
+              <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </PopoverTrigger>
             
             <PopoverContent className="grid w-full grid-cols-3 gap-2">
               {
               Object.keys(cefrLevels).map((level) => (
-                <button className={`flex items-center border text-black ${level === cefrLevel ? 'bg-black text-white ' : 'border-stone-300 text-stone-400'} hover:bg-stone-700 justify-center w-12 h-12 text-sm rounded-full transition-all`} onClick={()=> {
+                <button className={`flex items-center border text-black ${level === cefrLevel ? 'bg-black text-white ' : 'border-stone-300 text-stone-400'} hover:bg-accent justify-center w-12 h-12 text-sm rounded-full transition-all`} onClick={()=> {
                   if(palVoiceElement && palVoiceElement.current){
                   palVoiceElement.current.remove()
                   }
@@ -188,14 +196,15 @@ export default function TalkSetupOptions ({
               }
 
             </PopoverContent>
-            <button className="" onClick={()=> setCefrToolTipIsOpen(true)}>
+            {/* <button className="" onClick={()=> setCefrToolTipIsOpen(true)}>
               <Icon className="" path={mdiHelpCircleOutline} size={0.7} />
-            </button>
+            </button> */}
           </Popover>
 
           <Popover>
-            <PopoverTrigger className="flex items-center gap-2 p-2 transition-all border rounded-lg whitespace-nowrap hover:text-stone-600">
-              <span>AI TTS</span>
+            <PopoverTrigger className="flex items-center pl-2 pr-2 transition-all border rounded-lg whitespace-nowrap hover:text-stone-600 hover:bg-accent text-primary">
+              <span className="flex items-center h-8 pl-2">TTS</span>
+              <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </PopoverTrigger>
             
             <PopoverContent className="w-full">
@@ -217,19 +226,17 @@ export default function TalkSetupOptions ({
             <span>Save</span>
             
           </Button>
-          <span className={` ${!selectedLanguageData ? 'group-hover:flex' : 'group-hover:hidden' }
-            hidden absolute left-0 border border-red-500 rounded-lg top-full `}>Select a language</span>
+          
+          <span className={` ${!selectedLanguageData ? 'group-hover:flex group-hover:opacity-100' : 'group-hover:hidden' }
+            hidden absolute mt-2 opacity-0 right-0 border border-accent rounded-lg top-full transition-all text-primary p-4 whitespace-nowrap`}>Please select a language</span>
         </div>
         
       </div>
-      
-      
 
       {
       cefrToolTipIsOpen &&
       <div className="fixed top-0 left-0 z-20 w-full h-full bg-black bg-opacity-25 backdrop-blur-sm" onClick={()=> setCefrToolTipIsOpen(false)}></div>
       }
-      
 
       <dialog className="fixed z-50 p-4 -translate-x-1/2 -translate-y-1/2 border top-1/2 left-1/2 rounded-2xl border-stone-300" open={cefrToolTipIsOpen} ref={cefrTipDialogRef}>
         <button  className="absolute rounded-full -top-2 -right-2" onClick={()=> setCefrToolTipIsOpen(false)}>

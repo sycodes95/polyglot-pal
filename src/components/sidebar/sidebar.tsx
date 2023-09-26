@@ -10,7 +10,8 @@ import { format } from "date-fns";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button } from "../../@/components/ui/button"
 import Icon from '@mdi/react';
-import { mdiMessage } from '@mdi/js';
+import { mdiMessage, mdiTrashCan } from '@mdi/js';
+
 
 import {
   Command,
@@ -97,7 +98,7 @@ export default function Sidebar ({
   return (
     <div className={`relative ${className} p-2 w-80 flex-grow rounded-2xl flex flex-col gap-4`}>
       <div className="sticky" >
-        <Button className="w-full text-accent bg-secondary"  variant={'default'} size={'default'} onClick={()=> {
+        <Button className="w-full text-accent bg-primary"  variant={'default'} size={'default'} onClick={()=> {
           setCurrentConversationId(null)
           if(location.pathname === '/'){
             resetState()
@@ -136,11 +137,11 @@ export default function Sidebar ({
       </div>
       {
       getAllConversations && getAllConversations.length > 0 ?
-      <div className="flex flex-col flex-grow w-full h-0 gap-2 mb-12 overflow-y-scroll rounded-lg scroll text-secondary">
+      <div className="flex flex-col flex-grow w-full h-0 gap-2 mb-12 overflow-y-scroll rounded-lg scroll text-primary">
         {
         getAllConversations.map((c, index) => (
           <Link 
-          className={`${c._id === currentConversationId && 'bg-stone-300 bg-opacity-80'} relative flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all  rounded-lg  hover:bg-stone-300 border border-accent`} 
+          className={`${c._id === currentConversationId && 'bg-accent'} relative flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all  rounded-lg  hover:bg-accent  border border-accent`} 
           key={index} to={`/c/${c._id}`} 
           >
             <div className="flex items-center gap-2">
@@ -153,8 +154,8 @@ export default function Sidebar ({
             currentConversationId === c._id &&
             <div className="absolute top-0 right-0">
               <Popover open={deleteConvoPopoverIsOpen}>
-                <PopoverTrigger className="flex items-center gap-2 pr-2 transition-all rounded-lg hover:text-white whitespace-nowrap " onClick={()=> setDeleteConvoPopoverIsOpen(true)}>
-                  <span className="text-lg">x</span>
+                <PopoverTrigger className="flex items-center gap-2 p-2 transition-all rounded-lg hover:text-stone-700 whitespace-nowrap " onClick={()=> setDeleteConvoPopoverIsOpen(true)}>
+                  <Icon path={mdiTrashCan} size={0.8} />
                 </PopoverTrigger>
                 
                 <PopoverContent className="flex flex-col gap-2"  onInteractOutside={()=> setDeleteConvoPopoverIsOpen(false)}>

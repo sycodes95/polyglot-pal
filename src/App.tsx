@@ -11,7 +11,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 function App() {
   return (
     <BrowserRouter>
-      <div className="flex flex-col items-center w-full h-full min-h-screen text-sm font-main bg-primary ">
+      <div className="flex flex-col items-center w-full h-full min-h-screen text-sm font-main bg-background ">
         <Header />
         <div className="flex justify-center flex-grow w-full h-full max-w-7xl">
           <Routes>
@@ -20,6 +20,7 @@ function App() {
             <Route path="/log-in" element={<LogIn />} />
           </Routes>
         </div>
+        <Footer/>
         
       </div>
     </BrowserRouter>
