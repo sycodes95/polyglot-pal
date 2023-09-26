@@ -92,7 +92,7 @@ export default function TalkSetupOptions ({
       className="flex items-center gap-2"
       >
         {
-        languageOptions && languageOptions.length > 0 &&
+        
         <Popover open={languageOptionsIsOpen} onOpenChange={setLanguageOptionsIsOpen}>
           <PopoverTrigger className="w-full border rounded-lg border-accent text-secondary bg-primary !hover:bg-black " asChild>
             <Button
