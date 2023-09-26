@@ -98,7 +98,7 @@ export default function Sidebar ({
   return (
     <div className={`relative ${className} p-2 w-80 flex-grow rounded-2xl flex flex-col gap-4`}>
       <div className="sticky" >
-        <Button className="w-full text-accent bg-primary"  variant={'default'} size={'default'} onClick={()=> {
+        <Button className="w-full border text-accent bg-primary "  variant={'default'} size={'default'} onClick={()=> {
           setCurrentConversationId(null)
           if(location.pathname === '/'){
             resetState()
@@ -107,6 +107,8 @@ export default function Sidebar ({
           }
         }}> +    New Conversation</Button>
       </div>
+
+
       <div className="sticky pt-4">
       
         <FormControl className="!m-0" sx={{ 
@@ -114,12 +116,12 @@ export default function Sidebar ({
         borderColor: 'gray',}}}
         fullWidth>
       
-          <InputLabel className="!flex !items-center !-top-3 !text-sm !text-stone-500" sx={{ 
+          <InputLabel className="!flex !items-center !-top-3 !text-sm !text-stone-500 " sx={{ 
           '&.MuiInputLabel-shrink': {
           transform: 'translate(10px, -12px) scale(0.8)',  
           }}} id="user-native-language"> Native Language</InputLabel>
           
-          <Select className="!rounded-lg !h-8 !outline-none"
+          <Select className="!rounded-lg !h-8 !outline-none  border border-white"
             value={nativeLanguageExists ? nativeLanguage[0].languageName : userNativeLanguage.languageName}
             onChange={(e) => handleUserNativeLanguage(e.target.value)}
             sx={{ 
@@ -135,6 +137,8 @@ export default function Sidebar ({
           </Select>
         </FormControl>
       </div>
+
+      
       {
       getAllConversations && getAllConversations.length > 0 ?
       <div className="flex flex-col flex-grow w-full h-0 gap-2 mb-12 overflow-y-scroll rounded-lg scroll text-primary">

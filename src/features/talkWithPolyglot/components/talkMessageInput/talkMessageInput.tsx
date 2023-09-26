@@ -108,7 +108,7 @@ export default function TalkMessageInput({
           handleMessageSend();
         }}
       > 
-        <div className={`relative flex items-center w-full border-2 border-black rounded-2xl`}>
+        <div className={`relative flex items-center w-full border border-border rounded-lg bg-accent`}>
           {
           !selectedLanguageData &&
           <div className="absolute top-0 left-0 z-10 w-full h-full bg-opacity-70 bg-stone-300 group rounded-2xl">
@@ -118,7 +118,7 @@ export default function TalkMessageInput({
           </div>
           }
           <input
-            className={` w-full h-full outline-none rounded-2xl p-2`}
+            className={` w-full h-full outline-none rounded-lg p-2 bg-accent text-primary`}
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
