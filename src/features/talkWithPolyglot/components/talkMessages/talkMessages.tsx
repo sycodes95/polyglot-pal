@@ -33,9 +33,13 @@ export default function TalkMessages ({
   const { user } = useAuth0();
 
   const getTextToSpeech = useAction(api.actions.getTextToSpeech.getTextToSpeech);
+
   const getTranslation = useAction(api.actions.getTranslation.getTranslation)
+
   const nativeLanguage = useQuery(api.query.getNativeLanguage.getNativeLanguage, { sub: user && user.sub ? user.sub : '' })
+
   const [palVoiceReplayIndex, setPalVoiceReplayIndex] = useState<number | null>(null)
+
   const [translationData, setTranslationData] = useState({
     index: -1,
     trans: '',
@@ -45,20 +49,25 @@ export default function TalkMessages ({
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
   useEffect(() => {
+
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
+
     setTranslationData({
       index: -1,
       trans: '',
       isLoading: false
     })
+
   }, [messages]);
 
   useEffect(()=> {
+
     if(palVoiceElement && ttsEnabled) {
       setPalVoiceReplayIndex(null)
     }
+    
   },[palVoiceElement, ttsEnabled])
 
   const playPalVoiceReplay = async (palMessage: string, index: number) => {
@@ -129,7 +138,7 @@ export default function TalkMessages ({
             ${msg.role === 'user' ? 'items-start' : 'items-end'}
             `}
             key={index}>
-              <div className={`${msg.role === 'user' ? 'bg-stone-300' : 'bg-emerald-200'} p-4 rounded-2xl max-w-66pct`}>
+              <div className={`${msg.role === 'user' ? 'bg-stone-300' : 'bg-emerald-200'} text-primary p-4 rounded-2xl max-w-66pct`}>
                 {
                 msg.role === 'user' 
                 ?
@@ -137,7 +146,7 @@ export default function TalkMessages ({
                 :
                 <span>Pal : </span>
                 }
-                <span className="text-sm">{msg.content}</span>
+                <span className="text-sm ">{msg.content}</span>
               </div>
               {
               msg.role === 'assistant' &&
@@ -177,7 +186,7 @@ export default function TalkMessages ({
               }
               {
               translationData.index === index && !translationData.isLoading && translationData.trans &&
-              <div className="relative flex flex-col p-4 text-sm bg-emerald-100 rounded-2xl max-w-66pct">
+              <div className="relative flex flex-col p-4 text-sm bg-emerald-100 rounded-2xl max-w-66pct text-primary">
                 <span>{translationData.trans}</span>
                 <button className="absolute flex items-center justify-center text-black rounded-full -right-2 -bottom-3" onClick={()=> setTranslationData({
                   index: -1,
