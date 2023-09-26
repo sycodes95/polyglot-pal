@@ -11,7 +11,7 @@ export default function Header() {
   const [menuIsOpen, setMenuIsOpen] = useState(false)
 
   return (
-    <div className="sticky top-0 z-10 flex items-center justify-center w-full h-16 bg-background">
+    <div className="sticky top-0 z-10 flex items-center justify-center w-full h-16 bg-background dark:bg-black dark:bg-opacity-20">
       <div className="flex justify-between w-full p-2 max-w-7xl">
         <div className="md:hidden text-primary">
           <Hamburger toggled={menuIsOpen} toggle={()=> setMenuIsOpen(!menuIsOpen)} />

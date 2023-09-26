@@ -101,7 +101,7 @@ export default function TalkSetupOptions ({
       >
         {
         <Popover open={languageOptionsIsOpen} onOpenChange={setLanguageOptionsIsOpen}>
-          <PopoverTrigger className="w-full border rounded-lg border-border hover:bg-accent text-primary bg-background" asChild>
+          <PopoverTrigger className="w-full border rounded-lg border-accent hover:bg-accent text-primary bg-background" asChild>
             <Button
               variant="outline"
               role="combobox"
@@ -176,7 +176,7 @@ export default function TalkSetupOptions ({
       >
         <div className="flex items-center h-full gap-2">
           <Popover>
-            <PopoverTrigger className="flex items-center pl-2 pr-2 text-sm transition-all border rounded-lg whitespace-nowrap hover:text-stone-600 text-primary hover:bg-accent">
+            <PopoverTrigger className="flex items-center pl-2 pr-2 text-sm transition-all border rounded-lg whitespace-nowrap border-accent text-primary hover:bg-accent">
               <span className="flex items-center h-8 pl-2">CEFR</span>
               <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </PopoverTrigger>
@@ -202,7 +202,7 @@ export default function TalkSetupOptions ({
           </Popover>
 
           <Popover>
-            <PopoverTrigger className="flex items-center pl-2 pr-2 transition-all border rounded-lg whitespace-nowrap hover:text-stone-600 hover:bg-accent text-primary">
+            <PopoverTrigger className="flex items-center pl-2 pr-2 transition-all border rounded-lg whitespace-nowrap hover:bg-accent text-primary border-accent">
               <span className="flex items-center h-8 pl-2">TTS</span>
               <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </PopoverTrigger>
@@ -217,8 +217,7 @@ export default function TalkSetupOptions ({
           
           <Button disabled={selectedLanguageData ? false : true} className={`
           ${selectedLanguageData ? 'bg-primary' : 'bg-stone-400 hover:!pointer-events-none z-10'} 
-          relative w-30 text-secondary group h-full `} 
-
+          relative w-30 text-secondary dark:text-background group h-8 `} 
           color={'default'} 
           variant={'default'} 
           size={'default'} 

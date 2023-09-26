@@ -138,7 +138,7 @@ export default function TalkMessages ({
             ${msg.role === 'user' ? 'items-start' : 'items-end'}
             `}
             key={index}>
-              <div className={`${msg.role === 'user' ? 'bg-stone-300' : 'bg-emerald-200'} text-primary p-4 rounded-2xl max-w-66pct`}>
+              <div className={`${msg.role === 'user' ? 'bg-emerald-100 dark:bg-black' : 'bg-orange-200 dark:bg-accent'} text-primary p-4 rounded-2xl max-w-66pct`}>
                 {
                 msg.role === 'user' 
                 ?
@@ -146,7 +146,7 @@ export default function TalkMessages ({
                 :
                 <span>Pal : </span>
                 }
-                <span className="text-sm ">{msg.content}</span>
+                <span className="text-sm">{msg.content}</span>
               </div>
               {
               msg.role === 'assistant' &&
@@ -158,7 +158,7 @@ export default function TalkMessages ({
                   <OvalSpinnerBlackGray />
                   :
                   <button 
-                  className={`${!ttsEnabled && 'text-stone-400 pointer-events-none'} flex items-center h-full transition-all cursor-pointer hover:text-stone-400`}
+                  className={`${!ttsEnabled && 'text-stone-400 pointer-events-none'} flex items-center h-full transition-all cursor-pointer hover:text-stone-400 text-primary`}
                   onClick={()=> playPalVoiceReplay(msg.content, index)}
                   >
                     <Icon 
@@ -175,7 +175,7 @@ export default function TalkMessages ({
                   <OvalSpinnerBlackGray />
                   :
                   <button 
-                  className="flex items-center h-full transition-all cursor-pointer hover:text-stone-400"
+                  className="flex items-center h-full transition-all cursor-pointer hover:text-stone-400 text-primary"
                   onClick={()=> handleTranslation(index, msg.content)}
                   >
                     <Icon path={mdiTranslate} size={1} />
