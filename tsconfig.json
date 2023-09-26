@@ -10,7 +10,6 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "typeRoots": ["./types", "./node_modules/@types"],
-    "types": ["react-speech-recognition"],
 
     /* Bundler mode */
     "moduleResolution": "node",
