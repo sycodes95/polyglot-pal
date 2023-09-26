@@ -6,8 +6,8 @@ import Globe from "react-globe.gl";
 export default function LogIn () {
   const { loginWithRedirect } = useAuth0();
 
-  const handleLoginClick = () => {
-    loginWithRedirect();
+  const handleLoginClick = async () => {
+    await loginWithRedirect();
   };
 
   return (
