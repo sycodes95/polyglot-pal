@@ -92,7 +92,6 @@ export default function Sidebar ({
     if(c_id) {
       setCurrentConversationId(c_id)
     }
-    console.log(c_id);
   },[c_id])
 
   return (
