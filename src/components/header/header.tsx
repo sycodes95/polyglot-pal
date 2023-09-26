@@ -35,7 +35,7 @@ export default function Header() {
             userMenuIsOpen &&
               <>
                 <ul className="absolute right-0 z-50 flex flex-col gap-1 p-4 bg-white border rounded-lg cursor-default whitespace-nowrap top-full border-stone-300">
-                  <li className="z-50 text-xs text-red-400 transition-all cursor-pointer hover:text-red-600" onClick={()=> logout({ logoutParams: { returnTo: 'http://localhost:5173/log-in' } })}>Log Out</li>
+                  <li className="z-50 text-xs text-red-400 transition-all cursor-pointer hover:text-red-600" onClick={()=> logout({ logoutParams: { returnTo: `${import.meta.env.VITE_DOMAIN}/log-in`} })}>Log Out</li>
                 </ul>
               </>
               
