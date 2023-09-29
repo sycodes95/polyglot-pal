@@ -13,7 +13,6 @@ function App() {
 
   const handleResize = () => {
     if(window.innerWidth > 768){
-      console.log('check');
       setShowMobileSideBar(false);
     }
   };
