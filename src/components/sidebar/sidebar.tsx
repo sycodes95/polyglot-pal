@@ -95,8 +95,8 @@ export default function Sidebar ({
   },[c_id])
 
   return (
-    <div className={` ${className} p-2 w-80 flex-grow rounded-2xl flex flex-col gap-4 h-full`}>
-      <div className="sticky" >
+    <div className={` ${className}  w-80 flex-grow rounded-lg flex flex-col gap-4 h-full`}>
+      <div className="sticky p-2" >
         <Button className="w-full border text-accent bg-primary "  variant={'default'} size={'default'} onClick={()=> {
           setCurrentConversationId(null)
           if(location.pathname === '/'){
@@ -110,7 +110,7 @@ export default function Sidebar ({
 
       <div className="sticky pt-4">
       
-        <FormControl className="!m-0" sx={{ 
+        <FormControl className="!m-0 !p-2" sx={{ 
         '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
         borderColor: 'gray',}}}
         fullWidth>
@@ -140,11 +140,11 @@ export default function Sidebar ({
       
       {
       getAllConversations && getAllConversations.length > 0 ?
-      <div className="flex flex-col flex-grow w-full h-0 gap-2 overflow-y-scroll rounded-lg scroll text-primary">
+      <div className="flex flex-col flex-grow w-full h-0 gap-2 pl-2 pr-2 overflow-y-scroll rounded-lg scroll text-primary">
         {
         getAllConversations.map((c, index) => (
           <Link 
-          className={`${c._id === currentConversationId && 'bg-accent'} relative flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all  rounded-lg  hover:bg-accent  border border-accent`} 
+          className={`${c._id === currentConversationId && 'bg-accent'}  relative flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all  rounded-lg  hover:bg-accent  border border-accent`} 
           key={index} to={`/c/${c._id}`} 
           >
             <div className="flex items-center gap-2">
