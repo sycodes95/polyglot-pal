@@ -33,7 +33,6 @@ export default function TalkMessageInput({
   const [audioData, setAudioData] = useState<string | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordingStopped = useRef(false);
-  const [recordedBlob, setRecordedBlob] = useState<Blob | null>()
   const visualizerRef = useRef<HTMLCanvasElement>(null)
 
 

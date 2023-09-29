@@ -110,15 +110,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       }
       
     }
-
-    // if(getConversation) {
-    //   const convo = getConversation[0]
-
-    //   setMessages(convo.messages)
-    //   setSelectedLanguageData(convo.selectedLanguageData)
-    //   setCefrLevel(convo.cefrLevel)
-    //   setTtsEnabled(convo.ttsEnabled)
-    // }
+    
   },[getConversation])
   
   useEffect(()=> {
@@ -325,14 +317,12 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       <Sidebar className="flex-col hidden md:flex" 
       resetState={resetState}/>
 
-      <div className={`fixed flex md:hidden ${showMobileSideBar ? 'left-0' : '-left-full'} w-full z-50 top-0 md:hidden md:-left-full transition-all duration-500 left-0 max-w-sm`} >
+      <div className={`fixed flex md:hidden ${showMobileSideBar ? 'left-0' : '-left-full'} w-full z-50 top-0 transition-all duration-500  max-w-sm`} >
         <Sidebar className={`w-80 flex-col min-h-screen  bg-background max-h-screen`} 
         resetState={resetState}/>
         <div className="top-0 right-0 z-50 text-2xl text-black" onClick={()=> setShowMobileSideBar(false)}>
-          <Icon className="pt-1 text-white"  path={mdiAlphaXBoxOutline} size={2} />
+          <Icon className={`pt-1 text-white  `}  path={mdiAlphaXBoxOutline} size={2} />
         </div>
-        
-
       </div>
       {
       showMobileSideBar &&
