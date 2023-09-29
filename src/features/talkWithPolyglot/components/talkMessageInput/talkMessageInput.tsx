@@ -71,7 +71,6 @@ export default function TalkMessageInput({
         mediaRecorderRef.current.state !== "recording"
       ) {
         const audioBlob = new Blob(audioChunks, { type: mimeType });
-        
         blobToBase64(audioBlob, setAudioData);
       }
     };
@@ -99,10 +98,10 @@ export default function TalkMessageInput({
   }, [audioData]);
 
   return (
-    <div className={`${className} flex w-full max-w-7xl mb-14`}>
+    <div className={`${className} flex w-full max-w-7xl p-2`}>
       <form
       aria-disabled
-        className="flex w-full h-12 gap-2 pl-2 pr-2"
+        className="flex w-full h-12 gap-2 "
         onSubmit={(e) => {
           e.preventDefault();
           handleMessageSend();

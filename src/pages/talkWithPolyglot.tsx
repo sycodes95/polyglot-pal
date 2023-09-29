@@ -20,12 +20,20 @@ import Sidebar from "../components/sidebar/sidebar";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Id } from "convex/dist/cjs-types/values/value";
 
+import Icon from '@mdi/react';
+import { mdiAlphaXBoxOutline } from '@mdi/js';
+
 type Params = {
-  c_id: Id<'conversation'>
+  c_id: Id<'conversation'>,
+
+
 }
 
-
-export default function TalkWithPolyGlot() {
+type TalkWithPolyGlotProps = {
+  showMobileSideBar: boolean,
+  setShowMobileSideBar: React.Dispatch<React.SetStateAction<boolean>>
+}
+export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideBar} : TalkWithPolyGlotProps) {
   const navigate = useNavigate()
 
   const { c_id } = useParams<Params>()
@@ -311,10 +319,26 @@ export default function TalkWithPolyGlot() {
 
   return (
 
-    <div className="relative flex w-full pt-4 max-w-7xl">
-      
-      <Sidebar className="absolute flex-col hidden md:flex" 
+    <>
+    <div className="relative flex w-full pt-5 max-w-7xl">
+      <Sidebar className="flex-col hidden md:flex" 
       resetState={resetState}/>
+      <div className={`fixed flex md:hidden ${showMobileSideBar ? 'left-0' : '-left-full'} w-full z-50 top-0 md:hidden md:-left-full transition-all duration-500 left-0 max-w-sm`} >
+        <Sidebar className={`w-80 flex-col min-h-screen  bg-background max-h-screen`} 
+        resetState={resetState}/>
+        <div className="top-0 right-0 z-50 text-2xl text-black" onClick={()=> setShowMobileSideBar(false)}>
+          <Icon className="pt-1" path={mdiAlphaXBoxOutline} size={2} />
+        </div>
+        
+
+      </div>
+      {
+      showMobileSideBar &&
+      <div className="fixed top-0 left-0 z-40 w-full h-full bg-opacity-50 md:hidden bg-stone-700 backdrop-blur-sm" onClick={()=> setShowMobileSideBar(false)} >
+      </div>
+      }
+      
+      
       
       <div className="relative flex flex-col flex-grow w-full gap-4 ">
         <TalkSetupOptions
@@ -352,5 +376,7 @@ export default function TalkWithPolyGlot() {
         />
       </div>
     </div>
+
+    </>
   );
 }

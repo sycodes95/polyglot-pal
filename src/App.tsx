@@ -6,17 +6,34 @@ import Footer from "./components/footer/footer";
 import Sidebar from "./components/sidebar/sidebar";
 import LogIn from "./pages/logIn";
 import { useAuth0 } from "@auth0/auth0-react";
-
+import { useEffect, useState } from "react";
 
 function App() {
+  const [showMobileSideBar, setShowMobileSideBar] = useState(false)
+
+  const handleResize = () => {
+    if(window.innerWidth > 768){
+      console.log('check');
+      setShowMobileSideBar(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return (
     <BrowserRouter>
       <div className="flex flex-col items-center w-full h-full min-h-screen text-sm font-main bg-background ">
-        <Header />
-        <div className="flex justify-center flex-grow w-full h-full max-w-7xl">
+        <Header showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar}/>
+      
+        <div className="flex justify-center flex-grow w-full h-full overflow-hidden max-w-7xl">
           <Routes>
-            <Route path="/" element={<TalkWithPolyGlot />} />
-            <Route path="/c/:c_id" element={<TalkWithPolyGlot/>} />
+            <Route path="/" element={<TalkWithPolyGlot showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar}/>} />
+            <Route path="/c/:c_id" element={<TalkWithPolyGlot showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar}/>} />
             <Route path="/log-in" element={<LogIn />} />
           </Routes>
         </div>

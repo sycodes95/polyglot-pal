@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Squash as Hamburger} from 'hamburger-react'
 
-export default function Header() {
+type HeaderProps = {
+  showMobileSideBar: boolean,
+  setShowMobileSideBar: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function Header({ showMobileSideBar, setShowMobileSideBar}: HeaderProps) {
   const { user } = useAuth0();
   const { logout } = useAuth0();
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(false)
@@ -14,7 +19,7 @@ export default function Header() {
     <div className="sticky top-0 z-10 flex items-center justify-center w-full h-16 bg-background dark:bg-black dark:bg-opacity-20">
       <div className="flex justify-between w-full p-2 max-w-7xl">
         <div className="md:hidden text-primary">
-          <Hamburger toggled={menuIsOpen} toggle={()=> setMenuIsOpen(!menuIsOpen)} />
+          <Hamburger toggled={showMobileSideBar} toggle={()=> setShowMobileSideBar(!showMobileSideBar)} />
         </div>
         <div className="items-center hidden gap-2 md:flex left-1/2">
           <Icon className="text-primary " path={mdiEarth} size={1.5} />

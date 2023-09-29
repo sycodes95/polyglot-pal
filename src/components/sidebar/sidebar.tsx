@@ -29,7 +29,7 @@ import {
 
 type SidebarProps = {
   className?: string,
-  resetState: ()=> void
+  resetState?: ()=> void
 }
 
 
@@ -95,7 +95,7 @@ export default function Sidebar ({
   },[c_id])
 
   return (
-    <div className={`relative ${className} p-2 w-80 flex-grow rounded-2xl flex flex-col gap-4`}>
+    <div className={` ${className} p-2 w-80 flex-grow rounded-2xl flex flex-col gap-4 h-full`}>
       <div className="sticky" >
         <Button className="w-full border text-accent bg-primary "  variant={'default'} size={'default'} onClick={()=> {
           setCurrentConversationId(null)
@@ -140,7 +140,7 @@ export default function Sidebar ({
       
       {
       getAllConversations && getAllConversations.length > 0 ?
-      <div className="flex flex-col flex-grow w-full h-0 gap-2 mb-12 overflow-y-scroll rounded-lg scroll text-primary">
+      <div className="flex flex-col flex-grow w-full h-0 gap-2 overflow-y-scroll rounded-lg scroll text-primary">
         {
         getAllConversations.map((c, index) => (
           <Link 
