@@ -26,6 +26,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../../@/components/ui/popover"
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "../../@/lib/utils";
 
 type SidebarProps = {
   className?: string,
@@ -59,6 +61,8 @@ export default function Sidebar ({
     languageName: '',
     languageCode: ''
   })
+
+  const [nativeLanguagePopoverIsOpen, setNativeLanguagePopoverIsOpen] = useState(false)
 
   const [currentConversationId, setCurrentConversationId] = useState<Id<'conversation'> | null>(null)
 
@@ -95,7 +99,7 @@ export default function Sidebar ({
   },[c_id])
 
   return (
-    <div className={` ${className}  w-80 flex-grow rounded-lg flex flex-col gap-4 h-full`}>
+    <div className={` ${className}  w-80 flex-grow rounded-lg flex flex-col h-full`}>
       <div className="sticky p-2" >
         <Button className="w-full border text-accent bg-primary "  variant={'default'} size={'default'} onClick={()=> {
           setCurrentConversationId(null)
@@ -106,21 +110,88 @@ export default function Sidebar ({
           }
         }}> +    New Conversation</Button>
       </div>
+        
 
-
-      <div className="sticky pt-4">
-      
-        <FormControl className="!m-0 !p-2" sx={{ 
+      <div className="sticky p-2">
+        <Popover open={nativeLanguagePopoverIsOpen} onOpenChange={setNativeLanguagePopoverIsOpen} >
+          <PopoverTrigger className="w-full border rounded-lg border-accent hover:bg-accent text-primary bg-background" asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              className="justify-between w-full h-8 overflow-hidden text-sm text-primary whitespace-nowrap text-ellipsis "
+            >
+              {userNativeLanguage.languageName
+              ? `${userNativeLanguage.languageName} ` 
+              : 'Select native language'
+              }
+              <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="z-50 w-full p-0 border border-border ">
+            <Command className="w-full max-w-max bg-secondary border-accent">
+              <CommandInput placeholder="Search language voice." />
+              <CommandEmpty>No language found.</CommandEmpty>
+              <CommandGroup className="w-full overflow-auto h-96 ">
+                <CommandItem 
+                className="cursor-pointer"
+                onSelect={() => {
+                  setUserNativeLanguage({
+                    languageName: '',
+                    languageCode: ''
+                  })
+                  setNativeLanguagePopoverIsOpen(false)
+                }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      !userNativeLanguage.languageName ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  ...
+                </CommandItem>
+                {/* {
+                languageNameAndCodes.map((data) => (
+                  <MenuItem className="!text-sm" key={data.languageCode} value={data.languageName}>{data.languageName}</MenuItem>
+                ))
+                } */}
+                
+                {languageNameAndCodes.map((data) => (
+                  <CommandItem
+                    className="flex items-start w-full gap-2 text-primary hover:cursor-pointer"
+                    key={data.languageCode}
+                    onSelect={(currentValue) => {
+                      const langName = currentValue;
+                      handleUserNativeLanguage(langName[0].toUpperCase() + langName.slice(1))
+                      setNativeLanguagePopoverIsOpen(false)
+                      
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        userNativeLanguage.languageName === data.languageName ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {data.languageName} 
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </Command>
+          </PopoverContent>
+        </Popover>
+    
+        {/* <FormControl className="!m-0 !p-0 !h-8" sx={{ 
         '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
         borderColor: 'gray',}}}
         fullWidth>
       
-          <InputLabel className="!flex !items-center !-top-3 !text-sm !text-stone-500 " sx={{ 
+          <InputLabel className="!flex !items-center  !text-sm !text-stone-500 !h-8" sx={{ 
           '&.MuiInputLabel-shrink': {
-          transform: 'translate(10px, -12px) scale(0.8)',  
+          transform: 'translate(20px, -20px) scale(0.8)',  
           }}} id="user-native-language"> Native Language</InputLabel>
           
-          <Select className="!rounded-lg !h-8 !outline-none  border border-white"
+          <Select className="!rounded-lg !h-8 !outline-none  border border-white !p-0"
             value={nativeLanguageExists ? nativeLanguage[0].languageName : userNativeLanguage.languageName}
             onChange={(e) => handleUserNativeLanguage(e.target.value)}
             sx={{ 
@@ -134,7 +205,7 @@ export default function Sidebar ({
             ))
             }
           </Select>
-        </FormControl>
+        </FormControl> */}
       </div>
 
       
