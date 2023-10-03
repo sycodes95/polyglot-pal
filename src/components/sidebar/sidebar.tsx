@@ -138,7 +138,6 @@ export default function Sidebar ({
                     key={data.languageCode}
                     onSelect={(currentValue) => {
                       const langName = currentValue;
-                      console.log(langName);
                       handleUserNativeLanguage(langName[0].toUpperCase() + langName.slice(1))
                       setNativeLanguagePopoverIsOpen(false)
                       

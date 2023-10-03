@@ -25,8 +25,6 @@ import { mdiAlphaXBoxOutline } from '@mdi/js';
 
 type Params = {
   c_id: Id<'conversation'>,
-
-
 }
 
 type TalkWithPolyGlotProps = {
