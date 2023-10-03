@@ -250,7 +250,10 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         
         const transcript = userSTT?.results?.[0]?.alternatives?.[0]?.transcript;
 
-        if(!userSTT || !transcript) return setUserVoiceError(true)
+        if(!userSTT || !transcript) {
+          setUserMessageIsLoading(false);
+          return setUserVoiceError(true)
+        } 
 
         setMessages([...messages, { role: "user", content: transcript }]);
 
@@ -330,8 +333,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       </div>
       }
       
-      
-      
       <div className="relative flex flex-col flex-grow w-full gap-4 ">
         <TalkSetupOptions
           className="flex flex-col gap-2 p-2 bg-background h-fit top-20 "
@@ -355,6 +356,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
           ttsEnabled={ttsEnabled}
           userMessageIsLoading={userMessageIsLoading}
           palVoiceElement={palVoiceElement}
+          userVoiceError={userVoiceError}
+          setUserVoiceError={setUserVoiceError}
         />
 
         <TalkMessageInput

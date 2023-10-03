@@ -1,7 +1,7 @@
 import { ThreeDots } from "react-loader-spinner"
 import { LanguageOption, Message } from "../../types"
 import { useEffect, useRef, useState } from "react";
-import { mdiReplay, mdiTranslate, mdiCloseCircleOutline, mdiEarth } from "@mdi/js";
+import { mdiReplay, mdiTranslate, mdiCloseCircleOutline, mdiEarth, mdiAlphaXCircleOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 import OvalSpinnerBlackGray from "../../../../components/loadSpinners/ ovalSpinnerBlackGray";
 import { combineLangAndCountryCode } from "../../../../utils/combineLangAndCountryCode";
@@ -18,6 +18,8 @@ type TalkMessagesProps = {
   ttsEnabled: boolean,
   userMessageIsLoading: boolean,
   palVoiceElement: React.RefObject<HTMLAudioElement> | null,
+  userVoiceError: boolean
+  setUserVoiceError: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function TalkMessages ({
@@ -28,6 +30,8 @@ export default function TalkMessages ({
   ttsEnabled,
   userMessageIsLoading,
   palVoiceElement,
+  userVoiceError,
+  setUserVoiceError
 } : TalkMessagesProps) {
 
   const { user } = useAuth0();
@@ -204,7 +208,7 @@ export default function TalkMessages ({
         }
         {
         (palMessageIsLoading || userMessageIsLoading) &&
-        <div className={`flex ${palMessageIsLoading ? 'justify-end' : 'justify-start'}  w-full`}>
+        <div className={`flex ${palMessageIsLoading ? 'justify-end' : 'justify-start'}  w-full p-2`}>
           <ThreeDots
           height="40" 
           width="40" 
@@ -214,6 +218,17 @@ export default function TalkMessages ({
           wrapperStyle={{}}
           visible={true}
           />
+        </div>
+        }
+
+        {
+        userVoiceError && 
+        <div className="relative flex items-center justify-center p-2 border rounded-lg border-destructive text-destructive">
+          Error: if you are using speech to text please check that your microphone is working or that you are speaking loud enough.
+          <button className="absolute w-5 h-5 rounded-full -top-2 -right-1 text-destructive" onClick={()=> setUserVoiceError(false)}>
+            <Icon className="bg-background" path={mdiAlphaXCircleOutline} size={1} />
+          </button>
+
         </div>
         }
         <div className="" ref={messagesEndRef}></div>

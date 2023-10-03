@@ -41,9 +41,12 @@ export const getSpeechToText = action({
         private_key: keyJson.private_key,
       }
     });
-
+    console.log('before response');
     try {
       const [response] = await client.recognize(request);
+      if(response.results && response.results.length < 1){
+        return null
+      }
       return response;
     } catch (error: unknown) {
       if (error instanceof Error) { 

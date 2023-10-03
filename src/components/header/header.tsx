@@ -21,16 +21,16 @@ export default function Header({ showMobileSideBar, setShowMobileSideBar}: Heade
         <div className="md:hidden text-primary">
           <Hamburger toggled={showMobileSideBar} toggle={()=> setShowMobileSideBar(!showMobileSideBar)} />
         </div>
-        <div className="items-center hidden gap-2 md:flex left-1/2">
+        <a href={import.meta.env.VITE_DOMAIN} className="items-center hidden gap-2 md:flex left-1/2">
           <Icon className="text-primary " path={mdiEarth} size={1.5} />
           <span className="hidden text-lg md:flex md:text-3xl font-logo text-primary whitespace-nowrap">
             Polyglot Pal
           </span>
-        </div>
+        </a>
 
-        <div className="absolute gap-2 -translate-x-1/2 -translate-y-1/2 top-1/2 md:hidden left-1/2">
+        <a href={import.meta.env.VITE_DOMAIN} className="absolute gap-2 -translate-x-1/2 -translate-y-1/2 top-1/2 md:hidden left-1/2">
           <Icon className="text-primary" path={mdiEarth} size={1.5} />
-        </div>
+        </a>
         {
         user && 
           <button className="relative z-50 flex items-center gap-2 cursor-pointer text-primary" onClick={()=> setUserMenuIsOpen(!userMenuIsOpen)}>
