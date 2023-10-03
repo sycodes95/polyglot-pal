@@ -29,6 +29,7 @@ export default function TalkMessageInput({
   setUserVoiceBase64,
   ttsEnabled
 }: TalkMessageInputProps) {
+  
   const [recording, setRecording] = useState<boolean>(false);
   const [audioData, setAudioData] = useState<string | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -119,10 +120,11 @@ export default function TalkMessageInput({
             className={` w-full h-full outline-none rounded-lg p-2 bg-accent text-primary`}
             type="text"
             value={input}
+            minLength={2}
             onChange={(e) => setInput(e.target.value)}
           />
 
-          <div className="w-40 h-full">
+          <div className="flex items-center w-40 h-full">
             {
             mediaRecorderRef && mediaRecorderRef.current && recording &&
             <LiveAudioVisualizer
@@ -130,6 +132,7 @@ export default function TalkMessageInput({
               width={100}
               height={30}
               backgroundColor="rgba(0,0,0,0)"
+              barColor="#000000"
             />
             }
             
