@@ -132,7 +132,8 @@ export default function Sidebar ({
               <CommandEmpty>No language found.</CommandEmpty>
               <CommandGroup className="w-full overflow-auto h-96 ">
                
-                {languageNameAndCodes.map((data) => (
+                {
+                languageNameAndCodes.map((data) => (
                   <CommandItem
                     className="flex items-start w-full gap-2 text-primary hover:cursor-pointer"
                     key={data.languageCode}

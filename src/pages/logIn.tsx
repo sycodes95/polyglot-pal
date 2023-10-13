@@ -11,7 +11,7 @@ export default function LogIn () {
   // };
 
   return (
-    <div className="absolute top-0 left-0 z-50 flex w-full h-full min-h-screen bg-white">
+    <div className="absolute top-0 left-0 z-50 flex w-full h-full bg-white min-h-screen-d">
       <div className="relative hidden w-full h-full p-4 md:flex md:flex-col">
         <div className="flex gap-2">
           <Icon className="text-stone-700" path={mdiEarth} size={1.5} />
@@ -38,9 +38,6 @@ export default function LogIn () {
             backgroundColor="rgba(0,0,0,0)"
             />
           </div>
-          
-          
-          
 
         </div>
 
@@ -53,7 +50,9 @@ export default function LogIn () {
           </span>
         </div>
         <span className="text-2xl text-white font-display">Get Started</span>
-        <button className="w-40 h-12 rounded-lg bg-emerald-400 " onClick={async ()=> await loginWithRedirect()}>
+        <button className="w-40 h-12 rounded-lg bg-emerald-400 " onClick={()=> {
+          loginWithRedirect();
+          }}>
           Log In
         </button>
 
