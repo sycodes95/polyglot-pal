@@ -313,7 +313,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   return (
 
     <>
-    <div className="relative flex w-full pt-5 max-w-7xl">
+    <div className="relative flex w-full max-w-7xl">
       
       <Sidebar className="flex-col hidden md:flex" 
       resetState={resetState}/>

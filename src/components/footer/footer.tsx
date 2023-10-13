@@ -3,7 +3,7 @@ import { mdiHeart } from '@mdi/js';
 
 export default function Footer () {
   return (
-    <div className="sticky bottom-0 flex justify-center w-full h-12 bg-background">
+    <div className="bottom-0 flex justify-center w-full h-12  bg-background">
       <div className="max-w-7xl">
         <div className="flex items-center h-full gap-1 text-primary">
           <span className='whitespace-nowrap'>Made with</span>
