@@ -16,8 +16,8 @@ export default function Header({ showMobileSideBar, setShowMobileSideBar}: Heade
   const [menuIsOpen, setMenuIsOpen] = useState(false)
 
   return (
-    <div className="sticky top-0 z-10 flex items-center justify-center w-full h-16 bg-background dark:bg-black dark:bg-opacity-20">
-      <div className="flex justify-between w-full p-2 max-w-7xl">
+    <div className="top-0 z-10 flex items-center justify-center w-full h-16 bg-background dark:bg-black dark:bg-opacity-20">
+      <div className="relative flex justify-between w-full p-2 max-w-7xl">
         <div className="md:hidden text-primary">
           <Hamburger toggled={showMobileSideBar} toggle={()=> setShowMobileSideBar(!showMobileSideBar)} />
         </div>
@@ -28,7 +28,7 @@ export default function Header({ showMobileSideBar, setShowMobileSideBar}: Heade
           </span>
         </a>
 
-        <a href={import.meta.env.VITE_DOMAIN} className="absolute gap-2 -translate-x-1/2 -translate-y-1/2 top-1/2 md:hidden left-1/2">
+        <a href={import.meta.env.VITE_DOMAIN} className="absolute gap-2 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 md:hidden">
           <Icon className="text-primary" path={mdiEarth} size={1.5} />
         </a>
         {

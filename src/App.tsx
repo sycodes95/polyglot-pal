@@ -29,7 +29,7 @@ function App() {
       <div className="flex flex-col items-center w-full h-full min-h-screen text-sm font-main bg-background ">
         <Header showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar}/>
       
-        <div className="flex justify-center flex-grow w-full h-full overflow-hidden max-w-7xl">
+        <div className="flex justify-center w-full h-full overflow-hidden grow max-w-7xl">
           <Routes>
             <Route path="/" element={<TalkWithPolyGlot showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar}/>} />
             <Route path="/c/:c_id" element={<TalkWithPolyGlot showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar}/>} />
