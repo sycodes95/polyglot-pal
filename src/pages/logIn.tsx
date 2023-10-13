@@ -6,9 +6,9 @@ import Globe from "react-globe.gl";
 export default function LogIn () {
   const { loginWithRedirect } = useAuth0();
 
-  const handleLoginClick = async () => {
-    await loginWithRedirect();
-  };
+  // const handleLoginClick = async () => {
+  //   await loginWithRedirect();
+  // };
 
   return (
     <div className="absolute top-0 left-0 z-50 flex w-full h-full min-h-screen bg-white">
@@ -53,7 +53,7 @@ export default function LogIn () {
           </span>
         </div>
         <span className="text-2xl text-white font-display">Get Started</span>
-        <button className="w-40 h-12 rounded-lg bg-emerald-400 " onClick={handleLoginClick}>
+        <button className="w-40 h-12 rounded-lg bg-emerald-400 " onClick={async ()=> await loginWithRedirect()}>
           Log In
         </button>
 
