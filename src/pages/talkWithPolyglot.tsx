@@ -170,7 +170,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         const palMsg = await getGPTMsg({ messages, input: prompt })
 
         if(currentConvoId.current === c_id) {
-          console.log('matches');
           setMessages([
             { role: "user", content: prompt },
             { role: "assistant", content: palMsg },
@@ -205,7 +204,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         palVoiceElement.current.src = ''
       }
       const lastMsg = messages[messages.length - 1]
-      console.log(lastMsg);
       //check if messages exist, if last message was from pal (gpt), and user has TTS enabled
       //then get TTS from last msg from pal and play audio
 
@@ -233,13 +231,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         });
         if(ttsBase64) {
 
-          console.log(ttsBase64);
-          // const [_, base64WithoutContentType] = ttsBase64.split('data:audio/wav;base64,');
-          // const blob = base64ToBlob(base64WithoutContentType);
           setPalVoiceBase64(ttsBase64)
-          // const palVoiceAudio = new Audio(ttsBase64);
-          // palVoiceElement.current = palVoiceAudio;
-          // palVoiceElement.current.play()
+          
         }
       }
 
