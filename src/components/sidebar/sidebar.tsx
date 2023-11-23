@@ -103,7 +103,7 @@ export default function Sidebar ({
         <Button className="w-full border text-accent bg-primary "  variant={'default'} size={'default'} onClick={()=> {
           setCurrentConversationId(null)
           if(location.pathname === '/'){
-            resetState()
+            resetState && resetState()
           } else {
             navigate('/')
           }

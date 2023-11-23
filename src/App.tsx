@@ -30,7 +30,7 @@ function App() {
   
   return (
     <BrowserRouter>
-      <div className="flex flex-col items-center w-full h-full min-h-screen-d text-sm font-main bg-background ">
+      <div className="flex flex-col items-center w-full h-full text-sm min-h-screen-d font-main bg-background ">
         <Header showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar}/>
       
         <div className="flex justify-center w-full h-full overflow-hidden grow max-w-7xl">

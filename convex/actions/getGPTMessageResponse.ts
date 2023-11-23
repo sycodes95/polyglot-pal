@@ -9,7 +9,7 @@ export const getGPTMessageResponseConvex = action({
       content : v.string(), 
       role: v.string()
     })), 
-    input: v.string() 
+    input: v.string()
   },
   handler: async (_, args) => {
     const { messages, input } = args
