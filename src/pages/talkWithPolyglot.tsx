@@ -89,17 +89,18 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   const palVoiceElement = useRef<HTMLAudioElement | null>(null);
 
   useEffect(()=> {
-    currentConvoId.current = c_id
-    setPalMessageIsLoading(false)
+    
   },[c_id])
 
   useEffect(()=> {
+    currentConvoId.current = c_id
+    setPalMessageIsLoading(false)
+    if(palVoiceElement && palVoiceElement.current) {
+      palVoiceElement.current.pause()
+      palVoiceElement.current = null
+    }
     if(!c_id) {
       resetState()
-      if(palVoiceElement && palVoiceElement.current) {
-        palVoiceElement.current.pause()
-        palVoiceElement.current = null
-      }
     }
   },[c_id])
   
@@ -229,7 +230,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
             name: selectedVoice,
           },
         });
-        if(ttsBase64) {
+
+        if(ttsBase64 && currentConvoId.current === c_id) {
 
           setPalVoiceBase64(ttsBase64)
           
