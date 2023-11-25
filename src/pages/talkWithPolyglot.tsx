@@ -18,7 +18,6 @@ import { Id } from "convex/dist/cjs-types/values/value";
 
 import Icon from '@mdi/react';
 import { mdiAlphaXBoxOutline } from '@mdi/js';
-import PalSpeechIndicator from "../features/talkWithPolyglot/components/palSpeechIndicator/palSpeechIndicator";
 
 type Params = {
   c_id: Id<'conversation'>,
@@ -27,6 +26,11 @@ type Params = {
 type TalkWithPolyGlotProps = {
   showMobileSideBar: boolean,
   setShowMobileSideBar: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export type PalVoiceElementData = {
+  element: HTMLAudioElement | null;
+  messageIndex: number;
 }
 export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideBar} : TalkWithPolyGlotProps) {
 
@@ -81,20 +85,23 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
   const [userVoiceError, setUserVoiceError] = useState(false)
 
-  const [palVoiceBase64, setPalVoiceBase64] = useState("")
+  // const [palVoiceBase64, setPalVoiceBase64] = useState("")
 
 
-  const palVoiceElement = useRef<HTMLAudioElement | null>(null);
+  // const palVoiceElement = useRef<HTMLAudioElement | null>(null);
 
-  
+  const palVoiceElement = useRef<PalVoiceElementData>({
+    element: null,
+    messageIndex: -1
+  });
 
 
   useEffect(()=> {
     currentConvoId.current = c_id
     setPalMessageIsLoading(false)
-    if(palVoiceElement && palVoiceElement.current) {
-      palVoiceElement.current.pause()
-      palVoiceElement.current = null
+    if(palVoiceElement && palVoiceElement.current.element) {
+      palVoiceElement.current.element?.pause()
+      palVoiceElement.current.element = null
     }
     if(!c_id) {
       resetState()
@@ -123,8 +130,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   },[isAuthenticated, isLoading])
 
   useEffect(()=> {
-    if(palVoiceElement && palVoiceElement.current){
-      ttsEnabled ? !palVoiceElement.current.ended && palVoiceElement.current.play() : palVoiceElement.current.pause()
+    if(palVoiceElement && palVoiceElement.current.element){
+      ttsEnabled ? !palVoiceElement.current.element.ended && palVoiceElement.current.element.play() : palVoiceElement.current.element.pause()
     } 
   },[ttsEnabled])
 
@@ -145,8 +152,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   useEffect(() => {
 
 
-    if (palVoiceElement.current) {
-      palVoiceElement.current.pause();
+    if (palVoiceElement.current.element) {
+      palVoiceElement.current.element.pause();
       // Release the resources held by the audio element
     }
     async function getFirstMessageFromPal () {
@@ -183,23 +190,23 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   
   }, [selectedLanguageData, cefrLevel]);
 
-  useEffect(()=> {
-    if(palVoiceBase64){
-      if(palVoiceElement && palVoiceElement.current) {
-        palVoiceElement.current.pause()
-      }
-      const palAudio = new Audio(palVoiceBase64)
-      palVoiceElement.current = palAudio
-      palVoiceElement.current.play()
-    }
-  },[palVoiceBase64])
+  // useEffect(()=> {
+  //   if(palVoiceBase64){
+  //     if(palVoiceElement && palVoiceElement.current.element) {
+  //       palVoiceElement.current.element.pause()
+  //     }
+  //     const palAudio = new Audio(palVoiceBase64)
+  //     palVoiceElement.current.element = palAudio
+  //     palVoiceElement.current.element.play()
+  //   }
+  // },[palVoiceBase64])
 
   useEffect(() => {
     //sends last user input message to TTS api, receives audio in base64 string format then plays the audio
 
     async function getTTSFromPalMessage () {
-      if(palVoiceElement && palVoiceElement.current) {
-        palVoiceElement.current.src = ''
+      if(palVoiceElement && palVoiceElement.current.element) {
+        palVoiceElement.current.element.src = ''
       }
       const lastMsg = messages[messages.length - 1]
       //check if messages exist, if last message was from pal (gpt), and user has TTS enabled
@@ -230,7 +237,14 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
         if(ttsBase64 && currentConvoId.current === c_id) {
 
-          setPalVoiceBase64(ttsBase64)
+          // setPalVoiceBase64(ttsBase64)
+
+          // if(palVoiceElement.current.element) {
+          //   palVoiceElement.current.element.pause()
+          // }
+          const palVoiceAudio = new Audio(ttsBase64)
+          palVoiceElement.current.element = palVoiceAudio
+          palVoiceElement.current.element.play()
           
         }
       }
@@ -313,10 +327,10 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     setTtsEnabled(true)
     setUserVoiceBase64("")
     setUserVoiceError(false)
-    setPalVoiceBase64("")
-    if(palVoiceElement && palVoiceElement.current) {
-      palVoiceElement.current.pause()
-      palVoiceElement.current = null
+    // setPalVoiceBase64("")
+    if(palVoiceElement && palVoiceElement.current.element) {
+      palVoiceElement.current.element.pause()
+      palVoiceElement.current.element = null
     }
   }
 
