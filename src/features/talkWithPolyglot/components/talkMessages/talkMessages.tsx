@@ -9,6 +9,7 @@ import { useAction, useQuery } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { useAuth0 } from "@auth0/auth0-react";
 import { PalVoiceElementData } from "../../../../pages/talkWithPolyglot";
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
 type TalkMessagesProps = {
   className?: string,
@@ -17,7 +18,8 @@ type TalkMessagesProps = {
   selectedLanguageData: LanguageOption | null,
   ttsEnabled: boolean,
   userMessageIsLoading: boolean,
-  palVoiceElement: React.RefObject<PalVoiceElementData>
+  palVoiceElement: PalVoiceElementData,
+  setPalVoiceElement: React.Dispatch<React.SetStateAction<PalVoiceElementData>>,
   userVoiceError: boolean
   setUserVoiceError: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -30,6 +32,7 @@ export default function TalkMessages ({
   ttsEnabled,
   userMessageIsLoading,
   palVoiceElement,
+  setPalVoiceElement,
   userVoiceError,
   setUserVoiceError
 } : TalkMessagesProps) {
@@ -51,6 +54,41 @@ export default function TalkMessages ({
   })
 
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
+
+  const [palIsSpeaking, setPalIsSpeaking] = useState(false)
+
+  useEffect(()=> {
+    console.log(palVoiceElement?.messageIndex);
+  },[palIsSpeaking, palVoiceElement])
+
+  useEffect(() => {
+    if (palVoiceElement?.element) {
+
+      const handleAudioPlaying = () => {
+        console.log('playing');
+        setPalIsSpeaking(true)
+
+      };
+
+      const handleAudioEnd = () => {
+        console.log('ended');
+
+        setPalIsSpeaking(false)
+
+      };
+      palVoiceElement.element.addEventListener('playing', handleAudioPlaying);
+      
+      palVoiceElement.element.addEventListener('ended', handleAudioEnd);
+
+      return () => {
+        if (palVoiceElement?.element) {
+          palVoiceElement.element.removeEventListener('ended', handleAudioEnd);
+          palVoiceElement.element.removeEventListener('playing', handleAudioPlaying);
+
+        }
+      };
+    }
+  }, [palVoiceElement]);
 
   useEffect(() => {
 
@@ -93,9 +131,14 @@ export default function TalkMessages ({
     });
 
     if(ttsBase64) {
-      if (palVoiceElement && palVoiceElement.current?.element){
-        palVoiceElement.current.element.src = ttsBase64;
-        palVoiceElement.current.element.play()
+      if (palVoiceElement && palVoiceElement?.element){
+        const palVoiceAudio = new Audio(ttsBase64)
+
+        setPalVoiceElement({
+          element: palVoiceAudio,
+          messageIndex: index
+        })
+        
         setPalVoiceReplayIndex(null)
       } 
     }
@@ -153,6 +196,9 @@ export default function TalkMessages ({
               {
               msg.role === 'assistant' &&
               <div className="right-0 flex items-center h-12 gap-2 p-2 text-black top-full rounded-2xl">
+                <div className={`${palIsSpeaking && index === palVoiceElement?.messageIndex && 'text-emerald-500'} text-stone-400 transition-all duration-1000 flex items-center justify-center w-6 h-6`}>
+                  <VolumeUpIcon  fontSize="medium"/>
+                </div>
                 
                 <div className="flex items-center justify-center w-6 h-6">
                   {
