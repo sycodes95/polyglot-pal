@@ -8,6 +8,7 @@ import { combineLangAndCountryCode } from "../../../../utils/combineLangAndCount
 import { useAction, useQuery } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { useAuth0 } from "@auth0/auth0-react";
+import { PalVoiceElementData } from "../../../../pages/talkWithPolyglot";
 
 type TalkMessagesProps = {
   className?: string,
@@ -16,7 +17,7 @@ type TalkMessagesProps = {
   selectedLanguageData: LanguageOption | null,
   ttsEnabled: boolean,
   userMessageIsLoading: boolean,
-  palVoiceElement: React.RefObject<HTMLAudioElement> | null,
+  palVoiceElement: React.RefObject<PalVoiceElementData>
   userVoiceError: boolean
   setUserVoiceError: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -92,9 +93,9 @@ export default function TalkMessages ({
     });
 
     if(ttsBase64) {
-      if (palVoiceElement && palVoiceElement.current){
-        palVoiceElement.current.src = ttsBase64;
-        palVoiceElement.current.play()
+      if (palVoiceElement && palVoiceElement.current?.element){
+        palVoiceElement.current.element.src = ttsBase64;
+        palVoiceElement.current.element.play()
         setPalVoiceReplayIndex(null)
       } 
     }

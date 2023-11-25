@@ -2,8 +2,8 @@ import CountryFlag from "../../../../components/countryFlag/countryFlag"
 import { cefrLevels } from "../../../../constants/cefrLevels"
 import { LanguageOption, Message } from "../../types"
 import Icon from '@mdi/react';
-import { mdiHelpCircleOutline, mdiCloseCircleOutline } from '@mdi/js';
-import { useEffect, useRef, useState } from "react";
+import {  mdiCloseCircleOutline } from '@mdi/js';
+import {  useRef, useState } from "react";
 import { Button } from "../../../../@/components/ui/button"
 import { Switch } from "@mui/material"
 import { useAuth0 } from "@auth0/auth0-react";
@@ -25,15 +25,9 @@ import {
   PopoverTrigger,
 } from "../../../../@/components/ui/popover"
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../../../../@/components/ui/tooltip"
-
 import { cn } from "../../../../@/lib/utils";
 import { useLocation, useNavigate } from "react-router-dom";
+import { PalVoiceElementData } from "../../../../pages/talkWithPolyglot";
 
 type TalkSetupOptionsProps = {
   c_id: Id<'conversation'>,
@@ -47,7 +41,7 @@ type TalkSetupOptionsProps = {
   ttsEnabled: boolean,
   setTtsEnabled: React.Dispatch<React.SetStateAction<boolean>>,
   messages: Message[] | [],
-  palVoiceElement: React.RefObject<HTMLAudioElement> | null,
+  palVoiceElement: React.RefObject<PalVoiceElementData> | null,
 }
 
 export default function TalkSetupOptions ({ 
@@ -185,8 +179,8 @@ export default function TalkSetupOptions ({
               {
               Object.keys(cefrLevels).map((level) => (
                 <button className={`flex items-center border text-black ${level === cefrLevel ? 'bg-black text-white ' : 'border-stone-300 text-stone-400'} hover:bg-accent justify-center w-12 h-12 text-sm rounded-full transition-all`} onClick={()=> {
-                  if(palVoiceElement && palVoiceElement.current){
-                  palVoiceElement.current.remove()
+                  if(palVoiceElement && palVoiceElement.current?.element){
+                  palVoiceElement.current?.element.remove()
                   }
                   setCefrLevel(level)
                   setMessages([])   
