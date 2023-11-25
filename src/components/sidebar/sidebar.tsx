@@ -107,7 +107,7 @@ export default function Sidebar ({
           } else {
             navigate('/')
           }
-        }}> +    New Conversation</Button>
+        }}> + New Conversation</Button>
       </div>
         
 

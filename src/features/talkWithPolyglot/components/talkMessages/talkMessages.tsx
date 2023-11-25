@@ -7,7 +7,6 @@ import OvalSpinnerBlackGray from "../../../../components/loadSpinners/ ovalSpinn
 import { combineLangAndCountryCode } from "../../../../utils/combineLangAndCountryCode";
 import { useAction, useQuery } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
-import { AudioVisualizer, LiveAudioVisualizer } from "react-audio-visualize";
 import { useAuth0 } from "@auth0/auth0-react";
 
 type TalkMessagesProps = {
@@ -94,8 +93,6 @@ export default function TalkMessages ({
 
     if(ttsBase64) {
       if (palVoiceElement && palVoiceElement.current){
-        palVoiceElement.current.src = '';
-        // const palVoiceAudio = new Audio(ttsBase64);
         palVoiceElement.current.src = ttsBase64;
         palVoiceElement.current.play()
         setPalVoiceReplayIndex(null)

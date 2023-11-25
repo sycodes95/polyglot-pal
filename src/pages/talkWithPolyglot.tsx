@@ -2,19 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import {
   LanguageOption,
   Message,
-  VoiceData,
 } from "../features/talkWithPolyglot/types";
-import { useAction, useConvexAuth, useMutation, useQuery } from "convex/react";
+import { useAction, useConvexAuth , useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
-import ISO6391 from "iso-639-1";
 import TalkMessageInput from "../features/talkWithPolyglot/components/talkMessageInput/talkMessageInput";
 import TalkMessages from "../features/talkWithPolyglot/components/talkMessages/talkMessages";
 import TalkSetupOptions from "../features/talkWithPolyglot/components/talkSetupOptions/talkSetupOptions";
-import { getSampleRateFromBase64 } from "../utils/getSampleRateFromBase64";
 import { getGPTPrompt } from "../features/talkWithPolyglot/services/getGPTPrompt";
 import { combineLangAndCountryCode } from "../utils/combineLangAndCountryCode";
 import { formatGCTTSVoiceOptions } from "../utils/formatGCTTSVoiceOptions";
-import { base64ToBlob } from "../utils/base64ToBlob";
 import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../components/sidebar/sidebar";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -22,6 +18,7 @@ import { Id } from "convex/dist/cjs-types/values/value";
 
 import Icon from '@mdi/react';
 import { mdiAlphaXBoxOutline } from '@mdi/js';
+import PalSpeechIndicator from "../features/talkWithPolyglot/components/palSpeechIndicator/palSpeechIndicator";
 
 type Params = {
   c_id: Id<'conversation'>,
@@ -86,11 +83,11 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
   const [palVoiceBase64, setPalVoiceBase64] = useState("")
 
+
   const palVoiceElement = useRef<HTMLAudioElement | null>(null);
 
-  useEffect(()=> {
-    
-  },[c_id])
+  
+
 
   useEffect(()=> {
     currentConvoId.current = c_id
@@ -344,7 +341,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       </div>
       }
       
-      <div className="relative flex flex-col flex-grow w-full gap-4 ">
+      <div className="relative flex flex-col flex-grow w-full h-full gap-4 ">
         <TalkSetupOptions
           className="flex flex-col gap-2 p-2 bg-background h-fit top-20 "
           c_id={c_id}
@@ -380,6 +377,10 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
           ttsEnabled={ttsEnabled}
           selectedLanguageData={selectedLanguageData}
         />
+
+        
+
+
       </div>
     </div>
 
