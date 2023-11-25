@@ -41,7 +41,7 @@ type TalkSetupOptionsProps = {
   ttsEnabled: boolean,
   setTtsEnabled: React.Dispatch<React.SetStateAction<boolean>>,
   messages: Message[] | [],
-  palVoiceElement: React.RefObject<PalVoiceElementData> | null,
+  palVoiceElement: PalVoiceElementData,
 }
 
 export default function TalkSetupOptions ({ 
@@ -179,8 +179,8 @@ export default function TalkSetupOptions ({
               {
               Object.keys(cefrLevels).map((level) => (
                 <button className={`flex items-center border text-black ${level === cefrLevel ? 'bg-black text-white ' : 'border-stone-300 text-stone-400'} hover:bg-accent justify-center w-12 h-12 text-sm rounded-full transition-all`} onClick={()=> {
-                  if(palVoiceElement && palVoiceElement.current?.element){
-                  palVoiceElement.current?.element.remove()
+                  if(palVoiceElement && palVoiceElement?.element){
+                  palVoiceElement?.element.remove()
                   }
                   setCefrLevel(level)
                   setMessages([])   
