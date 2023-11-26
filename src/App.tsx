@@ -1,12 +1,14 @@
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+
 import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TalkWithPolyGlot from "./pages/talkWithPolyglot";
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
-import Sidebar from "./components/sidebar/sidebar";
 import LogIn from "./pages/logIn";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
+
+import { ThemeProvider } from "@/components/themeProvider/theme-provider"
+
 
 function App() {
   const [showMobileSideBar, setShowMobileSideBar] = useState(false)
@@ -30,19 +32,23 @@ function App() {
   
   return (
     <BrowserRouter>
-      <div className="flex flex-col items-center w-full h-full text-sm min-h-screen-d font-main bg-background ">
-        <Header showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar}/>
-      
-        <div className="flex justify-center w-full h-full overflow-hidden grow max-w-7xl">
-          <Routes>
-            <Route path="/" element={<TalkWithPolyGlot showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar}/>} />
-            <Route path="/c/:c_id" element={<TalkWithPolyGlot showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar}/>} />
-            <Route path="/log-in" element={<LogIn />} />
-          </Routes>
-        </div>
-        <Footer/>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+
+        <div className="flex flex-col items-center w-full h-full text-sm min-h-screen-d font-main bg-background ">
+          <Header showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar}/>
         
-      </div>
+          <div className="flex justify-center w-full h-full overflow-hidden grow max-w-7xl scrollbar-track scrollbar-thumb scrollbar-thumb-hover">
+            <Routes>
+              <Route path="/" element={<TalkWithPolyGlot showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar}/>} />
+              <Route path="/c/:c_id" element={<TalkWithPolyGlot showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar}/>} />
+              <Route path="/log-in" element={<LogIn />} />
+            </Routes>
+          </div>
+          <Footer/>
+          
+        </div>
+      </ThemeProvider>
+
     </BrowserRouter>
   );
 }

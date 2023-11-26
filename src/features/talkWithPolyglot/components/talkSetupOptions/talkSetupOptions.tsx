@@ -4,7 +4,7 @@ import { LanguageOption, Message } from "../../types"
 import Icon from '@mdi/react';
 import {  mdiCloseCircleOutline } from '@mdi/js';
 import {  useRef, useState } from "react";
-import { Button } from "../../../../@/components/ui/button"
+import { Button } from "../../../../components/ui/button"
 import { Switch } from "@mui/material"
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation } from "convex/react";
@@ -17,15 +17,15 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "../../../../@/components/ui/command"
+} from "@/components/ui/command"
 
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../../../../@/components/ui/popover"
+} from "@/components/ui/popover"
 
-import { cn } from "../../../../@/lib/utils";
+import { cn } from "../../../../lib/utils";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PalVoiceElementData } from "../../../../pages/talkWithPolyglot";
 
@@ -42,6 +42,7 @@ type TalkSetupOptionsProps = {
   setTtsEnabled: React.Dispatch<React.SetStateAction<boolean>>,
   messages: Message[] | [],
   palVoiceElement: PalVoiceElementData,
+  setPalVoiceElement: React.Dispatch<React.SetStateAction<PalVoiceElementData>>
 }
 
 export default function TalkSetupOptions ({ 
@@ -56,7 +57,8 @@ export default function TalkSetupOptions ({
   ttsEnabled,
   setTtsEnabled,
   messages,
-  palVoiceElement
+  palVoiceElement,
+  setPalVoiceElement
 }: TalkSetupOptionsProps) {
 
   const { user } = useAuth0();
@@ -88,17 +90,16 @@ export default function TalkSetupOptions ({
   }
   
   return (
-    <div className={` ${className}`}>
+    <div className={` ${className} bg-background`}>
 
       <div
-      className="flex items-center gap-2"
+      className="flex items-center gap-2 "
       >
         {
         <Popover open={languageOptionsIsOpen} onOpenChange={setLanguageOptionsIsOpen}>
-          <PopoverTrigger className="w-full border rounded-lg border-accent hover:bg-accent text-primary bg-background" asChild>
+          <PopoverTrigger className="w-full border rounded-lg border-border hover:bg-foreground text-primary bg-background" asChild>
             <Button
-              variant="outline"
-              role="combobox"
+            variant={'default'}
               aria-expanded={languageOptionsIsOpen}
               className="justify-between w-full h-8 overflow-hidden text-sm text-primary whitespace-nowrap text-ellipsis "
             >
@@ -110,10 +111,10 @@ export default function TalkSetupOptions ({
             </Button>
           </PopoverTrigger>
           <PopoverContent className="z-50 w-full p-0 border border-border ">
-            <Command className="w-full max-w-max bg-secondary border-accent">
-              <CommandInput placeholder="Search language voice." />
+            <Command className="w-full max-w-max border-border ">
+              <CommandInput  className='' placeholder="Search language voice." />
               <CommandEmpty>No language found.</CommandEmpty>
-              <CommandGroup className="overflow-auto w-80 h-96 ">
+              <CommandGroup className="w-64 overflow-auto md:w-full h-96 ">
                 <CommandItem 
                 className="cursor-pointer"
                 onSelect={() => {
@@ -132,7 +133,7 @@ export default function TalkSetupOptions ({
                 
                 {languageOptions.map((lang : LanguageOption, index: number) => (
                   <CommandItem
-                    className="flex items-start w-full gap-2 text-primary hover:cursor-pointer"
+                    className="flex items-start w-full gap-2 text-primary hover:cursor-pointer "
                     key={index}
                     onSelect={(currentValue) => {
                       const values = currentValue.split(' ')
@@ -166,20 +167,20 @@ export default function TalkSetupOptions ({
       </div>
       
       <div
-      className="flex items-center justify-between w-full h-8 h-full gap-2"
+      className="flex items-center justify-between w-full h-8 gap-2"
       >
         <div className="flex items-center h-full gap-2">
           <Popover>
-            <PopoverTrigger className="flex items-center pl-2 pr-2 text-sm transition-all border rounded-lg whitespace-nowrap border-accent text-primary hover:bg-accent">
+            <PopoverTrigger className="flex items-center pl-2 pr-2 text-sm transition-all border rounded-lg whitespace-nowrap border-border text-primary hover:bg-foreground">
               <span className="flex items-center h-8 pl-2">CEFR</span>
               <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </PopoverTrigger>
             
-            <PopoverContent className="grid w-full grid-cols-3 gap-2">
+            <PopoverContent className="grid w-full grid-cols-3 gap-2 ">
               {
               Object.keys(cefrLevels).map((level) => (
                 <button className={`flex items-center border text-black ${level === cefrLevel ? 'bg-black text-white ' : 'border-stone-300 text-stone-400'} hover:bg-accent justify-center w-12 h-12 text-sm rounded-full transition-all`} onClick={()=> {
-                  if(palVoiceElement && palVoiceElement?.element){
+                  if(palVoiceElement.element){
                   palVoiceElement?.element.remove()
                   }
                   setCefrLevel(level)
@@ -196,12 +197,12 @@ export default function TalkSetupOptions ({
           </Popover>
 
           <Popover>
-            <PopoverTrigger className="flex items-center pl-2 pr-2 transition-all border rounded-lg whitespace-nowrap hover:bg-accent text-primary border-accent">
+            <PopoverTrigger className="flex items-center pl-2 pr-2 transition-all border rounded-lg whitespace-nowrap hover:bg-foreground text-primary border-border">
               <span className="flex items-center h-8 pl-2">TTS</span>
               <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </PopoverTrigger>
             
-            <PopoverContent className="w-full">
+            <PopoverContent className="w-full h-full bg-foreground">
               <Switch className="" checked={ttsEnabled} onChange={()=> setTtsEnabled(!ttsEnabled)} />
             </PopoverContent>
           </Popover>
@@ -221,7 +222,7 @@ export default function TalkSetupOptions ({
           </Button>
           
           <span className={` ${!selectedLanguageData ? 'group-hover:flex group-hover:opacity-100' : 'group-hover:hidden' }
-            hidden absolute mt-2 opacity-0 right-0 border border-accent rounded-lg top-full transition-all text-primary p-4 whitespace-nowrap`}>Please select a language</span>
+            hidden absolute mt-2 opacity-0 right-0 border border-border rounded-lg top-full transition-all text-primary p-4 whitespace-nowrap`}>Please select a language</span>
         </div>
         
       </div>

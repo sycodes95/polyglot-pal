@@ -101,23 +101,23 @@ export default function TalkMessageInput({
     <div className={`${className} flex w-full max-w-7xl p-2`}>
       <form
       aria-disabled
-        className="flex w-full h-12 gap-2 "
+        className="flex w-full h-full gap-2 "
         onSubmit={(e) => {
           e.preventDefault();
           handleMessageSend();
         }}
       > 
-        <div className={`relative flex items-center w-full border border-border rounded-lg bg-accent`}>
+        <div className={`relative flex items-center w-full border border-border rounded-lg bg-background gap-1 p-1`}>
           {
           !selectedLanguageData &&
-          <div className="absolute top-0 left-0 z-10 w-full h-full bg-opacity-70 bg-stone-300 group rounded-2xl">
+          <div className="absolute top-0 left-0 z-10 w-full h-full bg-opacity-70 bg-background group rounded-2xl">
             <span 
-            className="absolute right-0 hidden p-2 mb-2 text-sm bg-white border rounded-lg text-primary border-accent bottom-full group-hover:flex"
+            className="absolute right-0 hidden p-2 mb-2 text-sm bg-white border rounded-lg text-primary border-border bottom-full group-hover:flex"
             >Please select a language</span>
           </div>
           }
           <input
-            className={` w-full h-full outline-none rounded-lg p-2 bg-accent text-primary`}
+            className={` w-full h-full bg-background outline-none text-primary rounded-lg p-2`}
             type="text"
             value={input}
             minLength={2}
@@ -137,7 +137,7 @@ export default function TalkMessageInput({
             }
             
           </div>
-          <div className="flex w-8 gap-2">
+          <div className="flex items-center justify-center w-10 gap-2 p-2 border rounded-lg border-border">
             {
             recording ?
             <button type="button" onClick={stopVoiceRecord}>
@@ -153,7 +153,7 @@ export default function TalkMessageInput({
           </div>
           
           <button
-            className="flex items-center justify-center w-12 h-12"
+            className="flex items-center justify-center w-10 p-2 border rounded-lg border-border"
             type="submit"
           >
             <Icon className="text-primary" path={mdiSendOutline} size={1} />

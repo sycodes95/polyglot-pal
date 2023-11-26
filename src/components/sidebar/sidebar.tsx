@@ -8,7 +8,7 @@ import { Id } from "convex/dist/cjs-types/values/value";
 import CountryFlag from "../countryFlag/countryFlag";
 import { format } from "date-fns";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { Button } from "../../@/components/ui/button"
+import { Button } from "../ui/button"
 import Icon from '@mdi/react';
 import { mdiMessage, mdiTrashCan } from '@mdi/js';
 
@@ -19,15 +19,15 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "../../@/components/ui/command"
+} from "../ui/command"
 
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../../@/components/ui/popover"
+} from "../ui/popover"
 import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "../../@/lib/utils";
+import { cn } from "../../lib/utils";
 
 type SidebarProps = {
   className?: string,
@@ -100,7 +100,7 @@ export default function Sidebar ({
   return (
     <div className={` ${className}  w-80 flex-grow rounded-lg flex flex-col h-full`}>
       <div className="sticky p-2" >
-        <Button className="w-full border text-accent bg-primary "  variant={'default'} size={'default'} onClick={()=> {
+        <Button className="w-full text-background bg-accent glow-box"  variant={'default'} size={'default'} onClick={()=> {
           setCurrentConversationId(null)
           if(location.pathname === '/'){
             resetState && resetState()
@@ -113,7 +113,7 @@ export default function Sidebar ({
 
       <div className="sticky p-2">
         <Popover open={nativeLanguagePopoverIsOpen} onOpenChange={setNativeLanguagePopoverIsOpen} >
-          <PopoverTrigger className="w-full border rounded-lg border-accent hover:bg-accent text-primary bg-background" asChild>
+          <PopoverTrigger className="w-full border rounded-lg border-border hover:bg-foreground text-primary bg-background" asChild>
             <Button
               variant="outline"
               role="combobox"
@@ -127,7 +127,7 @@ export default function Sidebar ({
             </Button>
           </PopoverTrigger>
           <PopoverContent className="z-50 w-full p-0 border border-border ">
-            <Command className="w-full max-w-max bg-secondary border-accent">
+            <Command className="w-full max-w-max border-border">
               <CommandInput placeholder="Search language voice." />
               <CommandEmpty>No language found.</CommandEmpty>
               <CommandGroup className="w-full overflow-auto h-96 ">
@@ -166,7 +166,7 @@ export default function Sidebar ({
         {
         getAllConversations.map((c, index) => (
           <Link 
-          className={`${c._id === currentConversationId && 'bg-accent'}  relative flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all  rounded-lg  hover:bg-accent  border border-accent`} 
+          className={`${c._id === currentConversationId && 'bg-foreground '}  relative flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all  rounded-lg  hover:bg-foreground  border border-border`} 
           key={index} to={`/c/${c._id}`} 
           >
             <div className="flex items-center gap-2">
