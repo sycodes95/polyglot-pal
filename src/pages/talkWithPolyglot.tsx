@@ -91,6 +91,10 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   });
 
 
+  useEffect(()=>{
+    console.log(palVoiceElement.messageIndex);
+  },[palVoiceElement])
+
 
   useEffect(()=> {
 
@@ -279,11 +283,12 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         
         const palResponse = await getGPTMsg({ messages, input : transcript })
 
-        setMessages((messages) => [
-          ...messages,
-          { role: "assistant", content: palResponse },
-        ]);
-
+        if(currentConvoId.current === c_id) {
+          setMessages((messages) => [
+            ...messages,
+            { role: "assistant", content: palResponse },
+          ]);
+        }
         setPalMessageIsLoading(false);
         
       }
@@ -331,7 +336,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   return (
 
     <>
-    <div className="relative flex w-full max-w-7xl">
+    <div className="relative flex w-full pt-4 max-w-7xl">
       
       <Sidebar className="flex-col hidden md:flex" 
       resetState={resetState}/>
@@ -363,6 +368,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
           setTtsEnabled={setTtsEnabled}
           messages={messages}
           palVoiceElement={palVoiceElement}
+          setPalVoiceElement={setPalVoiceElement}
         />
 
         <TalkMessages 

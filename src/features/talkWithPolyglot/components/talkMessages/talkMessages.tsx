@@ -183,7 +183,7 @@ export default function TalkMessages ({
             ${msg.role === 'user' ? 'items-start' : 'items-end'}
             `}
             key={index}>
-              <div className={`${msg.role === 'user' ? 'bg-emerald-100 dark:bg-black' : 'bg-orange-200 dark:bg-accent'} text-primary p-4 rounded-2xl max-w-66pct`}>
+              <div className={`${msg.role === 'user' ? 'bg-emerald-100 dark:bg-accent text-background border border-border' : 'text-primary dark:bg-foreground border border-border'} p-4 rounded-2xl max-w-66pct`}>
                 {
                 msg.role === 'user' 
                 ?
@@ -196,7 +196,7 @@ export default function TalkMessages ({
               {
               msg.role === 'assistant' &&
               <div className="right-0 flex items-center h-12 gap-2 p-2 text-black top-full rounded-2xl">
-                <div className={`${palIsSpeaking && index === palVoiceElement?.messageIndex && 'text-emerald-500'} text-stone-400 transition-all duration-1000 flex items-center justify-center w-6 h-6`}>
+                <div className={`${palIsSpeaking && index === palVoiceElement.messageIndex ? 'text-emerald-500' : 'text-stone-400' }  transition-all duration-1000 flex items-center justify-center w-6 h-6`}>
                   <VolumeUpIcon  fontSize="medium"/>
                 </div>
                 
@@ -267,9 +267,9 @@ export default function TalkMessages ({
 
         {
         userVoiceError && 
-        <div className="relative flex items-center justify-center p-2 border rounded-lg border-destructive text-destructive">
+        <div className="relative flex items-center justify-center p-2 border rounded-lg border-destructive text-destructive dark:text-red-300 dark:border-red-300">
           Error: if you are using speech to text please check that your microphone is working or that you are speaking loud enough.
-          <button className="absolute w-5 h-5 rounded-full -top-2 -right-1 text-destructive" onClick={()=> setUserVoiceError(false)}>
+          <button className="absolute w-5 h-5 rounded-full -top-2 -right-1 text-destructive dark:text-red-300" onClick={()=> setUserVoiceError(false)}>
             <Icon className="bg-background" path={mdiAlphaXCircleOutline} size={1} />
           </button>
 
