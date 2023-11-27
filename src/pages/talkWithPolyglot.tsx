@@ -342,8 +342,10 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       resetState={resetState}/>
 
       <div className={`fixed flex md:hidden ${showMobileSideBar ? 'left-0' : '-left-full'} w-full z-50 top-0 transition-all duration-500  max-w-sm`} >
-        <Sidebar className={`w-80 flex-col min-h-screen-d  bg-background max-h-screen`} 
-        resetState={resetState}/>
+        <Sidebar className={` flex-col min-h-screen-d  bg-background max-h-screen`} 
+        resetState={resetState}
+        setShowMobileSideBar={setShowMobileSideBar}
+        />
         <div className="top-0 right-0 z-50 text-2xl text-black" onClick={()=> setShowMobileSideBar(false)}>
           <Icon className={`pt-1 text-white  `}  path={mdiAlphaXBoxOutline} size={2} />
         </div>
@@ -354,7 +356,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       </div>
       }
       
-      <div className="relative flex flex-col flex-grow w-full h-full gap-4 ">
+      <div className="relative flex flex-col flex-grow w-full h-full gap-4 p-0 md:pl-2">
         <TalkSetupOptions
           className="flex flex-col gap-2 p-2 bg-background h-fit top-20 "
           c_id={c_id}

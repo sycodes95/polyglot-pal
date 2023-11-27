@@ -46,6 +46,9 @@ export const getSpeechToText = action({
       if(response.results && response.results.length < 1){
         return null
       }
+
+      // const [response] = await client.longRunningRecognize(request);
+      // console.log(response);
       return response;
     } catch (error: unknown) {
       if (error instanceof Error) { 

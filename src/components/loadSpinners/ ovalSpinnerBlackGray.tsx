@@ -1,11 +1,13 @@
 import { Oval } from "react-loader-spinner";
+import { useTheme } from "../themeProvider/theme-provider";
 
 export default function OvalSpinnerBlackGray () {
+  const { theme } = useTheme()
   return (
     <Oval
       height={20}
       width={20}
-      color="#000000"
+      color={`${theme === 'light' ? "#000000" : "#FFFFFF"}`}
       wrapperStyle={{}}
       wrapperClass=""
       visible={true}

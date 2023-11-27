@@ -10,14 +10,14 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 100%;
+    --background: 0 0% 100%; /* white */
+    --foreground: 0 0% 85%; /* light gray */
 
     --card: 0 0% 100%;
     --card-foreground: 20 14.3% 4.1%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 20 14.3% 4.1%;
+    --popover-foreground: 0 0% 85%;
 
     --primary: 0 0% 0%;
     --secondary: 24 9.8% 80%;
@@ -28,13 +28,19 @@
     --muted: 60 4.8% 95.9%;
     --muted-foreground: 25 5.3% 44.7%;
 
-    --accent: 60 4.8% 85%;
-    --accent-foreground: 24 9.8% 10%;
+    
+    --accent: 149 100% 48%; /* emerald */
+    --accent-foreground: 0 0% 0%; /* black */
+
+    --translation: 300 76% 85%;
+    --translation-border: 300 76% 80%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 60 9.1% 97.8%;
 
-    --border: 20 5.9% 80%;
+    
+
+    --border: 20 5.9% 85%;
     --input: 20 5.9% 90%;
     --ring: 20 14.3% 4.1%;
 
@@ -46,8 +52,8 @@
   }
 
   .dark {
-    --background: 0 0% 11%;
-    --foreground: 0 0% 13.8%;
+    --background: 0 0% 11%; /* dark gray */
+    --foreground: 0 0% 13.8%; /* dark gray lighter */
 
     --card: 20 14.3% 4.1%;
     --card-foreground: 60 9.1% 97.8%;
@@ -64,11 +70,12 @@
     --muted: 12 6.5% 15.1%;
     --muted-foreground: 24 5.4% 63.9%;
 
-    /* emerald */
-    --accent: 149 100% 48%; 
-    /* white */
-    --accent-foreground: 0 0% 100%;
+    
+    --accent: 149 100% 48%; /* emerald */
+    --accent-foreground: 0 0% 100%; /* white */
 
+    --translation: 300 76% 5%;
+    --translation-border: 300 76% 80%;
     /* red */
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 60 9.1% 97.8%;

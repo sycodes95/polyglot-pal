@@ -169,9 +169,14 @@ export default function TalkMessages ({
   return (
     <div className={`${className} relative flex flex-grow flex-col h-1 w-full gap-8 overflow-y-auto rounded-2xl
       p-2`} >
-        {
+        {/* {
         messages && messages.length < 1 &&
         <Icon className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 text-opacity-80 text-stone-300" path={mdiEarth} size={7} />
+        } */}
+
+        {
+        messages && messages.length < 1 &&
+        <span className="absolute text-4xl font-bold text-center -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 text-stone-300 font-display" > Select A Language To Get Started! </span>
         }
         
         {
@@ -183,7 +188,7 @@ export default function TalkMessages ({
             ${msg.role === 'user' ? 'items-start' : 'items-end'}
             `}
             key={index}>
-              <div className={`${msg.role === 'user' ? 'bg-emerald-100 dark:bg-accent text-background border border-border' : 'text-primary dark:bg-foreground border border-border'} p-4 rounded-2xl max-w-66pct`}>
+              <div className={`${msg.role === 'user' ? 'bg-emerald-300 text-primary dark:text-black dark:bg-accent border border-emerald-400 dark:border-emerald-600' : 'text-primary bg-foreground dark:bg-foreground border border-border'} p-4 rounded-2xl max-w-66pct`}>
                 {
                 msg.role === 'user' 
                 ?
@@ -234,14 +239,14 @@ export default function TalkMessages ({
               }
               {
               translationData.index === index && !translationData.isLoading && translationData.trans &&
-              <div className="relative flex flex-col p-4 text-sm bg-emerald-100 rounded-2xl max-w-66pct text-primary">
+              <div className="relative flex flex-col p-4 text-sm border bg-translation rounded-2xl max-w-66pct text-primary border-translation-border">
                 <span>{translationData.trans}</span>
                 <button className="absolute flex items-center justify-center text-black rounded-full -right-2 -bottom-3" onClick={()=> setTranslationData({
                   index: -1,
                   trans: '',
                   isLoading: false
                 })}>
-                  <Icon className="w-full h-full rounded-full" path={mdiCloseCircleOutline} size={1} />
+                  <Icon className="w-full h-full rounded-full text-primary" path={mdiCloseCircleOutline} size={1} />
                 </button>
               </div>
               }
