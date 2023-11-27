@@ -10,6 +10,7 @@ import { api } from "../../../../../convex/_generated/api";
 import { useAuth0 } from "@auth0/auth0-react";
 import { PalVoiceElementData } from "../../../../pages/talkWithPolyglot";
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import { useTheme } from "@/components/themeProvider/theme-provider";
 
 type TalkMessagesProps = {
   className?: string,
@@ -36,7 +37,7 @@ export default function TalkMessages ({
   userVoiceError,
   setUserVoiceError
 } : TalkMessagesProps) {
-
+  const { theme } = useTheme()
   const { user } = useAuth0();
 
   const getTextToSpeech = useAction(api.actions.getTextToSpeech.getTextToSpeech);
@@ -169,11 +170,6 @@ export default function TalkMessages ({
   return (
     <div className={`${className} relative flex flex-grow flex-col h-1 w-full gap-8 overflow-y-auto rounded-2xl
       p-2`} >
-        {/* {
-        messages && messages.length < 1 &&
-        <Icon className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 text-opacity-80 text-stone-300" path={mdiEarth} size={7} />
-        } */}
-
         {
         messages && messages.length < 1 &&
         <span className="absolute text-4xl font-bold text-center -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 text-stone-300 font-display" > Select A Language To Get Started! </span>
@@ -262,7 +258,7 @@ export default function TalkMessages ({
           height="40" 
           width="40" 
           radius="9"
-          color="#000000" 
+          color={theme === 'dark' ? "#FFFFFF" : "#000000" }
           ariaLabel="three-dots-loading"
           wrapperStyle={{}}
           visible={true}
