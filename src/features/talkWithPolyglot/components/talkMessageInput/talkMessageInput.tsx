@@ -7,6 +7,7 @@ import Icon from "@mdi/react";
 import { mdiMicrophone } from "@mdi/js";
 import { LanguageOption } from "../../types";
 import { AudioVisualizer, LiveAudioVisualizer } from "react-audio-visualize";
+import { useTheme } from "@emotion/react";
 
 type TalkMessageInputProps = {
   className?: string,
@@ -29,7 +30,7 @@ export default function TalkMessageInput({
   setUserVoiceBase64,
   ttsEnabled
 }: TalkMessageInputProps) {
-  
+  const { theme } = useTheme()
   const [recording, setRecording] = useState<boolean>(false);
   const [audioData, setAudioData] = useState<string | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -110,30 +111,35 @@ export default function TalkMessageInput({
         <div className={`relative flex items-center w-full border border-border rounded-lg bg-background gap-1 p-1`}>
           {
           !selectedLanguageData &&
-          <div className="absolute top-0 left-0 z-10 w-full h-full bg-opacity-70 bg-background group rounded-2xl">
+          <div className="absolute top-0 left-0 z-10 w-full h-full bg-white rounded-lg dark:bg-zinc-500 bg-opacity-70 dark:bg-opacity-30 group">
             <span 
-            className="absolute right-0 hidden p-2 mb-2 text-sm bg-white border rounded-lg text-primary border-border bottom-full group-hover:flex"
+            className="absolute right-0 hidden p-4 mb-2 text-sm bg-white border rounded-lg dark:bg-foreground text-primary border-border bottom-full group-hover:flex"
             >Please select a language</span>
           </div>
           }
           <input
-            className={` w-full h-full bg-background outline-none text-primary rounded-lg p-2`}
+            className={` w-full h-full bg-foreground outline-none text-primary rounded-lg p-2`}
             type="text"
             value={input}
+            placeholder="Say hi to your pal ..."
             minLength={2}
             onChange={(e) => setInput(e.target.value)}
           />
 
-          <div className="flex items-center w-40 h-full">
+          <div className="flex items-center justify-center w-40 h-full border rounded-lg border-border">
             {
-            mediaRecorderRef && mediaRecorderRef.current && recording &&
+            mediaRecorderRef && mediaRecorderRef.current && recording ?
             <LiveAudioVisualizer
               mediaRecorder={mediaRecorderRef.current}
-              width={100}
+              width={80}
               height={30}
               backgroundColor="rgba(0,0,0,0)"
-              barColor="#000000"
+              barColor={`${theme === 'dark' ? '#000000' : '#FFFFFF'}`}
             />
+            :
+            <div>
+              
+            </div>
             }
             
           </div>

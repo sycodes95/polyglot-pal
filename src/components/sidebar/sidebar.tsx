@@ -31,13 +31,15 @@ import { cn } from "../../lib/utils";
 
 type SidebarProps = {
   className?: string,
-  resetState?: ()=> void
+  resetState?: ()=> void,
+  setShowMobileSideBar?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
 export default function Sidebar ({
   className,
-  resetState
+  resetState,
+  setShowMobileSideBar
 } : SidebarProps) {
   const { user } = useAuth0();
 
@@ -98,15 +100,16 @@ export default function Sidebar ({
   },[c_id])
 
   return (
-    <div className={` ${className}  w-80 flex-grow rounded-lg flex flex-col h-full`}>
+    <div className={` ${className} w-full  md:w-80 flex-grow rounded- flex flex-col h-full pl-0 pb-0 pt-0 p-2 md:p-0`}>
       <div className="sticky p-2" >
-        <Button className="w-full text-background bg-accent glow-box"  variant={'default'} size={'default'} onClick={()=> {
+        <Button className="w-full text-background bg-emerald-400"  variant={'default'} size={'default'} onClick={()=> {
           setCurrentConversationId(null)
           if(location.pathname === '/'){
             resetState && resetState()
           } else {
             navigate('/')
           }
+          setShowMobileSideBar && setShowMobileSideBar(false)
         }}> + New Conversation</Button>
       </div>
         
@@ -141,7 +144,7 @@ export default function Sidebar ({
                       const langName = currentValue;
                       handleUserNativeLanguage(langName[0].toUpperCase() + langName.slice(1))
                       setNativeLanguagePopoverIsOpen(false)
-                      
+                      // setShowMobileSideBar && setShowMobileSideBar(false)
                     }}
                   >
                     <Check
@@ -162,12 +165,13 @@ export default function Sidebar ({
       
       {
       getAllConversations && getAllConversations.length > 0 ?
-      <div className="flex flex-col flex-grow w-full h-0 gap-2 pl-2 pr-2 overflow-y-scroll rounded-lg scroll text-primary">
+      <div className="flex flex-col flex-grow w-full h-0 gap-1 pr-2 m-2 overflow-y-scroll rounded-lg scroll text-primary">
         {
         getAllConversations.map((c, index) => (
           <Link 
           className={`${c._id === currentConversationId && 'bg-foreground '}  relative flex flex-col justify-center w-full h-20 gap-1 p-2 transition-all  rounded-lg  hover:bg-foreground  border border-border`} 
           key={index} to={`/c/${c._id}`} 
+          onClick={()=> setShowMobileSideBar && setShowMobileSideBar(false)}
           >
             <div className="flex items-center gap-2">
               <CountryFlag className="object-contain w-6 h-6 rounded-2xl" countryCode={c.selectedLanguageData.countryCode} />
@@ -184,15 +188,16 @@ export default function Sidebar ({
                 </PopoverTrigger>
                 
                 <PopoverContent className="flex flex-col gap-2"  onInteractOutside={()=> setDeleteConvoPopoverIsOpen(false)}>
-                  <span className="text-sm">Are you sure you want to delete this conversation?</span>
+                  <span className="text-sm text-primary">Are you sure you want to delete this conversation?</span>
                   <div className="flex items-center justify-end gap-2">
-                    <Button className="hover:text-stone-500" variant={'ghost'} onClick={()=> setDeleteConvoPopoverIsOpen(false)}>
+                    <Button className=" text-primary hover:bg-foreground" variant={'ghost'} onClick={()=> setDeleteConvoPopoverIsOpen(false)}>
                        Cancel 
                     </Button>
                     <Button variant={'destructive'} onClick={ ()=> {
                       navigate('/')
                       deleteConversation({id : c._id, sub: c.sub})
                       setDeleteConvoPopoverIsOpen(false)
+                      setShowMobileSideBar && setShowMobileSideBar(false)
                     }}> Delete </Button>
                   </div>
                 </PopoverContent>

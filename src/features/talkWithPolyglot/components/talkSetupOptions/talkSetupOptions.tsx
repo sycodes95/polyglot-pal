@@ -176,7 +176,7 @@ export default function TalkSetupOptions ({
               <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </PopoverTrigger>
             
-            <PopoverContent className="grid w-full grid-cols-3 gap-2 ">
+            <PopoverContent className="grid w-full grid-cols-3 gap-2">
               {
               Object.keys(cefrLevels).map((level) => (
                 <button className={`flex items-center border text-black ${level === cefrLevel ? 'bg-black text-white ' : 'border-stone-300 text-stone-400'} hover:bg-accent justify-center w-12 h-12 text-sm rounded-full transition-all`} onClick={()=> {
@@ -202,7 +202,7 @@ export default function TalkSetupOptions ({
               <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </PopoverTrigger>
             
-            <PopoverContent className="w-full h-full bg-foreground">
+            <PopoverContent className="w-full h-full dark:bg-foreground">
               <Switch className="" checked={ttsEnabled} onChange={()=> setTtsEnabled(!ttsEnabled)} />
             </PopoverContent>
           </Popover>

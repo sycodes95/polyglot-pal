@@ -13,7 +13,6 @@
   src: url(/src/assets/fonts/DMSerifDisplay-Regular.ttf);
 }
 
-
 .font-main{
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
@@ -24,6 +23,8 @@
 .font-display{
   font-family: display, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
+
+
 
 .max-w-66pct{
   max-width: 66%;
@@ -54,7 +55,7 @@
 
 
 .glow-box {
-  box-shadow: 0 0 2px 2px rgb(8, 140, 85);
+  box-shadow: 0 0 2px 2px rgb(34, 190, 125);
   transition: box-shrgb(0, 255, 153) 0.3s ease;
 }
 
