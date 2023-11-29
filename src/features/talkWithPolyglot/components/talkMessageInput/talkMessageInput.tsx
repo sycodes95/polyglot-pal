@@ -84,7 +84,7 @@ export default function TalkMessageInput({
           stopVoiceRecord()      
           toast({
             title: "Voice Record Length Limit Exceeded",
-            description: "Please keep your recordings under 30 seconds as Polyglot Pal is still in beta.",
+            description: "Please keep each voice recording under 25 seconds as Polyglot Pal is still in beta.",
             
           })
         }
@@ -99,6 +99,7 @@ export default function TalkMessageInput({
       ) {
         const audioBlob = new Blob(audioChunks, { type: mimeType });
         blobToBase64(audioBlob, setAudioData);
+        mediaRecorderRef.current = null;
       }
       
     };
@@ -156,7 +157,7 @@ export default function TalkMessageInput({
               width={80}
               height={30}
               backgroundColor="rgba(0,0,0,0)"
-              barColor={`${theme === 'dark' ? '#000000' : '#FFFFFF'}`}
+              barColor={`${theme === 'dark' ? '#FFFFFF' : '#000000'}`}
             />
             :
             <div>
