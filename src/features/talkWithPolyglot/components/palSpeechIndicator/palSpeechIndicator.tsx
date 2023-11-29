@@ -11,12 +11,10 @@ export default function PalSpeechIndicator ({ palVoiceElement } : PalSpeechIndic
 
   useEffect(() => {
     if (palVoiceElement) {
-      console.log('speaking');
       setPalIsSpeaking(true)
 
       const handleAudioEnd = () => {
         setPalIsSpeaking(false)
-        console.log('audio end');
 
       };
 

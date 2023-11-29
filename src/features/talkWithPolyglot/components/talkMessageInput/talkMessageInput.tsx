@@ -7,7 +7,8 @@ import Icon from "@mdi/react";
 import { mdiMicrophone } from "@mdi/js";
 import { LanguageOption } from "../../types";
 import { AudioVisualizer, LiveAudioVisualizer } from "react-audio-visualize";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@/components/themeProvider/theme-provider";
+import { useToast } from "@/components/ui/use-toast";
 
 type TalkMessageInputProps = {
   className?: string,
@@ -34,9 +35,8 @@ export default function TalkMessageInput({
   const [recording, setRecording] = useState<boolean>(false);
   const [audioData, setAudioData] = useState<string | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const recordingStopped = useRef(false);
-  const visualizerRef = useRef<HTMLCanvasElement>(null)
-
+  // const recordingStopped = useRef(false);
+  const { toast } = useToast()
 
   const startVoiceRecord = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -55,29 +55,62 @@ export default function TalkMessageInput({
     });
 
     const audioChunks: Blob[] = [];
-    mediaRecorderRef.current.ondataavailable = (event) => {
-      if (event.data) {
-        audioChunks.push(event.data);
-      }
-    };
+    // mediaRecorderRef.current.ondataavailable = (event) => {
+    //   if (event.data) {
+    //     audioChunks.push(event.data);
+    //   }
+    // };
 
     mediaRecorderRef.current.ondataavailable = (event) => {
       if (event.data.size > 0) {
         audioChunks.push(event.data);
       }
 
-      if (
-        recordingStopped.current &&
-        mediaRecorderRef.current &&
-        mediaRecorderRef.current.state !== "recording"
-      ) {
-        const audioBlob = new Blob(audioChunks, { type: mimeType });
-        blobToBase64(audioBlob, setAudioData);
-      }
+      // if (
+      //   recordingStopped.current &&
+      //   mediaRecorderRef.current &&
+      //   mediaRecorderRef.current.state !== "recording"
+      // ) {
+      //   const audioBlob = new Blob(audioChunks, { type: mimeType });
+      //   blobToBase64(audioBlob, setAudioData);
+
+      //   mediaRecorderRef.current = null
+      // }
     };
 
+    mediaRecorderRef.current.onstart = () => {
+      setTimeout(() => {
+        if(mediaRecorderRef.current) {
+          stopVoiceRecord()      
+          toast({
+            title: "Voice Record Length Limit Exceeded",
+            description: "Please keep your recordings under 30 seconds as Polyglot Pal is still in beta.",
+            
+          })
+        }
+        
+      }, 24000); // 60 seconds
+
+      
+    };
     mediaRecorderRef.current.onstop = () => {
-      recordingStopped.current = true;
+      console.log('on stop');
+      if (
+        mediaRecorderRef.current
+      ) {
+        const audioBlob = new Blob(audioChunks, { type: mimeType });
+        const audioURL = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioURL);
+        audio.addEventListener('loadedmetadata', function() {
+            console.log("Duration of the audio is: " + audio.duration + " seconds.");
+            // It's a good practice to revoke the created URL once it is no longer needed
+            URL.revokeObjectURL(audioURL);
+        });
+
+        blobToBase64(audioBlob, setAudioData);
+        mediaRecorderRef.current = null
+      }
+      
     };
     mediaRecorderRef.current.start();
     setRecording(true);
@@ -87,7 +120,6 @@ export default function TalkMessageInput({
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
     }
-    recordingStopped.current = true;
     setRecording(false);
   };
 

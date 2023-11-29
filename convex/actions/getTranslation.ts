@@ -13,8 +13,8 @@ export const getTranslation = action({
   handler: async(ctx, args) => {
     const { text, targetLanguage } = args;
 
-    if(!process.env.GC_TTS_KEY_STORAGE_ID) return null
-    const keyUrl = await ctx.storage.get(process.env.GC_TTS_KEY_STORAGE_ID)
+    if(!process.env.GC_KEY_STORAGE_ID) return null
+    const keyUrl = await ctx.storage.get(process.env.GC_KEY_STORAGE_ID)
     const keyJson = await new Response(keyUrl).json()
     const translate = new Translate.Translate({
       credentials: {

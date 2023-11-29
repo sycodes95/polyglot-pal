@@ -197,6 +197,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     // once AudioElement is added, it is played
     if(palVoiceElement.element){
       palVoiceElement.element.play()
+      console.log(palVoiceElement.element.duration);
     }
   },[palVoiceElement.element])
 

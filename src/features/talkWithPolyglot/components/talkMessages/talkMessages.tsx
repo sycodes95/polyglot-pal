@@ -134,7 +134,8 @@ export default function TalkMessages ({
     if(ttsBase64) {
       if (palVoiceElement && palVoiceElement?.element){
         const palVoiceAudio = new Audio(ttsBase64)
-
+        
+        
         setPalVoiceElement({
           element: palVoiceAudio,
           messageIndex: index
@@ -258,7 +259,7 @@ export default function TalkMessages ({
           height="40" 
           width="40" 
           radius="9"
-          color={theme === 'dark' ? "#FFFFFF" : "#000000" }
+          color={ theme === 'dark' ? '#FFFFFF' : '#000000'}
           ariaLabel="three-dots-loading"
           wrapperStyle={{}}
           visible={true}
