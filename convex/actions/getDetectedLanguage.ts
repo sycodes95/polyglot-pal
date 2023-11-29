@@ -16,8 +16,8 @@ export const getDetectedLanguage = action({
   handler: async(ctx, args) => {
     const { text } = args;
 
-    if(!process.env.GC_TTS_KEY_STORAGE_ID) return null
-    const keyUrl = await ctx.storage.get(process.env.GC_TTS_KEY_STORAGE_ID)
+    if(!process.env.GC_KEY_STORAGE_ID) return null
+    const keyUrl = await ctx.storage.get(process.env.GC_KEY_STORAGE_ID)
     const keyJson = await new Response(keyUrl).json()
     const client = new LanguageServiceClient({
       credentials: {

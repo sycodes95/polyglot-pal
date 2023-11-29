@@ -6,7 +6,7 @@ import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
 import LogIn from "./pages/logIn";
 import { useEffect, useState } from "react";
-
+import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/themeProvider/theme-provider"
 
 
@@ -44,8 +44,9 @@ function App() {
               <Route path="/log-in" element={<LogIn />} />
             </Routes>
           </div>
+
           <Footer/>
-          
+          <Toaster />
         </div>
       </ThemeProvider>
 

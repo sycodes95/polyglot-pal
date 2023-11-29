@@ -21,8 +21,6 @@ export const getSpeechToText = action({
   handler: async (ctx, args) => {
     const { base64, languageCode, sampleRate } = args;
 
-    
-
     const request: Request = {
       audio: { content: base64 },
       config: {
@@ -31,8 +29,8 @@ export const getSpeechToText = action({
         languageCode: languageCode
       }
     }
-    if(!process.env.GC_TTS_KEY_STORAGE_ID) return null
-    const keyUrl = await ctx.storage.get(process.env.GC_TTS_KEY_STORAGE_ID)
+    if(!process.env.GC_KEY_STORAGE_ID) return null
+    const keyUrl = await ctx.storage.get(process.env.GC_KEY_STORAGE_ID)
     if(!keyUrl) return null
     const keyJson = await new Response(keyUrl).json()
     const client = new SpeechClient({
