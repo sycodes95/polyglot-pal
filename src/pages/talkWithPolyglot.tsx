@@ -117,7 +117,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       } else {
         resetState()
       }
-      
     }
     
   },[getConversation])
