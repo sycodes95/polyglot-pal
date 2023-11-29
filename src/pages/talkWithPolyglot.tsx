@@ -90,12 +90,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     messageIndex: -1
   });
 
-
-  useEffect(()=>{
-    console.log(palVoiceElement.messageIndex);
-  },[palVoiceElement])
-
-
   useEffect(()=> {
 
     currentConvoId.current = c_id
@@ -105,7 +99,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       palVoiceElement.element = null
     }
     palVoiceElement.messageIndex = -1
-    console.log('c_id');
+    
     if(!c_id) {
       resetState()
     }
@@ -197,7 +191,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     // once AudioElement is added, it is played
     if(palVoiceElement.element){
       palVoiceElement.element.play()
-      console.log(palVoiceElement.element.duration);
     }
   },[palVoiceElement.element])
 

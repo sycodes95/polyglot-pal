@@ -58,34 +58,19 @@ export default function TalkMessages ({
 
   const [palIsSpeaking, setPalIsSpeaking] = useState(false)
 
-  useEffect(()=> {
-    console.log(palVoiceElement?.messageIndex);
-  },[palIsSpeaking, palVoiceElement])
-
   useEffect(() => {
     if (palVoiceElement?.element) {
 
-      const handleAudioPlaying = () => {
-        console.log('playing');
-        setPalIsSpeaking(true)
-
-      };
-
-      const handleAudioEnd = () => {
-        console.log('ended');
-
-        setPalIsSpeaking(false)
-
-      };
-      palVoiceElement.element.addEventListener('playing', handleAudioPlaying);
+      const handleAudioPlaying = () => setPalIsSpeaking(true);
+      const handleAudioEnd = () => setPalIsSpeaking(false)
       
+      palVoiceElement.element.addEventListener('playing', handleAudioPlaying);
       palVoiceElement.element.addEventListener('ended', handleAudioEnd);
 
       return () => {
         if (palVoiceElement?.element) {
           palVoiceElement.element.removeEventListener('ended', handleAudioEnd);
           palVoiceElement.element.removeEventListener('playing', handleAudioPlaying);
-
         }
       };
     }
@@ -114,6 +99,7 @@ export default function TalkMessages ({
   },[palVoiceElement, ttsEnabled])
 
   const playPalVoiceReplay = async (palMessage: string, index: number) => {
+    
     if(!selectedLanguageData) return
     setPalVoiceReplayIndex(index)
 

@@ -94,21 +94,11 @@ export default function TalkMessageInput({
       
     };
     mediaRecorderRef.current.onstop = () => {
-      console.log('on stop');
       if (
         mediaRecorderRef.current
       ) {
         const audioBlob = new Blob(audioChunks, { type: mimeType });
-        const audioURL = URL.createObjectURL(audioBlob);
-        const audio = new Audio(audioURL);
-        audio.addEventListener('loadedmetadata', function() {
-            console.log("Duration of the audio is: " + audio.duration + " seconds.");
-            // It's a good practice to revoke the created URL once it is no longer needed
-            URL.revokeObjectURL(audioURL);
-        });
-
         blobToBase64(audioBlob, setAudioData);
-        mediaRecorderRef.current = null
       }
       
     };
