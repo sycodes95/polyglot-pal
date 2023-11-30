@@ -18,6 +18,7 @@ import { Id } from "convex/dist/cjs-types/values/value";
 
 import Icon from '@mdi/react';
 import { mdiAlphaXBoxOutline } from '@mdi/js';
+import LandingPage from "./landingPage";
 
 type Params = {
   c_id: Id<'conversation'>,
@@ -329,6 +330,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   return (
 
     <>
+    
     <div className="relative flex w-full pt-4 max-w-7xl">
       
       <Sidebar className="flex-col hidden md:flex" 
@@ -393,7 +395,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
       </div>
     </div>
-
+    
     </>
   );
 }

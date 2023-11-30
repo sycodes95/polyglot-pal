@@ -23,7 +23,7 @@ export default function UserDropdown () {
                 <li className="z-50 text-xs text-red-400 transition-all cursor-pointer hover:text-red-600" onClick={
                   ()=> {
                   window.onbeforeunload = null;
-                  logout({ logoutParams: { returnTo: `${import.meta.env.VITE_DOMAIN}/log-in`} })
+                  logout({ logoutParams: { returnTo: `${import.meta.env.VITE_DOMAIN}/`} })
                   return false;
                 }}>Log Out</li>
               </ul>
