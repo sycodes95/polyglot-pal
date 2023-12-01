@@ -28,13 +28,13 @@ export default function Header({
       user ? 
 
       
-      <div className="relative flex justify-between w-full p-2 max-w-7xl">
+      <div className="relative flex justify-between w-full p-4 max-w-7xl">
         
         <Logo 
         showMobileSideBar={showMobileSideBar}
         setShowMobileSideBar={setShowMobileSideBar}
         />
-        <MobileLogo />       
+        <MobileLogo className="absolute gap-2 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 md:hidden" />       
 
         <div className="flex justify-end w-full gap-8">
           <ModeToggle />
@@ -43,15 +43,15 @@ export default function Header({
         
       </div>
       :
-      <div className="relative flex items-center justify-between w-full p-2 max-w-7xl">
+      <div className="relative flex items-center justify-between w-full p-4 max-w-7xl">
         <Logo 
         showMobileSideBar={showMobileSideBar}
         setShowMobileSideBar={setShowMobileSideBar}
         showHamburger={false}
         />
-        <MobileLogo />  
+        <MobileLogo className="flex items-center md:hidden" />
         <div className="flex items-center justify-end w-full ">
-          <button className="flex items-center h-full p-1 pl-2 pr-2 text-xs transition-all duration-300 bg-red-400 border border-red-500 rounded-lg w-fit text-background" onClick={()=> {
+          <button className="h-8 p-2 text-xs font-normal transition-all duration-300 bg-red-400 border border-red-500 rounded-lg w-fit bg-opacity-20 text-primary font-main " onClick={()=> {
             loginWithRedirect();
             }}>
             Log In / Sign Up

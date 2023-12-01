@@ -1,9 +1,11 @@
 import Icon from "@mdi/react";
 import { mdiEarth } from "@mdi/js";
-
-export default function MobileLogo () {
+type MobileLogoProps = {
+  className?: string;
+}
+export default function MobileLogo ({className} : MobileLogoProps) {
   return (
-    <a href={import.meta.env.VITE_DOMAIN} className="absolute gap-2 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 md:hidden">
+    <a href={import.meta.env.VITE_DOMAIN} className={`${className}`}>
       <Icon className="text-primary" path={mdiEarth} size={1.5} />
     </a>
 
