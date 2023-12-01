@@ -171,7 +171,7 @@ export default function TalkMessages ({
             ${msg.role === 'user' ? 'items-start' : 'items-end'}
             `}
             key={index}>
-              <div className={`${msg.role === 'user' ? 'bg-emerald-300 text-primary dark:text-black dark:bg-accent border border-emerald-400 dark:border-emerald-600' : 'text-primary bg-foreground dark:bg-foreground border border-border'} p-4 rounded-2xl max-w-66pct`}>
+              <div className={`${msg.role === 'user' ? 'bg-red-300 text-primary dark:text-black dark:bg-accent border border-red-400 dark:border-red-600' : 'text-primary bg-foreground dark:bg-foreground border border-border'} p-4 rounded-2xl max-w-66pct`}>
                 {
                 msg.role === 'user' 
                 ?

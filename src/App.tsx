@@ -45,7 +45,7 @@ function App() {
         
           <div className="flex justify-center w-full h-full overflow-hidden grow max-w-7xl scrollbar-track scrollbar-thumb scrollbar-thumb-hover">
             <Routes>
-              <Route path="/" element={<MainComponent/>} />
+              <Route path="/" element={<MainComponent showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar} />} />
               <Route path="/c/:c_id" element={<TalkWithPolyGlot showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar}/>} />
               {/* <Route path="/log-in" element={<LandingPage />} /> */}
             </Routes>

@@ -51,7 +51,7 @@ export default function TalkSetupOptions ({
   selectedLanguageData, 
   setSelectedLanguageData,  
   languageOptions,
-  cefrLevel,
+  cefrLevel,  
   setCefrLevel,
   setMessages,
   ttsEnabled,
@@ -75,7 +75,7 @@ export default function TalkSetupOptions ({
       messages,
       sub: user.sub,
       selectedLanguageData,
-      cefrLevel,
+      cefrLevel,   
       ttsEnabled 
     } 
     if(c_id) {
@@ -179,7 +179,7 @@ export default function TalkSetupOptions ({
             <PopoverContent className="grid w-full grid-cols-3 gap-2">
               {
               Object.keys(cefrLevels).map((level) => (
-                <button className={`flex items-center border text-black ${level === cefrLevel ? 'bg-black text-white ' : 'border-stone-300 text-stone-400'} hover:bg-accent justify-center w-12 h-12 text-sm rounded-full transition-all`} onClick={()=> {
+                <button className={`flex items-center border text-black ${level === cefrLevel ? 'bg-black text-white ' : 'border-stone-300 text-stone-400'} hover:bg-foreground justify-center w-12 h-12 text-sm rounded-full transition-all`} onClick={()=> {
                   if(palVoiceElement.element){
                   palVoiceElement?.element.remove()
                   }

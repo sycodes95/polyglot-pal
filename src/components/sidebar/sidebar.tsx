@@ -102,7 +102,7 @@ export default function Sidebar ({
   return (
     <div className={` ${className} w-full  md:w-80 flex-grow rounded- flex flex-col h-full pl-0 pb-0 pt-0 p-2 md:p-0`}>
       <div className="sticky p-2" >
-        <Button className="w-full text-background bg-emerald-400"  variant={'default'} size={'default'} onClick={()=> {
+        <Button className="w-full bg-red-400 text-background"  variant={'default'} size={'default'} onClick={()=> {
           setCurrentConversationId(null)
           if(location.pathname === '/'){
             resetState && resetState()
