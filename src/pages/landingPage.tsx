@@ -55,7 +55,7 @@ export default function LandingPage () {
   return (
     <div className="relative z-[60] flex flex-col items-center w-full h-full  dark">
       <div className="absolute top-0 z-10 w-64 h-0 glow-box-red-top"></div>
-      <div className="flex flex-col w-full h-full gap-16 p-4 pt-12 border-l border-r md:pt-24 md:pb-24 max-w-7xl border-border bg-dark-gradient">
+      <div className="flex flex-col w-full h-full gap-16 p-4 pt-12 pb-12 border-l border-r md:pt-24 md:pb-24 max-w-7xl border-border bg-dark-gradient">
           
         <div className="relative flex flex-col items-center justify-start h-full gap-8 text-4xl font-semibold text-white transition-all duration-500 md:text-6xl text-opacity-80 font-display-2">
           <div className="z-50 flex flex-col items-center">
@@ -86,7 +86,7 @@ export default function LandingPage () {
           {
           infoCards.map((card, index) => (
             <AtroposEffect key={index} index={index}>
-              <div className="flex flex-col items-center h-full gap-4 p-8 transition-colors duration-300 border rounded-lg bg-foreground border-border hover:border-stone-700">
+              <div className="flex flex-col items-center h-full gap-4 p-8 transition-colors duration-300 border rounded-lg bg-foreground border-border hover:border-stone-700 hover:bg-opacity-30 hover:bg-black group">
                 <div className="flex items-center justify-center gap-2 p-2 border rounded-lg bg-background border-border w-fit font-display-2" data-atropos-offset="5" data-atropos-opacity="1;0.6">
                   {card.icon}
                 </div>
@@ -106,8 +106,8 @@ export default function LandingPage () {
                   <div className={`absolute top-0 left-0 z-0 grid w-full h-full ${card.name === 'Text' ? 'grid-rows-2' : 'grid-cols-2'} gap-16`} data-atropos-offset="-10" data-atropos-opacity="1;0.3">
                     {
                     Array.from({length : 2}).map((_, index) => (
-                      <div className="flex items-center justify-center w-full h-full">
-                        <img className={`${card.name === 'Text' ? 'w-28 h-28' : 'w-full h-full'} object-contain  opacity-20 invert grayscale saturate-200`} src={card.imageSrc} alt="" />
+                      <div className="flex items-center justify-center w-full h-full" key={index}>
+                        <img className={`${card.name === 'Text' ? 'w-28 h-28' : 'w-full h-full'} object-contain   invert grayscale saturate-200 opacity-0 group-hover:opacity-30 transition-opacity duration-500`} src={card.imageSrc} alt="" />
                       </div>
                     ))
                     }
