@@ -11,7 +11,8 @@ import aiVoiceImage from '../assets/images/aiVoiceArt.png'
 import mechKeyboard from '../assets/images/mechKeyboard.png'
 import translationImage from '../assets/images/translation.png'
 import AtroposEffect from "@/components/atropos/atroposEffect";
-
+import cefrLevelImage from '../assets/images/cefrImage.png'
+import SignUpButton from "../features/landingPage/signUpButton";
 
 export default function LandingPage () {
   const { loginWithRedirect } = useAuth0();
@@ -21,107 +22,127 @@ export default function LandingPage () {
       name: 'AI Voice', 
       icon: <VoiceChatIcon className="text-lg text-red-400"/>, 
       description: 'Choose from many realistic voice options for your AI pal for any available language.',
-      image: <img className="object-contain h-48 grayscale"  src={aiVoiceImage} alt="" data-atropos-offset="10" data-atropos-opacity="1;0.6"/>
+      imageElement: <img className="z-10 object-contain h-48 grayscale"  src={aiVoiceImage} alt="" data-atropos-offset="10" data-atropos-opacity="1;0.6"/>,
+      imageSrc: aiVoiceImage
+
     },
     { 
       name: 'Text', 
       icon: <TextsmsIcon className="text-lg text-red-400"/>, 
       description: 'If you wish to text instead of using your voice, you can.',
-      image: <img className="object-contain h-48 grayscale"  src={mechKeyboard} alt="" data-atropos-offset="10" data-atropos-opacity="1;0.6"/>
+      imageElement: <img className="z-10 object-contain h-48 grayscale"  src={mechKeyboard} alt="" data-atropos-offset="10" data-atropos-opacity="1;0.6"/>,
+      imageSrc: mechKeyboard
+
     },
     { 
       name: 'CEFR', 
       icon: <StairsIcon className="text-lg text-red-400"/>, 
-      description: 'Adjust language proficieny level of AI to match your needs.'
+      description: 'Adjust language proficieny level of AI to match your needs.',
+      imageElement: <img className="z-10 object-contain h-48 grayscale"  src={cefrLevelImage} alt="" data-atropos-offset="10" data-atropos-opacity="1;0.6"/>,
+      imageSrc: cefrLevelImage
+
     },
     { 
       name: 'Translations', 
       icon: <TranslateIcon className="text-lg text-red-400"/>, 
       description: 'Translate any response from AI to your native language with a click of a button.',
-      image: <img className="object-contain h-48 grayscale"  src={translationImage} alt="" data-atropos-offset="10" data-atropos-opacity="1;0.6"/>
+      imageElement: <img className="z-10 object-contain h-48 grayscale"  src={translationImage} alt="" data-atropos-offset="10" data-atropos-opacity="1;0.6"/>,
+      imageSrc: translationImage
     }
   ]
+
   
   return (
     <div className="relative z-[60] flex flex-col items-center w-full h-full  dark">
-
-      {/* <LandingPageHeader /> */}
-
-      <div className="absolute top-0 h-0 rounded-full w-96 glow-box-red-top">
-      </div>
-      
-      <div className="flex flex-col w-full h-full p-4 pt-12 md:pt-24 md:pb-12 max-w-7xl">
-        <div className="relative flex w-full h-full">
+      <div className="absolute top-0 z-10 w-64 h-0 glow-box-red-top"></div>
+      <div className="flex flex-col w-full h-full gap-16 p-4 pt-12 border-l border-r md:pt-24 md:pb-24 max-w-7xl border-border bg-dark-gradient">
           
-          <div className="relative flex flex-col items-center justify-start h-full gap-8 text-4xl font-semibold text-white transition-all duration-500 md:text-6xl text-opacity-80 font-display-2">
-            <div className="z-50 flex flex-col items-center">
-              <p className="text-center">
-                Practice conversation skills 
-              </p>
-              <p className="text-center text-red-300">
-                in the language of your choice 
-              </p>
-             
-            </div>
-
-            <div className="flex flex-col items-center max-w-2xl gap-2 p-4 text-sm text-center rounded-lg font-main border-border ">
-              <span className="text-xs font-semibold text-center md:text-sm" style={{lineHeight: '200%'}}>
-                Polyglot Pal is an application that helps language learners improve their speaking abilities.
-                With voice chat ability and an AI powered bot with realistic sounding TTS capabilities,
-                it's a way to get the practice in without having to travel.
-
-              </span>
-            </div>
-
-            <div className="flex justify-center w-full">
-              <button className="w-40 h-8 text-xs font-normal transition-all duration-300 bg-red-400 border border-red-500 rounded-lg bg-opacity-20 text-primary font-main glow-box-red" onClick={()=> {
-                loginWithRedirect();
-                }}>
-                Try For Free!
-              </button>
-              
-            </div>
+        <div className="relative flex flex-col items-center justify-start h-full gap-8 text-4xl font-semibold text-white transition-all duration-500 md:text-6xl text-opacity-80 font-display-2">
+          <div className="z-50 flex flex-col items-center">
+            <p className="text-center">
+              Practice conversation skills 
+            </p>
+            <p className="text-center text-red-300">
+              in the language of your choice 
+            </p>
             
-
-            <div className="grid w-full h-full gap-4 pt-8 md:grid-cols-2 lg:grid-cols-4 font-display-2">  
-
-              {
-              infoCards.map((card, index) => (
-                <AtroposEffect key={index} index={index}>
-                  <div className="flex flex-col items-center h-full gap-4 p-8 transition-colors duration-300 border rounded-lg bg-foreground border-border hover:border-stone-700">
-                    <div className="flex items-center justify-center gap-2 p-2 border rounded-lg bg-background border-border w-fit font-display-2" data-atropos-offset="5" data-atropos-opacity="1;0.6">
-                      {card.icon}
-                    </div>
-                    <span className="text-lg font-bold" data-atropos-offset="3" data-atropos-opacity="1;0.6">{card.name}</span>
-                    <span 
-                    className="text-xs font-semibold text-center text-zinc-500" 
-                    style={{lineHeight: '1.5'}}
-                    data-atropos-offset="1" data-atropos-opacity="1;0.6"
-                    >
-                    {card.description}
-                    
-                    </span>
-                    {
-                    card.image &&
-                    <div className="flex items-center justify-center w-full h-full">
-                      {card.image}
-                    </div>
-                    }
-
-                  </div>
-                </AtroposEffect>
-              ))
-              }
-            </div>
-
-            {/* <div className="absolute top-0 left-0 w-full h-full" >
-              
-
-            </div> */}
-
           </div>
 
+          <div className="flex flex-col items-center max-w-2xl gap-2 p-4 text-sm text-center rounded-lg font-main border-border ">
+            <span className="text-xs font-semibold text-center md:text-sm" style={{lineHeight: '200%'}}>
+              Polyglot Pal is an application that helps language learners improve their speaking abilities.
+              With voice chat ability and an AI powered bot with realistic sounding TTS capabilities,
+              it's a way to get the practice in without having to travel.
+
+            </span>
+          </div>
+
+          <SignUpButton/>
         </div>
+          
+
+        <div className="grid w-full h-full gap-4 pt-8 md:grid-cols-2 lg:grid-cols-4 font-display-2">  
+
+          {
+          infoCards.map((card, index) => (
+            <AtroposEffect key={index} index={index}>
+              <div className="flex flex-col items-center h-full gap-4 p-8 transition-colors duration-300 border rounded-lg bg-foreground border-border hover:border-stone-700">
+                <div className="flex items-center justify-center gap-2 p-2 border rounded-lg bg-background border-border w-fit font-display-2" data-atropos-offset="5" data-atropos-opacity="1;0.6">
+                  {card.icon}
+                </div>
+                <span className="text-lg font-bold text-primary" data-atropos-offset="3" data-atropos-opacity="1;0.6">{card.name}</span>
+                <span 
+                className="text-xs font-semibold text-center text-zinc-500" 
+                style={{lineHeight: '1.5'}}
+                data-atropos-offset="1" data-atropos-opacity="1;0.6"
+                >
+                {card.description}
+                
+                </span>
+                {
+                card.imageElement &&
+                <div className="relative flex items-center justify-center w-full h-full">
+                  {card.imageElement}
+                  <div className={`absolute top-0 left-0 z-0 grid w-full h-full ${card.name === 'Text' ? 'grid-rows-2' : 'grid-cols-2'} gap-16`} data-atropos-offset="-10" data-atropos-opacity="1;0.3">
+                    {
+                    Array.from({length : 2}).map((_, index) => (
+                      <div className="flex items-center justify-center w-full h-full">
+                        <img className={`${card.name === 'Text' ? 'w-28 h-28' : 'w-full h-full'} object-contain  opacity-20 invert grayscale saturate-200`} src={card.imageSrc} alt="" />
+                      </div>
+                    ))
+                    }
+                  </div>
+                </div>
+                }
+
+              </div>
+            </AtroposEffect>
+          ))
+          }
+        </div>
+
+        <div className="flex flex-col items-center gap-8 text-white text-opacity-80">
+          <span className="text-5xl font-semibold font-display-2">Why?</span>
+
+          <span className="max-w-sm text-xs text-center text-zinc-500 md:text-sm" style={{lineHeight: '200%'}}>
+            Learning or maintaining language conversation skills can be difficult if you can't travel much.
+            We understand conversing with AI is not the same as conversing with real people.
+            However it can be a great way to keep your skills sharp and get the practice in when options are limited.
+          </span>
+
+          <SignUpButton/>
+
+        </div>
+
+
+
+          {/* <div className="absolute top-0 left-0 w-full h-full" >
+            
+
+          </div> */}
+
+        
+
         
       </div>
       
