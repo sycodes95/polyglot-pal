@@ -17,7 +17,7 @@ export default function LandingPageHeader () {
       </div>
 
       <div className="flex justify-end w-full">
-        <button className="w-40 text-xs transition-all duration-300 border rounded-lg text-background bg-emerald-400 border-emerald-500 glow-box" onClick={()=> {
+        <button className="w-40 text-xs transition-all duration-300 bg-red-400 border border-red-500 rounded-lg text-background glow-box" onClick={()=> {
           loginWithRedirect();
           }}>
           Log In / Sign Up
