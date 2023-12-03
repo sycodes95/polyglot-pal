@@ -122,7 +122,7 @@ export default function Sidebar ({
               role="combobox"
               className="justify-between w-full h-8 overflow-hidden text-sm text-primary whitespace-nowrap text-ellipsis "
             >
-              {(nativeLanguage && nativeLanguage[0].languageName)
+              {(nativeLanguage && nativeLanguage[0] && nativeLanguage[0].languageName)
               ? `${nativeLanguage[0].languageName} ` 
               : 'Select native language'
               }
