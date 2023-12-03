@@ -18,7 +18,7 @@ import { Id } from "convex/dist/cjs-types/values/value";
 
 import Icon from '@mdi/react';
 import { mdiAlphaXBoxOutline } from '@mdi/js';
-import LandingPage from "./landingPage";
+import useLanguageOptions from "../features/talkWithPolyglot/hooks/useLanguageOptions";
 
 type Params = {
   c_id: Id<'conversation'>,
@@ -35,14 +35,13 @@ export type PalVoiceElementData = {
 }
 export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideBar} : TalkWithPolyGlotProps) {
 
-  const navigate = useNavigate()
+  const { user } = useAuth0();
 
+  const navigate = useNavigate()
 
   const { c_id } = useParams<Params>()
 
   const currentConvoId = useRef(c_id) 
-
-  const { user } = useAuth0();
 
   const { isLoading, isAuthenticated } = useConvexAuth()
 
@@ -52,9 +51,9 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   const getTextToSpeech = useAction(
     api.actions.getTextToSpeech.getTextToSpeech
   );
-  const getTTSVoiceOptionList = useAction(
-    api.actions.getTTSVoices.getTTSVoices
-  );
+  // const getTTSVoiceOptionList = useAction(
+  //   api.actions.getTTSVoices.getTTSVoices
+  // );
   const getSpeechToText = useAction(
     api.actions.getSpeechToText.getSpeechToText
   );
@@ -71,13 +70,13 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   const getConversation = useQuery(api.query.getConversation.getConversation, getConvoArgs)
  
   // const mutateConversation = useMutation(api.mutation.mutateConversation.mutateConversation)
+  const { languageOptions } = useLanguageOptions()
 
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[] | []>([]);
   const [userMessageIsLoading, setUserMessageIsLoading] = useState(false)
   const [palMessageIsLoading, setPalMessageIsLoading] = useState(false);
-
-  const [languageOptions, setLanguageOptions] = useState<LanguageOption[] | []>([]);
+  // const [languageOptions, setLanguageOptions] = useState<LanguageOption[] | []>([]);
   const [selectedLanguageData, setSelectedLanguageData] = useState<LanguageOption | null>(null);
   const [cefrLevel, setCefrLevel] = useState("C2");
   const [ttsEnabled, setTtsEnabled] = useState(true)
@@ -90,7 +89,9 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     element: null,
     messageIndex: -1
   });
-
+  useEffect(()=> {
+    console.log(languageOptions);
+  },[languageOptions])
   useEffect(()=> {
 
     currentConvoId.current = c_id
@@ -123,7 +124,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   },[getConversation])
   
   useEffect(()=> {
-    if(!isLoading && !isAuthenticated) navigate('/log-in')
+    if(!isLoading && !isAuthenticated) navigate('/')
   },[isAuthenticated, isLoading])
 
   useEffect(()=> {
@@ -133,18 +134,19 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   },[ttsEnabled])
 
 
-  useEffect(() => {
-    //creates a list from GC for language & voice select options and sets state for language options.
+  // useEffect(() => {
+  //   //creates a list from GC for language & voice select options and sets state for language options.
 
-    async function getLangAndVoiceOptions () {
-      const gcVoiceList = await getTTSVoiceOptionList()
+  //   async function getLangAndVoiceOptions () {
+      
+  //     const gcVoiceList = await getTTSVoiceOptionList()
 
-      const formattedVoiceList = formatGCTTSVoiceOptions(gcVoiceList)
-      setLanguageOptions(formattedVoiceList);
-    }
-    getLangAndVoiceOptions()
+  //     const formattedVoiceList = formatGCTTSVoiceOptions(gcVoiceList)
+  //     setLanguageOptions(formattedVoiceList);
+  //   }
+  //   getLangAndVoiceOptions()
     
-  }, []);
+  // }, []);
 
   useEffect(() => {
 
@@ -168,6 +170,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         const selectedVoiceGender = selectedLanguageData.ssmlGender
 
         const prompt = getGPTPrompt(selectedLanguageName, cefrLevel, selectedVoiceGender)
+
+        console.log(prompt, messages);
 
         const palMsg = await getGPTMsg({ messages, input: prompt })
 
