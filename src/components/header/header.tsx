@@ -20,14 +20,11 @@ export default function Header({
   user
 }: HeaderProps) {
   const { loginWithRedirect } = useAuth0();
-  
 
   return (
     <div className="top-0 z-10 flex items-center justify-center w-full h-16 border-b border-border bg-background">
       {
       user ? 
-
-      
       <div className="relative flex justify-between w-full p-4 max-w-7xl">
         
         <Logo 
