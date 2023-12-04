@@ -7,10 +7,8 @@ import { LanguageOption } from "../types";
 const useLanguageOptions = () => {
   const [languageOptions, setLanguageOptions] = useState<LanguageOption[] | []>([])
 
-  const getTTSVoiceOptionList = useAction(
-    api.actions.getTTSVoices.getTTSVoices
-  );
-
+  const getTTSVoiceOptionList = useAction(api.actions.getTTSVoices.getTTSVoices);
+  
   useEffect(()=> {
     async function getLangAndVoiceOptions() {
       const gcVoiceList = await getTTSVoiceOptionList();

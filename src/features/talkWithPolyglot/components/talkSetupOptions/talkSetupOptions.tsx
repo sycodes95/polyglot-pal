@@ -28,7 +28,7 @@ import {
 
 import { cn } from "../../../../lib/utils";
 import { useLocation, useNavigate } from "react-router-dom";
-import { PalVoiceElementData } from "../../../../pages/talkWithPolyglot";
+import { PalVoiceData, palVoiceDataData } from "../../../../pages/talkWithPolyglot";
 
 type TalkSetupOptionsProps = {
   c_id: Id<'conversation'>,
@@ -42,8 +42,8 @@ type TalkSetupOptionsProps = {
   ttsEnabled: boolean,
   setTtsEnabled: React.Dispatch<React.SetStateAction<boolean>>,
   messages: Message[] | [],
-  palVoiceElement: PalVoiceElementData,
-  setPalVoiceElement: React.Dispatch<React.SetStateAction<PalVoiceElementData>>
+  palVoiceData: PalVoiceData,
+  setPalVoiceData: React.Dispatch<React.SetStateAction<PalVoiceData>>
 }
 
 export default function TalkSetupOptions ({ 
@@ -58,8 +58,8 @@ export default function TalkSetupOptions ({
   ttsEnabled,
   setTtsEnabled,
   messages,
-  palVoiceElement,
-  setPalVoiceElement
+  palVoiceData,
+  setPalVoiceData
 }: TalkSetupOptionsProps) {
 
   const { user } = useAuth0();
@@ -181,8 +181,8 @@ export default function TalkSetupOptions ({
               {
               Object.keys(cefrLevels).map((level) => (
                 <button className={`flex items-center border text-black ${level === cefrLevel ? 'bg-black text-white ' : 'border-stone-300 text-stone-400'} hover:bg-foreground justify-center w-12 h-12 text-sm rounded-full transition-all`} onClick={()=> {
-                  if(palVoiceElement.element){
-                  palVoiceElement?.element.remove()
+                  if(palVoiceData.element){
+                  palVoiceData?.element.remove()
                   }
                   setCefrLevel(level)
                   setMessages([])   
