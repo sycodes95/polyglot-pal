@@ -11,13 +11,12 @@ import LandingPage from "./pages/landingPage";
 import { useAuth0 } from "@auth0/auth0-react";
 import withAuth from "./hoc/withAuth";
 
-
-
 function App() {
 
   const [showMobileSideBar, setShowMobileSideBar] = useState(false)
   const { user } = useAuth0()
   const MainComponent = withAuth(TalkWithPolyGlot, LandingPage)
+
   
   const handleResize = () => {
     if(window.innerWidth > 768){
@@ -49,7 +48,6 @@ function App() {
             <Routes>
               <Route path="/" element={<MainComponent showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar} />} />
               <Route path="/c/:c_id" element={<MainComponent showMobileSideBar={showMobileSideBar} setShowMobileSideBar={setShowMobileSideBar}/>} />
-              {/* <Route path="/log-in" element={<LandingPage />} /> */}
             </Routes>
           </div>
 
