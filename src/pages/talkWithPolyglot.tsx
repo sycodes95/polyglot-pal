@@ -36,8 +36,7 @@ export type PalVoiceElementData = {
 export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideBar} : TalkWithPolyGlotProps) {
 
   const navigate = useNavigate()
-
-
+  
   const { c_id } = useParams<Params>()
 
   const currentConvoId = useRef(c_id) 
