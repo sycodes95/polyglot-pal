@@ -7,6 +7,8 @@ import UserDropdown from "./userDropdown";
 import MobileLogo from "./mobileLogo";
 import { User, useAuth0 } from "@auth0/auth0-react";
 import Logo from "./logo";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 type HeaderProps = {
   showMobileSideBar: boolean;
@@ -20,7 +22,7 @@ export default function Header({
   user
 }: HeaderProps) {
   const { loginWithRedirect } = useAuth0();
-
+  
   return (
     <div className="top-0 z-10 flex items-center justify-center w-full h-16 border-b border-border bg-background">
       {

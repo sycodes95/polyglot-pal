@@ -1,15 +1,18 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-
-// This is your Higher-Order Component
 const withAuth = (AuthenticatedComponent, UnauthenticatedComponent) => {
+  
   return (props) => {
-    console.log(props);
     const { user } = useAuth0();
-
+    const navigate = useNavigate()
     if (user) {
       return <AuthenticatedComponent {...props} />;
     } else {
+      useEffect(() => {
+        navigate('/', { replace : true })
+      },[user, navigate])
       return <UnauthenticatedComponent {...props} />;
     }
   };
