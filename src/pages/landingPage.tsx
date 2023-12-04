@@ -1,8 +1,3 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import Globe from "react-globe.gl";
-import earthNight from "../assets/earth/earth-night.jpg"
-import { useEffect, useState } from "react";
-import LandingPageHeader from "../features/landingPage/landingPageHeader";
 import TextsmsIcon from '@mui/icons-material/Textsms';
 import VoiceChatIcon from '@mui/icons-material/VoiceChat';
 import TranslateIcon from '@mui/icons-material/Translate';
@@ -15,7 +10,6 @@ import cefrLevelImage from '../assets/images/cefrImage.png'
 import SignUpButton from "../features/landingPage/signUpButton";
 
 export default function LandingPage () {
-  const { loginWithRedirect } = useAuth0();
 
   const infoCards = [
     { 

@@ -38,20 +38,13 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
   const { user } = useAuth0();
 
-  const navigate = useNavigate()
-
   const { c_id } = useParams<Params>()
+  
+  const conversation_id = useRef(null) 
 
-  const currentConvoId = useRef(c_id) 
-
-  const { isLoading, isAuthenticated } = useConvexAuth()
-
-  const getGPTMsg = useAction(
-    api.actions.getGPTMessageResponse.getGPTMessageResponseConvex
-  );
-  const getTextToSpeech = useAction(
-    api.actions.getTextToSpeech.getTextToSpeech
-  );
+  const getGPTMsg = useAction(api.actions.getGPTMessageResponse.getGPTMessageResponseConvex);
+    
+  const getTextToSpeech = useAction(api.actions.getTextToSpeech.getTextToSpeech);
   
   const getSpeechToText = useAction(api.actions.getSpeechToText.getSpeechToText);
 
@@ -85,28 +78,28 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     messageIndex: -1
   });
 
-  const pausePalVoice = () => {
+
+  const pausePalVoice = useCallback(() => {
     palVoiceData.element?.pause()
-  }
+  },[palVoiceData.element])
 
   const playPalVoice = useCallback(() => {
     palVoiceData.element?.play()
-  },[palVoiceData])
+  },[palVoiceData.element])
 
-  const resetPalVoiceData = () => {
+  const resetPalVoiceData = useCallback(() => {
     setPalVoiceData({
       element: null,
       messageIndex: -1
     });
-  };
+  },[setPalVoiceData]);
 
   const handleTTSToggle = () => {
     
   }
   
   useEffect(()=> {
-
-    currentConvoId.current = c_id
+    // conversation_id.current = c_id
     setPalMessageIsLoading(false)
     resetPalVoiceData()
 
@@ -119,7 +112,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   useEffect(()=> {
     if(getConversation) {
       const convo = getConversation[0]
-
+      
       if(convo) {
         setMessages(convo.messages)
         setSelectedLanguageData(convo.selectedLanguageData)
@@ -131,42 +124,48 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     }
     
   },[getConversation])
-  
-  // useEffect(()=> {
-  //   if(!isLoading && !isAuthenticated) navigate('/')
-  // },[isAuthenticated, isLoading])
 
   useEffect(()=> {
     if(palVoiceData.element){
-      ttsEnabled ? !palVoiceData.element.ended && palVoiceData.element.play() : palVoiceData.element.pause()
-    } 
+      ttsEnabled 
+      ? !palVoiceData.element.ended && playPalVoice() 
+      : pausePalVoice();
+      
+    }
   },[ttsEnabled])
 
   useEffect(() => {
 
-    pausePalVoice()
 
     async function getFirstMessageFromPal () {
+      pausePalVoice()
       //pause pal's previous voice audio if playing atm.
+      conversation_id.current = c_id
 
+      console.log(conversation_id.current);
       //check if no messages has been sent or received and user has selected a language
       //then get first message from gpt using prompt and add to messages state
-
       if (messages.length < 1 && selectedLanguageData) { 
 
         setPalMessageIsLoading(true);
 
         const selectedLanguageName = selectedLanguageData.languageName;
 
+        console.log(selectedLanguageName);
+
+
         const selectedVoiceGender = selectedLanguageData.ssmlGender
 
         const prompt = getGPTPrompt(selectedLanguageName, cefrLevel, selectedVoiceGender)
 
-        console.log(prompt, messages);
-
         const palMsg = await getGPTMsg({ messages, input: prompt })
 
-        if(currentConvoId.current === c_id) {
+        console.log(selectedLanguageName);
+
+
+        if(conversation_id.current === c_id) {
+          console.log(c_id);
+
           setMessages([
             { role: "user", content: prompt },
             { role: "assistant", content: palMsg },
@@ -179,8 +178,11 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         
     }
     getFirstMessageFromPal ()
+
+    return ()=> {
+    }
   
-  }, [selectedLanguageData, cefrLevel, pausePalVoice]);
+  }, [selectedLanguageData, cefrLevel, pausePalVoice, c_id, getGPTMsg]);
 
   useEffect(()=> {
     // once AudioElement is added, it is played
@@ -191,9 +193,13 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     //sends last user input message to TTS api, receives audio in base64 string format then plays the audio
 
     async function getTTSFromPalMessage () {
-      if(palVoiceData && palVoiceData.element) {
-        palVoiceData.element.src = ''
-      }
+      // if(palVoiceData && palVoiceData.element) {
+      //   palVoiceData.element.src = ''
+      // }
+
+      
+      resetPalVoiceData()
+      
       const lastMsg = messages[messages.length - 1]
       //check if messages exist, if last message was from pal (gpt), and user has TTS enabled
       //then get TTS from last msg from pal and play audio
@@ -221,7 +227,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
           },
         });
 
-        if(ttsBase64 && currentConvoId.current === c_id) {
+        if(ttsBase64 && conversation_id.current === c_id) {
 
           const palVoiceAudio = new Audio(ttsBase64)
 
@@ -237,13 +243,15 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     }
     getTTSFromPalMessage()
     
-  }, [messages, selectedLanguageData, ttsEnabled]);
+  }, [messages, selectedLanguageData, ttsEnabled, resetPalVoiceData]);
 
 
   useEffect(() => {
 
     async function getUserSTTAndSend () {
       if (userVoiceBase64 && selectedLanguageData) {
+
+        const current_c_id = c_id
         setUserVoiceError(false)
         setUserMessageIsLoading(true);
 
@@ -270,7 +278,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         
         const palResponse = await getGPTMsg({ messages, input : transcript })
 
-        if(currentConvoId.current === c_id) {
+        if(conversation_id.current === c_id) {
           setMessages((messages) => [
             ...messages,
             { role: "assistant", content: palResponse },
