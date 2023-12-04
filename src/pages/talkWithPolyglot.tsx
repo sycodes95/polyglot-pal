@@ -42,6 +42,9 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   
   const conversation_id = useRef(null) 
 
+  // const [conversation_id, setConversationId] = useState<{ current : null | string}>({ current: null})
+
+
   const getGPTMsg = useAction(api.actions.getGPTMessageResponse.getGPTMessageResponseConvex);
     
   const getTextToSpeech = useAction(api.actions.getTextToSpeech.getTextToSpeech);
@@ -55,7 +58,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     sub: (user && user.sub) ? user.sub : ''
   }
   if(c_id) getConvoArgs.id = c_id
-
   
   const getConversation = useQuery(api.query.getConversation.getConversation, getConvoArgs)
  
@@ -99,10 +101,11 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   }
   
   useEffect(()=> {
-    // conversation_id.current = c_id
+    // setConversationId({current: c_id})
+    conversation_id.current = c_id
     setPalMessageIsLoading(false)
     resetPalVoiceData()
-
+    pausePalVoice()
     if(!c_id) {
       //if c_id doesn't exist it means user is on a new conversation, not a saved one. So reset all state to default state
       resetState()
@@ -140,9 +143,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     async function getFirstMessageFromPal () {
       pausePalVoice()
       //pause pal's previous voice audio if playing atm.
-      conversation_id.current = c_id
 
-      console.log(conversation_id.current);
       //check if no messages has been sent or received and user has selected a language
       //then get first message from gpt using prompt and add to messages state
       if (messages.length < 1 && selectedLanguageData) { 
@@ -159,13 +160,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         const prompt = getGPTPrompt(selectedLanguageName, cefrLevel, selectedVoiceGender)
 
         const palMsg = await getGPTMsg({ messages, input: prompt })
-
-        console.log(selectedLanguageName);
-
-
+        console.log(conversation_id.current, c_id);
         if(conversation_id.current === c_id) {
-          console.log(c_id);
-
           setMessages([
             { role: "user", content: prompt },
             { role: "assistant", content: palMsg },
@@ -182,7 +178,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     return ()=> {
     }
   
-  }, [selectedLanguageData, cefrLevel, pausePalVoice, c_id, getGPTMsg]);
+  }, [selectedLanguageData, cefrLevel]);
 
   useEffect(()=> {
     // once AudioElement is added, it is played
@@ -251,7 +247,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     async function getUserSTTAndSend () {
       if (userVoiceBase64 && selectedLanguageData) {
 
-        const current_c_id = c_id
         setUserVoiceError(false)
         setUserMessageIsLoading(true);
 
