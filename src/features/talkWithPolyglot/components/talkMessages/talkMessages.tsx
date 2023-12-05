@@ -1,5 +1,5 @@
 import { ThreeDots } from "react-loader-spinner"
-import { LanguageOption, Message } from "../../types"
+import { LanguageOption, MessageData } from "../../types"
 import { useEffect, useRef, useState } from "react";
 import { mdiReplay, mdiTranslate, mdiCloseCircleOutline, mdiEarth, mdiAlphaXCircleOutline } from "@mdi/js";
 import Icon from "@mdi/react";
@@ -11,10 +11,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { PalVoiceData, palVoiceDataData } from "../../../../pages/talkWithPolyglot";
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { useTheme } from "@/components/themeProvider/theme-provider";
+import Message from "./message/message";
 
 type TalkMessagesProps = {
   className?: string,
-  messages: Message[], 
+  messages: MessageData[], 
   palMessageIsLoading: boolean,
   selectedLanguageData: LanguageOption | null,
   ttsEnabled: boolean,
@@ -23,6 +24,12 @@ type TalkMessagesProps = {
   setPalVoiceData: React.Dispatch<React.SetStateAction<PalVoiceData>>,
   userVoiceError: boolean
   setUserVoiceError: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export type TranslationData = {
+  index: number; 
+  trans: string;
+  isLoading: boolean;
 }
 
 export default function TalkMessages ({
@@ -132,7 +139,7 @@ export default function TalkMessages ({
     }
   }
 
-  const handleTranslation = async (index: number, text: string) => {
+  const handleTranslation = async (text: string, index: number ) => {
     // const language = await getDetectedLanguage({ text: text})
     // if(!language) return 
     setTranslationData({
@@ -166,74 +173,19 @@ export default function TalkMessages ({
         messages.map((msg, index) => {
           if(index !== 0){
             return ( 
-            <div className={`
-            relative flex flex-col w-full
-            ${msg.role === 'user' ? 'items-start' : 'items-end'}
-            `}
-            key={index}>
-              <div className={`${msg.role === 'user' ? 'bg-red-300 text-primary dark:text-black dark:bg-accent border border-red-400 dark:border-red-600' : 'text-primary bg-foreground dark:bg-foreground border border-border'} p-4 rounded-2xl max-w-66pct`}>
-                {
-                msg.role === 'user' 
-                ?
-                <span>You : </span>
-                :
-                <span>Pal : </span>
-                }
-                <span className="text-sm">{msg.content}</span>
-              </div>
-              {
-              msg.role === 'assistant' &&
-              <div className="right-0 flex items-center h-12 gap-2 p-2 text-black top-full rounded-2xl">
-                <div className={`${palIsSpeaking && index === palVoiceData.messageIndex ? 'text-emerald-500' : 'text-stone-400' }  transition-all duration-1000 flex items-center justify-center w-6 h-6`}>
-                  <VolumeUpIcon  fontSize="medium"/>
-                </div>
-                
-                <div className="flex items-center justify-center w-6 h-6">
-                  {
-                  palVoiceReplayIndex === index ?
-                  <OvalSpinnerBlackGray />
-                  :
-                  <button 
-                  className={`${!ttsEnabled && 'text-stone-400 pointer-events-none'} flex items-center h-full transition-all cursor-pointer hover:text-stone-400 text-primary`}
-                  onClick={()=> playPalVoiceReplay(msg.content, index)}
-                  >
-                    <Icon 
-                    className="" 
-                    path={mdiReplay} 
-                    size={1} 
-                    />
-                  </button>
-                  }
-                </div>
-                <div className="flex items-center justify-center w-6 h-6">
-                  {
-                  translationData.index === index && translationData.isLoading ?
-                  <OvalSpinnerBlackGray />
-                  :
-                  <button 
-                  className="flex items-center h-full transition-all cursor-pointer hover:text-stone-400 text-primary"
-                  onClick={()=> handleTranslation(index, msg.content)}
-                  >
-                    <Icon path={mdiTranslate} size={1} />
-                  </button>
-                  }
-                </div>
-              </div>
-              }
-              {
-              translationData.index === index && !translationData.isLoading && translationData.trans &&
-              <div className="relative flex flex-col p-4 text-sm border bg-translation rounded-2xl max-w-66pct text-primary border-translation-border">
-                <span>{translationData.trans}</span>
-                <button className="absolute flex items-center justify-center text-black rounded-full -right-2 -bottom-3" onClick={()=> setTranslationData({
-                  index: -1,
-                  trans: '',
-                  isLoading: false
-                })}>
-                  <Icon className="w-full h-full rounded-full text-primary" path={mdiCloseCircleOutline} size={1} />
-                </button>
-              </div>
-              }
-            </div>
+            <Message 
+              msg={msg}
+              index={index}
+              playPalVoiceReplay={playPalVoiceReplay} 
+              handleTranslation={handleTranslation}
+              palVoiceReplayIndex={palVoiceReplayIndex}
+              translationData={translationData}
+              setTranslationData={setTranslationData}
+              ttsEnabled={ttsEnabled}
+              palIsSpeaking={palIsSpeaking}
+              palVoiceData={palVoiceData}
+            />
+            
             )
           }
         })
