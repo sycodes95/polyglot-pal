@@ -1,7 +1,7 @@
-import { Message } from "../types";
+import { MessageData } from "../types";
 
 export const getGPTMessageResponse = async ( 
-  messages: Message[] | [],
+  messages: MessageData[] | [],
   input: string, 
   ) => {
   try {

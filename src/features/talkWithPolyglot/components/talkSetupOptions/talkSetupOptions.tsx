@@ -1,6 +1,6 @@
 import CountryFlag from "../../../../components/countryFlag/countryFlag"
 import { cefrLevels } from "../../../../constants/cefrLevels"
-import { LanguageOption, Message } from "../../types"
+import { LanguageOption, MessageData } from "../../types"
 import Icon from '@mdi/react';
 import {  mdiCloseCircleOutline } from '@mdi/js';
 import {  useRef, useState } from "react";
@@ -38,10 +38,10 @@ type TalkSetupOptionsProps = {
   languageOptions: LanguageOption[] | [],
   cefrLevel: string,
   setCefrLevel: React.Dispatch<React.SetStateAction<string>>,
-  setMessages: React.Dispatch<React.SetStateAction<Message[] | []>>,
+  setMessages: React.Dispatch<React.SetStateAction<MessageData[] | []>>,
   ttsEnabled: boolean,
   setTtsEnabled: React.Dispatch<React.SetStateAction<boolean>>,
-  messages: Message[] | [],
+  messages: MessageData[] | [],
   palVoiceData: PalVoiceData,
   setPalVoiceData: React.Dispatch<React.SetStateAction<PalVoiceData>>
 }
