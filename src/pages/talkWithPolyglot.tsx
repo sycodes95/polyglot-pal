@@ -3,15 +3,14 @@ import {
   LanguageOption,
   MessageData,
 } from "../features/talkWithPolyglot/types";
-import { useAction, useConvexAuth , useQuery } from "convex/react";
+import { useAction, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import TalkMessageInput from "../features/talkWithPolyglot/components/talkMessageInput/talkMessageInput";
 import TalkMessages from "../features/talkWithPolyglot/components/talkMessages/talkMessages";
 import TalkSetupOptions from "../features/talkWithPolyglot/components/talkSetupOptions/talkSetupOptions";
 import { getGPTPrompt } from "../features/talkWithPolyglot/services/getGPTPrompt";
 import { combineLangAndCountryCode } from "../utils/combineLangAndCountryCode";
-import { formatGCTTSVoiceOptions } from "../utils/formatGCTTSVoiceOptions";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Sidebar from "../components/sidebar/sidebar";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Id } from "convex/dist/cjs-types/values/value";
@@ -19,7 +18,6 @@ import { Id } from "convex/dist/cjs-types/values/value";
 import Icon from '@mdi/react';
 import { mdiAlphaXBoxOutline } from '@mdi/js';
 import useLanguageOptions from "../features/talkWithPolyglot/hooks/useLanguageOptions";
-import { pausePalVoice } from "../features/talkWithPolyglot/util/pausePalVoice";
 
 type Params = {
   c_id: Id<'conversation'>,
@@ -41,8 +39,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   const { c_id } = useParams<Params>()
   
   const conversation_id = useRef(null) 
-
-  // const [conversation_id, setConversationId] = useState<{ current : null | string}>({ current: null})
 
   const getGPTMsg = useAction(api.actions.getGPTMessageResponse.getGPTMessageResponseConvex);
     
@@ -95,10 +91,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     });
   },[setPalVoiceData]);
 
-  const handleTTSToggle = () => {
-    
-  }
-  
   useEffect(()=> {
     // setConversationId({current: c_id})
     conversation_id.current = c_id
@@ -109,7 +101,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       //if c_id doesn't exist it means user is on a new conversation, not a saved one. So reset all state to default state
       resetState()
     }
-  },[c_id])
+  },[c_id]);
   
   useEffect(()=> {
     if(getConversation) {
@@ -125,16 +117,19 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       }
     }
     
-  },[getConversation])
+  },[getConversation]);
 
   useEffect(()=> {
-    if(palVoiceData.element){
-      ttsEnabled 
-      ? !palVoiceData.element.ended && playPalVoice() 
-      : pausePalVoice();
+    // once AudioElement is added, it is played
+    playPalVoice()
+  },[palVoiceData.element, playPalVoice])
+
+  useEffect(()=> {
+    (palVoiceData.element && ttsEnabled) 
+    ? !palVoiceData.element.ended && playPalVoice() 
+    : pausePalVoice(); 
       
-    }
-  },[ttsEnabled])
+  },[ttsEnabled]);
 
   useEffect(() => {
 
@@ -142,15 +137,12 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     async function getFirstMessageFromPal () {
 
       try {
-        
-      
-        pausePalVoice()
         //pause pal's previous voice audio if playing atm.
+        pausePalVoice()
 
         //check if no messages has been sent or received and user has selected a language
         //then get first message from gpt using prompt and add to messages state
         if (messages.length < 1 && selectedLanguageData) { 
-
           setPalMessageIsLoading(true);
 
           const selectedLanguageName = selectedLanguageData.languageName;
@@ -169,106 +161,114 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
           }
           setPalMessageIsLoading(false);
-          
         }
 
       } catch (error) {
-        console.error(error)
+        console.error('Error getting first message from Pal' , error)
+        setPalMessageIsLoading(false);
       } 
         
     }
-    getFirstMessageFromPal ()
+    getFirstMessageFromPal();
   
   }, [selectedLanguageData, cefrLevel]);
 
-  useEffect(()=> {
-    // once AudioElement is added, it is played
-    playPalVoice()
-  },[palVoiceData.element, playPalVoice])
+  
 
   useEffect(() => {
     //sends last user input message to TTS api, receives audio in base64 string format then plays the audio
 
     async function getTTSFromPalMessage () {
+
+      try {
       
-      resetPalVoiceData()
-      
-      const lastMsg = messages[messages.length - 1]
-      //check if messages exist, if last message was from pal (gpt), and user has TTS enabled
-      //then get TTS from last msg from pal and play audio
+        resetPalVoiceData();
+        
+        const lastMsg = messages[messages.length - 1];
+        //check if messages exist, if last message was from pal (gpt), and user has TTS enabled
+        //then get TTS from last msg from pal and play audio
 
-      if (
-        selectedLanguageData 
-        && messages.length > 0 
-        && lastMsg.role === "assistant"
-        && ttsEnabled
-      ) {
+        if (
+          selectedLanguageData 
+          && messages.length > 0 
+          && lastMsg.role === "assistant"
+          && ttsEnabled
+        ) {
 
-        setUserVoiceError(false)
+          setUserVoiceError(false);
 
-        const selectedLanguageCode = combineLangAndCountryCode(selectedLanguageData?.languageCode, selectedLanguageData?.countryCode)
+          const selectedLanguageCode = combineLangAndCountryCode(selectedLanguageData?.languageCode, selectedLanguageData?.countryCode);
 
-        const selectedVoice = selectedLanguageData.voiceName
+          const selectedVoice = selectedLanguageData.voiceName;
 
-        const ttsBase64 = await getTextToSpeech({
-          input: {
-            text: lastMsg.content,
-          },
-          voice: {
-            languageCode: selectedLanguageCode,
-            name: selectedVoice,
-          },
-        });
+          const ttsBase64 = await getTextToSpeech({
+            input: {
+              text: lastMsg.content,
+            },
+            voice: {
+              languageCode: selectedLanguageCode,
+              name: selectedVoice,
+            },
+          });
 
-        if(ttsBase64 && conversation_id.current === c_id) {
+          if(ttsBase64 && conversation_id.current === c_id) {
 
-          const palVoiceAudio = new Audio(ttsBase64)
+            const palVoiceAudio = new Audio(ttsBase64);
 
-          setPalVoiceData({
-            element: palVoiceAudio,
-            messageIndex: messages.length - 1
-          })
-          
-          
+            setPalVoiceData({
+              element: palVoiceAudio,
+              messageIndex: messages.length - 1
+            });
+            
+          }
+
+
         }
+
+      } catch (error) {
+        console.error('Error getting text-to-speech from Pal', error);
       }
 
     }
-    getTTSFromPalMessage()
+    getTTSFromPalMessage();
     
   }, [messages, selectedLanguageData, ttsEnabled, resetPalVoiceData]);
 
 
   useEffect(() => {
 
-    async function getUserSTTAndSend () {
-      if (userVoiceBase64 && selectedLanguageData) {
+    async function getUserSTTAndSendToOpenAI () {
+      //lol
+      try {
+      
+        if (!userVoiceBase64 || !selectedLanguageData) return
 
         setUserVoiceError(false)
         setUserMessageIsLoading(true);
 
         const selectedLanguageCode = combineLangAndCountryCode(selectedLanguageData?.languageCode, selectedLanguageData?.countryCode)
 
+        // gets transcript from user's voice recording
         const userSTT = await getSpeechToText({
           base64: userVoiceBase64,
           languageCode: selectedLanguageCode,
           sampleRate: 48000,
-        })
+        });
         
         const transcript = userSTT?.results?.[0]?.alternatives?.[0]?.transcript;
-
+        
         if(!userSTT || !transcript) {
           setUserMessageIsLoading(false);
-          return setUserVoiceError(true)
+          return setUserVoiceError(true);
         } 
 
         setMessages([...messages, { role: "user", content: transcript }]);
 
         setUserMessageIsLoading(false);
 
-        setPalMessageIsLoading(true)
+        setPalMessageIsLoading(true);
         
-        const palResponse = await getGPTMsg({ messages, input : transcript })
+        const palResponse = await getGPTMsg({ messages, input : transcript });
 
         if(conversation_id.current === c_id) {
           setMessages((messages) => [
@@ -277,29 +277,51 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
           ]);
         }
         setPalMessageIsLoading(false);
+
+      } catch (error) {
+        console.error('')
+        setUserMessageIsLoading(false);
+        setPalMessageIsLoading(false);
         
       }
-
+        
     }
-    getUserSTTAndSend()
+
+    getUserSTTAndSendToOpenAI();
     
   }, [userVoiceBase64]);
   
 
   const handleMessageSend = async () => {
     //sends user message to open ai to get response from ai assistant.
-    setPalMessageIsLoading(true);
-    let userInput = input;
-    if (messages.length < 1) userInput = prompt + input;
-    
-    setMessages([...messages, { role: "user", content: userInput }]);
-    setInput("");
-    const msg = await getGPTMsg({ messages, input });
-    setMessages((messages) => [
-      ...messages,
-      { role: "assistant", content: msg },
-    ]);
-    setPalMessageIsLoading(false);
+
+    try {
+        
+      setPalMessageIsLoading(true);
+
+      let userInput = input;
+
+      if (messages.length < 1) userInput = prompt + input;
+      
+      setMessages([...messages, { role: "user", content: userInput }]);
+
+      setInput("");
+
+      const msg = await getGPTMsg({ messages, input });
+
+      setMessages((messages) => [
+        ...messages,
+        { role: "assistant", content: msg },
+      ]);
+
+      setPalMessageIsLoading(false);
+
+    } catch (error) {
+      console.error('Error getting response to message from Pal', error);
+
+      setPalMessageIsLoading(false);    
+      
+    }
     
   };
 
