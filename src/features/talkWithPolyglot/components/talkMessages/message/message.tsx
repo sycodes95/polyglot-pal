@@ -1,7 +1,7 @@
 import OvalSpinnerBlackGray from "@/components/loadSpinners/ ovalSpinnerBlackGray";
 import { MessageData } from "../../../types"
 import Icon from "@mdi/react";
-import { mdiReplay, mdiTranslate, mdiCloseCircleOutline, mdiEarth, mdiAlphaXCircleOutline } from "@mdi/js";
+import { mdiReplay, mdiTranslate, mdiCloseCircleOutline} from "@mdi/js";
 import { TranslationData } from "../talkMessages";
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { PalVoiceData } from "../../../../../pages/talkWithPolyglot";

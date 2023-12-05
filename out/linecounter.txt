@@ -1,0 +1,153 @@
+===============================================================================
+EXTENSION NAME : linecounter
+EXTENSION VERSION : 0.2.7
+-------------------------------------------------------------------------------
+count time : 2023-12-05 05:53:49
+count workspace : /home/sycodes95/personal-projects/polyglot-pal
+total files : 124
+total code lines : 18568
+total comment lines : 417
+total blank lines : 805
+
+    statistics
+   |      extension|     total code|  total comment|    total blank|percent|
+   -------------------------------------------------------------------------
+   |          .json|          14364|              8|             92|     77|
+   |            .md|             72|             22|             25|   0.39|
+   |           .txt|              1|              0|              0| 0.0054|
+   |            .js|            365|            159|             46|    2.0|
+   |               |             19|             10|              5|   0.10|
+   |          .html|             28|              0|              1|   0.15|
+   |         .local|              4|              1|              2|  0.022|
+   |            .ts|            920|            177|            124|    5.0|
+   |           .tsx|           2581|             39|            452|     14|
+   |           .css|            147|              1|             58|   0.79|
+   |           .svg|              3|              0|              0|  0.016|
+   |           .cjs|             18|              0|              0|  0.097|
+   |           .vim|             46|              0|              0|   0.25|
+   -------------------------------------------------------------------------
+.env, code is 4, comment is 1, blank is 3.
+.env.local, code is 4, comment is 1, blank is 2.
+.eslintrc.cjs, code is 18, comment is 0, blank is 0.
+.gitignore, code is 15, comment is 9, blank is 2.
+components.json, code is 16, comment is 0, blank is 0.
+convex/_generated/api.d.ts, code is 45, comment is 18, blank is 2.
+convex/_generated/api.js, code is 3, comment is 18, blank is 2.
+convex/_generated/dataModel.d.ts, code is 11, comment is 40, blank is 5.
+convex/_generated/server.d.ts, code is 24, comment is 106, blank is 13.
+convex/_generated/server.js, code is 16, comment is 66, blank is 8.
+convex/actions/getDetectedLanguage.ts, code is 32, comment is 0, blank is 7.
+convex/actions/getGPTMessageResponse.ts, code is 38, comment is 0, blank is 5.
+convex/actions/getSpeechToText.ts, code is 54, comment is 3, blank is 6.
+convex/actions/getTextToSpeech.ts, code is 44, comment is 0, blank is 4.
+convex/actions/getTranslation.ts, code is 24, comment is 0, blank is 6.
+convex/actions/getTTSVoices.ts, code is 19, comment is 1, blank is 2.
+convex/auth.config.js, code is 8, comment is 0, blank is 0.
+convex/constants/gptModel.ts, code is 0, comment is 0, blank is 0.
+convex/mutation/deleteConversation.ts, code is 15, comment is 0, blank is 1.
+convex/mutation/mutateConversation.ts, code is 38, comment is 0, blank is 2.
+convex/mutation/mutateNativeLanguage.ts, code is 18, comment is 0, blank is 1.
+convex/query/getAllConversations.ts, code is 16, comment is 0, blank is 2.
+convex/query/getConversation.ts, code is 19, comment is 0, blank is 2.
+convex/query/getNativeLanguage.ts, code is 12, comment is 0, blank is 1.
+convex/query/getTTSKey.ts, code is 9, comment is 0, blank is 2.
+convex/README.md, code is 53, comment is 19, blank is 17.
+convex/schema.ts, code is 25, comment is 0, blank is 2.
+convex/tsconfig.json, code is 16, comment is 6, blank is 1.
+convex/types.ts, code is 4, comment is 0, blank is 0.
+dist/assets/Bender-b394fe0c.otf, it is a binary file.
+dist/assets/default-flag-3ae92fa7.png, it is a binary file.
+dist/assets/DMSerifDisplay-Regular-98c1cc2e.ttf, it is a binary file.
+dist/assets/index-10542c45.js, code is 253, comment is 74, blank is 36.
+dist/assets/index-71196a85.css, code is 1, comment is 0, blank is 0.
+dist/assets/InterTight-VariableFont_wght-663efdf9.ttf, it is a binary file.
+dist/assets/Lemon-round-268ded96.ttf, it is a binary file.
+dist/earth-custom.png, it is a binary file.
+dist/index.html, code is 14, comment is 0, blank is 1.
+dist/vite.svg, code is 1, comment is 0, blank is 0.
+index.html, code is 14, comment is 0, blank is 0.
+package-lock.json, code is 14207, comment is 0, blank is 89.
+package.json, code is 86, comment is 0, blank is 0.
+postcss.config.js, code is 6, comment is 0, blank is 0.
+public/earth-custom.png, it is a binary file.
+public/vite.svg, code is 1, comment is 0, blank is 0.
+README.md, code is 19, comment is 3, blank is 8.
+Session.vim, code is 46, comment is 0, blank is 0.
+src/App.css, code is 76, comment is 0, blank is 26.
+src/App.tsx, code is 49, comment is 0, blank is 15.
+src/assets/earth/earth-night.jpg, it is a binary file.
+src/assets/flag/default-flag.png, it is a binary file.
+src/assets/fonts/Bender.otf, it is a binary file.
+src/assets/fonts/DMSerifDisplay-Regular.ttf, it is a binary file.
+src/assets/fonts/InterTight-VariableFont_wght.ttf, it is a binary file.
+src/assets/fonts/Lemon-round.ttf, it is a binary file.
+src/assets/fonts/Montserrat-VariableFont_wght.ttf, it is a binary file.
+src/assets/fonts/Rajdhani-Regular.ttf, it is a binary file.
+src/assets/images/aiVoiceArt.png, it is a binary file.
+src/assets/images/cefrImage.png, it is a binary file.
+src/assets/images/mechKeyboard.png, it is a binary file.
+src/assets/images/translation.png, it is a binary file.
+src/assets/react.svg, code is 1, comment is 0, blank is 0.
+src/components/atropos/atroposEffect.tsx, code is 32, comment is 0, blank is 2.
+src/components/countryFlag/countryFlag.tsx, code is 15, comment is 2, blank is 4.
+src/components/footer/footer.tsx, code is 16, comment is 0, blank is 1.
+src/components/header/header.tsx, code is 54, comment is 0, blank is 8.
+src/components/header/logo.tsx, code is 30, comment is 0, blank is 4.
+src/components/header/mobileLogo.tsx, code is 12, comment is 0, blank is 1.
+src/components/header/modeToggle.tsx, code is 33, comment is 0, blank is 4.
+src/components/header/userDropdown.tsx, code is 35, comment is 0, blank is 8.
+src/components/loadSpinners/ ovalSpinnerBlackGray.tsx, code is 19, comment is 0, blank is 2.
+src/components/mobileSideBar/mobileSideBar.tsx, code is 0, comment is 0, blank is 0.
+src/components/sidebar/sidebar.tsx, code is 190, comment is 1, blank is 32.
+src/components/talkSetupOptionContainer/talkSetupOptionContainer.tsx, code is 17, comment is 0, blank is 3.
+src/components/themeProvider/theme-provider.tsx, code is 57, comment is 0, blank is 16.
+src/components/ui/button.tsx, code is 51, comment is 0, blank is 5.
+src/components/ui/command.tsx, code is 136, comment is 0, blank is 17.
+src/components/ui/dialog.tsx, code is 110, comment is 0, blank is 11.
+src/components/ui/dropdown-menu.tsx, code is 181, comment is 0, blank is 17.
+src/components/ui/popover.tsx, code is 24, comment is 0, blank is 4.
+src/components/ui/select.tsx, code is 107, comment is 0, blank is 12.
+src/components/ui/switch.tsx, code is 23, comment is 0, blank is 4.
+src/components/ui/toast.tsx, code is 115, comment is 0, blank is 12.
+src/components/ui/toaster.tsx, code is 31, comment is 0, blank is 2.
+src/components/ui/tooltip.tsx, code is 22, comment is 0, blank is 6.
+src/components/ui/use-toast.ts, code is 159, comment is 3, blank is 30.
+src/constants/cefrLevels.ts, code is 8, comment is 0, blank is 1.
+src/constants/languageNameAndCodes.ts, code is 109, comment is 0, blank is 0.
+src/declarations.d.ts, code is 1, comment is 0, blank is 0.
+src/features/landingPage/landingPageHeader.tsx, code is 25, comment is 0, blank is 11.
+src/features/landingPage/signUpButton.tsx, code is 13, comment is 0, blank is 3.
+src/features/talkWithPolyglot/components/palSpeechIndicator/palSpeechIndicator.tsx, code is 27, comment is 0, blank is 9.
+src/features/talkWithPolyglot/components/talkMessageInput/talkMessageInput.tsx, code is 154, comment is 16, blank is 26.
+src/features/talkWithPolyglot/components/talkMessages/message/message.tsx, code is 101, comment is 0, blank is 4.
+src/features/talkWithPolyglot/components/talkMessages/messageOptions/messageOptions.tsx, code is 6, comment is 0, blank is 4.
+src/features/talkWithPolyglot/components/talkMessages/talkMessages.tsx, code is 182, comment is 2, blank is 37.
+src/features/talkWithPolyglot/components/talkSetupOptions/selectALanguage.tsx, code is 75, comment is 0, blank is 7.
+src/features/talkWithPolyglot/components/talkSetupOptions/talkSetupOptions.tsx, code is 231, comment is 2, blank is 25.
+src/features/talkWithPolyglot/constants.ts, code is 0, comment is 0, blank is 0.
+src/features/talkWithPolyglot/hooks/useLanguageOptions.tsx, code is 19, comment is 0, blank is 6.
+src/features/talkWithPolyglot/services/getGPTMessageResponse.ts, code is 29, comment is 0, blank is 4.
+src/features/talkWithPolyglot/services/getGPTPrompt.ts, code is 9, comment is 1, blank is 2.
+src/features/talkWithPolyglot/types.ts, code is 17, comment is 0, blank is 2.
+src/features/talkWithPolyglot/util/pausePalVoice.ts, code is 4, comment is 0, blank is 1.
+src/hoc/withAuth.tsx, code is 14, comment is 0, blank is 3.
+src/index.css, code is 70, comment is 1, blank is 32.
+src/lib/utils.ts, code is 5, comment is 0, blank is 1.
+src/main.tsx, code is 23, comment is 2, blank is 5.
+src/pages/landingPage.tsx, code is 69, comment is 3, blank is 22.
+src/pages/talkWithPolyglot.tsx, code is 283, comment is 11, blank is 100.
+src/types/react-speech-recognition/index.d.ts, code is 38, comment is 4, blank is 7.
+src/types/types.ts, code is 0, comment is 0, blank is 0.
+src/utils/base64ToBlob.ts, code is 16, comment is 0, blank is 2.
+src/utils/combineLangAndCountryCode.ts, code is 3, comment is 0, blank is 0.
+src/utils/formatGCTTSVoiceOptions.ts, code is 27, comment is 0, blank is 6.
+src/utils/getAudioDuration.ts, code is 11, comment is 0, blank is 0.
+src/utils/getBase64FromBlob.ts, code is 9, comment is 0, blank is 0.
+src/utils/getSampleRateFromBase64.ts, code is 17, comment is 0, blank is 3.
+src/vite-env.d.ts, code is 0, comment is 1, blank is 0.
+tailwind.config.js, code is 79, comment is 1, blank is 0.
+test.txt, code is 1, comment is 0, blank is 0.
+tsconfig.json, code is 29, comment is 2, blank is 2.
+tsconfig.node.json, code is 10, comment is 0, blank is 0.
+vite.config.ts, code is 11, comment is 0, blank is 2.
+===============================================================================
