@@ -23,7 +23,8 @@ type TalkMessagesProps = {
   palVoiceData: PalVoiceData,
   setPalVoiceData: React.Dispatch<React.SetStateAction<PalVoiceData>>,
   userVoiceError: boolean
-  setUserVoiceError: React.Dispatch<React.SetStateAction<boolean>>
+  setUserVoiceError: React.Dispatch<React.SetStateAction<boolean>>,
+  pausePalVoice: ()=> void
 }
 
 export type TranslationData = {
@@ -42,7 +43,8 @@ export default function TalkMessages ({
   palVoiceData,
   setPalVoiceData,
   userVoiceError,
-  setUserVoiceError
+  setUserVoiceError,
+  pausePalVoice
 } : TalkMessagesProps) {
   const { theme } = useTheme()
   const { user } = useAuth0();
@@ -106,7 +108,7 @@ export default function TalkMessages ({
   },[palVoiceData, ttsEnabled])
 
   const playPalVoiceReplay = async (palMessage: string, index: number) => {
-    
+    pausePalVoice()
     if(!selectedLanguageData) return
     setPalVoiceReplayIndex(index)
 
