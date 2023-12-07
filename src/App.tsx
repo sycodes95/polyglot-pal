@@ -17,7 +17,6 @@ function App() {
   const { user } = useAuth0()
   const MainComponent = withAuth(TalkWithPolyGlot, LandingPage)
 
-  
   const handleResize = () => {
     if(window.innerWidth > 768){
       setShowMobileSideBar(false);
