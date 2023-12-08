@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   LanguageOption,
   MessageData,
@@ -32,6 +32,7 @@ export type PalVoiceData = {
   element: HTMLAudioElement | null;
   messageIndex: number;
 }
+
 export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideBar} : TalkWithPolyGlotProps) {
 
   const { user } = useAuth0();
@@ -50,9 +51,10 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     id?: Id<'conversation'>,
     sub: string
   } = {
+    id: c_id,
     sub: (user && user.sub) ? user.sub : ''
   }
-  if(c_id) getConvoArgs.id = c_id
+  // if(c_id) getConvoArgs.id = c_id
   
   const getConversation = useQuery(api.query.getConversation.getConversation, getConvoArgs)
  
@@ -73,9 +75,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   const [palVoiceData, setPalVoiceData] = useState<PalVoiceData>({
     element: null,
     messageIndex: -1
-  });
-
-  const getConversationSuccessRef = useRef<boolean | null>(null)
+  });  
 
   const pausePalVoice = useCallback(() => {
     palVoiceData.element?.pause()
@@ -93,6 +93,14 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   },[setPalVoiceData]);
 
   useEffect(()=> {
+    console.log('talkwithpolyglot mount');
+  },[])
+
+  useEffect(()=> {
+    console.log(c_id);
+  },[c_id])
+
+  useEffect(()=> {
     // setConversationId({current: c_id})
     conversation_id.current = c_id
     setPalMessageIsLoading(false)
@@ -105,21 +113,18 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   },[c_id]);
   
   useEffect(()=> {
-    if(getConversation && !getConversationSuccessRef.current) {
+    if(getConversation) {
 
-      if(!getConversationSuccessRef.current) getConversationSuccessRef.current = true
+      // if(!getConversationSuccessRef.current) getConversationSuccessRef.current = true
       const convo = getConversation[0]
       
       if(convo) {
-        console.log(convo);
-        console.log('convo exists');
-        console.log(messages)
+        console.log('convo')
         setMessages(convo.messages)
         setSelectedLanguageData(convo.selectedLanguageData)
         setCefrLevel(convo.cefrLevel)
         setTtsEnabled(convo.ttsEnabled)
       } else {
-        console.log('reset state');
         resetState()
       }
     }
@@ -132,9 +137,11 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   },[palVoiceData.element, playPalVoice, pausePalVoice])
 
   useEffect(()=> {
-    (palVoiceData.element && ttsEnabled) 
-    ? !palVoiceData.element.ended && playPalVoice() 
-    : pausePalVoice(); 
+    if(palVoiceData.element && ttsEnabled) {
+      palVoiceData.element.volume = 1
+    } else if (palVoiceData.element && !ttsEnabled) {
+      palVoiceData.element.volume = 0
+    }
       
   },[ttsEnabled]);
 
@@ -185,7 +192,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       try {
         pausePalVoice()
         // Check if TTS is enabled and there are any messages
-        if (!ttsEnabled || messages.length === 0 || selectedLanguageData === null) return;
+        if (messages.length === 0 || selectedLanguageData === null) return;
 
         // Check if the last message is from Pal
         const lastMessage = messages[messages.length - 1];
@@ -203,7 +210,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
         // Check if conversation ID matches and TTS data is available
         if (!ttsBase64 || conversation_id.current !== c_id) return;
-        console.log('runn');
+        
         // Create and set Pal voice data
         const palVoiceAudio = new Audio(ttsBase64);
         setPalVoiceData({ element: palVoiceAudio, messageIndex: messages.length - 1 });
