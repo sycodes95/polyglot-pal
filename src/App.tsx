@@ -10,12 +10,12 @@ import { ThemeProvider } from "@/components/themeProvider/theme-provider"
 import LandingPage from "./pages/landingPage";
 import { useAuth0 } from "@auth0/auth0-react";
 import withAuth from "./hoc/withAuth";
+const MainComponent = withAuth(TalkWithPolyGlot, LandingPage)
 
 function App() {
-
+  
   const [showMobileSideBar, setShowMobileSideBar] = useState(false)
   const { user } = useAuth0()
-  const MainComponent = withAuth(TalkWithPolyGlot, LandingPage)
 
   const handleResize = () => {
     if(window.innerWidth > 768){
