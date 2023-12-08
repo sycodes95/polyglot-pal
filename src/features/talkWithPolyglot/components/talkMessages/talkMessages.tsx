@@ -1,15 +1,13 @@
 import { ThreeDots } from "react-loader-spinner"
 import { LanguageOption, MessageData } from "../../types"
 import { useEffect, useRef, useState } from "react";
-import { mdiReplay, mdiTranslate, mdiCloseCircleOutline, mdiEarth, mdiAlphaXCircleOutline } from "@mdi/js";
+import { mdiAlphaXCircleOutline } from "@mdi/js";
 import Icon from "@mdi/react";
-import OvalSpinnerBlackGray from "../../../../components/loadSpinners/ ovalSpinnerBlackGray";
 import { combineLangAndCountryCode } from "../../../../utils/combineLangAndCountryCode";
 import { useAction, useQuery } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { useAuth0 } from "@auth0/auth0-react";
-import { PalVoiceData, palVoiceDataData } from "../../../../pages/talkWithPolyglot";
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import { PalVoiceData } from "../../../../pages/talkWithPolyglot";
 import { useTheme } from "@/components/themeProvider/theme-provider";
 import Message from "./message/message";
 
