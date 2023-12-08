@@ -1,28 +1,34 @@
 import { ThreeDots } from "react-loader-spinner"
-import { LanguageOption, Message } from "../../types"
+import { LanguageOption, MessageData } from "../../types"
 import { useEffect, useRef, useState } from "react";
-import { mdiReplay, mdiTranslate, mdiCloseCircleOutline, mdiEarth, mdiAlphaXCircleOutline } from "@mdi/js";
+import { mdiAlphaXCircleOutline } from "@mdi/js";
 import Icon from "@mdi/react";
-import OvalSpinnerBlackGray from "../../../../components/loadSpinners/ ovalSpinnerBlackGray";
 import { combineLangAndCountryCode } from "../../../../utils/combineLangAndCountryCode";
 import { useAction, useQuery } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { useAuth0 } from "@auth0/auth0-react";
-import { PalVoiceElementData } from "../../../../pages/talkWithPolyglot";
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import { PalVoiceData } from "../../../../pages/talkWithPolyglot";
 import { useTheme } from "@/components/themeProvider/theme-provider";
+import Message from "./message/message";
 
 type TalkMessagesProps = {
   className?: string,
-  messages: Message[], 
+  messages: MessageData[], 
   palMessageIsLoading: boolean,
   selectedLanguageData: LanguageOption | null,
   ttsEnabled: boolean,
   userMessageIsLoading: boolean,
-  palVoiceElement: PalVoiceElementData,
-  setPalVoiceElement: React.Dispatch<React.SetStateAction<PalVoiceElementData>>,
+  palVoiceData: PalVoiceData,
+  setPalVoiceData: React.Dispatch<React.SetStateAction<PalVoiceData>>,
   userVoiceError: boolean
-  setUserVoiceError: React.Dispatch<React.SetStateAction<boolean>>
+  setUserVoiceError: React.Dispatch<React.SetStateAction<boolean>>,
+  pausePalVoice: ()=> void
+}
+
+export type TranslationData = {
+  index: number; 
+  trans: string;
+  isLoading: boolean;
 }
 
 export default function TalkMessages ({
@@ -32,10 +38,11 @@ export default function TalkMessages ({
   selectedLanguageData, 
   ttsEnabled,
   userMessageIsLoading,
-  palVoiceElement,
-  setPalVoiceElement,
+  palVoiceData,
+  setPalVoiceData,
   userVoiceError,
-  setUserVoiceError
+  setUserVoiceError,
+  pausePalVoice
 } : TalkMessagesProps) {
   const { theme } = useTheme()
   const { user } = useAuth0();
@@ -59,22 +66,22 @@ export default function TalkMessages ({
   const [palIsSpeaking, setPalIsSpeaking] = useState(false)
 
   useEffect(() => {
-    if (palVoiceElement?.element) {
+    if (palVoiceData?.element) {
 
       const handleAudioPlaying = () => setPalIsSpeaking(true);
       const handleAudioEnd = () => setPalIsSpeaking(false)
       
-      palVoiceElement.element.addEventListener('playing', handleAudioPlaying);
-      palVoiceElement.element.addEventListener('ended', handleAudioEnd);
+      palVoiceData.element.addEventListener('playing', handleAudioPlaying);
+      palVoiceData.element.addEventListener('ended', handleAudioEnd);
 
       return () => {
-        if (palVoiceElement?.element) {
-          palVoiceElement.element.removeEventListener('ended', handleAudioEnd);
-          palVoiceElement.element.removeEventListener('playing', handleAudioPlaying);
+        if (palVoiceData?.element) {
+          palVoiceData.element.removeEventListener('ended', handleAudioEnd);
+          palVoiceData.element.removeEventListener('playing', handleAudioPlaying);
         }
       };
     }
-  }, [palVoiceElement]);
+  }, [palVoiceData]);
 
   useEffect(() => {
 
@@ -92,14 +99,14 @@ export default function TalkMessages ({
 
   useEffect(()=> {
 
-    if(palVoiceElement && ttsEnabled) {
+    if(palVoiceData && ttsEnabled) {
       setPalVoiceReplayIndex(null)
     }
     
-  },[palVoiceElement, ttsEnabled])
+  },[palVoiceData, ttsEnabled])
 
   const playPalVoiceReplay = async (palMessage: string, index: number) => {
-    
+    pausePalVoice()
     if(!selectedLanguageData) return
     setPalVoiceReplayIndex(index)
 
@@ -118,11 +125,11 @@ export default function TalkMessages ({
     });
 
     if(ttsBase64) {
-      if (palVoiceElement && palVoiceElement?.element){
+      if (palVoiceData && palVoiceData?.element){
         const palVoiceAudio = new Audio(ttsBase64)
         
         
-        setPalVoiceElement({
+        setPalVoiceData({
           element: palVoiceAudio,
           messageIndex: index
         })
@@ -132,7 +139,7 @@ export default function TalkMessages ({
     }
   }
 
-  const handleTranslation = async (index: number, text: string) => {
+  const handleTranslation = async (text: string, index: number ) => {
     // const language = await getDetectedLanguage({ text: text})
     // if(!language) return 
     setTranslationData({
@@ -166,74 +173,20 @@ export default function TalkMessages ({
         messages.map((msg, index) => {
           if(index !== 0){
             return ( 
-            <div className={`
-            relative flex flex-col w-full
-            ${msg.role === 'user' ? 'items-start' : 'items-end'}
-            `}
-            key={index}>
-              <div className={`${msg.role === 'user' ? 'bg-red-300 text-primary dark:text-black dark:bg-accent border border-red-400 dark:border-red-600' : 'text-primary bg-foreground dark:bg-foreground border border-border'} p-4 rounded-2xl max-w-66pct`}>
-                {
-                msg.role === 'user' 
-                ?
-                <span>You : </span>
-                :
-                <span>Pal : </span>
-                }
-                <span className="text-sm">{msg.content}</span>
-              </div>
-              {
-              msg.role === 'assistant' &&
-              <div className="right-0 flex items-center h-12 gap-2 p-2 text-black top-full rounded-2xl">
-                <div className={`${palIsSpeaking && index === palVoiceElement.messageIndex ? 'text-emerald-500' : 'text-stone-400' }  transition-all duration-1000 flex items-center justify-center w-6 h-6`}>
-                  <VolumeUpIcon  fontSize="medium"/>
-                </div>
-                
-                <div className="flex items-center justify-center w-6 h-6">
-                  {
-                  palVoiceReplayIndex === index ?
-                  <OvalSpinnerBlackGray />
-                  :
-                  <button 
-                  className={`${!ttsEnabled && 'text-stone-400 pointer-events-none'} flex items-center h-full transition-all cursor-pointer hover:text-stone-400 text-primary`}
-                  onClick={()=> playPalVoiceReplay(msg.content, index)}
-                  >
-                    <Icon 
-                    className="" 
-                    path={mdiReplay} 
-                    size={1} 
-                    />
-                  </button>
-                  }
-                </div>
-                <div className="flex items-center justify-center w-6 h-6">
-                  {
-                  translationData.index === index && translationData.isLoading ?
-                  <OvalSpinnerBlackGray />
-                  :
-                  <button 
-                  className="flex items-center h-full transition-all cursor-pointer hover:text-stone-400 text-primary"
-                  onClick={()=> handleTranslation(index, msg.content)}
-                  >
-                    <Icon path={mdiTranslate} size={1} />
-                  </button>
-                  }
-                </div>
-              </div>
-              }
-              {
-              translationData.index === index && !translationData.isLoading && translationData.trans &&
-              <div className="relative flex flex-col p-4 text-sm border bg-translation rounded-2xl max-w-66pct text-primary border-translation-border">
-                <span>{translationData.trans}</span>
-                <button className="absolute flex items-center justify-center text-black rounded-full -right-2 -bottom-3" onClick={()=> setTranslationData({
-                  index: -1,
-                  trans: '',
-                  isLoading: false
-                })}>
-                  <Icon className="w-full h-full rounded-full text-primary" path={mdiCloseCircleOutline} size={1} />
-                </button>
-              </div>
-              }
-            </div>
+            <Message
+              key={index}
+              msg={msg}
+              index={index}
+              playPalVoiceReplay={playPalVoiceReplay} 
+              handleTranslation={handleTranslation}
+              palVoiceReplayIndex={palVoiceReplayIndex}
+              translationData={translationData}
+              setTranslationData={setTranslationData}
+              ttsEnabled={ttsEnabled}
+              palIsSpeaking={palIsSpeaking}
+              palVoiceData={palVoiceData}
+            />
+            
             )
           }
         })

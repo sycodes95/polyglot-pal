@@ -19,27 +19,35 @@ export const getSpeechToText = action({
     sampleRate: v.number()
   },
   handler: async (ctx, args) => {
-    const { base64, languageCode, sampleRate } = args;
-
-    const request: Request = {
-      audio: { content: base64 },
-      config: {
-        encoding: 'WEBM_OPUS',
-        sampleRateHertz: sampleRate,
-        languageCode: languageCode
-      }
-    }
-    if(!process.env.GC_KEY_STORAGE_ID) return null
-    const keyUrl = await ctx.storage.get(process.env.GC_KEY_STORAGE_ID)
-    if(!keyUrl) return null
-    const keyJson = await new Response(keyUrl).json()
-    const client = new SpeechClient({
-      credentials: {
-        client_email: keyJson.client_email,
-        private_key: keyJson.private_key,
-      }
-    });
     try {
+      const { base64, languageCode, sampleRate } = args;
+
+      //create request object to send to GC STT API
+      const request: Request = {
+        audio: { content: base64 },
+        config: {
+          encoding: 'WEBM_OPUS',
+          sampleRateHertz: sampleRate,
+          languageCode: languageCode
+        }
+      };
+
+      if(!process.env.GC_KEY_STORAGE_ID) return null;
+
+      const keyUrl = await ctx.storage.get(process.env.GC_KEY_STORAGE_ID)
+      //if for whatever reason GC API KEY is not found in storage, return null
+      if(!keyUrl) return null
+
+      const keyJson = await new Response(keyUrl).json()
+
+      //create STT client with credentials
+      const client = new SpeechClient({
+        credentials: {
+          client_email: keyJson.client_email,
+          private_key: keyJson.private_key,
+        }
+      });
+      
       const [response] = await client.recognize(request);
       if(response.results && response.results.length < 1){
         return null
@@ -48,11 +56,12 @@ export const getSpeechToText = action({
       return response;
     } catch (error: unknown) {
       if (error instanceof Error) { 
-      console.error('Error processing audio:', error.message);
-    } else {
-      console.error('An unknown error occurred:', error);
-    }
-      return null;
+        console.error('Error processing audio:', error.message);
+        return null;
+      } else {
+        console.error('An unknown error occurred:', error);
+        return null;
+      }
     }
     
     // const audioData = (response.audioContent as Buffer)?.toString('base64');

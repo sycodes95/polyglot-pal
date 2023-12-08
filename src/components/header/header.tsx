@@ -20,14 +20,10 @@ export default function Header({
   user
 }: HeaderProps) {
   const { loginWithRedirect } = useAuth0();
-  
-
   return (
     <div className="top-0 z-10 flex items-center justify-center w-full h-16 border-b border-border bg-background">
       {
       user ? 
-
-      
       <div className="relative flex justify-between w-full p-4 max-w-7xl">
         
         <Logo 
@@ -35,7 +31,7 @@ export default function Header({
         setShowMobileSideBar={setShowMobileSideBar}
         />
         <MobileLogo className="absolute gap-2 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 md:hidden" />       
-
+        
         <div className="flex justify-end w-full gap-8">
           <ModeToggle />
           <UserDropdown />

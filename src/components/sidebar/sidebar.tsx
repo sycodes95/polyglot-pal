@@ -28,18 +28,21 @@ import {
 } from "../ui/popover"
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "../../lib/utils";
+import * as React from "react";
 
 type SidebarProps = {
   className?: string,
   resetState?: ()=> void,
-  setShowMobileSideBar?: React.Dispatch<React.SetStateAction<boolean>>
+  setShowMobileSideBar?: React.Dispatch<React.SetStateAction<boolean>>,
+  pausePalVoice: ()=> void
 }
 
 
 export default function Sidebar ({
   className,
   resetState,
-  setShowMobileSideBar
+  setShowMobileSideBar,
+  pausePalVoice
 } : SidebarProps) {
   const { user } = useAuth0();
 
@@ -91,6 +94,15 @@ export default function Sidebar ({
       languageName,
       languageCode
     });
+  }
+
+  const handleConversationDelete = (c) => {
+    pausePalVoice()
+    navigate('/')
+    deleteConversation({id : c._id, sub: c.sub})
+    setDeleteConvoPopoverIsOpen(false)
+    setShowMobileSideBar && setShowMobileSideBar(false)
+
   }
 
   useEffect(()=> {
@@ -193,12 +205,7 @@ export default function Sidebar ({
                     <Button className=" text-primary hover:bg-foreground" variant={'ghost'} onClick={()=> setDeleteConvoPopoverIsOpen(false)}>
                        Cancel 
                     </Button>
-                    <Button variant={'destructive'} onClick={ ()=> {
-                      navigate('/')
-                      deleteConversation({id : c._id, sub: c.sub})
-                      setDeleteConvoPopoverIsOpen(false)
-                      setShowMobileSideBar && setShowMobileSideBar(false)
-                    }}> Delete </Button>
+                    <Button variant={'destructive'} onClick={()=> handleConversationDelete(c)}> Delete </Button>
                   </div>
                 </PopoverContent>
                 

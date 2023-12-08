@@ -1,0 +1,847 @@
+{
+    "extension": "linecounter",
+    "version": "0.2.7",
+    "workspace": "/home/sycodes95/personal-projects/polyglot-pal",
+    "linecount": [
+        {
+            "version": "0.2.7",
+            "counttime": "2023-12-05 05:53:49",
+            "filesum": 124,
+            "codesum": 18568,
+            "commentsum": 417,
+            "blanksum": 805,
+            "statistics": {
+                ".json": {
+                    "code": 14364,
+                    "comment": 8,
+                    "blank": 92
+                },
+                ".md": {
+                    "code": 72,
+                    "comment": 22,
+                    "blank": 25
+                },
+                ".txt": {
+                    "code": 1,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".js": {
+                    "code": 365,
+                    "comment": 159,
+                    "blank": 46
+                },
+                "": {
+                    "code": 19,
+                    "comment": 10,
+                    "blank": 5
+                },
+                ".html": {
+                    "code": 28,
+                    "comment": 0,
+                    "blank": 1
+                },
+                ".local": {
+                    "code": 4,
+                    "comment": 1,
+                    "blank": 2
+                },
+                ".ts": {
+                    "code": 920,
+                    "comment": 177,
+                    "blank": 124
+                },
+                ".tsx": {
+                    "code": 2581,
+                    "comment": 39,
+                    "blank": 452
+                },
+                ".css": {
+                    "code": 147,
+                    "comment": 1,
+                    "blank": 58
+                },
+                ".svg": {
+                    "code": 3,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".cjs": {
+                    "code": 18,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".vim": {
+                    "code": 46,
+                    "comment": 0,
+                    "blank": 0
+                }
+            },
+            "filelist": [
+                {
+                    "blank": 3,
+                    "code": 4,
+                    "comment": 1,
+                    "filename": ".env"
+                },
+                {
+                    "blank": 2,
+                    "code": 4,
+                    "comment": 1,
+                    "filename": ".env.local"
+                },
+                {
+                    "blank": 0,
+                    "code": 18,
+                    "comment": 0,
+                    "filename": ".eslintrc.cjs"
+                },
+                {
+                    "blank": 2,
+                    "code": 15,
+                    "comment": 9,
+                    "filename": ".gitignore"
+                },
+                {
+                    "blank": 0,
+                    "code": 16,
+                    "comment": 0,
+                    "filename": "components.json"
+                },
+                {
+                    "blank": 2,
+                    "code": 45,
+                    "comment": 18,
+                    "filename": "convex/_generated/api.d.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 3,
+                    "comment": 18,
+                    "filename": "convex/_generated/api.js"
+                },
+                {
+                    "blank": 5,
+                    "code": 11,
+                    "comment": 40,
+                    "filename": "convex/_generated/dataModel.d.ts"
+                },
+                {
+                    "blank": 13,
+                    "code": 24,
+                    "comment": 106,
+                    "filename": "convex/_generated/server.d.ts"
+                },
+                {
+                    "blank": 8,
+                    "code": 16,
+                    "comment": 66,
+                    "filename": "convex/_generated/server.js"
+                },
+                {
+                    "blank": 7,
+                    "code": 32,
+                    "comment": 0,
+                    "filename": "convex/actions/getDetectedLanguage.ts"
+                },
+                {
+                    "blank": 5,
+                    "code": 38,
+                    "comment": 0,
+                    "filename": "convex/actions/getGPTMessageResponse.ts"
+                },
+                {
+                    "blank": 6,
+                    "code": 54,
+                    "comment": 3,
+                    "filename": "convex/actions/getSpeechToText.ts"
+                },
+                {
+                    "blank": 4,
+                    "code": 44,
+                    "comment": 0,
+                    "filename": "convex/actions/getTextToSpeech.ts"
+                },
+                {
+                    "blank": 6,
+                    "code": 24,
+                    "comment": 0,
+                    "filename": "convex/actions/getTranslation.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 19,
+                    "comment": 1,
+                    "filename": "convex/actions/getTTSVoices.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 8,
+                    "comment": 0,
+                    "filename": "convex/auth.config.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "convex/constants/gptModel.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 15,
+                    "comment": 0,
+                    "filename": "convex/mutation/deleteConversation.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 38,
+                    "comment": 0,
+                    "filename": "convex/mutation/mutateConversation.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 18,
+                    "comment": 0,
+                    "filename": "convex/mutation/mutateNativeLanguage.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 16,
+                    "comment": 0,
+                    "filename": "convex/query/getAllConversations.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "convex/query/getConversation.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "convex/query/getNativeLanguage.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": "convex/query/getTTSKey.ts"
+                },
+                {
+                    "blank": 17,
+                    "code": 53,
+                    "comment": 19,
+                    "filename": "convex/README.md"
+                },
+                {
+                    "blank": 2,
+                    "code": 25,
+                    "comment": 0,
+                    "filename": "convex/schema.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 16,
+                    "comment": 6,
+                    "filename": "convex/tsconfig.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 4,
+                    "comment": 0,
+                    "filename": "convex/types.ts"
+                },
+                {
+                    "filename": "dist/assets/Bender-b394fe0c.otf",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist/assets/default-flag-3ae92fa7.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist/assets/DMSerifDisplay-Regular-98c1cc2e.ttf",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 36,
+                    "code": 253,
+                    "comment": 74,
+                    "filename": "dist/assets/index-10542c45.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist/assets/index-71196a85.css"
+                },
+                {
+                    "filename": "dist/assets/InterTight-VariableFont_wght-663efdf9.ttf",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist/assets/Lemon-round-268ded96.ttf",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist/earth-custom.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 1,
+                    "code": 14,
+                    "comment": 0,
+                    "filename": "dist/index.html"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist/vite.svg"
+                },
+                {
+                    "blank": 0,
+                    "code": 14,
+                    "comment": 0,
+                    "filename": "index.html"
+                },
+                {
+                    "blank": 89,
+                    "code": 14207,
+                    "comment": 0,
+                    "filename": "package-lock.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 86,
+                    "comment": 0,
+                    "filename": "package.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "postcss.config.js"
+                },
+                {
+                    "filename": "public/earth-custom.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "public/vite.svg"
+                },
+                {
+                    "blank": 8,
+                    "code": 19,
+                    "comment": 3,
+                    "filename": "README.md"
+                },
+                {
+                    "blank": 0,
+                    "code": 46,
+                    "comment": 0,
+                    "filename": "Session.vim"
+                },
+                {
+                    "blank": 26,
+                    "code": 76,
+                    "comment": 0,
+                    "filename": "src/App.css"
+                },
+                {
+                    "blank": 15,
+                    "code": 49,
+                    "comment": 0,
+                    "filename": "src/App.tsx"
+                },
+                {
+                    "filename": "src/assets/earth/earth-night.jpg",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src/assets/flag/default-flag.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src/assets/fonts/Bender.otf",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src/assets/fonts/DMSerifDisplay-Regular.ttf",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src/assets/fonts/InterTight-VariableFont_wght.ttf",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src/assets/fonts/Lemon-round.ttf",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src/assets/fonts/Montserrat-VariableFont_wght.ttf",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src/assets/fonts/Rajdhani-Regular.ttf",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src/assets/images/aiVoiceArt.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src/assets/images/cefrImage.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src/assets/images/mechKeyboard.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src/assets/images/translation.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "src/assets/react.svg"
+                },
+                {
+                    "blank": 2,
+                    "code": 32,
+                    "comment": 0,
+                    "filename": "src/components/atropos/atroposEffect.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 15,
+                    "comment": 2,
+                    "filename": "src/components/countryFlag/countryFlag.tsx"
+                },
+                {
+                    "blank": 1,
+                    "code": 16,
+                    "comment": 0,
+                    "filename": "src/components/footer/footer.tsx"
+                },
+                {
+                    "blank": 8,
+                    "code": 54,
+                    "comment": 0,
+                    "filename": "src/components/header/header.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 30,
+                    "comment": 0,
+                    "filename": "src/components/header/logo.tsx"
+                },
+                {
+                    "blank": 1,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "src/components/header/mobileLogo.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 33,
+                    "comment": 0,
+                    "filename": "src/components/header/modeToggle.tsx"
+                },
+                {
+                    "blank": 8,
+                    "code": 35,
+                    "comment": 0,
+                    "filename": "src/components/header/userDropdown.tsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "src/components/loadSpinners/ ovalSpinnerBlackGray.tsx"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "src/components/mobileSideBar/mobileSideBar.tsx"
+                },
+                {
+                    "blank": 32,
+                    "code": 190,
+                    "comment": 1,
+                    "filename": "src/components/sidebar/sidebar.tsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 17,
+                    "comment": 0,
+                    "filename": "src/components/talkSetupOptionContainer/talkSetupOptionContainer.tsx"
+                },
+                {
+                    "blank": 16,
+                    "code": 57,
+                    "comment": 0,
+                    "filename": "src/components/themeProvider/theme-provider.tsx"
+                },
+                {
+                    "blank": 5,
+                    "code": 51,
+                    "comment": 0,
+                    "filename": "src/components/ui/button.tsx"
+                },
+                {
+                    "blank": 17,
+                    "code": 136,
+                    "comment": 0,
+                    "filename": "src/components/ui/command.tsx"
+                },
+                {
+                    "blank": 11,
+                    "code": 110,
+                    "comment": 0,
+                    "filename": "src/components/ui/dialog.tsx"
+                },
+                {
+                    "blank": 17,
+                    "code": 181,
+                    "comment": 0,
+                    "filename": "src/components/ui/dropdown-menu.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 24,
+                    "comment": 0,
+                    "filename": "src/components/ui/popover.tsx"
+                },
+                {
+                    "blank": 12,
+                    "code": 107,
+                    "comment": 0,
+                    "filename": "src/components/ui/select.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 23,
+                    "comment": 0,
+                    "filename": "src/components/ui/switch.tsx"
+                },
+                {
+                    "blank": 12,
+                    "code": 115,
+                    "comment": 0,
+                    "filename": "src/components/ui/toast.tsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 31,
+                    "comment": 0,
+                    "filename": "src/components/ui/toaster.tsx"
+                },
+                {
+                    "blank": 6,
+                    "code": 22,
+                    "comment": 0,
+                    "filename": "src/components/ui/tooltip.tsx"
+                },
+                {
+                    "blank": 30,
+                    "code": 159,
+                    "comment": 3,
+                    "filename": "src/components/ui/use-toast.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 8,
+                    "comment": 0,
+                    "filename": "src/constants/cefrLevels.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 109,
+                    "comment": 0,
+                    "filename": "src/constants/languageNameAndCodes.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "src/declarations.d.ts"
+                },
+                {
+                    "blank": 11,
+                    "code": 25,
+                    "comment": 0,
+                    "filename": "src/features/landingPage/landingPageHeader.tsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 13,
+                    "comment": 0,
+                    "filename": "src/features/landingPage/signUpButton.tsx"
+                },
+                {
+                    "blank": 9,
+                    "code": 27,
+                    "comment": 0,
+                    "filename": "src/features/talkWithPolyglot/components/palSpeechIndicator/palSpeechIndicator.tsx"
+                },
+                {
+                    "blank": 26,
+                    "code": 154,
+                    "comment": 16,
+                    "filename": "src/features/talkWithPolyglot/components/talkMessageInput/talkMessageInput.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 101,
+                    "comment": 0,
+                    "filename": "src/features/talkWithPolyglot/components/talkMessages/message/message.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "src/features/talkWithPolyglot/components/talkMessages/messageOptions/messageOptions.tsx"
+                },
+                {
+                    "blank": 37,
+                    "code": 182,
+                    "comment": 2,
+                    "filename": "src/features/talkWithPolyglot/components/talkMessages/talkMessages.tsx"
+                },
+                {
+                    "blank": 7,
+                    "code": 75,
+                    "comment": 0,
+                    "filename": "src/features/talkWithPolyglot/components/talkSetupOptions/selectALanguage.tsx"
+                },
+                {
+                    "blank": 25,
+                    "code": 231,
+                    "comment": 2,
+                    "filename": "src/features/talkWithPolyglot/components/talkSetupOptions/talkSetupOptions.tsx"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "src/features/talkWithPolyglot/constants.ts"
+                },
+                {
+                    "blank": 6,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "src/features/talkWithPolyglot/hooks/useLanguageOptions.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 29,
+                    "comment": 0,
+                    "filename": "src/features/talkWithPolyglot/services/getGPTMessageResponse.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 9,
+                    "comment": 1,
+                    "filename": "src/features/talkWithPolyglot/services/getGPTPrompt.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 17,
+                    "comment": 0,
+                    "filename": "src/features/talkWithPolyglot/types.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 4,
+                    "comment": 0,
+                    "filename": "src/features/talkWithPolyglot/util/pausePalVoice.ts"
+                },
+                {
+                    "blank": 3,
+                    "code": 14,
+                    "comment": 0,
+                    "filename": "src/hoc/withAuth.tsx"
+                },
+                {
+                    "blank": 32,
+                    "code": 70,
+                    "comment": 1,
+                    "filename": "src/index.css"
+                },
+                {
+                    "blank": 1,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "src/lib/utils.ts"
+                },
+                {
+                    "blank": 5,
+                    "code": 23,
+                    "comment": 2,
+                    "filename": "src/main.tsx"
+                },
+                {
+                    "blank": 22,
+                    "code": 69,
+                    "comment": 3,
+                    "filename": "src/pages/landingPage.tsx"
+                },
+                {
+                    "blank": 100,
+                    "code": 283,
+                    "comment": 11,
+                    "filename": "src/pages/talkWithPolyglot.tsx"
+                },
+                {
+                    "blank": 7,
+                    "code": 38,
+                    "comment": 4,
+                    "filename": "src/types/react-speech-recognition/index.d.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "src/types/types.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 16,
+                    "comment": 0,
+                    "filename": "src/utils/base64ToBlob.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "src/utils/combineLangAndCountryCode.ts"
+                },
+                {
+                    "blank": 6,
+                    "code": 27,
+                    "comment": 0,
+                    "filename": "src/utils/formatGCTTSVoiceOptions.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 11,
+                    "comment": 0,
+                    "filename": "src/utils/getAudioDuration.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": "src/utils/getBase64FromBlob.ts"
+                },
+                {
+                    "blank": 3,
+                    "code": 17,
+                    "comment": 0,
+                    "filename": "src/utils/getSampleRateFromBase64.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 1,
+                    "filename": "src/vite-env.d.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 79,
+                    "comment": 1,
+                    "filename": "tailwind.config.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "test.txt"
+                },
+                {
+                    "blank": 2,
+                    "code": 29,
+                    "comment": 2,
+                    "filename": "tsconfig.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 10,
+                    "comment": 0,
+                    "filename": "tsconfig.node.json"
+                },
+                {
+                    "blank": 2,
+                    "code": 11,
+                    "comment": 0,
+                    "filename": "vite.config.ts"
+                }
+            ]
+        }
+    ]
+}
