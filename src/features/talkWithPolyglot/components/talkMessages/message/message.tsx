@@ -38,7 +38,7 @@ export default function Message ({
     ${msg.role === 'user' ? 'items-start' : 'items-end'}
     `}
     key={index}>
-      <div className={`${msg.role === 'user' ? 'bg-red-300 text-primary dark:text-black dark:bg-red-300 ' : 'text-primary dark:text-black bg-primary border border-border'} p-4 rounded-2xl max-w-66pct`}>
+      <div className={`${msg.role === 'user' ? 'bg-red-300 text-primary dark:text-black dark:bg-red-300 ' : 'text-white dark:text-black bg-primary border border-border'} p-4 rounded-2xl max-w-66pct`}>
         {
         msg.role === 'user' 
         ?

@@ -175,7 +175,8 @@ export default function TalkMessages ({
         messages.map((msg, index) => {
           if(index !== 0){
             return ( 
-            <Message 
+            <Message
+              key={index}
               msg={msg}
               index={index}
               playPalVoiceReplay={playPalVoiceReplay} 

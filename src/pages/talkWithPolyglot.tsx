@@ -93,14 +93,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   },[setPalVoiceData]);
 
   useEffect(()=> {
-    console.log('talkwithpolyglot mount');
-  },[])
-
-  useEffect(()=> {
-    console.log(c_id);
-  },[c_id])
-
-  useEffect(()=> {
     // setConversationId({current: c_id})
     conversation_id.current = c_id
     setPalMessageIsLoading(false)
