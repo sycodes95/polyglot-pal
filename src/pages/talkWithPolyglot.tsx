@@ -111,7 +111,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       const convo = getConversation[0]
       
       if(convo) {
-        console.log('convo')
         setMessages(convo.messages)
         setSelectedLanguageData(convo.selectedLanguageData)
         setCefrLevel(convo.cefrLevel)
@@ -149,7 +148,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         //then get first message from gpt using prompt and add to messages state
         if (messages.length < 1 && selectedLanguageData) { 
           setPalMessageIsLoading(true);
-          console.log('first msg'); 
           const selectedLanguageName = selectedLanguageData.languageName;
 
           const selectedVoiceGender = selectedLanguageData.ssmlGender
@@ -389,9 +387,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
           ttsEnabled={ttsEnabled}
           selectedLanguageData={selectedLanguageData}
         />
-
-        
-
 
       </div>
     </div>
