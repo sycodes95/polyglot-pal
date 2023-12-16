@@ -70,25 +70,25 @@ export default function TalkSetupOptions ({
   const location = useLocation()
   const [languageOptionsIsOpen, setLanguageOptionsIsOpen] = useState(false)
 
-  const handleConvoSave = async () => {
-    if(!user || !user.sub || !selectedLanguageData) return
-    const args = {
-      messages,
-      sub: user.sub,
-      selectedLanguageData,
-      cefrLevel,   
-      ttsEnabled 
-    } 
-    if(c_id) {
-      args.id = c_id
-    }
-    const convoId = await mutateConversation(args);
-    const updatedURL = `/c/${convoId}`
-    if((location.state !== updatedURL) && convoId){
-      navigate(`/c/${convoId}`)
-    }
+  // const handleConvoSave = async () => {
+  //   if(!user || !user.sub || !selectedLanguageData) return
+  //   const args = {
+  //     messages,
+  //     sub: user.sub,
+  //     selectedLanguageData,
+  //     cefrLevel,   
+  //     ttsEnabled 
+  //   } 
+  //   if(c_id) {
+  //     args.id = c_id
+  //   }
+  //   const convoId = await mutateConversation(args);
+  //   const updatedURL = `/c/${convoId}`
+  //   if((location.state !== updatedURL) && convoId){
+  //     navigate(`/c/${convoId}`)
+  //   }
     
-  }
+  // }
   
   return (
     <div className={` ${className} bg-background`}>
@@ -211,7 +211,7 @@ export default function TalkSetupOptions ({
 
         <div className="relative h-full group">
           
-          <Button disabled={selectedLanguageData ? false : true} className={`
+          {/* <Button disabled={selectedLanguageData ? false : true} className={`
           ${selectedLanguageData ? 'bg-primary' : 'bg-stone-400 hover:!pointer-events-none z-10'} 
           relative w-30 text-secondary dark:text-background group h-8 `} 
           color={'default'} 
@@ -220,7 +220,7 @@ export default function TalkSetupOptions ({
           onClick={handleConvoSave}>
             <span>Save</span>
             
-          </Button>
+          </Button> */}
           
           <span className={` ${!selectedLanguageData ? 'group-hover:flex group-hover:opacity-100' : 'group-hover:hidden' }
             hidden absolute mt-2 opacity-0 right-0 border border-border rounded-lg top-full transition-all text-primary p-4 whitespace-nowrap`}>Please select a language</span>

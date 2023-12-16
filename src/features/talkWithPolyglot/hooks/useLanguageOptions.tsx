@@ -20,6 +20,5 @@ const useLanguageOptions = () => {
   },[getTTSVoiceOptionList])
 
   return { languageOptions }
-}
-
+};
 export default useLanguageOptions;
