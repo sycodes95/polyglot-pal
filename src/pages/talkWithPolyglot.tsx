@@ -84,11 +84,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
   const [getConvoLoaded, setGetConvoLoaded] = useState(false)
 
+  //useQuery does not update when data is mutated, only gets the data once when c_id changes.
   const getConversation = useQuery(api.query.getConversation.getConversation, !getConvoLoaded ? getConvoArgs : "skip")
-
-
-  //query only loads once
-
 
   const pausePalVoice = useCallback(() => {
     palVoiceData.element?.pause()
@@ -359,8 +356,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     }
     
   };
-
-  
 
   const resetState = () => {
     setInput("")
