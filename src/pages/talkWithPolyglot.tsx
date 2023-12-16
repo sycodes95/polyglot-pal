@@ -3,14 +3,14 @@ import {
   LanguageOption,
   MessageData,
 } from "../features/talkWithPolyglot/types";
-import { useAction, useQuery } from "convex/react";
+import { useAction, useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import TalkMessageInput from "../features/talkWithPolyglot/components/talkMessageInput/talkMessageInput";
 import TalkMessages from "../features/talkWithPolyglot/components/talkMessages/talkMessages";
 import TalkSetupOptions from "../features/talkWithPolyglot/components/talkSetupOptions/talkSetupOptions";
 import { getGPTPrompt } from "../features/talkWithPolyglot/services/getGPTPrompt";
 import { combineLangAndCountryCode } from "../utils/combineLangAndCountryCode";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../components/sidebar/sidebar";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Id } from "convex/dist/cjs-types/values/value";
@@ -35,6 +35,10 @@ export type PalVoiceData = {
 
 export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideBar} : TalkWithPolyGlotProps) {
 
+  const location = useLocation()
+
+  const navigate = useNavigate()
+
   const { user } = useAuth0();
 
   const { c_id } = useParams<Params>()
@@ -47,6 +51,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   
   const getSpeechToText = useAction(api.actions.getSpeechToText.getSpeechToText);
 
+  const mutateConversation = useMutation(api.mutation.mutateConversation.mutateConversation);
+
   const getConvoArgs : {
     id?: Id<'conversation'>,
     sub: string
@@ -55,8 +61,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     sub: (user && user.sub) ? user.sub : ''
   }
   // if(c_id) getConvoArgs.id = c_id
-  
   const getConversation = useQuery(api.query.getConversation.getConversation, getConvoArgs)
+  
  
   const { languageOptions } = useLanguageOptions()
 
@@ -77,6 +83,9 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     messageIndex: -1
   });  
 
+  //query only loads once
+
+
   const pausePalVoice = useCallback(() => {
     palVoiceData.element?.pause()
   },[palVoiceData.element])
@@ -91,7 +100,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       messageIndex: -1
     });
   },[setPalVoiceData]);
-
   useEffect(()=> {
     // setConversationId({current: c_id})
     conversation_id.current = c_id
@@ -111,10 +119,12 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       const convo = getConversation[0]
       
       if(convo) {
+        pausePalVoice()
         setMessages(convo.messages)
         setSelectedLanguageData(convo.selectedLanguageData)
         setCefrLevel(convo.cefrLevel)
         setTtsEnabled(convo.ttsEnabled)
+
       } else {
         resetState()
       }
@@ -125,7 +135,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   useEffect(()=> {
     // once AudioElement is added, it is played
     playPalVoice()
-  },[palVoiceData.element, playPalVoice, pausePalVoice])
+  },[palVoiceData.element, playPalVoice])
 
   useEffect(()=> {
     if(palVoiceData.element && ttsEnabled) {
@@ -205,6 +215,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         const palVoiceAudio = new Audio(ttsBase64);
         setPalVoiceData({ element: palVoiceAudio, messageIndex: messages.length - 1 });
 
+        //problem is this is running twice
       } catch (error) {
         console.error("Error getting text-to-speech from Pal", error);
       }
@@ -270,6 +281,38 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     getUserSTTAndSendToOpenAI();
     
   }, [userVoiceBase64]);
+
+  // const handleConvoSave = useCallback(async () => {
+
+  //   try {
+    
+  //     if(!user || !user.sub || !selectedLanguageData) return
+  //     const args = {
+  //       messages,
+  //       sub: user.sub,
+  //       selectedLanguageData,
+  //       cefrLevel,   
+  //       ttsEnabled 
+  //     } 
+  //     if(c_id) {
+  //       //if convo exists add id to args object
+  //       args.id = c_id
+  //     }
+  //     const convoId = await mutateConversation(args);
+  //     const updatedURL = `/c/${convoId}`
+  //     if((location.state !== updatedURL) && convoId){
+  //       navigate(`/c/${convoId}`)
+  //     }
+  //   } catch (error) {
+  //     console.error('error saving convo', error)
+  //   }
+    
+  // },[c_id, cefrLevel, location.state, messages, mutateConversation, navigate, selectedLanguageData, ttsEnabled, user])
+
+
+  // useEffect(()=> {
+  //   handleConvoSave()
+  // },[messages, ttsEnabled, handleConvoSave])
   
 
   const handleMessageSend = async () => {
@@ -304,6 +347,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     }
     
   };
+
+  
 
   const resetState = () => {
     setInput("")
