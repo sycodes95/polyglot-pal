@@ -102,6 +102,7 @@ export default function Sidebar ({
     deleteConversation({id : c._id, sub: c.sub})
     setDeleteConvoPopoverIsOpen(false)
     setShowMobileSideBar && setShowMobileSideBar(false)
+    handleNewConversation()
 
   }
 
