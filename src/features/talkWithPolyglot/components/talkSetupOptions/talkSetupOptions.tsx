@@ -1,14 +1,11 @@
 import CountryFlag from "../../../../components/countryFlag/countryFlag"
 import { cefrLevels } from "../../../../constants/cefrLevels"
-import { LanguageOption, MessageData } from "../../types"
+import { LanguageOption } from "../../types"
 import Icon from '@mdi/react';
 import {  mdiCloseCircleOutline } from '@mdi/js';
 import {  useRef, useState } from "react";
 import { Button } from "../../../../components/ui/button"
 import { Switch } from "@mui/material"
-import { useAuth0 } from "@auth0/auth0-react";
-import { useMutation } from "convex/react";
-import { api } from "../../../../../convex/_generated/api";
 import { Id } from "convex/dist/cjs-types/values/value";
 import { Check, ChevronsUpDown } from "lucide-react"
 
@@ -27,69 +24,63 @@ import {
 } from "@/components/ui/popover"
 
 import { cn } from "../../../../lib/utils";
-import { useLocation, useNavigate } from "react-router-dom";
-import { PalVoiceData, palVoiceDataData } from "../../../../pages/talkWithPolyglot";
+import { Conversation, PalVoiceData } from "../../../../pages/talkWithPolyglot";
 
 type TalkSetupOptionsProps = {
   c_id: Id<'conversation'>,
   className?: string,
-  selectedLanguageData: LanguageOption | null,
-  setSelectedLanguageData: React.Dispatch<React.SetStateAction<LanguageOption | null>>,
   languageOptions: LanguageOption[] | [],
-  cefrLevel: string,
-  setCefrLevel: React.Dispatch<React.SetStateAction<string>>,
-  setMessages: React.Dispatch<React.SetStateAction<MessageData[] | []>>,
-  ttsEnabled: boolean,
-  setTtsEnabled: React.Dispatch<React.SetStateAction<boolean>>,
-  messages: MessageData[] | [],
-  palVoiceData: PalVoiceData,
-  setPalVoiceData: React.Dispatch<React.SetStateAction<PalVoiceData>>
+  palVoiceDataContext: { palVoiceData : PalVoiceData, setPalVoiceData: React.Dispatch<React.SetStateAction<PalVoiceData>>},
+  conversationContext: { conversation: Conversation, setConversation: React.Dispatch<React.SetStateAction<Conversation>>}
+  
 }
 
 export default function TalkSetupOptions ({ 
   c_id,
   className,
-  selectedLanguageData, 
-  setSelectedLanguageData,  
   languageOptions,
-  cefrLevel,  
-  setCefrLevel,
-  setMessages,
-  ttsEnabled,
-  setTtsEnabled,
-  messages,
-  palVoiceData,
-  setPalVoiceData
+  palVoiceDataContext,
+  conversationContext
 }: TalkSetupOptionsProps) {
 
-  const { user } = useAuth0();
-  const mutateConversation = useMutation(api.mutation.mutateConversation.mutateConversation)
+  const { palVoiceData, setPalVoiceData } = palVoiceDataContext;
+
+  const { conversation, setConversation } = conversationContext;
+
   const cefrTipDialogRef = useRef(null)
   const [cefrToolTipIsOpen, setCefrToolTipIsOpen] = useState(false)
-  const navigate = useNavigate()
-  const location = useLocation()
   const [languageOptionsIsOpen, setLanguageOptionsIsOpen] = useState(false)
 
-  // const handleConvoSave = async () => {
-  //   if(!user || !user.sub || !selectedLanguageData) return
-  //   const args = {
-  //     messages,
-  //     sub: user.sub,
-  //     selectedLanguageData,
-  //     cefrLevel,   
-  //     ttsEnabled 
-  //   } 
-  //   if(c_id) {
-  //     args.id = c_id
-  //   }
-  //   const convoId = await mutateConversation(args);
-  //   const updatedURL = `/c/${convoId}`
-  //   if((location.state !== updatedURL) && convoId){
-  //     navigate(`/c/${convoId}`)
-  //   }
+  const handleLanguageOptionSelect = (currentValue: string) => {
+    const values = currentValue.split(' ')
+    const voiceName = values[2]
+    const selectedLanguage = languageOptions.find(opt => opt.voiceName.toLowerCase() === voiceName)
+
+    setConversation((prev) => {
+      return {
+        ...prev,
+        selectedLanguageData : selectedLanguage ? selectedLanguage : null,
+        messages: []
+      }
+    })
+    setLanguageOptionsIsOpen(false)
     
-  // }
-  
+  }
+
+  const handleCefrLevelSelect = (level: string) => {
+    if(palVoiceData.element){
+      palVoiceData?.element.remove()
+    }
+    setConversation((prev) => {
+      return {
+        ...prev,
+        cefrLevel: level,
+        messages: []
+      }
+    });
+       
+  }
+
   return (
     <div className={` ${className} bg-background`}>
 
@@ -104,8 +95,8 @@ export default function TalkSetupOptions ({
               aria-expanded={languageOptionsIsOpen}
               className="justify-between w-full h-8 overflow-hidden text-sm text-primary whitespace-nowrap text-ellipsis "
             >
-              {(selectedLanguageData && selectedLanguageData.voiceName) 
-              ? `${selectedLanguageData.languageName} ${selectedLanguageData.countryCode} ${selectedLanguageData.voiceName} ${selectedLanguageData.ssmlGender}` 
+              {(conversation.selectedLanguageData && conversation.selectedLanguageData.voiceName) 
+              ? `${conversation.selectedLanguageData.languageName} ${conversation.selectedLanguageData.countryCode} ${conversation.selectedLanguageData.voiceName} ${conversation.selectedLanguageData.ssmlGender}` 
               : 'Select a language'
               }
               <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
@@ -119,14 +110,19 @@ export default function TalkSetupOptions ({
                 <CommandItem 
                 className="cursor-pointer"
                 onSelect={() => {
-                  setSelectedLanguageData(null)
+                  setConversation((prev) => {
+                    return {
+                      ...prev,
+                      selectedLanguageData: null
+                    }
+                  })
                   setLanguageOptionsIsOpen(false)
                 }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      !selectedLanguageData ? "opacity-100" : "opacity-0"
+                      !conversation.selectedLanguageData ? "opacity-100" : "opacity-0"
                     )}
                   />
                   ...
@@ -136,19 +132,12 @@ export default function TalkSetupOptions ({
                   <CommandItem
                     className="flex items-start w-full gap-2 text-primary hover:cursor-pointer "
                     key={index}
-                    onSelect={(currentValue) => {
-                      const values = currentValue.split(' ')
-                      const voiceName = values[2]
-                      const selectedLanguageData = languageOptions.find(opt => opt.voiceName.toLowerCase() === voiceName)
-                      selectedLanguageData ? setSelectedLanguageData(selectedLanguageData) : setSelectedLanguageData(null)
-                      setMessages([])
-                      setLanguageOptionsIsOpen(false)
-                    }}
+                    onSelect={(currentValue) => handleLanguageOptionSelect(currentValue)}
                   >
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        selectedLanguageData?.voiceName === lang.voiceName ? "opacity-100" : "opacity-0"
+                        conversation.selectedLanguageData?.voiceName === lang.voiceName ? "opacity-100" : "opacity-0"
                       )}
                     />
                     <CountryFlag className="object-contain w-4 h-4 mt-0.5 rounded-lg" countryCode={lang.countryCode}/>
@@ -162,8 +151,8 @@ export default function TalkSetupOptions ({
         }
         
         {
-        selectedLanguageData &&
-        <CountryFlag className="object-contain w-8 h-8 mr-2 rounded-2xl" countryCode={selectedLanguageData?.countryCode}/>
+        conversation.selectedLanguageData &&
+        <CountryFlag className="object-contain w-8 h-8 mr-2 rounded-2xl" countryCode={conversation.selectedLanguageData?.countryCode}/>
         }
       </div>
       
@@ -180,13 +169,8 @@ export default function TalkSetupOptions ({
             <PopoverContent className="grid w-full grid-cols-3 gap-2">
               {
               Object.keys(cefrLevels).map((level) => (
-                <button className={`flex items-center border text-black ${level === cefrLevel ? 'bg-black text-white ' : 'border-stone-300 text-stone-400'} hover:bg-foreground justify-center w-12 h-12 text-sm rounded-full transition-all`} onClick={()=> {
-                  if(palVoiceData.element){
-                  palVoiceData?.element.remove()
-                  }
-                  setCefrLevel(level)
-                  setMessages([])   
-                }}
+                <button className={`flex items-center border text-black ${level === conversation.cefrLevel ? 'bg-black text-white ' : 'border-stone-300 text-stone-400'} hover:bg-foreground justify-center w-12 h-12 text-sm rounded-full transition-all`} 
+                onClick={()=> handleCefrLevelSelect(level)}
                 key={level}>{level}</button>
               ))
               }
@@ -204,26 +188,18 @@ export default function TalkSetupOptions ({
             </PopoverTrigger>
             
             <PopoverContent className="w-full h-full dark:bg-foreground">
-              <Switch className="" checked={ttsEnabled} onChange={()=> setTtsEnabled(!ttsEnabled)} />
+              <Switch className="" checked={conversation.ttsEnabled} onChange={()=> setConversation((prev) => {
+                return { ...prev, ttsEnabled: !prev.ttsEnabled }
+              })} />
             </PopoverContent>
           </Popover>
         </div>
 
         <div className="relative h-full group">
           
-          {/* <Button disabled={selectedLanguageData ? false : true} className={`
-          ${selectedLanguageData ? 'bg-primary' : 'bg-stone-400 hover:!pointer-events-none z-10'} 
-          relative w-30 text-secondary dark:text-background group h-8 `} 
-          color={'default'} 
-          variant={'default'} 
-          size={'default'} 
-          onClick={handleConvoSave}>
-            <span>Save</span>
-            
-          </Button> */}
-          
-          <span className={` ${!selectedLanguageData ? 'group-hover:flex group-hover:opacity-100' : 'group-hover:hidden' }
-            hidden absolute mt-2 opacity-0 right-0 border border-border rounded-lg top-full transition-all text-primary p-4 whitespace-nowrap`}>Please select a language</span>
+          <span className={` ${!conversation.selectedLanguageData ? 'group-hover:flex group-hover:opacity-100' : 'group-hover:hidden' }
+            hidden absolute mt-2 opacity-0 right-0 border border-border rounded-lg top-full transition-all text-primary p-4 whitespace-nowrap`}>Please select a language
+          </span>
         </div>
         
       </div>

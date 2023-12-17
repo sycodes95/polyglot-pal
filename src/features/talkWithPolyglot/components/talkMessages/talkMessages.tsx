@@ -7,21 +7,18 @@ import { combineLangAndCountryCode } from "../../../../utils/combineLangAndCount
 import { useAction, useQuery } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { useAuth0 } from "@auth0/auth0-react";
-import { PalVoiceData } from "../../../../pages/talkWithPolyglot";
+import { Conversation, PalVoiceData } from "../../../../pages/talkWithPolyglot";
 import { useTheme } from "@/components/themeProvider/theme-provider";
 import Message from "./message/message";
 
 type TalkMessagesProps = {
   className?: string,
-  messages: MessageData[], 
   palMessageIsLoading: boolean,
-  selectedLanguageData: LanguageOption | null,
-  ttsEnabled: boolean,
   userMessageIsLoading: boolean,
-  palVoiceData: PalVoiceData,
-  setPalVoiceData: React.Dispatch<React.SetStateAction<PalVoiceData>>,
   userVoiceError: boolean
   setUserVoiceError: React.Dispatch<React.SetStateAction<boolean>>,
+  palVoiceDataContext: { palVoiceData : PalVoiceData, setPalVoiceData: React.Dispatch<React.SetStateAction<PalVoiceData>>},
+  conversationContext: { conversation: Conversation, setConversation: React.Dispatch<React.SetStateAction<Conversation>>},
   pausePalVoice: ()=> void
 }
 
@@ -33,16 +30,13 @@ export type TranslationData = {
 
 export default function TalkMessages ({
   className, 
-  messages, 
   palMessageIsLoading, 
-  selectedLanguageData, 
-  ttsEnabled,
   userMessageIsLoading,
-  palVoiceData,
-  setPalVoiceData,
   userVoiceError,
   setUserVoiceError,
-  pausePalVoice
+  pausePalVoice,
+  palVoiceDataContext,
+  conversationContext
 } : TalkMessagesProps) {
   const { theme } = useTheme()
   const { user } = useAuth0();
@@ -64,6 +58,10 @@ export default function TalkMessages ({
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
   const [palIsSpeaking, setPalIsSpeaking] = useState(false)
+
+  const { conversation, setConversation } = conversationContext;
+  const { palVoiceData, setPalVoiceData } = palVoiceDataContext;
+
 
   useEffect(() => {
     if (palVoiceData?.element) {
@@ -95,24 +93,24 @@ export default function TalkMessages ({
       isLoading: false
     })
 
-  }, [messages]);
+  }, [conversation.messages]);
 
   useEffect(()=> {
 
-    if(palVoiceData && ttsEnabled) {
+    if(palVoiceData && conversation.ttsEnabled) {
       setPalVoiceReplayIndex(null)
     }
     
-  },[palVoiceData, ttsEnabled])
+  },[palVoiceData, conversation.ttsEnabled])
 
   const playPalVoiceReplay = async (palMessage: string, index: number) => {
     pausePalVoice()
-    if(!selectedLanguageData) return
+    if(!conversation.selectedLanguageData) return
     setPalVoiceReplayIndex(index)
 
-    const selectedLanguageCode = combineLangAndCountryCode(selectedLanguageData?.languageCode, selectedLanguageData?.countryCode)
+    const selectedLanguageCode = combineLangAndCountryCode(conversation.selectedLanguageData?.languageCode, conversation.selectedLanguageData?.countryCode)
 
-    const selectedVoice = selectedLanguageData.voiceName
+    const selectedVoice = conversation.selectedLanguageData.voiceName
 
     const ttsBase64 = await getTextToSpeech({
       input: {
@@ -165,12 +163,12 @@ export default function TalkMessages ({
     <div className={`${className} relative flex flex-grow flex-col h-1 w-full gap-8 overflow-y-auto rounded-2xl
       p-2`} >
         {
-        messages && messages.length < 1 &&
+        conversation.messages && conversation.messages.length < 1 &&
         <span className="absolute text-4xl font-bold text-center -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 text-stone-300 font-display" > Select A Language To Get Started! </span>
         }
         
         {
-        messages.map((msg, index) => {
+        conversation.messages.map((msg, index) => {
           if(index !== 0){
             return ( 
             <Message
@@ -182,7 +180,7 @@ export default function TalkMessages ({
               palVoiceReplayIndex={palVoiceReplayIndex}
               translationData={translationData}
               setTranslationData={setTranslationData}
-              ttsEnabled={ttsEnabled}
+              ttsEnabled={conversation.ttsEnabled}
               palIsSpeaking={palIsSpeaking}
               palVoiceData={palVoiceData}
             />

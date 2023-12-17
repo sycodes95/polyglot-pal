@@ -35,7 +35,7 @@ function App() {
     <BrowserRouter>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         
-        <div className="flex flex-col items-center w-full h-full min-h-screen text-sm font-main bg-background ">
+        <div className="flex flex-col items-center w-full h-full min-h-[100dvh] text-sm font-main bg-background ">
           
           <Header 
           showMobileSideBar={showMobileSideBar} 
