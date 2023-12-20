@@ -59,16 +59,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   const getSpeechToText = useAction(api.actions.getSpeechToText.getSpeechToText);
 
   const mutateConversation = useMutation(api.mutation.mutateConversation.mutateConversation);
-
-  const getConvoArgs : {
-    id?: Id<'conversation'>,
-    sub: string
-  } = {
-    id: c_id,
-    sub: (user && user.sub) ? user.sub : ''
-  }
-  // if(c_id) getConvoArgs.id = c_id
-  
  
   const { languageOptions } = useLanguageOptions()
 
@@ -82,15 +72,10 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   })
 
   //Gonna put all these states into one state, since I am saving it all in one table in the db, better consistency and better readability IMO
-  // const [messages, setMessages] = useState<MessageData[] | []>([]);
   const [userMessageIsLoading, setUserMessageIsLoading] = useState(false)
   const [palMessageIsLoading, setPalMessageIsLoading] = useState(false);
-  // const [selectedLanguageData, setSelectedLanguageData] = useState<LanguageOption | null>(null);
-  // const [cefrLevel, setCefrLevel] = useState("C2");
-  // const [ttsEnabled, setTtsEnabled] = useState(true)
 
   const [userVoiceBase64, setUserVoiceBase64] = useState("");
-
   const [userVoiceError, setUserVoiceError] = useState(false)
 
   const [palVoiceData, setPalVoiceData] = useState<PalVoiceData>({
@@ -100,8 +85,14 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
   const [initialConvoLoaded, setInitialConvoLoaded] = useState(false)
 
+  const getConversation = useQuery(api.query.getConversation.getConversation, 
+    !initialConvoLoaded 
+    ? { id: c_id, sub: (user && user.sub) ? user.sub : '' }
+    : "skip"
+  )
+
   //useQuery does not update when data is mutated, only gets the data once when c_id changes.
-  const getConversation = useQuery(api.query.getConversation.getConversation, !initialConvoLoaded ? getConvoArgs : "skip")
+  
 
   const pausePalVoice = useCallback(() => {
     palVoiceData.element?.pause()
@@ -119,6 +110,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   },[setPalVoiceData]);
   
   useEffect(()=> {
+
+    console.log(c_id);
     // setConversationId({current: c_id})
     conversation_id.current = c_id
     setPalMessageIsLoading(false)
@@ -196,10 +189,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
           const palMsg = await getGPTMsg({ messages, input: prompt })
 
           if(conversation_id.current === c_id) {
-            // setConversation([
-            //   { role: "user", content: prompt },
-            //   { role: "assistant", content: palMsg },
-            // ]);
 
             setConversation({
               ...conversation,
@@ -295,8 +284,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
           return setUserVoiceError(true);
         } 
 
-        // setMessages([...messages, { role: "user", content: transcript }]);
-
         setConversation((prev) => {
           return {
             ...conversation,
@@ -314,11 +301,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
         if(conversation_id.current === c_id) {
           //if user hasn't switched to a different conversation while this function was fetching data, then proceed and set messages
-
-          // setMessages((messages) => [
-          //   ...messages,
-          //   { role: "assistant", content: palResponse },
-          // ]);
 
           setConversation((prev) => {
             return {
@@ -370,12 +352,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     
   },[c_id, conversation.cefrLevel, location.state, conversation.messages, mutateConversation, navigate, conversation.selectedLanguageData, conversation.ttsEnabled, user])
 
-
-  // useEffect(()=> {
-  //   handleConvoSave()
-  // },[messages, ttsEnabled, handleConvoSave])
-  
-
   const handleMessageSend = async () => {
     //sends user message to open ai to get response from ai assistant.
 
@@ -393,18 +369,11 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
           messages: [...prev.messages, { role: "user", content: userInput }]
         }
       })
-      
-      // setMessages([...messages, { role: "user", content: userInput }]);
 
       setInput("");
 
       const messages = conversation.messages
       const msg = await getGPTMsg({ messages, input });
-
-      // setMessages((messages) => [
-      //   ...messages,
-      //   { role: "assistant", content: msg },
-      // ]);
 
       setConversation((prev) => {
         return {
@@ -426,12 +395,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
   const resetState = () => {
     setInput("")
-    // setMessages([])
     setUserMessageIsLoading(false)
     setPalMessageIsLoading(false)
-    // setSelectedLanguageData(null)
-    // setCefrLevel("C2")
-    // setTtsEnabled(true)
 
     setConversation({
       messages: [],
