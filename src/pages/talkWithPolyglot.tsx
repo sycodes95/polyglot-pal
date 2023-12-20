@@ -111,8 +111,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   
   useEffect(()=> {
 
-    console.log(c_id);
-    // setConversationId({current: c_id})
     conversation_id.current = c_id
     setPalMessageIsLoading(false)
     resetPalVoiceData()
@@ -125,9 +123,9 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   },[c_id]);
   
   useEffect(()=> {
+    
     if(getConversation) {
 
-      // if(!getConversationSuccessRef.current) getConversationSuccessRef.current = true
       const convo = getConversation[0]
       
       if(convo) {
@@ -140,7 +138,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
           ttsEnabled: convo.ttsEnabled
         })
 
-        //
         setInitialConvoLoaded(true)
       } else {
         resetState()
@@ -241,8 +238,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         const palVoiceAudio = new Audio(ttsBase64);
         setPalVoiceData({ element: palVoiceAudio, messageIndex: conversation.messages.length - 1 });
 
-
-        //problem is this is running twice
       } catch (error) {
         console.error("Error getting text-to-speech from Pal", error);
       }
@@ -260,7 +255,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   useEffect(() => {
 
     async function getUserSTTAndSendToOpenAI () {
-      //lol
+      
       try {
       
         if (!userVoiceBase64 || !conversation.selectedLanguageData) return
