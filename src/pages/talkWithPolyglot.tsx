@@ -23,7 +23,7 @@ type Params = {
   c_id: Id<'conversation'>,
 }
 
-type TalkWithPolyGlotProps = {
+export type TalkWithPolyGlotProps = {
   showMobileSideBar: boolean,
   setShowMobileSideBar: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -31,6 +31,7 @@ type TalkWithPolyGlotProps = {
 export type PalVoiceData = {
   element: HTMLAudioElement | null;
   messageIndex: number;
+  isLoading: boolean;
 }
 
 export type Conversation = {
@@ -80,7 +81,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
   const [palVoiceData, setPalVoiceData] = useState<PalVoiceData>({
     element: null,
-    messageIndex: -1
+    messageIndex: -1,
+    isLoading: false
   });  
 
   const [initialConvoLoaded, setInitialConvoLoaded] = useState(false)
@@ -105,7 +107,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   const resetPalVoiceData = useCallback(() => {
     setPalVoiceData({
       element: null,
-      messageIndex: -1
+      messageIndex: -1,
+      isLoading: false
     });
   },[setPalVoiceData]);
   
@@ -123,7 +126,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   },[c_id]);
   
   useEffect(()=> {
-    
     if(getConversation) {
 
       const convo = getConversation[0]
@@ -163,7 +165,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
   useEffect(() => {
 
-
     async function getFirstMessageFromPal () {
 
       try {
@@ -186,7 +187,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
           const palMsg = await getGPTMsg({ messages, input: prompt })
 
           if(conversation_id.current === c_id) {
-
+            setPalMessageIsLoading(false);
             setConversation({
               ...conversation,
               messages: [
@@ -196,7 +197,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
             });
 
           }
-          setPalMessageIsLoading(false);
+          
         }
 
       } catch (error) {
@@ -205,6 +206,8 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       } 
         
     }
+
+
     getFirstMessageFromPal();
   
   }, [conversation.selectedLanguageData, conversation.cefrLevel]);
@@ -212,8 +215,13 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   useEffect(() => {
     
     async function getTTSFromPalMessage() {
+      
       try {
+
+
         pausePalVoice()
+
+        
         // Check if TTS is enabled and there are any messages
         if (conversation.messages.length === 0 || conversation.selectedLanguageData === null) return;
 
@@ -221,9 +229,10 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         const lastMessage = conversation.messages[conversation.messages.length - 1];
         if (lastMessage.role !== "assistant") return;
 
-        resetPalVoiceData();
+        // resetPalVoiceData();
         const { languageCode, countryCode, voiceName } = conversation.selectedLanguageData;
         const combinedLanguageCode = combineLangAndCountryCode(languageCode, countryCode);
+        setPalVoiceData((prev) => ({ ...prev, messageIndex: conversation.messages.length - 1, isLoading: true }));
 
         // Get text-to-speech from Pal's last message
         const ttsBase64 = await getTextToSpeech({
@@ -236,7 +245,14 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         
         // Create and set Pal voice data
         const palVoiceAudio = new Audio(ttsBase64);
-        setPalVoiceData({ element: palVoiceAudio, messageIndex: conversation.messages.length - 1 });
+        setPalVoiceData((prev) => {
+          return {
+            ...prev,
+            element: palVoiceAudio, 
+            isLoading: false
+          } 
+          
+        });
 
       } catch (error) {
         console.error("Error getting text-to-speech from Pal", error);
@@ -250,7 +266,6 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
   useEffect(() => {
     handleConvoSave()
   },[conversation.messages])
-
 
   useEffect(() => {
 
@@ -386,7 +401,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       
     }
     
-  };
+  }; 
 
   const resetState = () => {
     setInput("")
@@ -402,11 +417,12 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
     setUserVoiceBase64("")
     setUserVoiceError(false)
     setPalVoiceData({
-      element: null,
-      messageIndex: -1
+      element: null, 
+      messageIndex: -1,
+      isLoading: false
     })
 
-  }
+  }     
 
   return (
 
