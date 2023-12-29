@@ -97,44 +97,63 @@ export default function TalkMessages ({
 
   useEffect(()=> {
 
-    if(palVoiceData && conversation.ttsEnabled) {
+    if(conversation.ttsEnabled) {
       setPalVoiceReplayIndex(null)
     }
     
-  },[palVoiceData, conversation.ttsEnabled])
+  },[conversation.messages, conversation.ttsEnabled])
 
   const playPalVoiceReplay = async (palMessage: string, index: number) => {
     pausePalVoice()
     if(!conversation.selectedLanguageData) return
     setPalVoiceReplayIndex(index)
 
+    setPalVoiceData((prev) => ({ ...prev, isLoading: true }));
+
     const selectedLanguageCode = combineLangAndCountryCode(conversation.selectedLanguageData?.languageCode, conversation.selectedLanguageData?.countryCode)
 
     const selectedVoice = conversation.selectedLanguageData.voiceName
 
-    const ttsBase64 = await getTextToSpeech({
-      input: {
-        text: palMessage,
-      },
-      voice: {
-        languageCode: selectedLanguageCode,
-        name: selectedVoice,
-      },
-    });
+    try {
 
-    if(ttsBase64) {
-      if (palVoiceData && palVoiceData?.element){
-        const palVoiceAudio = new Audio(ttsBase64)
-        
-        
-        setPalVoiceData({
-          element: palVoiceAudio,
-          messageIndex: index
-        })
-        
+      const ttsBase64 = await getTextToSpeech({
+        input: {
+          text: palMessage,
+        },
+        voice: {
+          languageCode: selectedLanguageCode,
+          name: selectedVoice,
+        },
+      });
+
+      if(ttsBase64) {
+        if (palVoiceData && palVoiceData?.element){
+
+          const palVoiceAudio = new Audio(ttsBase64)
+          
+          setPalVoiceData({
+            element: palVoiceAudio,
+            messageIndex: index,
+            isLoading: false
+          })
+          
+          setPalVoiceReplayIndex(null)
+        } 
+      } else {
+
+        setPalVoiceData((prev) => ({ ...prev, isLoading: false }));
         setPalVoiceReplayIndex(null)
-      } 
+
+      }
+
+      
+    } catch (error) {
+      console.error('Error replaying pal voice', error)
+      setPalVoiceData((prev) => ({ ...prev, isLoading: false }));
+
     }
+
+    
   }
 
   const handleTranslation = async (text: string, index: number ) => {

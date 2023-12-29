@@ -52,12 +52,14 @@ export default function Message ({
       msg.role === 'assistant' &&
       <div className="right-0 flex items-center h-12 gap-2 p-2 text-black top-full rounded-2xl">
         <div className={`${palIsSpeaking && index === palVoiceData.messageIndex ? 'text-emerald-500' : 'text-stone-400' }  transition-all duration-1000 flex items-center justify-center w-6 h-6`}>
+          
           <VolumeUpIcon  fontSize="medium"/>
+
         </div>
         
         <div className="flex items-center justify-center w-6 h-6">
           {
-          palVoiceReplayIndex === index ?
+          palVoiceReplayIndex === index ||  ((palVoiceData.messageIndex === index || palVoiceData.messageIndex === -1) && palVoiceData.isLoading) ?
           <OvalSpinnerBlackGray />
           :
           <button 
