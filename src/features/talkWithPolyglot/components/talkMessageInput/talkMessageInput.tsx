@@ -13,24 +13,21 @@ import { useToast } from "@/components/ui/use-toast";
 type TalkMessageInputProps = {
   className?: string,
   selectedLanguageData: LanguageOption | null;
-  palMessageIsLoading: boolean;
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
   handleMessageSend: () => void;
   setUserVoiceBase64: React.Dispatch<React.SetStateAction<string>>;
-  ttsEnabled: boolean
 };
 
 export default function TalkMessageInput({
   className,
   selectedLanguageData,
-  palMessageIsLoading,
   input,
   setInput,
   handleMessageSend,
   setUserVoiceBase64,
-  ttsEnabled
 }: TalkMessageInputProps) {
+
   const { theme } = useTheme()
   const [recording, setRecording] = useState<boolean>(false);
   const [audioData, setAudioData] = useState<string | null>(null);
@@ -55,27 +52,13 @@ export default function TalkMessageInput({
     });
 
     const audioChunks: Blob[] = [];
-    // mediaRecorderRef.current.ondataavailable = (event) => {
-    //   if (event.data) {
-    //     audioChunks.push(event.data);
-    //   }
-    // };
+    
 
     mediaRecorderRef.current.ondataavailable = (event) => {
       if (event.data.size > 0) {
         audioChunks.push(event.data);
       }
-
-      // if (
-      //   recordingStopped.current &&
-      //   mediaRecorderRef.current &&
-      //   mediaRecorderRef.current.state !== "recording"
-      // ) {
-      //   const audioBlob = new Blob(audioChunks, { type: mimeType });
-      //   blobToBase64(audioBlob, setAudioData);
-
-      //   mediaRecorderRef.current = null
-      // }
+      
     };
 
     mediaRecorderRef.current.onstart = () => {
@@ -115,16 +98,13 @@ export default function TalkMessageInput({
   };
 
   useEffect(() => {
-  }, [audioData]);
-
-  useEffect(() => {
     if (audioData) setUserVoiceBase64(audioData);
   }, [audioData]);
 
   return (
     <div className={`${className} flex w-full max-w-7xl p-2`}>
       <form
-      aria-disabled
+        aria-label="form"
         className="flex w-full h-full gap-2 "
         onSubmit={(e) => {
           e.preventDefault();
