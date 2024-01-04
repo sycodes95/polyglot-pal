@@ -59,7 +59,7 @@ export default function TalkMessages ({
 
   const [palIsSpeaking, setPalIsSpeaking] = useState(false)
 
-  const { conversation, setConversation } = conversationContext;
+  const { conversation } = conversationContext;
   const { palVoiceData, setPalVoiceData } = palVoiceDataContext;
 
 
