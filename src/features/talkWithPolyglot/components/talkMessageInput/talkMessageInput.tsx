@@ -1,12 +1,11 @@
-import { mdiMicrophoneOff, mdiSendOutline } from "@mdi/js";
+import { mdiSendOutline } from "@mdi/js";
 import {useEffect, useRef, useState } from "react";
-import { Oval } from "react-loader-spinner";
 import { blobToBase64 } from "../../../../utils/getBase64FromBlob";
 
 import Icon from "@mdi/react";
 import { mdiMicrophone } from "@mdi/js";
 import { LanguageOption } from "../../types";
-import { AudioVisualizer, LiveAudioVisualizer } from "react-audio-visualize";
+import { LiveAudioVisualizer } from "react-audio-visualize";
 import { useTheme } from "@/components/themeProvider/theme-provider";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -131,29 +130,27 @@ export default function TalkMessageInput({
 
           <div className="flex items-center justify-center w-40 h-full border rounded-lg border-border">
             {
-            mediaRecorderRef && mediaRecorderRef.current && recording ?
+            mediaRecorderRef && mediaRecorderRef.current && recording &&
             <LiveAudioVisualizer
+              data-testid="live-audio-visualizer"
               mediaRecorder={mediaRecorderRef.current}
               width={80}
               height={30}
               backgroundColor="rgba(0,0,0,0)"
               barColor={`${theme === 'dark' ? '#FFFFFF' : '#000000'}`}
             />
-            :
-            <div>
-              
-            </div>
+            
             }
             
           </div>
           <div className="flex items-center justify-center w-10 gap-2 p-2 border rounded-lg border-border">
             {
             recording ?
-            <button type="button" onClick={stopVoiceRecord}>
+            <button data-testid="stop-voice-record" type="button" onClick={stopVoiceRecord}>
               <Icon className="text-red-600" path={mdiMicrophone} size={1} />
             </button>
             :
-            <button type="button" onClick={startVoiceRecord}>
+            <button data-testid="start-voice-record" type="button" onClick={startVoiceRecord}>
               <Icon className="text-primary" path={mdiMicrophone} size={1} />
             </button>
             }

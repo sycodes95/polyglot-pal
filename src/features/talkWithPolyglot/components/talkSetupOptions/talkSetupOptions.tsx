@@ -5,7 +5,6 @@ import Icon from '@mdi/react';
 import {  mdiCloseCircleOutline } from '@mdi/js';
 import {  useRef, useState } from "react";
 import { Button } from "../../../../components/ui/button"
-import { Switch } from "@mui/material"
 import { Id } from "convex/dist/cjs-types/values/value";
 import { Check, ChevronsUpDown } from "lucide-react"
 
@@ -25,9 +24,9 @@ import {
 
 import { cn } from "../../../../lib/utils";
 import { Conversation, PalVoiceData } from "../../../../pages/talkWithPolyglot";
+import { Switch } from "@/components/ui/switch";
 
-type TalkSetupOptionsProps = {
-  c_id: Id<'conversation'>,
+export type TalkSetupOptionsProps = {
   className?: string,
   languageOptions: LanguageOption[] | [],
   palVoiceDataContext: { palVoiceData : PalVoiceData, setPalVoiceData: React.Dispatch<React.SetStateAction<PalVoiceData>>},
@@ -36,14 +35,13 @@ type TalkSetupOptionsProps = {
 }
 
 export default function TalkSetupOptions ({ 
-  c_id,
   className,
   languageOptions,
   palVoiceDataContext,
   conversationContext
 }: TalkSetupOptionsProps) {
 
-  const { palVoiceData, setPalVoiceData } = palVoiceDataContext;
+  const { palVoiceData } = palVoiceDataContext;
 
   const { conversation, setConversation } = conversationContext;
 
@@ -89,7 +87,7 @@ export default function TalkSetupOptions ({
       >
         {
         <Popover open={languageOptionsIsOpen} onOpenChange={setLanguageOptionsIsOpen}>
-          <PopoverTrigger className="w-full border rounded-lg border-border hover:bg-foreground text-primary bg-background" asChild>
+          <PopoverTrigger data-testid='language-select-button' className="w-full border rounded-lg border-border hover:bg-foreground text-primary bg-background" asChild>
             <Button
             variant={'default'}
               aria-expanded={languageOptionsIsOpen}
@@ -129,7 +127,7 @@ export default function TalkSetupOptions ({
                 </CommandItem>
                 
                 {languageOptions.map((lang : LanguageOption, index: number) => (
-                  <CommandItem
+                  <CommandItem data-testid='language-option-item'
                     className="flex items-start w-full gap-2 text-primary hover:cursor-pointer "
                     key={index}
                     onSelect={(currentValue) => handleLanguageOptionSelect(currentValue)}
@@ -182,15 +180,16 @@ export default function TalkSetupOptions ({
           </Popover>
 
           <Popover>
-            <PopoverTrigger className="flex items-center pl-2 pr-2 transition-all border rounded-lg whitespace-nowrap hover:bg-foreground text-primary border-border">
+            <PopoverTrigger data-testid='tts-toggle-popover-trigger' className="flex items-center pl-2 pr-2 transition-all border rounded-lg whitespace-nowrap hover:bg-foreground text-primary border-border">
               <span className="flex items-center h-8 pl-2">TTS</span>
               <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </PopoverTrigger>
             
             <PopoverContent className="w-full h-full dark:bg-foreground">
-              <Switch className="" checked={conversation.ttsEnabled} onChange={()=> setConversation((prev) => {
+              <Switch  checked={conversation.ttsEnabled} onCheckedChange={()=> setConversation((prev) => {
                 return { ...prev, ttsEnabled: !prev.ttsEnabled }
-              })} />
+              })} /> 
+              
             </PopoverContent>
           </Popover>
         </div>

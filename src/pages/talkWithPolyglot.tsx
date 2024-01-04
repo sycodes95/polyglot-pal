@@ -218,9 +218,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
       
       try {
 
-
         pausePalVoice()
-
         
         // Check if TTS is enabled and there are any messages
         if (conversation.messages.length === 0 || conversation.selectedLanguageData === null) return;
