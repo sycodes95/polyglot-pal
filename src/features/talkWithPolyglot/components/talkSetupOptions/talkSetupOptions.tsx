@@ -5,7 +5,6 @@ import Icon from '@mdi/react';
 import {  mdiCloseCircleOutline } from '@mdi/js';
 import {  useRef, useState } from "react";
 import { Button } from "../../../../components/ui/button"
-import { Id } from "convex/dist/cjs-types/values/value";
 import { Check, ChevronsUpDown } from "lucide-react"
 
 import {
