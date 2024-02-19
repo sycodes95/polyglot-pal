@@ -65,9 +65,10 @@ export default function TalkMessages ({
 
   useEffect(() => {
     if (palVoiceData?.element) {
-
       const handleAudioPlaying = () => setPalIsSpeaking(true);
-      const handleAudioEnd = () => setPalIsSpeaking(false)
+      const handleAudioEnd = () => setPalIsSpeaking(false);
+
+
       
       palVoiceData.element.addEventListener('playing', handleAudioPlaying);
       palVoiceData.element.addEventListener('ended', handleAudioEnd);
@@ -99,6 +100,9 @@ export default function TalkMessages ({
 
     if(conversation.ttsEnabled) {
       setPalVoiceReplayIndex(null)
+
+    } else {
+      setPalIsSpeaking(false);
     }
     
   },[conversation.messages, conversation.ttsEnabled])

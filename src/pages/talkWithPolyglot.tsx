@@ -61,7 +61,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
   const mutateConversation = useMutation(api.mutation.mutateConversation.mutateConversation);
  
-  const { languageOptions } = useLanguageOptions()
+  const { languageOptions } = useLanguageOptions();
 
   const [input, setInput] = useState("");
 
@@ -151,7 +151,9 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
   useEffect(()=> {
     // once AudioElement is added, it is played
-    playPalVoice()
+    if(conversation.ttsEnabled) {
+      playPalVoice()
+    }
   },[palVoiceData.element, playPalVoice])
 
   useEffect(()=> {
