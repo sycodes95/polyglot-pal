@@ -4,7 +4,7 @@ Website: https://polyglotpal.up.railway.app/
 
 It's completely free at the moment, just login with a google account and try it out!
 
-Or check my demo video of the application here : https://www.youtube.com/watch?v=7dYVyEES1fU
+Or if you're the type that thinks I'll use your email address for unholy purposes, check my demo video of the application here : https://www.youtube.com/watch?v=7dYVyEES1fU
 
 ## Tech Stack
 
