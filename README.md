@@ -1,5 +1,7 @@
 ![Logo](./src/assets/readme/Logo.png "PolyglotPal")
 
+#PolyglotPal
+
 Website: https://polyglotpal.up.railway.app/
 
 It's completely free at the moment, just login with a google account and try it out!
