@@ -44,8 +44,13 @@ I also learned how to work with audio, especially the different formats they can
 Landing Page
 ![Landing Page](./src/assets/readme/landing.png "Landing Page")
 
+This is the landing page for my web application. I added some cool hover effects to the info cards.
+
 Chat
 ![Chat](./src/assets/readme/chat.png "Chat")
+
+This is the main application. As soon as you select a language the conversation will be automatically saved and will update when you change settings or you send / receive responses.
+
 
 Language Select
 ![Language Select](./src/assets/readme/languageSelect.png "Language Select")
