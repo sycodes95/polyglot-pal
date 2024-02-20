@@ -42,16 +42,13 @@ I also learned how to work with audio, especially the different formats they can
 ## Project Images
 
 Landing Page
-![Landing Page](./src/assets/images/readMe/landing.png "Landing Page")
+![Landing Page](./src/assets/readme/landing.png "Landing Page")
 
-Dashboard
-![Dashboard](./src/assets/images/readMe/dashboard.png "Dashboard")
+Chat
+![Chat](./src/assets/readme/chat.png "Chat")
 
-Applications Page
-![Applications Page](./src/assets/images/readMe/applications.png "Applications Page")
-
-Insights (Data Vis & Metrics)
-![Insights (Data Vis & Metrics)](./src/assets/images/readMe/insights.png "Insights (Data Vis & Metrics)")
+Language Select
+![Language Select](./src/assets/readme/languageSelect.png "Language Select")
 
 ## Setup
 
