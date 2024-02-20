@@ -1,4 +1,4 @@
-## PolyglotPal
+## ![Logo](./src/assets/readme/Logo.png) PolyglotPal
 
 Website: https://polyglotpal.up.railway.app/
 
