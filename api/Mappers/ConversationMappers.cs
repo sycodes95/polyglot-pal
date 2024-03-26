@@ -15,9 +15,6 @@ namespace api.Mappers
             {
                 Id = conversation.Id,
                 AppUserId = conversation.AppUserId,
-                Messages = conversation.Messages.ToList(),
-                ConversationLanguageData = conversation.ConversationLanguageData,
-                ConversationOption = conversation.ConversationOption,
             };
 
         }

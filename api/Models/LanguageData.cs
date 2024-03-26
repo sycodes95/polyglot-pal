@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace api.Models
 {
-    public class ConversationLanguageData
+    public class LanguageData
     {
         public int Id { get; set; }
         public string LanguageCode { get; set; }

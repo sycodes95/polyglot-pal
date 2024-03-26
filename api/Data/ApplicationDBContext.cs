@@ -17,8 +17,8 @@ namespace api.Data
         }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Conversation> Conversations { get; set; }
-        public DbSet<ConversationLanguageData> ConversationLanguageDatas { get; set; }
-        public DbSet<ConversationOption> ConversationOptions { get; set; }
+        public DbSet<LanguageData> LanguageDatas { get; set; }
+        public DbSet<Settings> Settings { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<NativeLanguage> NativeLanguages { get; set; }
     }
