@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace api.Models
 {
-    public class ConversationOption
+    public class Settings
     {
         public int Id { get; set; }
         public string CeftLevel { get; set; }

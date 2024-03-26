@@ -29,8 +29,8 @@ namespace api.Repository
         {
             return await _context.Conversations
             .Include(c => c.Messages)
-            .Include(c => c.ConversationLanguageData)
-            .Include(c => c.ConversationOption)
+            .Include(c => c.LanguageData)
+            .Include(c => c.Settings)
             .FirstOrDefaultAsync(x => x.Id == id);
         }
 
