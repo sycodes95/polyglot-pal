@@ -2,7 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Data;
+using api.Dtos.Conversation;
+using api.Extensions;
+using api.Interface;
+using api.Mappers;
 using api.Models;
+using api.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,5 +19,64 @@ namespace api.Controllers
     [ApiController]
     public class ConversationController : ControllerBase
     {
+        private readonly IConversationRepository _conversationRepo;
+
+        private readonly UserManager<AppUser> _userManager;
+
+
+        public ConversationController(
+            IConversationRepository conversationRepo,
+            UserManager<AppUser> userManager 
+            )
+        {
+            _conversationRepo = conversationRepo;
+            _userManager = userManager;
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Create()
+        {
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+
+            if(appUser == null) return NotFound();
+            var conversation = new Conversation
+            {
+                AppUserId = appUser.Id
+            };
+
+            await _conversationRepo.CreateAsync(conversation);
+
+            return Ok();
+        }
+
+        [HttpGet("{id:int}")]
+        [Authorize]
+        public async Task<IActionResult> GetById(int id)
+        {
+
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
+            var conversation = await _conversationRepo.GetByIdAsync(id);
+
+            if(conversation == null) return NotFound("Conversation does not exist");
+
+            return Ok(conversation.FromConversationToDto());
+        }
+
+        [HttpDelete("{id:int}")]
+        [Authorize]
+        public async Task<IActionResult> Delete(int id)
+        {
+
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
+            var conversationToDelete = await _conversationRepo.DeleteAsync(id);
+
+            if(conversationToDelete == null) return NotFound("Conversation does not exist");
+
+            return NoContent();
+        }
     }
 }

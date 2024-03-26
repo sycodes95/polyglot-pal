@@ -143,3 +143,7 @@ C:\Users\sycod\source\repos\polyglot-pal\api\obj\Debug\net8.0\refint\api.dll
 C:\Users\sycod\source\repos\polyglot-pal\api\obj\Debug\net8.0\api.pdb
 C:\Users\sycod\source\repos\polyglot-pal\api\obj\Debug\net8.0\api.genruntimeconfig.cache
 C:\Users\sycod\source\repos\polyglot-pal\api\obj\Debug\net8.0\ref\api.dll
+C:\Users\sycod\source\repos\polyglot-pal\api\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\sycod\source\repos\polyglot-pal\api\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\sycod\source\repos\polyglot-pal\api\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\sycod\source\repos\polyglot-pal\api\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
