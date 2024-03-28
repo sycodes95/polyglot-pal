@@ -17,5 +17,7 @@ namespace api.Interface
 
         Task<LanguageData?> UpdateAsync(int id, UpdateLanguageDataRequestDto languageDataRequestDto);
 
+        Task<LanguageData> DeleteAsync(LanguageData languageData);
+
     }
 }
