@@ -54,5 +54,12 @@ namespace api.Repository
             
             return existingLanguageData; 
         }
+
+        public async Task<LanguageData> DeleteAsync(LanguageData languageData)
+        {
+            _context.LanguageDatas.Remove(languageData);
+            await _context.SaveChangesAsync();
+            return languageData;
+        }
     }
 }

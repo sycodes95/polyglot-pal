@@ -61,6 +61,23 @@ namespace api.Controllers
             return Ok(languageDataModel);
         } 
 
+        [HttpDelete("{id:int}")]
+        [Authorize]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
+            var languageData = await _languageDataRepo.GetByIdAsync(id);
+
+            if(languageData == null) return NotFound("Language data not found");
+
+            await _languageDataRepo.DeleteAsync(languageData);
+
+            return NoContent();
+            
+        } 
+
         
 
 
