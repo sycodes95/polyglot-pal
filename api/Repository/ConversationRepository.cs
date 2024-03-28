@@ -47,5 +47,11 @@ namespace api.Repository
             return conversation;
         }
 
+        public Task<List<Conversation>> GetAllAsync(AppUser appUser)
+        {
+            var conversations = _context.Conversations.Where(x => x.AppUserId == appUser.Id).ToListAsync();
+
+            return conversations;
+        }
     }
 }

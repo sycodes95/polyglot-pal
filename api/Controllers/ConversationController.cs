@@ -33,6 +33,33 @@ namespace api.Controllers
             _userManager = userManager;
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetAll()
+        {
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+
+            var conversations = await _conversationRepo.GetAllAsync(appUser);
+
+            
+            return Ok(conversations);
+        }
+
+        [HttpGet("{id:int}")]
+        [Authorize]
+        public async Task<IActionResult> GetById(int id)
+        {
+
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
+            var conversation = await _conversationRepo.GetByIdAsync(id);
+
+            if(conversation == null) return NotFound("Conversation does not exist");
+
+            return Ok(conversation);
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create()
@@ -49,20 +76,6 @@ namespace api.Controllers
             await _conversationRepo.CreateAsync(conversation);
 
             return Ok();
-        }
-
-        [HttpGet("{id:int}")]
-        [Authorize]
-        public async Task<IActionResult> GetById(int id)
-        {
-
-            if(!ModelState.IsValid) return BadRequest(ModelState);
-
-            var conversation = await _conversationRepo.GetByIdAsync(id);
-
-            if(conversation == null) return NotFound("Conversation does not exist");
-
-            return Ok(conversation.FromConversationToDto());
         }
 
         [HttpDelete("{id:int}")]
