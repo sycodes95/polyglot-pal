@@ -18,11 +18,11 @@ namespace api.Repository
             _context = context;
         }
 
-        public async Task<Conversation> CreateAsync(Conversation conversation)
+        public async Task<List<Conversation>> GetAllAsync(AppUser appUser)
         {
-            await _context.Conversations.AddAsync(conversation);
-            await _context.SaveChangesAsync();
-            return conversation;
+            var conversations = await _context.Conversations.Where(x => x.AppUserId == appUser.Id).ToListAsync();
+
+            return conversations;
         }
 
         public async Task<Conversation?> GetByIdAsync(int id)
@@ -32,6 +32,13 @@ namespace api.Repository
             .Include(c => c.LanguageData)
             .Include(c => c.Settings)
             .FirstOrDefaultAsync(x => x.Id == id);
+        }
+        
+        public async Task<Conversation> CreateAsync(Conversation conversation)
+        {
+            await _context.Conversations.AddAsync(conversation);
+            await _context.SaveChangesAsync();
+            return conversation;
         }
 
         public async Task<Conversation?> DeleteAsync(int id)
@@ -47,11 +54,6 @@ namespace api.Repository
             return conversation;
         }
 
-        public Task<List<Conversation>> GetAllAsync(AppUser appUser)
-        {
-            var conversations = _context.Conversations.Where(x => x.AppUserId == appUser.Id).ToListAsync();
-
-            return conversations;
-        }
+        
     }
 }

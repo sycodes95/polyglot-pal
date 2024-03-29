@@ -9,11 +9,13 @@ namespace api.Dtos.Conversation
     public class ConversationDto
     {
         public int Id { get; set; }
-        public List<Message> Messages { get; set; }
+        // public string AppUserId { get; set; }
 
-        //type workaround due to conflit with a namespace also called LanguageData
+        //type workaround due to conflict with a namespace also called languageData
+        public List<api.Models.Message> Messages { get; set; }
         public api.Models.LanguageData LanguageData { get; set; }
         public Settings Settings { get; set; }
 
     }
 }
+

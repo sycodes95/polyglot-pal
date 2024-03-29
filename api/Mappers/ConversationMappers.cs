@@ -14,7 +14,9 @@ namespace api.Mappers
             return new ConversationDto
             {
                 Id = conversation.Id,
-                AppUserId = conversation.AppUserId,
+                Messages = conversation.Messages.ToList(),
+                LanguageData = conversation.LanguageData,
+                Settings = conversation.Settings
             };
 
         }

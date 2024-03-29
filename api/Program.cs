@@ -88,9 +88,9 @@ builder.Services.AddAuthentication(options =>
 });
 
 
-// builder.Services.AddScoped<IConversationRepository, ConversationRepository>();
 builder.Services.AddScoped<IConversationRepository, ConversationRepository>();
 builder.Services.AddScoped<ILanguageDataRepository, LanguageDataRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 

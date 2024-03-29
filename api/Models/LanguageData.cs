@@ -15,6 +15,8 @@ namespace api.Models
         public string SsmlGender { get; set; }
 
         // fk
+
+        public string AppUserId { get; set; }
         public int ConversationId { get; set; }
 
     }

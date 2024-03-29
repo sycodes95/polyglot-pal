@@ -207,6 +207,7 @@ namespace api.Migrations
                     VoiceName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LanguageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SsmlGender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AppUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ConversationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -228,6 +229,7 @@ namespace api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AppUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ConversationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
