@@ -24,7 +24,7 @@ namespace api.Repository
             var conversationDtos = await _context.Conversations
             .Where(x => x.AppUserId == appUser.Id)
             .Include(c => c.Messages)
-            .Include(c => c.LanguageData)
+            .Include(c => c.LanguageData.ToLanguageDataDtoFromLanguageData())
             .Include(c => c.Settings)
             .Select(x => x.FromConversationToDto())
             .ToListAsync();
@@ -36,7 +36,7 @@ namespace api.Repository
         {
             return await _context.Conversations
             .Include(c => c.Messages)
-            .Include(c => c.LanguageData)
+            .Include(c => c.LanguageData.ToLanguageDataDtoFromLanguageData())
             .Include(c => c.Settings)
             .FirstOrDefaultAsync(x => x.Id == id);
         }
