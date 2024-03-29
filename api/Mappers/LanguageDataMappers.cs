@@ -22,5 +22,20 @@ namespace api.Mappers
 
             };
         }
+
+        public static LanguageDataDto ToLanguageDataDtoFromLanguageData(this LanguageData languageData)
+        {
+            return new LanguageDataDto
+            {
+                Id = languageData.Id,
+                LanguageCode = languageData.LanguageCode,
+                CountryCode = languageData.CountryCode,
+                VoiceName = languageData.VoiceName,
+                LanguageName = languageData.LanguageName,
+                SsmlGender = languageData.SsmlGender,
+                ConversationId = languageData.ConversationId
+
+            };
+        }
     }
 }

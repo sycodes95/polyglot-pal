@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Dtos.LanguageData;
+using api.Extensions;
 using api.Interface;
 using api.Mappers;
 using api.Models;
@@ -34,16 +35,24 @@ namespace api.Controllers
         {
             var languageData = await _languageDataRepo.GetByIdAsync(id);
             if(languageData == null) return NotFound("Language Data Not Found");
-            return Ok(languageData);
+            return Ok(languageData.ToLanguageDataDtoFromLanguageData());
         }
 
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create(CreateLanguageDataDto createLanguageDataDto)
         {
+            var username = User.GetUsername();
+
+            var appUser = await _userManager.FindByNameAsync(username);
+
             var languageData = createLanguageDataDto.ToLanguageDataFromCreateDTO();
-            await _languageDataRepo.CreateAsync(createLanguageDataDto.ToLanguageDataFromCreateDTO());
-            return CreatedAtAction(nameof(GetById), new { id = languageData.Id}, languageData);
+
+            languageData.AppUserId = appUser.Id;
+
+            await _languageDataRepo.CreateAsync(languageData);
+
+            return CreatedAtAction(nameof(GetById), new { id = languageData.Id}, languageData.ToLanguageDataDtoFromLanguageData());
         } 
 
         [HttpPut]

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using api.Data;
 using api.Dtos.Conversation;
 using api.Interface;
+using api.Mappers;
 using api.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,11 +19,17 @@ namespace api.Repository
             _context = context;
         }
 
-        public async Task<List<Conversation>> GetAllAsync(AppUser appUser)
+        public async Task<List<ConversationDto>> GetAllAsync(AppUser appUser)
         {
-            var conversations = await _context.Conversations.Where(x => x.AppUserId == appUser.Id).ToListAsync();
+            var conversationDtos = await _context.Conversations
+            .Where(x => x.AppUserId == appUser.Id)
+            .Include(c => c.Messages)
+            .Include(c => c.LanguageData)
+            .Include(c => c.Settings)
+            .Select(x => x.FromConversationToDto())
+            .ToListAsync();
 
-            return conversations;
+            return conversationDtos;
         }
 
         public async Task<Conversation?> GetByIdAsync(int id)

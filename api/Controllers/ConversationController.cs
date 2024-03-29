@@ -57,7 +57,7 @@ namespace api.Controllers
 
             if(conversation == null) return NotFound("Conversation does not exist");
 
-            return Ok(conversation);
+            return Ok(conversation.FromConversationToDto());
         }
 
         [HttpPost]

@@ -7,6 +7,12 @@ namespace api.Dtos.LanguageData
 {
     public class LanguageDataDto
     {
-        
+        public int Id { get; set; }
+        public string LanguageName { get; set; }
+        public string LanguageCode { get; set; }
+        public string CountryCode { get; set; }
+        public string VoiceName { get; set; }
+        public string SsmlGender { get; set; }
+        public int ConversationId { get; set; }
     }
 }
