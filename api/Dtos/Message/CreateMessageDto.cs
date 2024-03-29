@@ -7,8 +7,8 @@ namespace api.Dtos.Message
 {
     public class CreateMessageDto
     {
-        public string Content { get; set; }
-        public string Role { get; set; }
+        public string Content { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
         //fk
         public int ConversationId { get; set; }
     }

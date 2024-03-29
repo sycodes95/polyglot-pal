@@ -8,8 +8,8 @@ namespace api.Models
     public class NativeLanguage
     {
         public int Id { get; set; }
-        public string LanguageName { get; set; }
-        public string LanguageCode { get; set; }
+        public string LanguageName { get; set; } = string.Empty;
+        public string LanguageCode { get; set; } = string.Empty;
         //fk
         public string AppUserId { get; set; }
         //nav props

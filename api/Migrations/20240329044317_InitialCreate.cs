@@ -249,8 +249,9 @@ namespace api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CeftLevel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CefrLevel = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TtsEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AppUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ConversationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

@@ -12,7 +12,7 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240329012123_InitialCreate")]
+    [Migration("20240329044317_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -350,7 +350,11 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CeftLevel")
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CefrLevel")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
