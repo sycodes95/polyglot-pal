@@ -20,6 +20,17 @@ namespace api.Mappers
             };
         }
 
+        public static MessageDto MessageToMessageDto(this Message message)
+        {
+            return new MessageDto
+            {
+                Id = message.Id,
+                Content = message.Content,
+                Role = message.Role,
+                ConversationId = message.ConversationId
+            };
+        }
+
         
 
     }

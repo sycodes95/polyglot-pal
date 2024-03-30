@@ -4,15 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
 using api.Dtos.Setting;
+using api.Dtos.Settings;
 using api.Interface;
 using api.Models;
 
 namespace api.Repository
 {
-    public class SettingRepository : ISettingsRepository
+    public class SettingsRepository : ISettingsRepository
     {
         private readonly ApplicationDBContext _context;
-        public SettingRepository(ApplicationDBContext context)
+        public SettingsRepository(ApplicationDBContext context)
         {
             _context = context;
         }
@@ -32,5 +33,32 @@ namespace api.Repository
 
             return settings;
         }
+
+        public async Task<Settings?> UpdateAsync(int id, UpdateSettingsDto updateSettingsDto, AppUser appUser)
+        {
+            var settings = _context.Settings.FirstOrDefault(x => x.Id == id && x.AppUserId == appUser.Id);
+
+            if(settings == null) return null;
+            settings.CefrLevel = updateSettingsDto.CefrLevel;
+            settings.TtsEnabled = updateSettingsDto.TtsEnabled;
+
+            await _context.SaveChangesAsync();
+
+            return settings;
+
+        }
+
+        public async Task<Settings?> DeleteAsync(int id, AppUser appUser)
+        {
+            var settings = _context.Settings.FirstOrDefault(x => x.Id == id && x.AppUserId == appUser.Id);
+
+            if(settings == null) return null;
+            _context.Settings.Remove(settings);
+
+            await _context.SaveChangesAsync();
+
+            return settings;
+        }
+
     }
 }

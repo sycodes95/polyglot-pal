@@ -87,11 +87,10 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-
 builder.Services.AddScoped<IConversationRepository, ConversationRepository>();
 builder.Services.AddScoped<ILanguageDataRepository, LanguageDataRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
-
+builder.Services.AddScoped<ISettingsRepository, SettingsRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();

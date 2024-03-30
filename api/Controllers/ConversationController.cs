@@ -42,8 +42,9 @@ namespace api.Controllers
 
             var conversations = await _conversationRepo.GetAllAsync(appUser);
 
+            var conversationDtos = conversations.Select(c => c.FromConversationToDto());
             
-            return Ok(conversations);
+            return Ok(conversationDtos);
         }
 
         [HttpGet("{id:int}")]

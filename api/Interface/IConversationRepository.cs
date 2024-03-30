@@ -15,6 +15,6 @@ namespace api.Interface
 
         Task<Conversation?> DeleteAsync(int id);
 
-        Task<List<ConversationDto>> GetAllAsync(AppUser appUser);
+        Task<List<Conversation>> GetAllAsync(AppUser appUser);
     }
 }

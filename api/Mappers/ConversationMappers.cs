@@ -11,13 +11,15 @@ namespace api.Mappers
     {
         public static ConversationDto FromConversationToDto(this Conversation conversation)
         {
+            
             return new ConversationDto
             {
                 Id = conversation.Id,
-                Messages = conversation.Messages.ToList(),
-                LanguageData = conversation.LanguageData,
-                Settings = conversation.Settings
+                Messages = conversation.Messages.Select(c => c.MessageToMessageDto()).ToList(),
+                LanguageData = conversation.LanguageData?.ToLanguageDataDtoFromLanguageData(),
+                Settings = conversation.Settings?.SettingsToSettingsDto()
             };
+
 
         }
     }

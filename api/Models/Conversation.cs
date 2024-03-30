@@ -13,7 +13,7 @@ namespace api.Models
         //nav props
         public AppUser AppUser { get; set; }
         public List<Message> Messages { get; set; }
-        public LanguageData LanguageData { get; set; }
+        public LanguageData LanguageData { get; set; } 
 
         public Settings Settings { get; set; }
 

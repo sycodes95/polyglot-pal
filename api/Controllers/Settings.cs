@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Dtos.Setting;
+using api.Dtos.Settings;
 using api.Extensions;
 using api.Interface;
 using api.Mappers;
@@ -13,6 +14,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
+    [Route("api/settings")]
+    [ApiController]
     public class Settings : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
@@ -34,8 +37,37 @@ namespace api.Controllers
 
             var settings = await _settingsRepository.CreateAsync(createSettingsDto, appUser);
 
-            return CreatedAtAction("Created language data", new { id = settings.Id}, settings.SettingsToSettingsDto());
+            // return CreatedAtAction("Created language data", new { id = settings.Id }, settings.SettingsToSettingsDto());
+            
+            return Ok(settings.SettingsToSettingsDto());
+        }
 
+        [HttpPut("{id:int}")]
+        [Authorize]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSettingsDto updateSettingsDto )
+        {
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+
+            var settings = await _settingsRepository.UpdateAsync(id, updateSettingsDto, appUser);
+
+            if(settings == null) return NotFound();
+
+            return Ok(settings.SettingsToSettingsDto());
+        }
+
+        [HttpDelete("{id:int}")]
+        [Authorize]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+
+            var settings = await _settingsRepository.DeleteAsync(id, appUser);
+
+            if(settings == null) return NotFound("Settings to delete not found");
+
+            return NoContent();
         }
     }
 }

@@ -19,14 +19,13 @@ namespace api.Repository
             _context = context;
         }
 
-        public async Task<List<ConversationDto>> GetAllAsync(AppUser appUser)
+        public async Task<List<Conversation>> GetAllAsync(AppUser appUser)
         {
             var conversationDtos = await _context.Conversations
             .Where(x => x.AppUserId == appUser.Id)
             .Include(c => c.Messages)
-            .Include(c => c.LanguageData.ToLanguageDataDtoFromLanguageData())
+            .Include(c => c.LanguageData)
             .Include(c => c.Settings)
-            .Select(x => x.FromConversationToDto())
             .ToListAsync();
 
             return conversationDtos;
@@ -36,7 +35,7 @@ namespace api.Repository
         {
             return await _context.Conversations
             .Include(c => c.Messages)
-            .Include(c => c.LanguageData.ToLanguageDataDtoFromLanguageData())
+            .Include(c => c.LanguageData)
             .Include(c => c.Settings)
             .FirstOrDefaultAsync(x => x.Id == id);
         }
