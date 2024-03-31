@@ -32,6 +32,8 @@ namespace api.Controllers
         [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateSettingsDto createSettingsDto)
         {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
             var username = User.GetUsername();
             var appUser = await _userManager.FindByNameAsync(username);
 
@@ -46,6 +48,8 @@ namespace api.Controllers
         [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSettingsDto updateSettingsDto )
         {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
             var username = User.GetUsername();
             var appUser = await _userManager.FindByNameAsync(username);
 
@@ -60,6 +64,8 @@ namespace api.Controllers
         [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
             var username = User.GetUsername();
             var appUser = await _userManager.FindByNameAsync(username);
 

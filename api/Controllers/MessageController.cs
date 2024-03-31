@@ -30,6 +30,8 @@ namespace api.Controllers
         [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateMessageDto createMessageDto)
         {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
             var username = User.GetUsername();
             var appUser = await _userManager.FindByNameAsync(username);
             var message = await _messageRepo.CreateMessageAsync(createMessageDto, appUser);
@@ -42,6 +44,8 @@ namespace api.Controllers
         [Authorize]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateMessageRequestDto updateMessageDto)
         {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
             var username = User.GetUsername();
             var appUser = await _userManager.FindByNameAsync(username);
             var message = await _messageRepo.UpdateMessageAsync(id, appUser, updateMessageDto);
@@ -55,6 +59,8 @@ namespace api.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
             var username = User.GetUsername();
             var appUser = await _userManager.FindByNameAsync(username);
             var message = await _messageRepo.DeleteMessageAsync(id, appUser);

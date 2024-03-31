@@ -33,6 +33,8 @@ namespace api.Controllers
         [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
             var languageData = await _languageDataRepo.GetByIdAsync(id);
             if(languageData == null) return NotFound("Language Data Not Found");
             return Ok(languageData.ToLanguageDataDtoFromLanguageData());
@@ -42,6 +44,8 @@ namespace api.Controllers
         [Authorize]
         public async Task<IActionResult> Create(CreateLanguageDataDto createLanguageDataDto)
         {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
             var username = User.GetUsername();
 
             var appUser = await _userManager.FindByNameAsync(username);
