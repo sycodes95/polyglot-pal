@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using api.Interface;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace api.Controllers
+{
+    [Route("api/google-api")]
+    public class GoogleApiController : ControllerBase
+    {
+        private readonly IGoogleApiService _googleApiService;
+        public GoogleApiController(IGoogleApiService googleApiService)
+        {
+            _googleApiService = googleApiService;
+        }
+
+        [HttpGet("voice-data")]
+        public async Task<IActionResult> GetVoiceData()
+        {
+            var voices = await _googleApiService.GetGoogleTTSVoices();
+
+            if(voices == null) return BadRequest("Error getting TTS voices from google");
+
+            return Ok(voices);
+        }
+        // [HttpPost("speech-to-text")]
+        // public async Task<IActionResult> SpeechToText([FromBody] )
+        // {
+
+        // }
+
+        // [HttpPost("text-to-speech")]
+        // public async Task<IActionResult> TextToSpeech([FromBody] )
+        // {
+            
+        // }
+
+
+
+    }
+}

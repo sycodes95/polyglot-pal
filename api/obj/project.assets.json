@@ -4678,6 +4678,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.3",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.3",
       "Microsoft.Extensions.Identity.Core >= 8.0.3",
+      "Microsoft.Extensions.Logging >= 8.0.0",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
   },
@@ -4764,6 +4765,10 @@
           "Microsoft.Extensions.Identity.Core": {
             "target": "Package",
             "version": "[8.0.3, )"
+          },
+          "Microsoft.Extensions.Logging": {
+            "target": "Package",
+            "version": "[8.0.0, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",

@@ -3,6 +3,7 @@ using api.Interface;
 using api.Models;
 using api.Repository;
 using api.Service;
+using api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +44,7 @@ builder.Services.AddSwaggerGen(option => {
         }
     });
 });
+
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
@@ -93,6 +95,9 @@ builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<ISettingsRepository, SettingsRepository>();
 builder.Services.AddScoped<INativeLanguageRepository, NativeLanguageRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IGoogleApiService, GoogleApiService>();
+builder.Services.AddHttpClient<IGoogleApiService, GoogleApiService>();
+
 
 var app = builder.Build();
 
