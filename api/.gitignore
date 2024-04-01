@@ -2,3 +2,5 @@ appsettings.json
 appsettings.Development.json
 
 GC_SERVICE_ACCOUNT.json
+**/bin/
+**/obj/
