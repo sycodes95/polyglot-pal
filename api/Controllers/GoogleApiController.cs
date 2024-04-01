@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Dtos.Google;
 using api.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +21,23 @@ namespace api.Controllers
         [HttpGet("voice-data")]
         public async Task<IActionResult> GetVoiceData()
         {
-            var voices = await _googleApiService.GetGoogleTTSVoices();
+            var voices = await _googleApiService.GetGoogleTTSVoicesAsync();
 
             if(voices == null) return BadRequest("Error getting TTS voices from google");
 
             return Ok(voices);
+        }
+
+        [HttpPost("speech-to-text")]
+        public async Task<IActionResult> CreateSpeechToText([FromBody] CreateSpeechToTextDto createSpeechToTextDto)
+        {
+            var transcript = await _googleApiService.GetSpeechToTextAsync(createSpeechToTextDto);
+
+            if(transcript == null) return BadRequest("Error creating transcript from audio");
+
+            return Ok(transcript);
+
+
         }
         // [HttpPost("speech-to-text")]
         // public async Task<IActionResult> SpeechToText([FromBody] )

@@ -8,6 +8,8 @@ namespace api.Interface
 {
     public interface IGoogleApiService
     {
-        Task<GoogleTTSVoices?> GetGoogleTTSVoices();
+        Task<GoogleTTSVoices?> GetGoogleTTSVoicesAsync();
+
+        Task<string?> GetSpeechToTextAsync(CreateSpeechToTextDto createSTTDto);
     }
 }
