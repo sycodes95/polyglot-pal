@@ -59,7 +59,7 @@ namespace api.Controllers
 
             await _nativeLanguageRepo.CreateAsync(nativeLanguageModel);
 
-            return Created(string.Empty, nativeLanguageModel.ToNativeLanguageDtoFromNativeLanguage());
+            return Created(nameof(GetByUser), nativeLanguageModel.ToNativeLanguageDtoFromNativeLanguage());
 
         }
 

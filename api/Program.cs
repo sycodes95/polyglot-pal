@@ -97,6 +97,8 @@ builder.Services.AddScoped<INativeLanguageRepository, NativeLanguageRepository>(
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IGoogleApiService, GoogleApiService>();
 builder.Services.AddHttpClient<IGoogleApiService, GoogleApiService>();
+builder.Services.AddScoped<IOpenApiService, OpenApiService>();
+builder.Services.AddHttpClient<IOpenApiService, OpenApiService>();
 
 
 var app = builder.Build();
