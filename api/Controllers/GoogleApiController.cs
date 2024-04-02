@@ -20,6 +20,7 @@ namespace api.Controllers
         }
 
         [HttpGet("voice-data")]
+        [Authorize]
         public async Task<IActionResult> GetVoiceData()
         {
             var voices = await _googleApiService.GetGoogleTTSVoicesAsync();
@@ -30,8 +31,12 @@ namespace api.Controllers
         }
 
         [HttpPost("speech-to-text")]
+        [Authorize]
         public async Task<IActionResult> CreateSpeechToText([FromBody] CreateSpeechToTextDto createSpeechToTextDto)
         {
+
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
             var transcript = await _googleApiService.GetSpeechToTextAsync(createSpeechToTextDto);
 
             if(transcript == null) return BadRequest("Error creating transcript from audio");
@@ -42,8 +47,11 @@ namespace api.Controllers
         }
 
         [HttpPost("text-to-speech")]
+        [Authorize]
         public async Task<IActionResult> CreateTextToSpeech([FromBody] CreateTextToSpeechDto createTextToSpeechDto)
         {   
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
             var base64Audio = await _googleApiService.GetTextToSpeechAsync(createTextToSpeechDto);
 
             if(base64Audio == null) return BadRequest("Error converting text to speech");
@@ -53,8 +61,11 @@ namespace api.Controllers
         }
 
         [HttpPost("translation")]
+        [Authorize]
         public async Task<IActionResult> GetTranslation([FromBody] GetTranslationDto getTranslationDto )
         {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
             var translatedText = await _googleApiService.GetTranslationAsync(getTranslationDto);
 
             if(translatedText == null) return BadRequest("Error translating text");

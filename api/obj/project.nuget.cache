@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "OcOohaJBdFb5NhiTR/aMVhSh0lVbJVCJ80SBLWm/otvK7bTNqKc0rdUob23ZBah3GwECjCxVunZnl5lZt4Biuw==",
+  "dgSpecHash": "0WtmS9tviFpQll+K7FUUHa3T5g0Z+0GcZyD63kQ0iUYVYs3+nuTFVqzAdbmC8SRmHltqW2y5yDA8xmjmHuYq2Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\sycod\\source\\repos\\polyglot-pal\\api\\api.csproj",
   "expectedPackageFiles": [
@@ -24,6 +24,7 @@
     "C:\\Users\\sycod\\.nuget\\packages\\grpc.net.client\\2.60.0\\grpc.net.client.2.60.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\grpc.net.common\\2.60.0\\grpc.net.common.2.60.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\sycod\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\8.0.3\\microsoft.aspnetcore.authentication.google.8.0.3.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.3\\microsoft.aspnetcore.authentication.jwtbearer.8.0.3.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\8.0.3\\microsoft.aspnetcore.cryptography.internal.8.0.3.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\8.0.3\\microsoft.aspnetcore.cryptography.keyderivation.8.0.3.nupkg.sha512",
