@@ -39,19 +39,17 @@ namespace api.Controllers
 
 
         }
-        // [HttpPost("speech-to-text")]
-        // public async Task<IActionResult> SpeechToText([FromBody] )
-        // {
 
-        // }
+        [HttpPost("text-to-speech")]
+        public async Task<IActionResult> CreateTextToSpeech([FromBody] CreateTextToSpeechDto createTextToSpeechDto)
+        {   
+            var base64Audio = await _googleApiService.GetTextToSpeechAsync(createTextToSpeechDto);
 
-        // [HttpPost("text-to-speech")]
-        // public async Task<IActionResult> TextToSpeech([FromBody] )
-        // {
-            
-        // }
+            if(base64Audio == null) return BadRequest("Error converting text to speech");
 
+            return Ok(base64Audio);
 
+        }
 
     }
 }

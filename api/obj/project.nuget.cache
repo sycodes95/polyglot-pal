@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "JaSZxyUfSpsIFZdx+AA4+RdoNjN108QP/6p4v8EvfzKM4qQwyvGEsbWMCHtZo2R71hFJqywdhwDKeWUkV2TEXA==",
+  "dgSpecHash": "WTmEqFeHfediBXptlZv1hvTGxfNncpb/whOEJTJ8SbQk5aCQ7SiyIVNfsNkUJei0cjSreTPxaWG3aSk9RHW/8w==",
   "success": true,
   "projectFilePath": "C:\\Users\\sycod\\source\\repos\\polyglot-pal\\api\\api.csproj",
   "expectedPackageFiles": [
@@ -13,6 +13,7 @@
     "C:\\Users\\sycod\\.nuget\\packages\\google.apis.auth\\1.67.0\\google.apis.auth.1.67.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\google.apis.core\\1.67.0\\google.apis.core.1.67.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\google.cloud.speech.v1\\3.7.0\\google.cloud.speech.v1.3.7.0.nupkg.sha512",
+    "C:\\Users\\sycod\\.nuget\\packages\\google.cloud.texttospeech.v1\\3.5.0\\google.cloud.texttospeech.v1.3.5.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\google.longrunning\\3.2.0\\google.longrunning.3.2.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\google.protobuf\\3.25.0\\google.protobuf.3.25.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\grpc.auth\\2.60.0\\grpc.auth.2.60.0.nupkg.sha512",

@@ -11,5 +11,6 @@ namespace api.Interface
         Task<GoogleTTSVoices?> GetGoogleTTSVoicesAsync();
 
         Task<string?> GetSpeechToTextAsync(CreateSpeechToTextDto createSTTDto);
+        Task<string?> GetTextToSpeechAsync(CreateTextToSpeechDto createTextToSpeechDto);
     }
 }

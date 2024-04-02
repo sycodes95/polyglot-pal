@@ -1,0 +1,8 @@
+{
+  "input": "I am very happy today",
+  "voice": {
+    "languageCode": "en-US",
+    "name": "en-US-News-N",
+    "ssmlGender": "MALE"
+  }
+}

@@ -7,6 +7,7 @@ using api.Dtos.Google;
 using api.Interface;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Speech.V1;
+using Google.Cloud.TextToSpeech.V1;
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 using Newtonsoft.Json;
 
@@ -56,8 +57,6 @@ namespace api.Services
             //string base64Audio, string languageCode, int sampleRateHertz
             try
             {
-                // var speechClient = await SpeechClient.CreateAsync();
-                Console.WriteLine($"Credentials: {_config["GoogleCredentials"]}");
 
                 var speechClient = new SpeechClientBuilder
                 {
@@ -89,6 +88,49 @@ namespace api.Services
                 return null;
             }
 
+        }
+
+        public async Task<string?> GetTextToSpeechAsync(CreateTextToSpeechDto createTextToSpeechDto)
+        {
+            try
+            {
+
+                var textToSpeechClient = new TextToSpeechClientBuilder
+                {
+                    CredentialsPath = _config["GCServiceAccountPath"]
+                }.Build();
+
+                var request = new SynthesizeSpeechRequest
+                {
+                    Input = new SynthesisInput { Text = createTextToSpeechDto.Input },
+                    Voice = new VoiceSelectionParams
+                    {
+                        LanguageCode = createTextToSpeechDto.Voice.languageCode,
+                        Name = createTextToSpeechDto.Voice.name,
+                        SsmlGender = (SsmlVoiceGender)Enum.Parse(typeof(SsmlVoiceGender), createTextToSpeechDto.Voice.ssmlGender, true)
+                    },
+                    AudioConfig = new AudioConfig
+                    {
+                        AudioEncoding = (AudioEncoding)Enum.Parse(typeof(AudioEncoding), "LINEAR16", true),
+                        SpeakingRate = 1
+                    }
+                };
+
+                var response = await textToSpeechClient.SynthesizeSpeechAsync(request);
+
+                var byteArray = response.AudioContent.ToByteArray(); 
+
+                var base64String = Convert.ToBase64String(byteArray);
+                
+                return base64String;
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+
+                return null;
+            }
         }
 
 
