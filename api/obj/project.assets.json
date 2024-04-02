@@ -104,6 +104,24 @@
           }
         }
       },
+      "Google.Api.Gax.Rest/4.8.0": {
+        "type": "package",
+        "dependencies": {
+          "Google.Api.Gax": "4.8.0",
+          "Google.Apis.Auth": "[1.67.0, 2.0.0)",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Google.Api.Gax.Rest.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Google.Api.Gax.Rest.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "Google.Apis/1.67.0": {
         "type": "package",
         "dependencies": {
@@ -154,6 +172,23 @@
           }
         }
       },
+      "Google.Apis.Translate.v2/1.67.0.875": {
+        "type": "package",
+        "dependencies": {
+          "Google.Apis": "1.67.0",
+          "Google.Apis.Auth": "1.67.0"
+        },
+        "compile": {
+          "lib/net6.0/Google.Apis.Translate.v2.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Google.Apis.Translate.v2.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "Google.Cloud.Speech.V1/3.7.0": {
         "type": "package",
         "dependencies": {
@@ -184,6 +219,23 @@
         },
         "runtime": {
           "lib/netstandard2.0/Google.Cloud.TextToSpeech.V1.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Google.Cloud.Translation.V2/3.4.0": {
+        "type": "package",
+        "dependencies": {
+          "Google.Api.Gax.Rest": "[4.8.0, 5.0.0)",
+          "Google.Apis.Translate.v2": "[1.67.0.875, 2.0.0)"
+        },
+        "compile": {
+          "lib/netstandard2.0/Google.Cloud.Translation.V2.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Google.Cloud.Translation.V2.dll": {
             "related": ".pdb;.xml"
           }
         }
@@ -2152,6 +2204,25 @@
         "lib/netstandard2.0/Google.Api.Gax.Grpc.xml"
       ]
     },
+    "Google.Api.Gax.Rest/4.8.0": {
+      "sha512": "zaA5LZ2VvGj/wwIzRB68swr7khi2kWNgqWvsB0fYtScIAl3kGkGtqiBcx63H1YLeKr5xau1866bFjTeReH6FSQ==",
+      "type": "package",
+      "path": "google.api.gax.rest/4.8.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.api.gax.rest.4.8.0.nupkg.sha512",
+        "google.api.gax.rest.nuspec",
+        "lib/net462/Google.Api.Gax.Rest.dll",
+        "lib/net462/Google.Api.Gax.Rest.pdb",
+        "lib/net462/Google.Api.Gax.Rest.xml",
+        "lib/netstandard2.0/Google.Api.Gax.Rest.dll",
+        "lib/netstandard2.0/Google.Api.Gax.Rest.pdb",
+        "lib/netstandard2.0/Google.Api.Gax.Rest.xml"
+      ]
+    },
     "Google.Apis/1.67.0": {
       "sha512": "XM8/fViJaB1pN61OdXy5RMZoQEqd3hKlWvA/K431gFSb5XtQ48BynfgrbBkUtFcPbSRa4BdjBHzSbkBh/skyMg==",
       "type": "package",
@@ -2218,6 +2289,28 @@
         "lib/netstandard2.0/Google.Apis.Core.xml"
       ]
     },
+    "Google.Apis.Translate.v2/1.67.0.875": {
+      "sha512": "Od8FKupnCHNwdJtrtvKqcNc5GO7kRy+IIAr6qTKt71DnF+1pEt0eTu52mxiDw9tStGHLwwFinZ+MTZf5ytmCpA==",
+      "type": "package",
+      "path": "google.apis.translate.v2/1.67.0.875",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.apis.translate.v2.1.67.0.875.nupkg.sha512",
+        "google.apis.translate.v2.nuspec",
+        "lib/net462/Google.Apis.Translate.v2.dll",
+        "lib/net462/Google.Apis.Translate.v2.pdb",
+        "lib/net462/Google.Apis.Translate.v2.xml",
+        "lib/net6.0/Google.Apis.Translate.v2.dll",
+        "lib/net6.0/Google.Apis.Translate.v2.pdb",
+        "lib/net6.0/Google.Apis.Translate.v2.xml",
+        "lib/netstandard2.0/Google.Apis.Translate.v2.dll",
+        "lib/netstandard2.0/Google.Apis.Translate.v2.pdb",
+        "lib/netstandard2.0/Google.Apis.Translate.v2.xml"
+      ]
+    },
     "Google.Cloud.Speech.V1/3.7.0": {
       "sha512": "p35PGwmjJMaQQo+1up9Yo1oTKMypun3DDquvz3kQ1/6LLWjQWP88qC+zstmGQAyXlw+DUjv/4OU1R6Z3qYhryg==",
       "type": "package",
@@ -2254,6 +2347,25 @@
         "lib/netstandard2.0/Google.Cloud.TextToSpeech.V1.dll",
         "lib/netstandard2.0/Google.Cloud.TextToSpeech.V1.pdb",
         "lib/netstandard2.0/Google.Cloud.TextToSpeech.V1.xml"
+      ]
+    },
+    "Google.Cloud.Translation.V2/3.4.0": {
+      "sha512": "BshkfNJG5ktwaReEZagocTNu1vBKMtdr0LkbKxrSTlj3Fi0mvKu6tAXOQXFs+dhmZkgMNEFNHA+t++jUh3BtOw==",
+      "type": "package",
+      "path": "google.cloud.translation.v2/3.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.cloud.translation.v2.3.4.0.nupkg.sha512",
+        "google.cloud.translation.v2.nuspec",
+        "lib/net462/Google.Cloud.Translation.V2.dll",
+        "lib/net462/Google.Cloud.Translation.V2.pdb",
+        "lib/net462/Google.Cloud.Translation.V2.xml",
+        "lib/netstandard2.0/Google.Cloud.Translation.V2.dll",
+        "lib/netstandard2.0/Google.Cloud.Translation.V2.pdb",
+        "lib/netstandard2.0/Google.Cloud.Translation.V2.xml"
       ]
     },
     "Google.LongRunning/3.2.0": {
@@ -5328,6 +5440,7 @@
     "net8.0": [
       "Google.Cloud.Speech.V1 >= 3.7.0",
       "Google.Cloud.TextToSpeech.V1 >= 3.5.0",
+      "Google.Cloud.Translation.V2 >= 3.4.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.3",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 8.0.3",
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 8.0.3",
@@ -5392,6 +5505,10 @@
           "Google.Cloud.TextToSpeech.V1": {
             "target": "Package",
             "version": "[3.5.0, )"
+          },
+          "Google.Cloud.Translation.V2": {
+            "target": "Package",
+            "version": "[3.4.0, )"
           },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "WTmEqFeHfediBXptlZv1hvTGxfNncpb/whOEJTJ8SbQk5aCQ7SiyIVNfsNkUJei0cjSreTPxaWG3aSk9RHW/8w==",
+  "dgSpecHash": "OcOohaJBdFb5NhiTR/aMVhSh0lVbJVCJ80SBLWm/otvK7bTNqKc0rdUob23ZBah3GwECjCxVunZnl5lZt4Biuw==",
   "success": true,
   "projectFilePath": "C:\\Users\\sycod\\source\\repos\\polyglot-pal\\api\\api.csproj",
   "expectedPackageFiles": [
@@ -9,11 +9,14 @@
     "C:\\Users\\sycod\\.nuget\\packages\\google.api.commonprotos\\2.15.0\\google.api.commonprotos.2.15.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\google.api.gax\\4.8.0\\google.api.gax.4.8.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\google.api.gax.grpc\\4.8.0\\google.api.gax.grpc.4.8.0.nupkg.sha512",
+    "C:\\Users\\sycod\\.nuget\\packages\\google.api.gax.rest\\4.8.0\\google.api.gax.rest.4.8.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\google.apis\\1.67.0\\google.apis.1.67.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\google.apis.auth\\1.67.0\\google.apis.auth.1.67.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\google.apis.core\\1.67.0\\google.apis.core.1.67.0.nupkg.sha512",
+    "C:\\Users\\sycod\\.nuget\\packages\\google.apis.translate.v2\\1.67.0.875\\google.apis.translate.v2.1.67.0.875.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\google.cloud.speech.v1\\3.7.0\\google.cloud.speech.v1.3.7.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\google.cloud.texttospeech.v1\\3.5.0\\google.cloud.texttospeech.v1.3.5.0.nupkg.sha512",
+    "C:\\Users\\sycod\\.nuget\\packages\\google.cloud.translation.v2\\3.4.0\\google.cloud.translation.v2.3.4.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\google.longrunning\\3.2.0\\google.longrunning.3.2.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\google.protobuf\\3.25.0\\google.protobuf.3.25.0.nupkg.sha512",
     "C:\\Users\\sycod\\.nuget\\packages\\grpc.auth\\2.60.0\\grpc.auth.2.60.0.nupkg.sha512",

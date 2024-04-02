@@ -53,6 +53,10 @@
               "target": "Package",
               "version": "[3.5.0, )"
             },
+            "Google.Cloud.Translation.V2": {
+              "target": "Package",
+              "version": "[3.4.0, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[8.0.3, )"

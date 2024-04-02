@@ -12,5 +12,6 @@ namespace api.Interface
 
         Task<string?> GetSpeechToTextAsync(CreateSpeechToTextDto createSTTDto);
         Task<string?> GetTextToSpeechAsync(CreateTextToSpeechDto createTextToSpeechDto);
+        Task<string?> GetTranslationAsync(GetTranslationDto getTranslationDto);
     }
 }

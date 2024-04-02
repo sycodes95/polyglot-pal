@@ -6,6 +6,7 @@ using api.Dtos.Google;
 using api.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 
 namespace api.Controllers
 {
@@ -49,6 +50,16 @@ namespace api.Controllers
 
             return Ok(base64Audio);
 
+        }
+
+        [HttpPost("translation")]
+        public async Task<IActionResult> GetTranslation([FromBody] GetTranslationDto getTranslationDto )
+        {
+            var translatedText = await _googleApiService.GetTranslationAsync(getTranslationDto);
+
+            if(translatedText == null) return BadRequest("Error translating text");
+
+            return Ok(translatedText);
         }
 
     }

@@ -8,6 +8,7 @@ using api.Interface;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Speech.V1;
 using Google.Cloud.TextToSpeech.V1;
+using Google.Cloud.Translation.V2;
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 using Newtonsoft.Json;
 
@@ -131,6 +132,35 @@ namespace api.Services
 
                 return null;
             }
+        }
+
+        public async Task<string?> GetTranslationAsync(GetTranslationDto getTranslationDto)
+        {
+
+            try
+            {
+                var text = getTranslationDto.text;
+
+                var targetLanguage = getTranslationDto.targetLanguage;
+
+                var translationClient = new TranslationClientBuilder
+                {
+                    CredentialsPath = _config["GCServiceAccountPath"]
+                }.Build();
+
+                var response =  await translationClient.TranslateTextAsync(text, targetLanguage);
+
+                var translatedText = response.TranslatedText;
+
+                return translatedText;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+
+                return null;
+            }
+            
         }
 
 
