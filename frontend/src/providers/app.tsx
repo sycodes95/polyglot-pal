@@ -8,10 +8,12 @@ interface AppProviderProps {
 
 export const AppProvider = ({ children }: AppProviderProps ) => {
   return (
-    <UserProvider>
-      <BrowserRouter>
-        {children}
-      </BrowserRouter>
-    </UserProvider>
+    <BrowserRouter>
+
+      <UserProvider>
+          {children}
+      </UserProvider>
+    </BrowserRouter>
+
   );
 };

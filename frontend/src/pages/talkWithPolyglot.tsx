@@ -45,7 +45,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
 
   const location = useLocation()
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const { user } = useAuth0();
 

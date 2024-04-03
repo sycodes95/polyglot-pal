@@ -2,11 +2,11 @@ import TextsmsIcon from '@mui/icons-material/Textsms';
 import VoiceChatIcon from '@mui/icons-material/VoiceChat';
 import TranslateIcon from '@mui/icons-material/Translate';
 import StairsIcon from '@mui/icons-material/Stairs';
-import aiVoiceImage from '../assets/images/aiVoiceArt.png'
-import mechKeyboard from '../assets/images/mechKeyboard.png'
-import translationImage from '../assets/images/translation.png'
-import AtroposEffect from "@/components/atropos/atroposEffect";
-import cefrLevelImage from '../assets/images/cefrImage.png'
+import aiVoiceImage from '../../../assets/images/aiVoiceArt.png'
+import mechKeyboard from '../../../assets/images/mechKeyboard.png'
+import translationImage from '../../../assets/images/translation.png'
+import AtroposEffect from "../../../components/atropos/atroposEffect";
+import cefrLevelImage from '../../../assets/images/cefrImage.png'
 import SignUpButton from '../../landingPage/signUpButton';
 
 export default function Landing () {
