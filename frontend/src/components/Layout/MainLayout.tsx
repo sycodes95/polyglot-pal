@@ -5,11 +5,10 @@ import { Moon, Sun } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 
-
 import Icon from "@mdi/react";
 import { mdiEarth } from "@mdi/js";
+import { mdiHeart } from '@mdi/js';
 import { Squash as Hamburger} from 'hamburger-react'
-
 
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -179,7 +178,7 @@ export const Header = ({
         />
         <MobileLogo className="flex items-center md:hidden" />
         <div className="flex items-center justify-end w-full ">
-          <button className="h-8 p-2 text-xs font-normal transition-all duration-300 bg-red-400 border border-red-500 rounded-lg w-fit bg-opacity-20 text-primary font-main " onClick={()=> {
+          <button className="h-8 p-2 text-xs font-normal transition-all duration-300 bg-red-400 border border-red-500 rounded-lg w-fit bg-opacity-20 text-primary font-main flex items-center " onClick={()=> {
             navigate("/login");
             }}>
             Log In / Sign Up
@@ -191,6 +190,21 @@ export const Header = ({
       }
     </div>
   );
+};
+
+const Footer = () => {
+  return (
+    <div className="bottom-0 flex justify-center w-full h-10 border-t bg-background border-border">
+      <div className="max-w-7xl">
+        <div className="flex items-center h-full gap-1 text-xs text-primary">
+          <span className='whitespace-nowrap'>Made with</span>
+          <Icon className='text-red-600' path={mdiHeart} size={0.7} />
+          <span className='whitespace-nowrap'>by</span>
+          <a className="text-red-400 hover:underline" href="https://github.com/sycodes95" target="_blank">sycodes95</a>
+        </div>
+      </div>
+    </div>
+  ); 
 };
 
 interface MainLayoutProps {
@@ -217,11 +231,12 @@ export const MainLayout = ( { children }: MainLayoutProps ) => {
   }, []);
 
   return (
-    <div className="min-h-screen h-full w-full flex flex-col items-center bg-black">
+    <div className="min-h-screen h-full w-full flex flex-col items-center bg-background">
       <Header mobileSideBarContext={{ showMobileSidebar, setShowMobileSidebar }} />
       <main className="max-w-7xl">
         {children}
       </main>
+      <Footer />
     </div>
   );
 };
