@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { UserProfile } from "../types/User";
-import { useEffect, useState } from "react";
-import { registerAPI } from "../services/AuthService";
-
+import { createContext, useContext, useEffect, useState } from "react";
+import { loginAPI, registerAPI } from "../services/AuthService";
+import axios from "axios";
 
 interface UserContextType {
   user: UserProfile | null;
@@ -17,7 +17,10 @@ type UserProviderProps = {
   children: React.ReactNode;
 }
 
+const UserContext = createContext<UserContextType>({} as UserContextType);
+
 export const UserProvider = ({ children }: UserProviderProps) => {
+
   const navigate = useNavigate(); 
 
   const [token, setToken] = useState<string | null>(null);
@@ -34,6 +37,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     {
       setUser(JSON.parse(user));
       setToken(token);
+      axios.defaults.headers.common.Authorization = "Bearer " + token;
     }
 
     setIsReady(true);
@@ -57,6 +61,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         localStorage.setItem("user", JSON.stringify({ userName, email }));
         setToken(token);
         localStorage.setItem("token", token);
+
         navigate("/");
 
       }
@@ -69,6 +74,52 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     username: string,
     password: string
   ) => {
+    await loginAPI(username, password)
+    .then(res => {
+      if(res) {
 
-  }
-}
+        const userName = res.data.userName;
+        const email = res.data.email;
+        const token = res.data.token;
+
+        setUser({ userName, email });
+        localStorage.setItem("user", JSON.stringify({ userName, email }));
+        setToken(token);
+        localStorage.setItem("token", token);
+
+        navigate("/");
+      }
+    })
+    .catch(err => console.error(err)); 
+  };
+
+  const isLoggedIn = () => {
+    return !!user;
+  };
+
+  const logout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    setUser(null);
+    setToken("");
+    navigate("/");
+  };
+
+  return (
+    <UserContext.Provider 
+      value={{
+        user,
+        token,
+        registerUser,
+        loginUser,
+        logout,
+        isLoggedIn
+      }}
+    >
+      {isReady ? children : null}
+    </UserContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(UserContext);
+
