@@ -102,7 +102,7 @@ export const Register = () => {
   };
 
   return (
-    <div className="text-white bg-background rounded-sm  w-96 min-h-[400px] flex flex-col
+    <div className="text-white bg-background rounded-sm w-96 min-h-[400px] flex flex-col
     items-center">
 
       <div className="flex flex-col gap-4 w-full items-center bg-black/50 p-6">

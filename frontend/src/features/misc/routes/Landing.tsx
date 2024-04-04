@@ -49,7 +49,7 @@ export default function Landing () {
   return (
     <div className="relative z-[60] flex flex-col items-center w-full h-full  dark">
       <div className="absolute top-0 z-10 w-64 h-0 glow-box-red-top"></div>
-      <div className="flex flex-col w-full h-full gap-16 p-4 pt-12 pb-12 border-l border-r md:pt-24 md:pb-24 max-w-7xl border-border bg-dark-gradient">
+      <div className="flex flex-col w-full h-full gap-16 p-4 pt-12 pb-12 border-l border-r md:pt-24 md:pb-24 max-w-7xl border-border bg-black/20">
           
         <div className="relative flex flex-col items-center justify-start h-full gap-8 text-4xl font-semibold text-white transition-all duration-500 md:text-6xl text-opacity-80 font-display-2">
           <div className="z-50 flex flex-col items-center">
