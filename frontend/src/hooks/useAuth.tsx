@@ -49,10 +49,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     username: string,
     password: string
   ) => {
-    await registerAPI(email, username, password)
-    .then(res => {
-
-      if(res){
+    try {
+      const res = await registerAPI(email, username, password);
+      console.log(res?.status)
+      if(res) {
         const userName = res.data.userName;
         const email = res.data.email;
         const token = res.data.token;
@@ -63,21 +63,23 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         localStorage.setItem("token", token);
 
         navigate("/");
-
+      } else {
+        throw new Error("Error registering user");
       }
-      
-    })
-    .catch(err => console.error(err))
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   }
 
   const loginUser = async (
     username: string,
-    password: string
+    password: string,
   ) => {
-    await loginAPI(username, password)
-    .then(res => {
-      if(res) {
+    try {
+      const res = await loginAPI(username, password);
 
+      if(res){
         const userName = res.data.userName;
         const email = res.data.email;
         const token = res.data.token;
@@ -88,10 +90,16 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         localStorage.setItem("token", token);
 
         navigate("/");
+      } else {
+        throw new Error("Username or password is incorrect");
       }
-    })
-    .catch(err => console.error(err)); 
-  };
+      
+    } 
+    catch (err) {
+      console.error(err)
+      throw err;      
+    }
+  }
 
   const isLoggedIn = () => {
     return !!user;

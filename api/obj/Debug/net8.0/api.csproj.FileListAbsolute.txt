@@ -167,3 +167,4 @@ C:\Users\sycod\source\repos\polyglot-pal\api\bin\Debug\net8.0\Google.Cloud.TextT
 C:\Users\sycod\source\repos\polyglot-pal\api\bin\Debug\net8.0\Google.Api.Gax.Rest.dll
 C:\Users\sycod\source\repos\polyglot-pal\api\bin\Debug\net8.0\Google.Apis.Translate.v2.dll
 C:\Users\sycod\source\repos\polyglot-pal\api\bin\Debug\net8.0\Google.Cloud.Translation.V2.dll
+C:\Users\sycod\source\repos\polyglot-pal\api\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll

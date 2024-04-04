@@ -1,7 +1,7 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { UserProfileToken } from '../types/User';
 
-const api = "http://localhost:5187/api"
+const api = "http://localhost:5187/api/"
 
 export const registerAPI = async (
   email: string,
@@ -36,10 +36,13 @@ export const loginAPI = async (
       password
     });
 
-    return data
+    return data;
 
   } catch (err) {
+    
     console.error("Error logging in user", err);
-    return null;
+
+    throw err;
+    // return error.response?.data;
   }
 }
