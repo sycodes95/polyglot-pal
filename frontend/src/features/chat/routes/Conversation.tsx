@@ -6,7 +6,7 @@ export const Conversation = () => {
   const conversationId = useParams();
   
   return (
-    <div>
+    <div className="border w-full h-full grow flex">
       conversation
     </div>
   )

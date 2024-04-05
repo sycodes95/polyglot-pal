@@ -1,7 +1,8 @@
 import axios, { AxiosError } from 'axios'
 import { UserProfileToken } from '../types/User';
+import { config } from '../config';
 
-const api = "http://localhost:5187/api/"
+const api = config.API_DOMAIN;
 
 export const registerAPI = async (
   email: string,

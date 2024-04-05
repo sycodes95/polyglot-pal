@@ -52,7 +52,7 @@
   }
 
   .dark {
-    --background: 0 0% 11%; /* dark gray */
+    --background: 0 0% 8%; /* dark gray */
     --foreground: 0 0% 13.8%; /* dark gray lighter */
 
     --card: 20 14.3% 4.1%;
