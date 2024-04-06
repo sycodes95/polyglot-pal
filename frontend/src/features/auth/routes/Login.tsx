@@ -29,17 +29,7 @@ const formSchema = z.object({
   password: z.string().min(1, {
     message: "Password field is empty"
   })
-  // .refine((val) => /[a-z]/.test(val), {
-  //   message: "Password must contain at least one uppercase letter."
-  // })
-  // .refine((val) => /[a-z]/.test(val), {
-  //   message: "Password must contain at least one uppercase letter."
-  // })
-  // .refine((val) => /[a-z]/.test(val), {
-  //   message: "Password must contain at least one uppercase letter."
-  // })
-  ,
-})
+});
 
 export const Login = () => {
 
