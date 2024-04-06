@@ -58,3 +58,14 @@ export const loginAPI = async (
     // return error.response?.data;
   }
 }
+
+export const useLoginMutation = (
+  username: string,
+  password: string
+) => {
+  return useMutation({
+    ...config,
+    mutationKey: ["register"],
+    mutationFn: async ()=> loginAPI(username, password)
+  });
+}; 
