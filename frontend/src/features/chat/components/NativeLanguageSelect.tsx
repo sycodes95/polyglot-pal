@@ -51,7 +51,6 @@ export const NativeLanguageSelect = () => {
   },[query.data]);
 
   useEffect(() => {
-    //
 
     updateMutation.mutateAsync();
 
@@ -66,7 +65,6 @@ export const NativeLanguageSelect = () => {
       } else {
         setSelectedLanguage(defaultSelectedLanguage);
       };
-      
     };
   };
 

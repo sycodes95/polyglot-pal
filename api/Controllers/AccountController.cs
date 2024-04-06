@@ -61,6 +61,12 @@ namespace api.Controllers
                     Email = registerDto.Email,
                 };
 
+                var existingUser = await _userManager.FindByNameAsync(appUser.UserName);
+
+                if(existingUser != null) {
+                    return StatusCode(409, "User already exists, log in instead.");
+                };
+
                 var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password);
 
                 if(createdUser.Succeeded)
@@ -80,13 +86,14 @@ namespace api.Controllers
                     }
                     else 
                     {
-                        return StatusCode(500, roleResult.Errors);
+                        return StatusCode(500, "An unexpected error occured");
                     }
                 }
                 else
                 {
-                    return StatusCode(500, createdUser.Errors);
-                }
+                    return StatusCode(500, "An unexpected error occured");
+
+                };
                 
             }
             catch (Exception e)

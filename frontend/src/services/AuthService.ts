@@ -1,8 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import { UserProfileToken } from '../types/User';
 import { config } from '../config';
-
-const api = config.API_DOMAIN;
+import { useMutation } from 'react-query';
 
 export const registerAPI = async (
   email: string,
@@ -11,7 +10,7 @@ export const registerAPI = async (
 ) => {
   try {
     
-    const data = await axios.post<UserProfileToken>(api + "account/register", {
+    const data = await axios.post<UserProfileToken>(config.API_DOMAIN + "account/register", {
       email,
       username,
       password
@@ -19,20 +18,32 @@ export const registerAPI = async (
 
     return data;
 
-  } catch (error) {
+  } catch (err) {
     
-    console.error("Error posting user registeration", error);
+    console.error("Error posting user registeration", err);
 
-    return null;
+    throw err;
   }
 };
+
+export const useRegisterMutation = (
+  email: string,
+  username: string,
+  password: string
+) => {
+  return useMutation({
+    ...config,
+    mutationKey: ["register"],
+    mutationFn: async ()=> registerAPI(email, username, password)
+  });
+}; 
 
 export const loginAPI = async (
   username: string,
   password: string
 ) => {
   try {
-    const data = await axios.post<UserProfileToken>(api + "account/login", {
+    const data = await axios.post<UserProfileToken>(config.API_DOMAIN + "account/login", {
       username,
       password
     });

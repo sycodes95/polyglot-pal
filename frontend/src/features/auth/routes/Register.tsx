@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input"
 import Icon from "@mdi/react";
 import { mdiEarth } from "@mdi/js";
-import { useAuth } from "../../../hooks/useAuth";
-import { useMutation } from "react-query";
-
 import { z } from "zod"
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -20,8 +17,8 @@ import {
 } from "@/components/ui/form"
 import { Link } from "react-router-dom";
 import { AxiosError } from "axios";
-import { getErrorStatusMessage } from "../../../utils/getErrorStatusMessage";
 import { RegisterPwChecker } from "../components/RegisterPwChecker";
+import { useRegisterMutation } from "../../../services/AuthService";
 
 export const formSchema = z.object({
   email: z.string().min(1, {
@@ -55,8 +52,6 @@ export const formSchema = z.object({
 
 export const Register = () => {
 
-  const { registerUser } = useAuth();
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -71,21 +66,16 @@ export const Register = () => {
 
   const [showPwChecker, setShowPwChecker] = useState(false);
 
-  const registerMutation = useMutation(
-    async (formData: typeof formSchema._type) => registerUser(formData.email, formData.username, formData.password),
-    {
-      onSuccess: () => console.log("register success"),
-      onError: (err: AxiosError) => {
-        setErrorMsg(getErrorStatusMessage(err));
-      },
-    }
+  const registerMutation = useRegisterMutation(
+    form.getValues("email"),
+    form.getValues("username"),
+    form.getValues("password")
   );
-  
+
   const email = form.watch("email");
   const username = form.watch("username");
   const password = form.watch("password");
   const confirmPassword = form.watch("confirmPassword");
-
 
   useEffect(() => {
     // reset error msg when user edits form inputs
@@ -97,9 +87,19 @@ export const Register = () => {
 
   },[email, username, password, confirmPassword]);
 
-  const registerSubmit = (formData: typeof formSchema._type) => {
-    registerMutation.mutate(formData);
+  const registerSubmit = () => {
+    registerMutation.mutate();
   };
+
+  const handleErrors = (error: AxiosError ) => {
+    setErrorMsg(error.response?.data as string)
+  };
+
+  useEffect(() => {
+    if(registerMutation.error) {
+      handleErrors(registerMutation.error as AxiosError);
+    }
+  },[registerMutation.error])
 
   return (
     <div className="text-white bg-background rounded-sm w-96 min-h-[400px] flex flex-col
@@ -117,7 +117,7 @@ export const Register = () => {
 
           {
             errorMsg &&
-            <span className="flex justify-center w-full text-sm text-red-600">{errorMsg}</span> 
+            <span className="flex justify-center w-full text-sm text-red-600 p-1 pl-4 pr-4 bg-red-500/10 rounded-md border-red-600 border">{errorMsg}</span> 
           }
 
           <FormField
