@@ -32,10 +32,11 @@ export const useRegisterMutation = (
   username: string,
   password: string
 ) => {
+  const { registerUser } = useAuth();
   return useMutation({
     ...config,
     mutationKey: ["register"],
-    mutationFn: async ()=> registerAPI(email, username, password)
+    mutationFn: async ()=> registerUser(email, username, password)
   });
 }; 
 

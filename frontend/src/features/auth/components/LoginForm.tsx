@@ -20,6 +20,7 @@ import { Link } from "react-router-dom";
 import { AxiosError } from "axios";
 import { useLoginMutation } from "../../../services/AuthService";
 import { useAuth } from "../../../hooks/useAuth";
+import { FormErrorBox } from "./FormErrorBox";
 
 const formSchema = z.object({
   username: z.string().min(1, {
@@ -90,7 +91,7 @@ export const LoginForm = () => {
 
           {
             errorMsg &&
-            <span className="flex justify-center w-full text-sm text-red-600">{errorMsg}</span> 
+            <FormErrorBox message={errorMsg} />
           }
 
           <FormField

@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import { AxiosError } from "axios";
 import { RegisterPwChecker } from "../components/RegisterPwChecker";
 import { useRegisterMutation } from "../../../services/AuthService";
+import { FormErrorBox } from "./FormErrorBox";
 
 export const formSchema = z.object({
   email: z.string().min(1, {
@@ -107,7 +108,7 @@ export const RegisterForm = () => {
 
         {
           errorMsg &&
-          <span className="flex justify-center w-full text-sm text-red-600 p-1 pl-4 pr-4 bg-red-500/10 rounded-md border-red-600 border">{errorMsg}</span> 
+          <FormErrorBox message={errorMsg} />
         }
 
         <FormField
