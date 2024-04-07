@@ -1,23 +1,25 @@
 import { useQuery } from "react-query"
-import { getAllConversations } from "../api/conversation/getAllConversations"
+import { useAllConversations } from "../api/conversation/getAllConversations"
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { config } from "../../../config";
 
 export const ConversationList = () => {
 
-  const { isFetching, isError, data } = useQuery({
-    queryKey: ["allconversations"],
-    queryFn: getAllConversations
-  });
-
+  const { isFetching, isError, data } = useAllConversations();
+  
   return (
     <div className="flex flex-col gap-4">
       {
-        !isFetching && !isError && data &&
+        !isFetching && !isError && data ?
         data.map((conversation) => (
-          <div className="text-sm" key={conversation.id}>
+          <Link className="text-sm p-4 border border-border rounded-md" to={`/c/${conversation.id}`} key={conversation.id}>
             <span>{conversation.id}</span>
             <span>{conversation.languageData?.languageCode}</span>
-          </div>
+          </Link>
         ))
+        :
+        <span className="text-white text-sm">No conversations available</span>
       }
     </div>
   )

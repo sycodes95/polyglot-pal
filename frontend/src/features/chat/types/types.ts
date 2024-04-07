@@ -1,4 +1,4 @@
-export interface Conversation {
+export interface ConversationDto {
   id: number;
   messages: Message[];
   languageData: LanguageData | null;
@@ -33,4 +33,4 @@ export interface NativeLanguage {
   id: number;
   languageName: string;
   languageCode: string;
-}
+};

@@ -1,7 +1,7 @@
-import { Conversation } from './Conversation';
+import { Conversation } from '../components/Conversation';
 import { ConversationList } from "../components/ConversationList";
 import { useEffect } from "react";
-import { getAllConversations } from "../api/conversation/getAllConversations";
+import { getAllConversations, useAllConversations } from "../api/conversation/getAllConversations";
 import { Sidebar } from "../components/Sidebar";
 import { Link } from 'react-router-dom';
 import { NativeLanguageSelect } from '../components/NativeLanguageSelect';
@@ -9,7 +9,6 @@ import { NativeLanguageSelect } from '../components/NativeLanguageSelect';
 export const Chat = () => {
 
   useEffect(() => {
-    getAllConversations()
   },[])
   return (
     <>

@@ -74,10 +74,6 @@ export const LoginForm = () => {
       loginUser(form.getValues("username"), form.getValues("password"));
     }
   },[loginMutatiion.isSuccess])
-
-  // const handleLoginSubmit = async () => {
-  //   loginUser(form.getValues("username"), form.getValues("password"));
-  // };
   
   return (
       

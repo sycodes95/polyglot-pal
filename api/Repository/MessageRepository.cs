@@ -19,6 +19,14 @@ namespace api.Repository
         {
             _context = context;
         }
+
+        public async Task<List<Message>> GetMessagesByConversationIdAsync(int conversationId, AppUser appUser) 
+        {
+            var messages = await _context.Messages
+            .Where(x => x.ConversationId == conversationId && x.AppUserId == appUser.Id)
+            .ToListAsync();
+            return messages;
+        }
         
         public async Task<Message> CreateMessageAsync(CreateMessageDto createMessageDto, AppUser appUser)
         {

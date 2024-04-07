@@ -7,14 +7,25 @@ import mechKeyboard from '../../../assets/images/mechKeyboard.png'
 import translationImage from '../../../assets/images/translation.png'
 import AtroposEffect from "../../../components/atropos/atroposEffect";
 import cefrLevelImage from '../../../assets/images/cefrImage.png'
-import SignUpButton from '../../landingPage/signUpButton';
+import { Link } from 'react-router-dom';
 
-export default function Landing () {
+export const Landing = () => {
+
+  const SignUpButton = () => {
+  
+    return (
+      <div className="flex justify-center w-full">
+        <Link className="flex justify-center items-center w-40 h-8 text-xs font-normal transition-all duration-300 bg-yellow-400 border border-yellow-500 rounded-lg bg-opacity-20 text-primary font-main glow-box-yellow" to={"/register"}>
+          Sign Me Up!
+        </Link>
+      </div>
+    )
+  };
 
   const infoCards = [
     { 
       name: 'AI Voice', 
-      icon: <VoiceChatIcon className="text-lg text-red-400"/>, 
+      icon: <VoiceChatIcon className="text-lg text-yellow-400"/>, 
       description: 'Choose from many realistic voice options for your AI pal for any available language.',
       imageElement: <img className="z-10 object-contain h-48 grayscale"  src={aiVoiceImage} alt="" data-atropos-offset="10" data-atropos-opacity="1;0.6"/>,
       imageSrc: aiVoiceImage
@@ -22,7 +33,7 @@ export default function Landing () {
     },
     { 
       name: 'Text', 
-      icon: <TextsmsIcon className="text-lg text-red-400"/>, 
+      icon: <TextsmsIcon className="text-lg text-yellow-400"/>, 
       description: 'If you wish to text instead of using your voice, you can.',
       imageElement: <img className="z-10 object-contain h-48 grayscale"  src={mechKeyboard} alt="" data-atropos-offset="10" data-atropos-opacity="1;0.6"/>,
       imageSrc: mechKeyboard
@@ -30,7 +41,7 @@ export default function Landing () {
     },
     { 
       name: 'CEFR', 
-      icon: <StairsIcon className="text-lg text-red-400"/>, 
+      icon: <StairsIcon className="text-lg text-yellow-400"/>, 
       description: 'Adjust language proficieny level of AI to match your needs.',
       imageElement: <img className="z-10 object-contain h-48 grayscale"  src={cefrLevelImage} alt="" data-atropos-offset="10" data-atropos-opacity="1;0.6"/>,
       imageSrc: cefrLevelImage
@@ -38,7 +49,7 @@ export default function Landing () {
     },
     { 
       name: 'Translations', 
-      icon: <TranslateIcon className="text-lg text-red-400"/>, 
+      icon: <TranslateIcon className="text-lg text-yellow-400"/>, 
       description: 'Translate any response from AI to your native language with a click of a button.',
       imageElement: <img className="z-10 object-contain h-48 grayscale"  src={translationImage} alt="" data-atropos-offset="10" data-atropos-opacity="1;0.6"/>,
       imageSrc: translationImage
@@ -48,7 +59,7 @@ export default function Landing () {
   
   return (
     <div className="relative z-[60] flex flex-col items-center w-full h-full  dark">
-      <div className="absolute top-0 z-10 w-64 h-0 glow-box-red-top"></div>
+      {/* <div className="absolute top-0 z-10 w-64 h-0 glow-box-yellow-top"></div> */}
       <div className="flex flex-col w-full h-full gap-16 p-4 pt-12 pb-12 border-l border-r md:pt-24 md:pb-24 max-w-7xl border-border bg-black/20">
           
         <div className="relative flex flex-col items-center justify-start h-full gap-8 text-4xl font-semibold text-white transition-all duration-500 md:text-6xl text-opacity-80 font-display-2">
@@ -56,7 +67,7 @@ export default function Landing () {
             <p className="text-center">
               Practice conversation skills 
             </p>
-            <p className="text-center text-red-300">
+            <p className="text-center text-yellow-300">
               in the language of your choice 
             </p>
             
@@ -78,7 +89,7 @@ export default function Landing () {
           {
           infoCards.map((card, index) => (
             <AtroposEffect key={index} index={index}>
-              <div className="flex flex-col items-center h-full gap-4 p-8 transition-colors duration-300 border rounded-lg bg-foreground border-border hover:border-stone-700 hover:bg-opacity-30 hover:bg-black group">
+              <div className="flex flex-col items-center h-full gap-4 p-8 transition-colors duration-300 border rounded-lg bg-foreground/50 border-border hover:border-stone-700 hover:bg-opacity-30 hover:bg-black group">
                 <div className="flex items-center justify-center gap-2 p-2 border rounded-lg bg-background border-border w-fit font-display-2" data-atropos-offset="5" data-atropos-opacity="1;0.6">
                   {card.icon}
                 </div>

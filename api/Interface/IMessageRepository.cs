@@ -9,6 +9,8 @@ namespace api.Interface
 {
     public interface IMessageRepository
     {
+        Task<List<Message>> GetMessagesByConversationIdAsync(int conversationId, AppUser appUser);
+
         Task<Message> CreateMessageAsync(CreateMessageDto createMessageDto, AppUser appUser);
 
         Task<Message?> UpdateMessageAsync(int id, AppUser appUser, UpdateMessageRequestDto updateMessageDto);

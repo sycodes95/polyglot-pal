@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
-import Landing from "../features/misc/routes/Landing";
+import { Landing } from "../features/misc/routes/Landing";
 import { MainLayout } from "@/components/Layout";
-import { AuthLayout } from "../features/auth/components/AuthLayout";
+import { AuthLayout } from "../components/Layout/AuthLayout";
 import { Login } from "../features/auth/routes";
 import { Register } from "../features/auth/routes";
 

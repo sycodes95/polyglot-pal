@@ -26,6 +26,20 @@ namespace api.Controllers
             _messageRepo = messageRepo;
         }
 
+        [HttpGet("{conversationId:int}")]
+        [Authorize]
+        public async Task<IActionResult> GetMessagesByConversationId([FromRoute] int conversationId)
+        {
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+            var messages = await _messageRepo.GetMessagesByConversationIdAsync(conversationId, appUser);
+
+            if(messages == null) return StatusCode(404, "Messages not found");
+
+            var messagesDto = messages.Select(m => m.MessageToMessageDto()).ToList();
+            return Ok(messages);
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateMessageDto createMessageDto)
