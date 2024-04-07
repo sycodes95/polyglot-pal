@@ -45,6 +45,7 @@ export const NativeLanguageSelect = () => {
     ) {
       setSelectedLanguage(query.data);
     } else if(!query.data && !query.isLoading && !query.isFetching) {
+      // if query does not return 
       createMutation.mutateAsync();
     };
 

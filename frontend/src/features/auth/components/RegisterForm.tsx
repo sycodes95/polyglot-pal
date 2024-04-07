@@ -86,10 +86,6 @@ export const RegisterForm = () => {
 
   },[email, username, password, confirmPassword]);
 
-  const registerSubmit = () => {
-    registerMutation.mutate();
-  };
-
   const handleErrors = (error: AxiosError ) => {
     setErrorMsg(error.response?.data as string)
   };
@@ -107,7 +103,7 @@ export const RegisterForm = () => {
         <h1 className="text-2xl font-display-2 font-semibold  pt-2 pb-2 text-center  w-full">Welcome</h1>
         <span className="text-sm p-2 font-semibold rounded-sm  w-full text-center border border-border/20 bg-border/10">Register to continue to PolyglotPal.</span>
       </div>
-      <form onSubmit={form.handleSubmit(registerSubmit)} className="space-y-4 w-full p-6">
+      <form onSubmit={form.handleSubmit(()=> registerMutation.mutate())} className="space-y-4 w-full p-6">
 
         {
           errorMsg &&

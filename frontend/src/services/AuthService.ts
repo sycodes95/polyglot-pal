@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios'
 import { UserProfileToken } from '../types/User';
 import { config } from '../config';
 import { useMutation } from 'react-query';
+import { useAuth } from '../hooks/useAuth';
 
 export const registerAPI = async (
   email: string,
@@ -48,6 +49,8 @@ export const loginAPI = async (
       password
     });
 
+    console.log(data)
+
     return data;
 
   } catch (err) {
@@ -63,9 +66,11 @@ export const useLoginMutation = (
   username: string,
   password: string
 ) => {
+
+  const { loginUser } = useAuth();
   return useMutation({
     ...config,
     mutationKey: ["register"],
-    mutationFn: async ()=> loginAPI(username, password)
+    mutationFn: async ()=> loginUser(username, password)
   });
 }; 
