@@ -13,13 +13,13 @@ export interface Message {
 };
 
 export interface LanguageData {
-  id: number;
+  id?: number;
   languageName: string;
   languageCode: string;
   countryCode: string;
   voiceName: string;
   ssmlGender: string;
-  conversationId: number;
+  conversationId?: number;
 };
 
 export interface Settings {
@@ -34,3 +34,12 @@ export interface NativeLanguage {
   languageName: string;
   languageCode: string;
 };
+
+export interface VoiceData {
+  voices: {
+    languageCodes: string[];
+    name: string;
+    ssmlGender: string;
+    naturalSampleRateHertz: number;
+  }[];
+}
