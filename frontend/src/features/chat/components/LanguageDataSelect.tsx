@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { LanguageData } from "../types/types"
+import { ConversationDto, LanguageData } from "../types/types"
 
 import { Check, ChevronsUpDown } from "lucide-react"
  
@@ -16,42 +16,85 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { useVoiceData } from "../api/google/getVoiceDatas"
+
+import { useGoogleVoiceData } from "../api/google/getVoiceDatas"
 import { useParams } from 'react-router-dom';
 import { languageNameAndCodes } from '../../../constants/languageNameAndCodes';
 import { cn } from '../../../lib/utils';
+import { UseMutationResult } from 'react-query';
+import { useMutateLanguageData } from '../api/language-data/createLanguageData';
+import { useQueryLanguageData } from '../api/language-data/getLanguageData';
+import { useUpdateMutateLanguageData } from '../api/language-data/updateLanguageData';
 
 interface LanguageSelectProps {
-  isSaved: boolean;
+  convoIsSaved: boolean;
+  createMutationConversation: UseMutationResult<ConversationDto | null, unknown, void, unknown>;
 }
 
-export const LanguageDataSelect = ({ isSaved }: LanguageSelectProps) => {
+export const LanguageDataSelect = ({ 
+  convoIsSaved, 
+  createMutationConversation 
+}: LanguageSelectProps) => {
+
   const param = useParams();
+  
   const [open, setOpen] = useState(false);
-  const { data } = useVoiceData();
+  const { data } = useGoogleVoiceData();
   const [languageData, setLanguageData] = useState<LanguageData>({
     languageName: "",
     languageCode: "",
     countryCode: "",
     voiceName: "",
-    ssmlGender: ""
+    ssmlGender: "",
   });
-  useEffect(() => {
-    console.log(data)
-  },[data])
+
+  const createMutateLanguageData = useMutateLanguageData(languageData);
+
+  const updateMutateLanguageData = useUpdateMutateLanguageData(languageData);
+
+  const queryLanguageData = useQueryLanguageData(Number(param["conversationId"]));
 
   const handleOnSelect = (voiceName: string) => {
 
     const [languageCode, countryCode, _, __] = voiceName.split("-");
     const languageName = languageNameAndCodes.find(lang => lang.languageCode === languageCode)?.languageName;
-    const ssmlGender = data?.voices.find(voice => voice.name === voiceName);
+    const name = data?.voices.find(voice => voice.name.toLowerCase() === voiceName)?.name;
+    const ssmlGender = data?.voices.find(voice => voice.name.toLowerCase() === voiceName)?.ssmlGender;
 
-    if(!voiceName || !languageCode || !countryCode || !languageName || !ssmlGender) {
+    if(!name || !languageCode || !countryCode || !languageName || !ssmlGender) {
       return 
     };
+    
+    setLanguageData({
+      languageName,
+      languageCode,
+      countryCode,
+      voiceName: name,
+      ssmlGender
+    });
+  };
 
+  useEffect(() => {
+    if(queryLanguageData.isSuccess && queryLanguageData.data ) {
+      setLanguageData(queryLanguageData.data);
+    };
+  },[queryLanguageData.isSuccess])
 
-  }
+  useEffect(() => {
+    // once conversation is created in the db, use the data returned to insert conversationId into languagedata state
+    if(createMutationConversation.isSuccess && createMutationConversation.data) {
+      const conversationId = createMutationConversation.data.id;
+      setLanguageData(prev => ({...prev, conversationId}));
+    };
+  },[createMutationConversation.isSuccess]);
+
+  useEffect(() => {
+    if(languageData.conversationId && !convoIsSaved) {
+      createMutateLanguageData.mutateAsync()
+    } else if(languageData.conversationId && convoIsSaved) {
+      updateMutateLanguageData.mutateAsync();
+    };
+  },[languageData])
 
   return (
     <>
@@ -63,21 +106,22 @@ export const LanguageDataSelect = ({ isSaved }: LanguageSelectProps) => {
               variant="outline"
               role="combobox"
               aria-expanded={open}
-              className="w-[200px] justify-between"
+              className="w-full justify-between"
             >
               {
-                <span>{languageData.voiceName}</span>
+                <span className='text-white'>{languageData.voiceName}</span>
               }
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0">
+          <PopoverContent className="w-full p-0">
             <Command>
               <CommandInput placeholder="Search framework..." />
               <CommandEmpty>No framework found.</CommandEmpty>
               <CommandGroup>
                 {data.voices.map((voice) => (
                   <CommandItem
+                  className='text-white'
                     key={voice.name}
                     value={voice.name}
                     onSelect={(currentValue) => {
@@ -91,7 +135,7 @@ export const LanguageDataSelect = ({ isSaved }: LanguageSelectProps) => {
                         languageData.voiceName === voice.name ? "opacity-100" : "opacity-0"
                       )}
                     />
-                    {languageData.languageName}
+                    {voice.name}
                   </CommandItem>
                 ))}
               </CommandGroup>

@@ -14,7 +14,7 @@ export const getVoiceData = async () => {
   }
 }
 
-export const useVoiceData = () => {
+export const useGoogleVoiceData = () => {
   return useQuery({
     ...config,
     queryKey: ["get-voice-data"],

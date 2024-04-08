@@ -32,6 +32,11 @@ namespace api.Repository
             return languageData;
         }
 
+        public async Task<LanguageData?> GetByConversationIdAsync(int conversationId, AppUser appUser)
+        {
+            return await _context.LanguageDatas.FirstOrDefaultAsync(x => x.ConversationId == conversationId && x.AppUserId == appUser.Id);
+        }
+
         public async Task<LanguageData?> GetByIdAsync(int id)
         {
             return await _context.LanguageDatas.FirstOrDefaultAsync(x => x.Id == id);

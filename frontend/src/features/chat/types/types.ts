@@ -43,3 +43,8 @@ export interface VoiceData {
     naturalSampleRateHertz: number;
   }[];
 }
+
+export interface GptResponseData {
+  
+}
+

@@ -29,13 +29,28 @@ namespace api.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet("{id:int}")]
+        // [HttpGet("{id:int}")]
+        // [Authorize]
+        // public async Task<IActionResult> GetById(int id)
+        // {
+        //     if(!ModelState.IsValid) return BadRequest(ModelState);
+
+        //     var languageData = await _languageDataRepo.GetByIdAsync(id);
+        //     if(languageData == null) return NotFound("Language Data Not Found");
+        //     return Ok(languageData.ToLanguageDataDtoFromLanguageData());
+        // }
+
+        [HttpGet("{conversationId:int}")]
         [Authorize]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetByConversationId(int conversationId)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
 
-            var languageData = await _languageDataRepo.GetByIdAsync(id);
+            var username = User.GetUsername();
+
+            var appUser = await _userManager.FindByNameAsync(username);
+
+            var languageData = await _languageDataRepo.GetByConversationIdAsync(conversationId, appUser);
             if(languageData == null) return NotFound("Language Data Not Found");
             return Ok(languageData.ToLanguageDataDtoFromLanguageData());
         }
@@ -56,7 +71,7 @@ namespace api.Controllers
 
             await _languageDataRepo.CreateAsync(languageData);
 
-            return CreatedAtAction(nameof(GetById), new { id = languageData.Id}, languageData.ToLanguageDataDtoFromLanguageData());
+            return CreatedAtAction(nameof(GetByConversationId), new { conversationId = languageData.ConversationId}, languageData.ToLanguageDataDtoFromLanguageData());
         } 
 
         [HttpPut]

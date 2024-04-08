@@ -14,7 +14,9 @@ namespace api.Interface
         Task<LanguageData> CreateAsync(LanguageData languageData);
 
         Task<LanguageData?> GetByIdAsync(int id);
-
+        
+        Task<LanguageData?> GetByConversationIdAsync(int conversationId, AppUser appUser);
+        
         Task<LanguageData?> UpdateAsync(int id, UpdateLanguageDataRequestDto languageDataRequestDto);
 
         Task<LanguageData> DeleteAsync(LanguageData languageData);

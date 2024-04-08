@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using api.Dtos.Message;
 using api.Dtos.OpenAI;
 using api.Interface;
 using Newtonsoft.Json;
@@ -21,7 +22,7 @@ namespace api.Services
             _httpClient = httpClient;
         }
 
-        public async Task<string?> CreateGPTResponseAsync(CreateGPTResponseDto createGPTResponseDto)
+        public async Task<GptMessageDto?> CreateGPTResponseAsync(CreateGPTResponseDto createGPTResponseDto)
         {
 
             try
@@ -62,7 +63,13 @@ namespace api.Services
 
                     if(assistantMessage == null) return null;
 
-                    return assistantMessage;
+                    var assistantMessageDto = new GptMessageDto
+                    {
+                        Content = assistantMessage,
+                        Role = "assistant"
+                    };
+
+                    return assistantMessageDto;
                 }
 
                 return null;
