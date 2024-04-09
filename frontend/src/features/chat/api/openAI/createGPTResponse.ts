@@ -1,7 +1,7 @@
 import axios from "axios"
 import { Message } from '../../types/types';
-import { config } from '../../../../config';
 import { useMutation } from "react-query";
+import { config } from "../../../../config";
 
 interface GptMessage {
   role: string;
@@ -23,7 +23,6 @@ export const createGPTResponse = async (messages: Message[], input: string) => {
 
 export const useGPTResponse = (messages: Message[], input: string) => {
   return useMutation({
-    ...config,
     mutationKey: ["get-gpt-response"],
     mutationFn: async ()=> createGPTResponse(messages, input)
   });

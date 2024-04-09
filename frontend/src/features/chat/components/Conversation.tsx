@@ -5,7 +5,7 @@ import { useCreateConversation } from "../api/conversation/createConversation";
 import { LanguageDataSelect } from "./LanguageDataSelect";
 import { LanguageData, Message, Settings } from "../types/types";
 import { Messages } from "./Messages";
-import { useGPTResponse } from "../api/openAI/createGPTResponse";
+import { createGPTResponse, useGPTResponse } from "../api/openAI/createGPTResponse";
 import { getGptPrompt } from "../utils/getGptPrompt";
 import { VoiceAndTextInput } from "./VoiceAndTextInput";
 
@@ -36,13 +36,14 @@ export const Conversation = () => {
 
   // const queryConversation = useQueryConversation(Number(conversationId));
 
-  const createMutateConversation = useCreateConversation();
+  const createConversation = useCreateConversation();
 
   const createGptResponse = useGPTResponse(
     messages, 
-    isNewConversation && messages.length < 1 
-    ? getGptPrompt(languageData, settings.cefrLevel) 
-    : input
+    messages.length == 1 ?
+    messages[0].content
+    :
+    input
   );
 
   const submitUserInput = () => {
@@ -54,11 +55,42 @@ export const Conversation = () => {
       })
       return msgs;
     });
+    setInput("");
+
   };
 
   const getGptResponse = async () => {
     console.log("getgptresponse")
     await createGptResponse.mutateAsync();
+    
+  };
+
+  const initializeConversation = async () => {
+
+    setMessages([{
+      role: "user",
+      content: getGptPrompt(languageData, settings.cefrLevel)
+    }]);
+
+    // setInput(prev => prev + getGptPrompt(languageData, settings.cefrLevel));
+  }
+
+  useEffect(() => {
+    //initialize new conversation when language data changes
+    if(languageData.voiceName) {
+      initializeConversation();
+      
+    }
+  },[languageData])
+
+  useEffect(() => {
+    console.log(messages)
+    if(messages.length > 0 && messages[messages.length - 1].role === "user") {
+      createGptResponse.mutateAsync();
+    }
+  },[messages])
+
+  useEffect(() => {
     if(createGptResponse.isSuccess && createGptResponse.data) {
       console.log(createGptResponse.data)
       const message = createGptResponse.data;
@@ -69,37 +101,16 @@ export const Conversation = () => {
         return msgs;
       });
 
-      setInput("");
 
     };
-  };
 
-  const initializeConversation = async () => {
-    getGptResponse()
-  }
-
-  useEffect(() => {
-    //initialize new conversation
-    if(isNewConversation && messages.length < 1 && languageData.voiceName) {
-      setMessages([{
-        role: "user",
-        content: getGptPrompt(languageData, settings.cefrLevel)
-      }])
-    }
-  },[languageData])
-
-  useEffect(() => {
-    console.log(messages)
-    if(messages.length > 0 && messages[messages.length - 1].role === "user") {
-      getGptResponse();
-    }
-  },[messages])
+  },[createGptResponse.isSuccess])
   
   return (
     <div className="border w-full h-full grow flex flex-col gap-4">
       <LanguageDataSelect 
       isNewConversation={isNewConversation} 
-      createMutationConversation={createMutateConversation} 
+      createMutationConversation={createConversation} 
       languageDataState={{ languageData, setLanguageData }}
       />
 
