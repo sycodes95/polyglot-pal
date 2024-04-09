@@ -71,6 +71,20 @@ namespace api.Repository
             
         }
 
+        public async Task<List<Message>?> DeleteAllMessagesAsync(int conversationId, AppUser appUser)
+        {
+            var messages = await _context.Messages.Where(x => x.ConversationId == conversationId && x.AppUserId == appUser.Id).ToListAsync();
+
+            if(!messages.Any()) return null;
+
+            _context.Messages.RemoveRange(messages);
+
+            await _context.SaveChangesAsync();
+
+            return messages;
+            
+        }
+
         
 
 

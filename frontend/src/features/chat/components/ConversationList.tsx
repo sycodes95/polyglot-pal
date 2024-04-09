@@ -13,7 +13,7 @@ export const ConversationList = () => {
       {
         !isFetching && !isError && data ?
         data.map((conversation) => (
-          <Link className="text-sm p-4 border border-border rounded-md" to={`/c/${conversation.id}`} key={conversation.id}>
+          <Link className="text-sm p-4 border border-border rounded-md text-white" to={`/c/${conversation.id}`} key={conversation.id}>
             <span>{conversation.id}</span>
             <span>{conversation.languageData?.languageCode}</span>
           </Link>

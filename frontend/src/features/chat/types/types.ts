@@ -6,10 +6,10 @@ export interface ConversationDto {
 };
 
 export interface Message {
-  id: number;
+  id?: number;
   content: string;
   role: string;
-  conversationId: number;
+  conversationId?: number;
 };
 
 export interface LanguageData {
@@ -23,10 +23,10 @@ export interface LanguageData {
 };
 
 export interface Settings {
-  id: number;
-  cefrLevel: string;
+  id?: number;
+  cefrLevel: "C2" | "C1" | "B2" | "B1" | "A2" | "A1";
   ttsEnabled: boolean;
-  conversationId: number;
+  conversationId?: number;
 };
 
 export interface NativeLanguage {

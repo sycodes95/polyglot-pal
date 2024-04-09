@@ -69,17 +69,17 @@ namespace api.Controllers
             
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{conversationId:int}")]
         [Authorize]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteAll(int conversationId)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
 
             var username = User.GetUsername();
             var appUser = await _userManager.FindByNameAsync(username);
-            var message = await _messageRepo.DeleteMessageAsync(id, appUser);
+            var message = await _messageRepo.DeleteAllMessagesAsync(conversationId, appUser);
 
-            if(message == null) return NotFound("Message not found");
+            if(message == null) return NotFound("Messages not found");
 
             return NoContent();
         }   

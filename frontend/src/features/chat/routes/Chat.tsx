@@ -12,8 +12,8 @@ export const Chat = () => {
   },[])
   return (
     <>
-      <div className="flex gap-4 w-full h-full p-8">
-        <Sidebar className='w-64 flex flex-col gap-4'>
+      <div className="flex gap-4 w-full  p-8 ">
+        <Sidebar className='w-64 flex flex-col gap-4 h-full overflow-y-auto'>
           <Link className='whitespace-nowrap flex justify-center w-full hover:bg-white/5 transition-colors text-sm pr-4 pl-4 p-2 rounded-md border border-white text-white' to={"/"} >+ New Conversation</Link>
           <NativeLanguageSelect />
           <ConversationList />

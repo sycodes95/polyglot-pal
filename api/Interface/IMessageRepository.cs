@@ -16,5 +16,7 @@ namespace api.Interface
         Task<Message?> UpdateMessageAsync(int id, AppUser appUser, UpdateMessageRequestDto updateMessageDto);
 
         Task<Message?> DeleteMessageAsync(int id, AppUser appUser);
+
+        Task<List<Message>?> DeleteAllMessagesAsync(int conversationId, AppUser appUser);
     }
 }

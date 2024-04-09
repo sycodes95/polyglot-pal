@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 
 type ConversationId = number;
 
-export const getConversationById = async (conversationId: ConversationId) => {
+export const getConversationById = async (conversationId?: ConversationId) => {
   try {
     const data = await axios.get(config.API_DOMAIN + `conversation/?id=${conversationId}`);
 
@@ -20,10 +20,11 @@ export const getConversationById = async (conversationId: ConversationId) => {
   };
 };
 
-export const useQueryConversation = (conversationId: ConversationId) => {
+export const useQueryConversation = (conversationId?: ConversationId) => {
   return useQuery({
     ...config,
     queryKey: ["get-conversation-id"],
-    queryFn: async ()=> getConversationById(conversationId)
+    queryFn: async ()=> getConversationById(conversationId),
+    enabled: !!conversationId
   });
 }; 

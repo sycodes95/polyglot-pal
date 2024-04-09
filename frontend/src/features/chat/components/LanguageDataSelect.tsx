@@ -27,32 +27,33 @@ import { useQueryLanguageData } from '../api/language-data/getLanguageData';
 import { useUpdateMutateLanguageData } from '../api/language-data/updateLanguageData';
 
 interface LanguageSelectProps {
-  convoIsSaved: boolean;
+  isNewConversation: boolean;
   createMutationConversation: UseMutationResult<ConversationDto | null, unknown, void, unknown>;
+  languageDataState: {
+    languageData: LanguageData;
+    setLanguageData: React.Dispatch<React.SetStateAction<LanguageData>>;
+  }
 }
 
 export const LanguageDataSelect = ({ 
-  convoIsSaved, 
-  createMutationConversation 
+  isNewConversation, 
+  createMutationConversation,
+  languageDataState
 }: LanguageSelectProps) => {
 
-  const param = useParams();
+  const { conversationId } = useParams();
   
   const [open, setOpen] = useState(false);
+
   const { data } = useGoogleVoiceData();
-  const [languageData, setLanguageData] = useState<LanguageData>({
-    languageName: "",
-    languageCode: "",
-    countryCode: "",
-    voiceName: "",
-    ssmlGender: "",
-  });
+  
+  const { languageData, setLanguageData } = languageDataState;
 
   const createMutateLanguageData = useMutateLanguageData(languageData);
 
   const updateMutateLanguageData = useUpdateMutateLanguageData(languageData);
 
-  const queryLanguageData = useQueryLanguageData(Number(param["conversationId"]));
+  const queryLanguageData = useQueryLanguageData(Number(conversationId));
 
   const handleOnSelect = (voiceName: string) => {
 
@@ -89,9 +90,9 @@ export const LanguageDataSelect = ({
   },[createMutationConversation.isSuccess]);
 
   useEffect(() => {
-    if(languageData.conversationId && !convoIsSaved) {
+    if(languageData.conversationId && isNewConversation) {
       createMutateLanguageData.mutateAsync()
-    } else if(languageData.conversationId && convoIsSaved) {
+    } else if(languageData.conversationId && !isNewConversation) {
       updateMutateLanguageData.mutateAsync();
     };
   },[languageData])

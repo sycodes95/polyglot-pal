@@ -19,8 +19,7 @@ export const createLanguageData = async (languageData: LanguageData) => {
 
 export const useMutateLanguageData = (languageData: LanguageData) => {
   return useMutation({
-    ...config,
     mutationKey: ["create-language-data"],
-    mutationFn: async ()=> createLanguageData(languageData)
+    mutationFn: async ()=> createLanguageData(languageData),
   });
 };

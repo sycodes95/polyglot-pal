@@ -22,6 +22,7 @@ export const useQueryLanguageData = (conversationId: ConversationId) => {
   return useQuery({
     ...config,
     queryKey: ["get-language-data"],
-    queryFn: async ()=> getLanguageData(conversationId)
+    queryFn: async ()=> getLanguageData(conversationId),
+    enabled: !!conversationId
   });
 };
