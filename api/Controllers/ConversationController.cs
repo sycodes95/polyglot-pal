@@ -76,7 +76,7 @@ namespace api.Controllers
 
             var conversationModel = await _conversationRepo.CreateAsync(conversation);
 
-            return CreatedAtAction(nameof(GetById), new { conversationId = conversationModel.Id}, conversationModel.FromConversationToDto());
+            return CreatedAtAction(nameof(GetById), new { id = conversationModel.Id}, conversationModel.FromConversationToDto());
         }
 
         [HttpDelete("{id:int}")]

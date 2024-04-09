@@ -25,10 +25,11 @@ import { UseMutationResult } from 'react-query';
 import { useMutateLanguageData } from '../api/language-data/createLanguageData';
 import { useQueryLanguageData } from '../api/language-data/getLanguageData';
 import { useUpdateMutateLanguageData } from '../api/language-data/updateLanguageData';
+import { ConversationId } from '../api/conversation/createConversation';
 
 interface LanguageSelectProps {
   isNewConversation: boolean;
-  createMutationConversation: UseMutationResult<ConversationDto | null, unknown, void, unknown>;
+  createMutationConversation: UseMutationResult<ConversationId | null, unknown, void, unknown>;
   languageDataState: {
     languageData: LanguageData;
     setLanguageData: React.Dispatch<React.SetStateAction<LanguageData>>;
@@ -81,21 +82,21 @@ export const LanguageDataSelect = ({
     };
   },[queryLanguageData.isSuccess])
 
-  useEffect(() => {
-    // once conversation is created in the db, use the data returned to insert conversationId into languagedata state
-    if(createMutationConversation.isSuccess && createMutationConversation.data) {
-      const conversationId = createMutationConversation.data.id;
-      setLanguageData(prev => ({...prev, conversationId}));
-    };
-  },[createMutationConversation.isSuccess]);
+  // useEffect(() => {
+  //   // once conversation is created in the db, use the data returned to insert conversationId into languagedata state
+  //   if(createMutationConversation.isSuccess && createMutationConversation.data) {
+  //     const conversationId = createMutationConversation.data.id;
+  //     setLanguageData(prev => ({...prev, conversationId}));
+  //   };
+  // },[createMutationConversation.isSuccess]);
 
-  useEffect(() => {
-    if(languageData.conversationId && isNewConversation) {
-      createMutateLanguageData.mutateAsync()
-    } else if(languageData.conversationId && !isNewConversation) {
-      updateMutateLanguageData.mutateAsync();
-    };
-  },[languageData])
+  // useEffect(() => {
+  //   if(languageData.conversationId && isNewConversation) {
+  //     createMutateLanguageData.mutateAsync()
+  //   } else if(languageData.conversationId && !isNewConversation) {
+  //     updateMutateLanguageData.mutateAsync();
+  //   };
+  // },[languageData]);
 
   return (
     <>

@@ -6,7 +6,14 @@ import { LanguageData } from "../../types/types";
 
 export const createLanguageData = async (languageData: LanguageData) => {
   try {
-    const data = await axios.post(config.API_DOMAIN + "language-data", languageData);
+    const data = await axios.post(config.API_DOMAIN + "language-data", {
+      languageName: languageData.languageName,
+      languageCode: languageData.languageCode,
+      countryCode: languageData.countryCode,
+      voiceName: languageData.voiceName,
+      ssmlGender: languageData.ssmlGender,
+      conversationId: languageData.conversationId
+    });
 
     if(data && data.data) return data.data as LanguageData;
 

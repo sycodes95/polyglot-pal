@@ -22,7 +22,7 @@ export const Messages = ( {isNewConversation, messagesState}: MessagesProps) => 
 
   const queryMessages = useQueryMessages(Number(conversationId));
 
-  const createMessage = useMutateMessage(lastMsg);
+  
 
   useEffect(() => {
     if(queryMessages.isSuccess && queryMessages.data) {
@@ -37,11 +37,11 @@ export const Messages = ( {isNewConversation, messagesState}: MessagesProps) => 
     }
   },[messages])
 
-  useEffect(() => {
-    if(lastMsg && !lastMsg.id && !lastMsg.conversationId) {
-
-    }
-  },[lastMsg])
+  // useEffect(() => {
+  //   if(lastMsg && !lastMsg.id && !lastMsg.conversationId) {
+  //     createMessage.mutateAsync();
+  //   }
+  // },[lastMsg])
 
   return (
     <div className="w-full h-full flex flex-col gap-6">
