@@ -7,6 +7,7 @@ import { getGptPrompt } from "../features/chat/utils/getGptPrompt";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGPTResponse } from "../features/chat/api/openAI/createGPTResponse";
 import { useCreateMessage } from "../features/chat/api/message/createMessage";
+import { useCreateSettings } from "../features/chat/api/settings/createSettings";
 
 interface UseInitConversationProps {
   messages: Message[];
@@ -14,17 +15,16 @@ interface UseInitConversationProps {
   languageData: LanguageData;
 
 }
-export const useInitConversation = ({} : UseInitConversationProps) => {
+export const useConversation = ({} : UseInitConversationProps) => {
 
   const { conversationId } = useParams();
 
-  const [ isNewConversation, setIsNewConversation ] = useState(!conversationId);
+  const isNewConversation = !conversationId;
+
+  const isExistingConversation = !!conversationId;
 
   const [ initDone, setInitDone ] = useState(false);
 
-  const [ errorCreating, setErrorCreating ] = useState(false);
-
-  const [ readyToCreate, setReadyToCreate ] = useState(false);
 
   const [settings, setSettings] = useState<Settings>({
     cefrLevel: "C2",
@@ -43,71 +43,85 @@ export const useInitConversation = ({} : UseInitConversationProps) => {
 
   const [input, setInput] = useState("");
 
-  
-
-  const createGptResponse = useGPTResponse( messages, isNewConversation ? messages[0].content : input);
+  // const createGptResponse = useGPTResponse( messages, isNewConversation ? messages[0].content : input);
 
 
   // CREATE ----------------------------------------------------------------------------
   const navigate = useNavigate();
-  
+
   const initialPrompt = {
     role: "user",
     content: getGptPrompt(languageData, settings.cefrLevel)
   };
+
+  const [ errorCreating, setErrorCreating ] = useState(false);
+
   const createConversation = useCreateConversation();
 
   const createLangData = useCreateLanguageData(languageData);
 
-  const createMessage = useCreateMessage();
+  const createMessage = useCreateMessage(messages[0]);
 
-  const [convoId, setConvoId] = useState<number | null>(null);
+  const createSettings = useCreateSettings(settings);
+
+  const [navigateParam, setNavigateParam] = useState<number | null>(null);
 
   const [ isSaved, setIsSaved ] = useState({
     conversation: false,
     languageData: false,
     settings: false,
-    message: false
-  })
+    message: false,
+  });
 
   useEffect(() => {
     if(isNewConversation && languageData.voiceName) {
+        // create conversation after user selects language & voice
       const handleConversationCreate = async () => {
-        // create conversation
         const conversationData = await createConversation.mutateAsync();
         if(conversationData) {
           // if conversation is created, insert convo id as foreign key into children tables
           setLanguageData(prev => ({...prev, conversationId: conversationData.id}));
           setSettings(prev => ({...prev, conversationId: conversationData.id}));
-          setMessages([{...initialPrompt, conversationId: conversationData.id}])
+          setMessages([{...initialPrompt, conversationId: conversationData.id}]);
+          setNavigateParam(conversationData.id);
         } else {
           setErrorCreating(true);
         };
       };
 
       handleConversationCreate();
-      
-    }
-  },[languageData.voiceName, isNewConversation])
+    };
+  },[languageData.voiceName, isNewConversation]);
 
-  // useEffect(()=> {
-  //   // check if prompt was inserted and got a response from open ai that initializes conversation
-  //   if(messages.length === 2
-  //     && messages[0].role === "user"
-  //     && messages[1].role === "assistant"
-  //     && isNewConversation
-  //   ) {
-  //     setReadyToCreate(true);
-  //   }
-  // },[messages]);
+  useEffect(()=> {
+    // save prompt msg
+    if(
+      isNewConversation &&
+      messages.length === 1 &&
+      messages[0].role === "user"
+    ) {
+      const handleMessageCreate = async () => {
+        const msgData = await createMessage.mutateAsync();
+        if(msgData) {
+          setIsSaved(prev => ({...prev, message: true}));
+        } else {
+          setErrorCreating(true);
+        }
+      };
+      handleMessageCreate();
+    };
+  },[messages, isNewConversation]);
 
   useEffect(() => {
+    // save language data
     if(isNewConversation && languageData.conversationId) {
       const handleLanguageDataCreate = async () => {
         const langData = await createLangData.mutateAsync();
-        if(!langData) {
+        if(langData) {
+          setIsSaved(prev => ({...prev, languageData: true}));
+        } else {
           setErrorCreating(true);
-        };
+        }
       };
       handleLanguageDataCreate();
     };
@@ -115,17 +129,20 @@ export const useInitConversation = ({} : UseInitConversationProps) => {
   },[languageData.conversationId, isNewConversation])
 
   useEffect(() => {
+    // save settings
     if(isNewConversation && settings.conversationId) {
       const handleSettingsCreate = async () => {
-        const langData = await createLangData.mutateAsync();
-        if(!langData) {
+        const settings = await createSettings.mutateAsync();
+        if(settings) {
+          setIsSaved(prev => ({...prev, settings: true}));
+        } else {
           setErrorCreating(true);
-        };
+        }
       };
       handleSettingsCreate();
     };
 
-  },[settings.conversationId, isNewConversation])
+  },[settings.conversationId, isNewConversation]);
 
   useEffect(() => {
     if(
@@ -133,12 +150,13 @@ export const useInitConversation = ({} : UseInitConversationProps) => {
       isSaved.languageData &&
       isSaved.message &&
       isSaved.settings &&
-      convoId
+      navigateParam
     ) {
-      navigate(`/c/${convoId}`)
+      navigate(`/c/${navigateParam}`);
     }
-  },[isSaved.conversation, isSaved.languageData, isSaved.message, isSaved.settings, convoId]);
+  },[isSaved.conversation, isSaved.languageData, isSaved.message, isSaved.settings, navigateParam]);
 
+  // NORMAL
 
 
   return {

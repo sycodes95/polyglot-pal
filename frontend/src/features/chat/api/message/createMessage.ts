@@ -22,12 +22,8 @@ export const createMessage = async (message?: Message) => {
 };
 
 export const useCreateMessage = (message?: Message) => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["message"],
     mutationFn: async ()=> createMessage(message),
-    // onSuccess: ()=> {
-    //   queryClient.invalidateQueries("message")
-    // }
   });
 };
