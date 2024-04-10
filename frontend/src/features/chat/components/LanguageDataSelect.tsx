@@ -28,11 +28,11 @@ import { useUpdateLanguageData } from '../api/language-data/updateLanguageData';
 import { ConversationId } from '../api/conversation/createConversation';
 
 interface LanguageSelectProps {
-  isNewConversationState: {
-    isNewConversation: boolean;
-    setIsNewConversation: React.Dispatch<React.SetStateAction<boolean>>;
-  }
-  createMutationConversation: UseMutationResult<ConversationId | null, unknown, void, unknown>;
+  // isNewConversationState: {
+  //   isNewConversation: boolean;
+  //   setIsNewConversation: React.Dispatch<React.SetStateAction<boolean>>;
+  // }
+  // createMutationConversation: UseMutationResult<ConversationId | null, unknown, void, unknown>;
   languageDataState: {
     languageData: LanguageData;
     setLanguageData: React.Dispatch<React.SetStateAction<LanguageData>>;
@@ -40,8 +40,7 @@ interface LanguageSelectProps {
 }
 
 export const LanguageDataSelect = ({ 
-  isNewConversationState, 
-  createMutationConversation,
+  
   languageDataState
 }: LanguageSelectProps) => {
 
