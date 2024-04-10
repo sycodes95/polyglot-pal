@@ -5,10 +5,11 @@ import { config } from "../../../../config"
 
 export const createMessage = async (message?: Message) => {
   try {
-    if(!message) return null
+    if(!message || !message.conversationId) return null
     const data = await axios.post(config.API_DOMAIN + "message", {
       role: message.role,
       content: message.content,
+      conversationId: message.conversationId
     });
 
     if(data && data.data) return data.data as Message;
@@ -20,13 +21,13 @@ export const createMessage = async (message?: Message) => {
   }
 };
 
-export const useMutateMessage = (message?: Message) => {
+export const useCreateMessage = (message?: Message) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["message"],
     mutationFn: async ()=> createMessage(message),
-    onSuccess: ()=> {
-      queryClient.invalidateQueries("message")
-    }
+    // onSuccess: ()=> {
+    //   queryClient.invalidateQueries("message")
+    // }
   });
 };

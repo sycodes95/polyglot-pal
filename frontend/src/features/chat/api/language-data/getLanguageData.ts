@@ -5,9 +5,9 @@ import { LanguageData } from "../../types/types";
 
 type ConversationId = number;
 
-export const getLanguageData = async (conversationId: ConversationId) => {
+export const getLanguageData = async (conversationId?: ConversationId) => {
   try {
-    const data = await axios.get(config.API_DOMAIN + `language-data?conversationId=${conversationId}`);
+    const data = await axios.get(config.API_DOMAIN + `language-data/${conversationId}`);
 
     if(data && data.data) return data.data as LanguageData;
 
@@ -18,11 +18,14 @@ export const getLanguageData = async (conversationId: ConversationId) => {
   }
 };
 
-export const useQueryLanguageData = (conversationId: ConversationId) => {
+export const useQueryLanguageData = (conversationId?: ConversationId, ) => {
   return useQuery({
     ...config,
     queryKey: ["get-language-data"],
     queryFn: async ()=> getLanguageData(conversationId),
-    enabled: !!conversationId
+    enabled: !!conversationId,
+    onSuccess(data) {
+      
+    },
   });
 };

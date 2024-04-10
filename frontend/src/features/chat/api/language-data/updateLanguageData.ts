@@ -15,7 +15,7 @@ export const updateLanguageData = async (languageData: LanguageData) => {
   };
 };
 
-export const useUpdateMutateLanguageData = (languageData: LanguageData) => {
+export const useUpdateLanguageData = (languageData: LanguageData) => {
   return useMutation({
     ...config,
     mutationKey: ["update-language-data"],

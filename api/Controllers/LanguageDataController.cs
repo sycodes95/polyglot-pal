@@ -42,8 +42,9 @@ namespace api.Controllers
 
         [HttpGet("{conversationId:int}")]
         [Authorize]
-        public async Task<IActionResult> GetByConversationId(int conversationId)
-        {
+        public async Task<IActionResult> GetByConversationId([FromRoute] int conversationId)
+        {   
+            
             if(!ModelState.IsValid) return BadRequest(ModelState);
 
             var username = User.GetUsername();

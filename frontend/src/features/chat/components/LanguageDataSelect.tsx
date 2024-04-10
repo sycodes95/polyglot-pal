@@ -18,17 +18,20 @@ import {
 } from "@/components/ui/popover"
 
 import { useGoogleVoiceData } from "../api/google/getVoiceDatas"
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { languageNameAndCodes } from '../../../constants/languageNameAndCodes';
 import { cn } from '../../../lib/utils';
 import { UseMutationResult } from 'react-query';
-import { useMutateLanguageData } from '../api/language-data/createLanguageData';
+import { useCreateLanguageData } from '../api/language-data/createLanguageData';
 import { useQueryLanguageData } from '../api/language-data/getLanguageData';
-import { useUpdateMutateLanguageData } from '../api/language-data/updateLanguageData';
+import { useUpdateLanguageData } from '../api/language-data/updateLanguageData';
 import { ConversationId } from '../api/conversation/createConversation';
 
 interface LanguageSelectProps {
-  isNewConversation: boolean;
+  isNewConversationState: {
+    isNewConversation: boolean;
+    setIsNewConversation: React.Dispatch<React.SetStateAction<boolean>>;
+  }
   createMutationConversation: UseMutationResult<ConversationId | null, unknown, void, unknown>;
   languageDataState: {
     languageData: LanguageData;
@@ -37,10 +40,12 @@ interface LanguageSelectProps {
 }
 
 export const LanguageDataSelect = ({ 
-  isNewConversation, 
+  isNewConversationState, 
   createMutationConversation,
   languageDataState
 }: LanguageSelectProps) => {
+
+  const navigate = useNavigate();
 
   const { conversationId } = useParams();
   
@@ -50,9 +55,11 @@ export const LanguageDataSelect = ({
   
   const { languageData, setLanguageData } = languageDataState;
 
-  const createMutateLanguageData = useMutateLanguageData(languageData);
+  const { isNewConversation, setIsNewConversation } = isNewConversationState;
 
-  const updateMutateLanguageData = useUpdateMutateLanguageData(languageData);
+  const createMutateLanguageData = useCreateLanguageData(languageData);
+
+  const updateMutateLanguageData = useUpdateLanguageData(languageData);
 
   const queryLanguageData = useQueryLanguageData(Number(conversationId));
 
@@ -77,10 +84,37 @@ export const LanguageDataSelect = ({
   };
 
   useEffect(() => {
-    if(queryLanguageData.isSuccess && queryLanguageData.data ) {
+    if(queryLanguageData.isSuccess && queryLanguageData.data) {
       setLanguageData(queryLanguageData.data);
     };
   },[queryLanguageData.isSuccess])
+
+  useEffect(() => {
+    // create languageData when conditions are met
+    if(languageData.conversationId && isNewConversation) {
+
+      // 
+      setIsNewConversation(prev => !prev);
+
+      const handleLanguageDataCreate = async () => {
+        const langData = await createMutateLanguageData.mutateAsync();
+        if(langData) {
+          console.log(langData)
+          navigate(`/c/${languageData.conversationId}`);
+        };
+      };
+      handleLanguageDataCreate()
+    }
+  },[languageData.conversationId])
+
+  
+  // const handleLanguageDataCreate = async () => {
+  //   const langData = await createMutateLanguageData.mutateAsync();
+  //   if(langData) {
+  //     console.log(langData)
+  //     navigate(`/c/${languageData.conversationId}`);
+  //   };
+  // };
 
   // useEffect(() => {
   //   // once conversation is created in the db, use the data returned to insert conversationId into languagedata state

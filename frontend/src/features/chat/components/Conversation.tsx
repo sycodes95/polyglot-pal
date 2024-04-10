@@ -10,6 +10,7 @@ import { getGptPrompt } from "../utils/getGptPrompt";
 import { VoiceAndTextInput } from "./VoiceAndTextInput";
 import { useMutateMessage } from "../api/message/createMessage";
 import { useMutateLanguageData, createLanguageData } from '../api/language-data/createLanguageData';
+import { useQueryLanguageData } from "../api/language-data/getLanguageData";
 
 
 export const Conversation = () => {
@@ -25,10 +26,7 @@ export const Conversation = () => {
 
   const [messages, setMessages] = useState<Message[]>([])
 
-  const [lastMsg, setLastMsg] = useState<Message | undefined>(messages[messages.length - 1]);
-
-  const createMessage = useMutateMessage(lastMsg);
-
+  const createMessage = useMutateMessage(messages[messages.length - 1]);
 
   const [settings, setSettings] = useState<Settings>({
     cefrLevel: "C2",
@@ -44,18 +42,13 @@ export const Conversation = () => {
   });
   const createLanguageData = useMutateLanguageData(languageData);
 
+  const getLanguageData = useQueryLanguageData(Number(conversationId) ?? languageData.conversationId);
 
   // const queryConversation = useQueryConversation(Number(conversationId));
 
   const createConversation = useCreateConversation();
 
-  const createGptResponse = useGPTResponse(
-    messages, 
-    messages.length == 1 ?
-    messages[0].content
-    :
-    input
-  );
+  const createGptResponse = useGPTResponse( messages, messages.length == 1 ? messages[0].content : input);
 
   const submitUserInput = () => {
     // add input to messages then reset input
@@ -83,12 +76,14 @@ export const Conversation = () => {
 
   useEffect(() => {
     //initialize new conversation when language data changes
-    if(languageData.voiceName && isNewConversation) {
-      handleConversationCreate();
-    } else if(languageData.voiceName) {
-      initializeConversation();
-    }
-  },[languageData])
+    if(languageData.voiceName) {
+      if(isNewConversation) {
+        handleConversationCreate();
+      } else {
+        initializeConversation();
+      }
+    };
+  },[languageData.voiceName])
 
   // useEffect(() => {
   //   if(lastMsg && !lastMsg.id && !lastMsg.conversationId) {
@@ -98,7 +93,7 @@ export const Conversation = () => {
 
   const handleCreateGptResponse = async () => {
     const data = await createGptResponse.mutateAsync();
-    
+    console.log(data)
     if(data) {
       
       const message = data;
@@ -111,7 +106,6 @@ export const Conversation = () => {
   };
 
   useEffect(() => {
-    
     //if messages has length and last msg has user role get gpt response
     if(messages.length >= 1 && messages[messages.length - 1].role === "user") {
       handleCreateGptResponse()
@@ -120,35 +114,33 @@ export const Conversation = () => {
 
   const handleConversationCreate = async () => {
     const conversationData = await createConversation.mutateAsync();
-    
-
     if(conversationData) {
-      console.log(conversationData)
       setLanguageData(prev => ({...prev, conversationId: conversationData.id}));
-    }
-  }
+    };
+  };
 
   const handleLanguageDataCreate = async () => {
     const langData = await createLanguageData.mutateAsync();
     if(langData) {
       console.log(langData)
       navigate(`/c/${languageData.conversationId}`);
-    }
-  }
+    };
+  };
 
   useEffect(() => {
-    console.log(languageData)
+    // create languageData when conditions are met
     if(languageData.conversationId && isNewConversation) {
+      // 
       setIsNewConversation(prev => !prev);
-    console.log("lang")
       handleLanguageDataCreate()
     }
   },[languageData.conversationId])
+
   
   return (
     <div className="border w-full h-full grow flex flex-col gap-4">
       <LanguageDataSelect 
-      isNewConversation={isNewConversation} 
+      isNewConversationState={{isNewConversation, setIsNewConversation}}
       createMutationConversation={createConversation} 
       languageDataState={{ languageData, setLanguageData }}
       />
