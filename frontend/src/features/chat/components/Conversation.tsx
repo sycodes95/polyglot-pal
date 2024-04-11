@@ -8,13 +8,12 @@ import { Messages } from "./Messages";
 import { createGPTResponse, useGPTResponse } from "../api/openAI/createGPTResponse";
 import { getGptPrompt } from "../utils/getGptPrompt";
 import { VoiceAndTextInput } from "./VoiceAndTextInput";
-import { useMutateMessage } from "../api/message/createMessage";
-import { useMutateLanguageData, createLanguageData } from '../api/language-data/createLanguageData';
 import { useQueryLanguageData } from "../api/language-data/getLanguageData";
 import { useConversation } from "../../../hooks/useInitConversation";
 
 
 export const Conversation = () => {
+  const { conversationId } = useParams();
   const { 
     settings,
     setSettings,

@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 
 export const getAllMessages = async (conversationId?: number) => {
   try {
-    const data = await axios.get(config.API_DOMAIN + `message?conversationId=${conversationId}`);
+    const data = await axios.get(config.API_DOMAIN + `message/${conversationId}`);
     
     if(data.data) return data.data as Message[];
 

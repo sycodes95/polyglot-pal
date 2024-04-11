@@ -46,7 +46,7 @@ export default function Sidebar ({
 } : SidebarProps) {
   const { user } = useAuth0();
 
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const location = useLocation();
 

@@ -39,6 +39,8 @@ namespace api.Controllers
 
             var settings = await _settingsRepository.GetByConversationIdAsync(conversationId, appUser);
 
+            if(settings == null) return StatusCode(404, "Settings not found");
+
             return Ok(settings.SettingsToSettingsDto());
         }
 

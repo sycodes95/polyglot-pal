@@ -7,9 +7,10 @@ import { getGptPrompt } from "../features/chat/utils/getGptPrompt";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCreateSettings } from "../features/chat/api/settings/createSettings";
 import {  useInitCreateConversation } from "./useCreateNewConversation";
-import { useQueryLanguageData } from "../features/chat/api/language-data/getLanguageData";
-import { useQueryMessages } from "../features/chat/api/message/getAllMessages";
-import { useQuerySettings } from "../features/chat/api/settings/getSettings";
+import { getLanguageData, useQueryLanguageData } from '../features/chat/api/language-data/getLanguageData';
+import { getAllMessages, useQueryMessages } from "../features/chat/api/message/getAllMessages";
+import { getSettings, useQuerySettings } from "../features/chat/api/settings/getSettings";
+import { useQueryClient } from "react-query";
 
 // interface UseInitConversationProps {
 //   messages: Message[];
@@ -35,81 +36,110 @@ export const useConversation = () => {
 
   const { conversationId } = useParams();
 
-  const isNewConversation = !conversationId;
+  const [isNewConversation, setIsNewConversation] = useState(!conversationId);
 
-  const isExistingConversation = !!conversationId;
+  const [isExistingConversation, setIsExistingConversation] = useState(!!conversationId);
 
-  const [ initDone, setInitDone ] = useState(false);
+  const queryClient = useQueryClient();
 
-  const queryLanguageData = useQueryLanguageData(Number(conversationId));
-  const [languageData, setLanguageData] = useState<LanguageData>(
-    (queryLanguageData.isSuccess && queryLanguageData.data) 
-    ?
-    queryLanguageData.data
-    :
-    defaultLanguageData
-  );
+  // const [ initDone, setInitDone ] = useState(false);
 
+  // const [cId, setCId] = useState<undefined | number>(undefined)
 
-  const querySettings = useQuerySettings();
-  const [settings, setSettings] = useState<Settings>(
-    querySettings.isSuccess && querySettings.data 
-    ?
-    querySettings.data
-    :
-    defaultSettings
-  );
+  // const queryLanguageData = useQueryLanguageData(Number(conversationId));
+  const [languageData, setLanguageData] = useState<LanguageData>(defaultLanguageData);
 
-  const queryMessages = useQueryMessages(Number(conversationId));
-  const [messages, setMessages] = useState<Message[]>(
-    queryMessages.isSuccess && queryMessages.data 
-    ?
-    queryMessages.data
-    :
-    []
-  );
+  // const querySettings = useQuerySettings(Number(conversationId));
+  const [settings, setSettings] = useState<Settings>(defaultSettings);
 
-  const [lastMsg, setLastMsg] = useState(
-    messages.length > 0 
-    ? messages[messages.length - 1] 
-    : null
-  )
+  // const queryMessages = useQueryMessages(Number(conversationId));
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  useEffect(() => {
+    console.log("mount")
+  },[])
+
+  // const [lastMsg, setLastMsg] = useState(
+  //   messages.length > 0 
+  //   ? messages[messages.length - 1] 
+  //   : null
+  // )
 
   const [input, setInput] = useState("");
 
+  const resetState = () => {
+    setSettings(defaultSettings);
+    setLanguageData(defaultLanguageData);
+    setMessages([]);
+
+  };
+
   const { errorCreating } = useInitCreateConversation({
-    isNewConversation,
+    conversationId,
+    setIsNewConversation,
+    isExistingConversation,
+    setIsExistingConversation,
     languageData,
     setLanguageData,
     messages,
     setMessages,
     settings,
-    setSettings
+    setSettings,
+    resetState
   });
+
+  
 
 
   //  QUERY USEEFFECTS
   // useEffect(() => {
-  //   if(isExistingConversation && queryLanguageData.isSuccess && queryLanguageData.data) {
+  //   console.log("waaa")
+  //   if(queryLanguageData.isSuccess && queryLanguageData.data) {
+  //     console.log(queryLanguageData.data)
   //     setLanguageData(queryLanguageData.data);
   //   }
-  // },[queryLanguageData.isSuccess]);
+  // },[queryLanguageData.isSuccess, queryLanguageData.data, queryLanguageData.isFetched]);
 
   // useEffect(() => {
-  //   if(isExistingConversation && queryMessages.isSuccess && queryMessages.data) {
+  //   if(queryMessages.isSuccess && queryMessages.data) {
   //     setMessages(queryMessages.data);
   //   }
   // },[queryMessages.isSuccess]);
 
   // useEffect(() => {
-  //   if(isExistingConversation && querySettings.isSuccess && querySettings.data) {
+  //   if(querySettings.isSuccess && querySettings.data) {
   //     setSettings(querySettings.data);
   //   }
   // },[querySettings.isSuccess]);
 
 
 
+  useEffect(() => {
+    // queryClient.invalidateQueries({queryKey: ["language-data"]})
 
+    getLanguageData(Number(conversationId)).then(data => data && setLanguageData(data));
+    getAllMessages(Number(conversationId)).then(data => data && setMessages(data));
+    getSettings(Number(conversationId)).then(data => data && setSettings(data));
+
+
+  },[conversationId]);
+
+  // useEffect(() => {
+  //   if(isExistingConversation) {
+  //     queryClient.invalidateQueries({ queryKey: ["language-data"]})
+  //   }
+  // },[isExistingConversation])
+
+  // useEffect(() => {
+  //   console.log(cId)
+  //   if(cId) {
+  //     setIsNewConversation(false);
+  //     setIsExistingConversation(true);
+  //   } else {
+  //     setIsNewConversation(true);
+  //     setIsExistingConversation(false);
+  //   }
+  // },[cId])
 
 
 

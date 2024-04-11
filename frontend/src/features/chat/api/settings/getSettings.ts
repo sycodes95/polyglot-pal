@@ -3,10 +3,10 @@ import { Settings } from "../../types/types"
 import axios from "axios"
 import { config } from "../../../../config"
 
-export const getSettings = async () => {
+export const getSettings = async (conversationId?: number) => {
   try {
-    const data = await axios.get(config.API_DOMAIN + "settings");
-
+    const data = await axios.get(config.API_DOMAIN + `settings/${conversationId}`);
+    console.log(data)
     if(data && data.data) return data.data as Settings;
 
     return null;
@@ -16,9 +16,10 @@ export const getSettings = async () => {
   }
 };
 
-export const useQuerySettings = () => {
+export const useQuerySettings = (conversationId?: number) => {
   return useQuery({
     queryKey: ["settings"],
-    queryFn: async ()=> getSettings(),
+    queryFn: async ()=> getSettings(conversationId),
+    enabled: !!conversationId
   });
 };
