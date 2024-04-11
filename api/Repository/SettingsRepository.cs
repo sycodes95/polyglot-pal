@@ -7,6 +7,7 @@ using api.Dtos.Setting;
 using api.Dtos.Settings;
 using api.Interface;
 using api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Repository
 {
@@ -16,6 +17,15 @@ namespace api.Repository
         public SettingsRepository(ApplicationDBContext context)
         {
             _context = context;
+        }
+
+        public async Task<Settings?> GetByConversationIdAsync(int conversationId, AppUser appUser)
+        {
+            var settings = await _context.Settings.FirstOrDefaultAsync(x => x.ConversationId == conversationId && x.AppUserId == appUser.Id);
+
+            if(settings == null) return null;
+
+            return settings;
         }
 
         public async Task<Settings> CreateAsync(CreateSettingsDto createSettingsDto, AppUser appUser) 

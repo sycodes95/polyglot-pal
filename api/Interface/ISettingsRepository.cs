@@ -10,6 +10,8 @@ namespace api.Interface
 {
     public interface ISettingsRepository
     {
+
+        Task<Settings?> GetByConversationIdAsync(int conversationId, AppUser appUser);
         Task<Settings> CreateAsync(CreateSettingsDto createSettingsDto, AppUser appUser);
 
         Task<Settings?> UpdateAsync(int id, UpdateSettingsDto updateSettingsDto, AppUser appUser);

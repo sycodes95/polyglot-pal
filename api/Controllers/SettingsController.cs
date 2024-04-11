@@ -28,6 +28,21 @@ namespace api.Controllers
             _settingsRepository = settingsRepository;
         }
 
+        [HttpGet("{conversationId:int}")]
+        [Authorize]
+        public async Task<IActionResult> GetByConversationId(int conversationId)
+        {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+
+            var settings = await _settingsRepository.GetByConversationIdAsync(conversationId, appUser);
+
+            return Ok(settings.SettingsToSettingsDto());
+        }
+
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateSettingsDto createSettingsDto)

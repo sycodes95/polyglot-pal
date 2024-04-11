@@ -40,27 +40,14 @@ interface LanguageSelectProps {
 }
 
 export const LanguageDataSelect = ({ 
-  
   languageDataState
 }: LanguageSelectProps) => {
-
-  const navigate = useNavigate();
-
-  const { conversationId } = useParams();
   
   const [open, setOpen] = useState(false);
 
   const { data } = useGoogleVoiceData();
   
   const { languageData, setLanguageData } = languageDataState;
-
-  const { isNewConversation, setIsNewConversation } = isNewConversationState;
-
-  const createMutateLanguageData = useCreateLanguageData(languageData);
-
-  const updateMutateLanguageData = useUpdateLanguageData(languageData);
-
-  const queryLanguageData = useQueryLanguageData(Number(conversationId));
 
   const handleOnSelect = (voiceName: string) => {
 
@@ -73,63 +60,15 @@ export const LanguageDataSelect = ({
       return 
     };
     
-    setLanguageData({
+    setLanguageData(prev => ({
+      ...prev,
       languageName,
       languageCode,
       countryCode,
       voiceName: name,
-      ssmlGender
-    });
+      ssmlGender,
+    }));
   };
-
-  useEffect(() => {
-    if(queryLanguageData.isSuccess && queryLanguageData.data) {
-      setLanguageData(queryLanguageData.data);
-    };
-  },[queryLanguageData.isSuccess])
-
-  useEffect(() => {
-    // create languageData when conditions are met
-    if(languageData.conversationId && isNewConversation) {
-
-      // 
-      setIsNewConversation(prev => !prev);
-
-      const handleLanguageDataCreate = async () => {
-        const langData = await createMutateLanguageData.mutateAsync();
-        if(langData) {
-          console.log(langData)
-          navigate(`/c/${languageData.conversationId}`);
-        };
-      };
-      handleLanguageDataCreate()
-    }
-  },[languageData.conversationId])
-
-  
-  // const handleLanguageDataCreate = async () => {
-  //   const langData = await createMutateLanguageData.mutateAsync();
-  //   if(langData) {
-  //     console.log(langData)
-  //     navigate(`/c/${languageData.conversationId}`);
-  //   };
-  // };
-
-  // useEffect(() => {
-  //   // once conversation is created in the db, use the data returned to insert conversationId into languagedata state
-  //   if(createMutationConversation.isSuccess && createMutationConversation.data) {
-  //     const conversationId = createMutationConversation.data.id;
-  //     setLanguageData(prev => ({...prev, conversationId}));
-  //   };
-  // },[createMutationConversation.isSuccess]);
-
-  // useEffect(() => {
-  //   if(languageData.conversationId && isNewConversation) {
-  //     createMutateLanguageData.mutateAsync()
-  //   } else if(languageData.conversationId && !isNewConversation) {
-  //     updateMutateLanguageData.mutateAsync();
-  //   };
-  // },[languageData]);
 
   return (
     <>

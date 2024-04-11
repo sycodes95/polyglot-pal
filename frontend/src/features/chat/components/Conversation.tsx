@@ -149,23 +149,20 @@ export const Conversation = () => {
   return (
     <div className="border w-full h-full grow flex flex-col gap-4">
       <LanguageDataSelect 
-      isNewConversationState={{isNewConversation, setIsNewConversation}}
-      createMutationConversation={createConversation} 
       languageDataState={{ languageData, setLanguageData }}
       />
 
       <Messages 
-      isNewConversation={isNewConversation}
       messagesState={{messages, setMessages}}
       />
 
-      <VoiceAndTextInput 
+      {/* <VoiceAndTextInput 
       languageData={languageData}
       inputState={{input, setInput}}
       setUserVoiceBase64={setUserVoiceBase64}
       getGptResponse={handleCreateGptResponse}
       submitUserInput={submitUserInput}
-      />
+      /> */}
       
     </div>
   );

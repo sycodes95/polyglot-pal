@@ -5,10 +5,11 @@ import { useCreateConversation } from "../features/chat/api/conversation/createC
 import { useUpdateLanguageData } from "../features/chat/api/language-data/updateLanguageData";
 import { getGptPrompt } from "../features/chat/utils/getGptPrompt";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGPTResponse } from "../features/chat/api/openAI/createGPTResponse";
-import { useCreateMessage } from "../features/chat/api/message/createMessage";
 import { useCreateSettings } from "../features/chat/api/settings/createSettings";
 import {  useInitCreateConversation } from "./useCreateNewConversation";
+import { useQueryLanguageData } from "../features/chat/api/language-data/getLanguageData";
+import { useQueryMessages } from "../features/chat/api/message/getAllMessages";
+import { useQuerySettings } from "../features/chat/api/settings/getSettings";
 
 // interface UseInitConversationProps {
 //   messages: Message[];
@@ -16,6 +17,20 @@ import {  useInitCreateConversation } from "./useCreateNewConversation";
 //   languageData: LanguageData;
 
 // }
+
+const defaultLanguageData: LanguageData = {
+  languageName: "",
+  languageCode: "",
+  countryCode: "",
+  voiceName: "",
+  ssmlGender: "",
+};
+
+const defaultSettings: Settings = {
+  cefrLevel: "C2",
+  ttsEnabled: true
+};
+
 export const useConversation = () => {
 
   const { conversationId } = useParams();
@@ -26,20 +41,39 @@ export const useConversation = () => {
 
   const [ initDone, setInitDone ] = useState(false);
 
-  const [settings, setSettings] = useState<Settings>({
-    cefrLevel: "C2",
-    ttsEnabled: true
-  });
+  const queryLanguageData = useQueryLanguageData(Number(conversationId));
+  const [languageData, setLanguageData] = useState<LanguageData>(
+    (queryLanguageData.isSuccess && queryLanguageData.data) 
+    ?
+    queryLanguageData.data
+    :
+    defaultLanguageData
+  );
 
-  const [languageData, setLanguageData] = useState<LanguageData>({
-    languageName: "",
-    languageCode: "",
-    countryCode: "",
-    voiceName: "",
-    ssmlGender: "",
-  });
 
-  const [messages, setMessages] = useState<Message[]>([])
+  const querySettings = useQuerySettings();
+  const [settings, setSettings] = useState<Settings>(
+    querySettings.isSuccess && querySettings.data 
+    ?
+    querySettings.data
+    :
+    defaultSettings
+  );
+
+  const queryMessages = useQueryMessages(Number(conversationId));
+  const [messages, setMessages] = useState<Message[]>(
+    queryMessages.isSuccess && queryMessages.data 
+    ?
+    queryMessages.data
+    :
+    []
+  );
+
+  const [lastMsg, setLastMsg] = useState(
+    messages.length > 0 
+    ? messages[messages.length - 1] 
+    : null
+  )
 
   const [input, setInput] = useState("");
 
@@ -52,6 +86,32 @@ export const useConversation = () => {
     settings,
     setSettings
   });
+
+
+  //  QUERY USEEFFECTS
+  // useEffect(() => {
+  //   if(isExistingConversation && queryLanguageData.isSuccess && queryLanguageData.data) {
+  //     setLanguageData(queryLanguageData.data);
+  //   }
+  // },[queryLanguageData.isSuccess]);
+
+  // useEffect(() => {
+  //   if(isExistingConversation && queryMessages.isSuccess && queryMessages.data) {
+  //     setMessages(queryMessages.data);
+  //   }
+  // },[queryMessages.isSuccess]);
+
+  // useEffect(() => {
+  //   if(isExistingConversation && querySettings.isSuccess && querySettings.data) {
+  //     setSettings(querySettings.data);
+  //   }
+  // },[querySettings.isSuccess]);
+
+
+
+
+
+
 
   return {
     settings,

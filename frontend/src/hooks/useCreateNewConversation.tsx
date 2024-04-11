@@ -135,6 +135,7 @@ export const useInitCreateConversation = ({
       isCreated.settings &&
       navigateParam
     ) {
+      console.log("navigate")
       navigate(`/c/${navigateParam}`);
     }
   },[isCreated.conversation, isCreated.languageData, isCreated.message, isCreated.settings, navigateParam]);
