@@ -62,7 +62,7 @@ export const useInitCreateConversation = ({
     message: false,
   });
 
-  const [ready, setReady] = useState(false);
+  // const [ready, setReady] = useState(false);
 
   useEffect(() => {
     if(!conversationId && languageData.voiceName) {
@@ -83,7 +83,7 @@ export const useInitCreateConversation = ({
 
       handleConversationCreate();
     };
-  },[languageData.voiceName, conversationId]);
+  },[languageData.voiceName]);
 
   useEffect(()=> {
     // save prompt msg
@@ -103,7 +103,7 @@ export const useInitCreateConversation = ({
       handleMessageCreate();
       setMessages([]);
     };
-  },[messages, conversationId]);
+  },[messages]);
 
   useEffect(() => {
     // save language data
@@ -128,7 +128,7 @@ export const useInitCreateConversation = ({
       })
     };
 
-  },[languageData.conversationId, conversationId])
+  },[languageData.conversationId])
 
   useEffect(() => {
     // save settings
@@ -148,7 +148,7 @@ export const useInitCreateConversation = ({
       })
     };
 
-  },[settings.conversationId, conversationId]);
+  },[settings.conversationId]);
 
   useEffect(() => {
     if(
@@ -159,14 +159,28 @@ export const useInitCreateConversation = ({
       navigateParam &&
       !conversationId
     ) {
+      resetState()
       navigate(`/c/${navigateParam}`);
-      console.log(languageData, messages, settings)
     }
   },[isCreated.conversation, isCreated.languageData, isCreated.message, isCreated.settings, navigateParam, conversationId]);
 
   // useEffect(() => {
   //   console.log(languageData, messages, settings)
   // },[languageData, messages, settings])
+
+  // useEffect(() => {
+
+  //   // so that when user switches from a saved conversation to new conversation 
+  //   if(!conversationId) {
+
+  //     setIsCreated({
+  //       conversation: false,
+  //       languageData: false,
+  //       settings: false,
+  //       message: false,
+  //     });
+  //   }
+  // },[conversationId])
 
   return {
     errorCreating

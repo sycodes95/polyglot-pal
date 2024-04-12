@@ -11,6 +11,7 @@ import { getLanguageData, useQueryLanguageData } from '../features/chat/api/lang
 import { getAllMessages, useQueryMessages } from "../features/chat/api/message/getAllMessages";
 import { getSettings, useQuerySettings } from "../features/chat/api/settings/getSettings";
 import { useQueryClient } from "react-query";
+import { createGPTResponse, useGPTResponse } from '../features/chat/api/openAI/createGPTResponse';
 
 // interface UseInitConversationProps {
 //   messages: Message[];
@@ -55,6 +56,7 @@ export const useConversation = () => {
   // const queryMessages = useQueryMessages(Number(conversationId));
   const [messages, setMessages] = useState<Message[]>([]);
 
+
   useEffect(() => {
     console.log("mount")
   },[])
@@ -74,6 +76,35 @@ export const useConversation = () => {
 
   };
 
+  const handleCreateGptResponse = async () => {
+    const gptTranscript = await createGPTResponse(messages, input);
+    if(gptTranscript) {
+      const message = gptTranscript;
+      setMessages(prev => {
+        const msgs = [...prev];
+        msgs.push(message)
+        return msgs;
+      });
+    };
+  };
+
+  const submitUserInput = async () => {
+    setMessages(prev => {
+      const msgs = [...prev];
+      msgs.push({
+        content: input,
+        role: "user"
+      })
+      return msgs;
+    });
+    // add input to messages then reset input
+    // await handleCreateGptResponse()
+    
+
+    setInput("");
+
+  };
+
   const { errorCreating } = useInitCreateConversation({
     conversationId,
     setIsNewConversation,
@@ -87,8 +118,6 @@ export const useConversation = () => {
     setSettings,
     resetState
   });
-
-  
 
 
   //  QUERY USEEFFECTS
@@ -112,17 +141,34 @@ export const useConversation = () => {
   //   }
   // },[querySettings.isSuccess]);
 
+  
+
 
 
   useEffect(() => {
     // queryClient.invalidateQueries({queryKey: ["language-data"]})
 
-    getLanguageData(Number(conversationId)).then(data => data && setLanguageData(data));
-    getAllMessages(Number(conversationId)).then(data => data && setMessages(data));
-    getSettings(Number(conversationId)).then(data => data && setSettings(data));
+    console.log(conversationId)
+    if(conversationId) {
+      resetState()
+      queryClient.invalidateQueries( {queryKey: ["all-conversations"]})
+      getLanguageData(Number(conversationId)).then(data => data && setLanguageData(data));
+      getAllMessages(Number(conversationId)).then(data => data && setMessages(data));
+      getSettings(Number(conversationId)).then(data => data && setSettings(data));
+    } else {
+      console.log(conversationId)
+      resetState()
 
-
+      // resetState()
+    }
   },[conversationId]);
+
+  useEffect(() => {
+    // inject initial prompt
+    if(conversationId && messages.length > 0 && messages[messages.length - 1].role === "user") {
+      handleCreateGptResponse()
+    }
+  },[messages])
 
   // useEffect(() => {
   //   if(isExistingConversation) {
@@ -151,7 +197,9 @@ export const useConversation = () => {
     messages,
     setMessages,
     input,
-    setInput
+    setInput,
+    handleCreateGptResponse,
+    submitUserInput
   };
   
 

@@ -13,7 +13,7 @@ import { useConversation } from "../../../hooks/useInitConversation";
 
 
 export const Conversation = () => {
-  const { conversationId } = useParams();
+  
   const { 
     settings,
     setSettings,
@@ -22,8 +22,12 @@ export const Conversation = () => {
     messages,
     setMessages,
     input,
-    setInput
-  } = useConversation()
+    setInput,
+    handleCreateGptResponse,
+    submitUserInput
+  } = useConversation();
+
+
   // const navigate = useNavigate();
   // const { conversationId } = useParams();
   // const [isNewConversation, setIsNewConversation ] = useState(!conversationId);
@@ -146,7 +150,7 @@ export const Conversation = () => {
 
   
   return (
-    <div className="border w-full h-full grow flex flex-col gap-4">
+    <div className="border w-full h-full grow flex flex-col gap-4 rounded-md">
       <LanguageDataSelect 
       languageDataState={{ languageData, setLanguageData }}
       />
@@ -155,13 +159,13 @@ export const Conversation = () => {
       messagesState={{messages, setMessages}}
       />
 
-      {/* <VoiceAndTextInput 
+      <VoiceAndTextInput 
       languageData={languageData}
       inputState={{input, setInput}}
-      setUserVoiceBase64={setUserVoiceBase64}
+      // setUserVoiceBase64={setUserVoiceBase64}
       getGptResponse={handleCreateGptResponse}
       submitUserInput={submitUserInput}
-      /> */}
+      />
       
     </div>
   );

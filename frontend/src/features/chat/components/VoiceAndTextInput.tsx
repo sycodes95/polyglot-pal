@@ -16,7 +16,7 @@ interface VoiceAndTextInputProps {
     input: string;
     setInput: React.Dispatch<React.SetStateAction<string>>;
   }
-  setUserVoiceBase64: React.Dispatch<React.SetStateAction<string>>;
+  // setUserVoiceBase64: React.Dispatch<React.SetStateAction<string>>;
   getGptResponse: ()=> void,
   submitUserInput: ()=> void
 };
@@ -25,7 +25,7 @@ export const VoiceAndTextInput = ({
   className,
   languageData,
   inputState,
-  setUserVoiceBase64,
+  // setUserVoiceBase64,
   getGptResponse,
   submitUserInput
 }: VoiceAndTextInputProps) => {
@@ -112,7 +112,6 @@ export const VoiceAndTextInput = ({
         onSubmit={(e) => {
           e.preventDefault();
           submitUserInput();
-          getGptResponse();
         }}
       > 
         <div className={`relative flex items-center w-full border border-border rounded-lg bg-background gap-1 p-1`}>
