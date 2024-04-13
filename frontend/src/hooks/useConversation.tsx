@@ -33,8 +33,6 @@ const defaultSettings: Settings = {
   ttsEnabled: true
 };
 
-
-
 export const useConversation = () => {
 
   const { conversationId } = useParams();
@@ -96,7 +94,6 @@ export const useConversation = () => {
   useEffect(()=> {
     // initialize conversation
     if(languageData.voiceName && conversationId && !languageData.conversationId) {
-      console.log("languagedatadep")
       setSettings(defaultSettings);
       setMessages([initialPrompt]);
     };

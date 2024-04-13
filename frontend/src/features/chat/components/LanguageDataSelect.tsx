@@ -55,14 +55,13 @@ export const LanguageDataSelect = ({
       return 
     };
     
-    setLanguageData(prev => ({
-      
+    setLanguageData({
       languageName,
       languageCode,
       countryCode,
       voiceName: name,
       ssmlGender,
-    }));
+    });
   };
 
   const resetLanguageData = () => {
@@ -109,7 +108,7 @@ export const LanguageDataSelect = ({
                 <CommandItem
                 className='text-white'
                   value={undefined}
-                  onSelect={(currentValue) => {
+                  onSelect={() => {
                     resetLanguageData();
                     setOpen(false);
                   }}
