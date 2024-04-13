@@ -10,6 +10,7 @@ import { getGptPrompt } from "../utils/getGptPrompt";
 import { VoiceAndTextInput } from "./VoiceAndTextInput";
 import { useQueryLanguageData } from "../api/language-data/getLanguageData";
 import { useConversation } from "../../../hooks/useConversation";
+import { SettingsBar } from "./SettingsBar";
 
 
 export const Conversation = () => {
@@ -29,24 +30,33 @@ export const Conversation = () => {
   } = useConversation();
   
   return (
-    <div className="border w-full h-full grow flex flex-col gap-4 rounded-md">
-      <LanguageDataSelect 
-      handleOnLangSelect={handleOnLangSelect}
-      languageDataState={{ languageData, setLanguageData }}
-      />
+    <div className="w-full flex flex-col items-center">
 
-      <Messages 
-      messagesState={{messages, setMessages}}
-      />
-
-      <VoiceAndTextInput 
-      languageData={languageData}
-      inputState={{input, setInput}}
-      // setUserVoiceBase64={setUserVoiceBase64}
-      getGptResponse={handleCreateGptResponse}
-      submitUserInput={submitUserInput}
-      />
-      
+      <div className="flex flex-col w-full ">
+        <LanguageDataSelect 
+          handleOnLangSelect={handleOnLangSelect}
+          languageDataState={{ languageData, setLanguageData }}
+          />
+    
+        <SettingsBar />
+      </div>
+  
+      <div className=" max-w-5xl w-full h-full grow flex flex-col rounded-md">
+  
+        <Messages 
+        messagesState={{messages, setMessages}}
+        />
+  
+        <VoiceAndTextInput 
+        languageData={languageData}
+        inputState={{input, setInput}}
+        // setUserVoiceBase64={setUserVoiceBase64}
+        getGptResponse={handleCreateGptResponse}
+        submitUserInput={submitUserInput}
+        />
+        
+      </div>
     </div>
+
   );
 };

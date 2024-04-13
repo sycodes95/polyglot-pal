@@ -19,9 +19,9 @@ export const Chat = () => {
   },[])
   return (
     <>
-      <div className="flex gap-4 w-full  p-8 ">
-        <Sidebar className='w-64 flex flex-col gap-4 h-full overflow-y-auto'>
-          <button className='whitespace-nowrap flex justify-center w-full hover:bg-white/5 transition-colors text-sm pr-4 pl-4 p-2 rounded-md border border-white text-white' onClick={()=> handleNewConversation()} >+ New Conversation</button>
+      <div className="flex w-full  ">
+        <Sidebar className='w-64 flex flex-col h-full overflow-y-auto'>
+          <button className='whitespace-nowrap flex justify-center w-full bg-border hover:bg-white/5 transition-colors text-sm pr-4 pl-4 p-2 border text-white' onClick={()=> handleNewConversation()} >+ New Conversation</button>
           <NativeLanguageSelect />
           <ConversationList />
         </Sidebar>

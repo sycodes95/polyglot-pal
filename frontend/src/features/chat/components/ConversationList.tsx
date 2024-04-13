@@ -9,12 +9,12 @@ export const ConversationList = () => {
   const { isFetching, isError, data } = useAllConversations();
   
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col">
       {
         !isFetching && !isError && data ?
         data.map((conversation) => (
-          <Link className="text-sm p-4 border border-border rounded-md text-white" to={`/c/${conversation.id}`} key={conversation.id}>
-            <span>{conversation.id}</span>
+          <Link className="text-sm p-4 border-b border-l hover:bg-white/5 text-white flex gap-2" to={`/c/${conversation.id}`} key={conversation.id}>
+            <span>{conversation.languageData?.languageName}</span>
             <span>{conversation.languageData?.languageCode}</span>
           </Link>
         ))

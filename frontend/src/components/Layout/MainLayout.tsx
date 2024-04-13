@@ -155,7 +155,7 @@ export const Header = ({
     <div className="top-0 z-10 flex items-center justify-center w-full h-16 border-b border-border bg-background">
       {
       user ? 
-      <div className="relative flex justify-between w-full p-4 max-w-7xl">
+      <div className="relative flex justify-between w-full p-4 max-w-full">
         
         <Logo 
         showMobileSidebar={showMobileSidebar}
@@ -233,7 +233,7 @@ export const MainLayout = ( { children }: MainLayoutProps ) => {
   return (
     <div className="min-h-screen w-full flex flex-col items-center bg-background">
       <Header mobileSideBarContext={{ showMobileSidebar, setShowMobileSidebar }} />
-      <main className="max-w-7xl w-full h-full flex grow">
+      <main className="max-w-full w-full h-full flex grow">
         {children}
       </main>
       <Footer />
