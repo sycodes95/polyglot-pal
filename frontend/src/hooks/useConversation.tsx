@@ -33,35 +33,31 @@ const defaultSettings: Settings = {
   ttsEnabled: true
 };
 
+
+
 export const useConversation = () => {
 
   const { conversationId } = useParams();
 
-  const [isNewConversation, setIsNewConversation] = useState(!conversationId);
-
-  const [isExistingConversation, setIsExistingConversation] = useState(!!conversationId);
-
   const queryClient = useQueryClient();
 
-  const cIdAtGptRequest = useRef<string | undefined>(undefined); 
+  const cIdRef = useRef<string | undefined>(undefined); 
 
-  // const [ initDone, setInitDone ] = useState(false);
-
-  // const [cId, setCId] = useState<undefined | number>(undefined)
-
-  // const queryLanguageData = useQueryLanguageData(Number(conversationId));
   const [languageData, setLanguageData] = useState<LanguageData>(defaultLanguageData);
 
-  // const querySettings = useQuerySettings(Number(conversationId));
   const [settings, setSettings] = useState<Settings>(defaultSettings);
 
-  // const queryMessages = useQueryMessages(Number(conversationId));
   const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
-  },[])
+  },[]);
 
   const [input, setInput] = useState("");
+  
+  const initialPrompt = {
+    role: "user",
+    content: getGptPrompt(languageData, settings.cefrLevel)
+  };
 
   const createGptResponse = useGPTResponse(messages, input);
 
@@ -72,21 +68,39 @@ export const useConversation = () => {
   };
 
   const handleCreateGptResponse = async () => {
-    // cIdAtGptRequest = conversationId;
+    console.log("check")
+    // cIdRef = conversationId;
     const gptTranscript = await createGptResponse.mutateAsync();
     if(gptTranscript) {
       // check if user has quickly switched to different conversation while gptresponse was fetching or loading
-      if(conversationId === cIdAtGptRequest.current) {
+      if(conversationId === cIdRef.current) {
         setMessages(prev => [...prev, gptTranscript]);
-      }
+      };
     };
   };
 
+  // const initializeConversation = () => {
+  // };
+
   useEffect(() => {
     if(conversationId && messages.length > 0 && messages[messages.length - 1].role === "user") {
+      console.log("gptresponse call")
       handleCreateGptResponse();
+    } else if(conversationId && messages.length > 0 && messages[messages.length - 1].role === "assistant") {
+      //do tts
+    }
+
+    // save message if conversationId does not exist.
+  },[messages]);
+
+  useEffect(()=> {
+    // initialize conversation
+    if(languageData.voiceName && conversationId && !languageData.conversationId) {
+      console.log("languagedatadep")
+      setSettings(defaultSettings);
+      setMessages([initialPrompt]);
     };
-  },[messages])
+  },[languageData]);
 
   const submitUserInput = async () => {
     setMessages(prev => [...prev, { content: input, role: "user"}]);
@@ -107,14 +121,14 @@ export const useConversation = () => {
   useEffect(() => {
     // console.log(conversationId)
     queryClient.invalidateQueries({queryKey: ["language-data"]});
-    cIdAtGptRequest.current = conversationId;
+    cIdRef.current = conversationId;
     if(conversationId) {
       // resetState()
       getLanguageData(Number(conversationId)).then(data => data && setLanguageData(data));
       getAllMessages(Number(conversationId)).then(data => data ? setMessages(data) : setMessages([]));
       getSettings(Number(conversationId)).then(data => data && setSettings(data));
     } else {
-      resetState()
+      resetState();
     };
   },[conversationId]);
 

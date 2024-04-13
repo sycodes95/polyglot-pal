@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { ConversationDto, LanguageData } from "../types/types"
+import { useEffect, useState } from 'react';
+import { LanguageData } from "../types/types"
 
 import { Check, ChevronsUpDown } from "lucide-react"
  
@@ -18,14 +18,9 @@ import {
 } from "@/components/ui/popover"
 
 import { useGoogleVoiceData } from "../api/google/getVoiceDatas"
-import { useNavigate, useParams } from 'react-router-dom';
 import { languageNameAndCodes } from '../../../constants/languageNameAndCodes';
 import { cn } from '../../../lib/utils';
-import { UseMutationResult } from 'react-query';
-import { useCreateLanguageData } from '../api/language-data/createLanguageData';
-import { useQueryLanguageData } from '../api/language-data/getLanguageData';
-import { useUpdateLanguageData } from '../api/language-data/updateLanguageData';
-import { ConversationId } from '../api/conversation/createConversation';
+import { getLangNameFromCode } from '../utils/getLangNameFromCode';
 
 interface LanguageSelectProps {
   // isNewConversationState: {
@@ -61,7 +56,7 @@ export const LanguageDataSelect = ({
     };
     
     setLanguageData(prev => ({
-      ...prev,
+      
       languageName,
       languageCode,
       countryCode,
@@ -69,6 +64,21 @@ export const LanguageDataSelect = ({
       ssmlGender,
     }));
   };
+
+  const resetLanguageData = () => {
+    setLanguageData({
+      languageName: "",
+      languageCode: "",
+      countryCode: "",
+      voiceName: "",
+      ssmlGender: "",
+    });
+  };
+
+  useEffect(()=> {
+    console.log(languageData)
+  },[languageData])
+
 
   return (
     <>
@@ -80,19 +90,39 @@ export const LanguageDataSelect = ({
               variant="outline"
               role="combobox"
               aria-expanded={open}
-              className="w-full justify-between"
+              className="w-full flex gap-4 justify-between"
             >
-              {
+              <div className='flex gap-4 items-center'>
+                <span className='text-white'>{languageData.languageName}</span>
                 <span className='text-white'>{languageData.voiceName}</span>
+              </div>
+              {
               }
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-full p-0">
-            <Command>
+          <PopoverContent className="w-full p-0 ">
+            <Command className='w-full'>
               <CommandInput placeholder="Search framework..." />
               <CommandEmpty>No framework found.</CommandEmpty>
-              <CommandGroup>
+              <CommandGroup className='overflow-y-auto max-h-[400px]'>
+                <CommandItem
+                className='text-white'
+                  value={undefined}
+                  onSelect={(currentValue) => {
+                    resetLanguageData();
+                    setOpen(false);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      !languageData.voiceName ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  ...
+                </CommandItem>
+
                 {data.voices.map((voice) => (
                   <CommandItem
                   className='text-white'
@@ -109,7 +139,10 @@ export const LanguageDataSelect = ({
                         languageData.voiceName === voice.name ? "opacity-100" : "opacity-0"
                       )}
                     />
-                    {voice.name}
+                    <div className='flex gap-2 items-center'>
+                      <span>{languageNameAndCodes.find(data => data.languageCode === getLangNameFromCode(voice.languageCodes[0]))?.languageName}</span>
+                      <span>{voice.name}</span>
+                    </div>
                   </CommandItem>
                 ))}
               </CommandGroup>

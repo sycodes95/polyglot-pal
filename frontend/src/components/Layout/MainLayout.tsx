@@ -233,7 +233,7 @@ export const MainLayout = ( { children }: MainLayoutProps ) => {
   return (
     <div className="min-h-screen w-full flex flex-col items-center bg-background">
       <Header mobileSideBarContext={{ showMobileSidebar, setShowMobileSidebar }} />
-      <main className="max-w-7xl w-full h-full grow">
+      <main className="max-w-7xl w-full h-full flex grow">
         {children}
       </main>
       <Footer />

@@ -27,7 +27,6 @@
 
     --muted: 60 4.8% 95.9%;
     --muted-foreground: 25 5.3% 44.7%;
-
     
     --accent: 149 100% 48%; /* emerald */
     --accent-foreground: 0 0% 0%; /* black */
@@ -37,8 +36,6 @@
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 60 9.1% 97.8%;
-
-    
 
     --border: 20 5.9% 85%;
     --input: 20 5.9% 90%;
@@ -69,9 +66,8 @@
 
     --muted: 12 6.5% 15.1%;
     --muted-foreground: 24 5.4% 63.9%;
-
     
-    --accent: 149 100% 48%; /* emerald */
+    --accent: 61, 10%, 15%; /* emerald */
     --accent-foreground: 0 0% 100%; /* white */
 
     --translation: 300 76% 5%;
