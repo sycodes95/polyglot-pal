@@ -9,7 +9,6 @@ export const getConversationById = async (conversationId?: ConversationId) => {
   try {
     const data = await axios.get(config.API_DOMAIN + `conversation/?id=${conversationId}`);
 
-    console.log(conversationId)
     if(data) return data.data as ConversationDto;
     // if(data) return data.data;
     return null;

@@ -10,7 +10,6 @@ export interface ConversationId {
 export const createConversation = async () => {
   try {
     const data =  await axios.post(config.API_DOMAIN + "conversation");
-    console.log(data)
     if(data.data) {
       return data.data as ConversationId;
     } else {

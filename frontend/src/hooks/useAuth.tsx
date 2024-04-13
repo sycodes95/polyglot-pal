@@ -52,7 +52,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     try {
       const res = await registerAPI(email, username, password);
       
-      console.log(res?.status)
       if(res) {
         const userName = res.data.userName;
         const email = res.data.email;

@@ -6,13 +6,14 @@ import { getGptPrompt } from "../features/chat/utils/getGptPrompt";
 import { useNavigate } from "react-router-dom";
 import { useCreateMessage } from "../features/chat/api/message/createMessage";
 import { useCreateSettings } from "../features/chat/api/settings/createSettings";
+import { useQueryClient } from "react-query";
 
 
 interface UseCreateNewConversationProps {
   conversationId: string | undefined;
-  setIsNewConversation: React.Dispatch<React.SetStateAction<boolean>>;
-  isExistingConversation: boolean;
-  setIsExistingConversation: React.Dispatch<React.SetStateAction<boolean>>;
+  // setIsNewConversation: React.Dispatch<React.SetStateAction<boolean>>;
+  // isExistingConversation: boolean;
+  // setIsExistingConversation: React.Dispatch<React.SetStateAction<boolean>>;
   messages: Message[];
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
   languageData: LanguageData;
@@ -22,11 +23,11 @@ interface UseCreateNewConversationProps {
   resetState: ()=> void;
 };
 
-export const useInitCreateConversation = ({ 
+export const useInitNewConversation = ({ 
   conversationId,
-  setIsNewConversation,
-  isExistingConversation,
-  setIsExistingConversation,
+  // setIsNewConversation,
+  // isExistingConversation,
+  // setIsExistingConversation,
   messages,
   setMessages,
   languageData,
@@ -35,6 +36,8 @@ export const useInitCreateConversation = ({
   setSettings,
   resetState
 } : UseCreateNewConversationProps) => {
+
+  const queryClient = useQueryClient();
 
   const navigate = useNavigate();
 
@@ -159,28 +162,19 @@ export const useInitCreateConversation = ({
       navigateParam &&
       !conversationId
     ) {
-      resetState()
+      setIsCreated({
+        conversation: false,
+        languageData: false,
+        settings: false,
+        message: false,
+      });
+      setNavigateParam(null);
+      setErrorCreating(false);
+      // resetState();
+      queryClient.invalidateQueries( {queryKey: ["all-conversations"]});
       navigate(`/c/${navigateParam}`);
     }
-  },[isCreated.conversation, isCreated.languageData, isCreated.message, isCreated.settings, navigateParam, conversationId]);
-
-  // useEffect(() => {
-  //   console.log(languageData, messages, settings)
-  // },[languageData, messages, settings])
-
-  // useEffect(() => {
-
-  //   // so that when user switches from a saved conversation to new conversation 
-  //   if(!conversationId) {
-
-  //     setIsCreated({
-  //       conversation: false,
-  //       languageData: false,
-  //       settings: false,
-  //       message: false,
-  //     });
-  //   }
-  // },[conversationId])
+  },[isCreated]);
 
   return {
     errorCreating

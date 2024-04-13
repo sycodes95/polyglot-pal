@@ -50,8 +50,6 @@ export const loginAPI = async (
       password
     });
 
-    console.log(data)
-
     return data;
 
   } catch (err) {
