@@ -11,7 +11,7 @@ interface GptMessage {
 export const createGPTResponse = async (messages: Message[], input: string) => {
   try {
     const data = await axios.post(config.API_DOMAIN + "open-ai", { messages, input });
-
+    console.log(data)
     if(data.data) return data.data as Message;
 
     return null;

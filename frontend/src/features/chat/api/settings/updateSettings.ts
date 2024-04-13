@@ -6,21 +6,16 @@ import { useMutation } from "react-query";
 export const updateSettings = async (settings : Settings) => {
 
   try {
-
     if(!settings.conversationId || !settings.id) return null;
-
     const data = await axios.put(config.API_DOMAIN + "settings", settings);
 
+    console.log(data)
     if(data && data.data) return data.data as Settings;
-
     return null;
 
   } catch (error) {
-
     console.error(error);
-
     return null;
-
   };
 
 };

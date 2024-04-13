@@ -24,12 +24,14 @@ export const Conversation = () => {
     input,
     setInput,
     handleCreateGptResponse,
-    submitUserInput
+    submitUserInput,
+    handleOnLangSelect
   } = useConversation();
   
   return (
     <div className="border w-full h-full grow flex flex-col gap-4 rounded-md">
       <LanguageDataSelect 
+      handleOnLangSelect={handleOnLangSelect}
       languageDataState={{ languageData, setLanguageData }}
       />
 

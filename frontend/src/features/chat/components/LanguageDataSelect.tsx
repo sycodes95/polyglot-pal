@@ -21,6 +21,7 @@ import { useGoogleVoiceData } from "../api/google/getVoiceDatas"
 import { languageNameAndCodes } from '../../../constants/languageNameAndCodes';
 import { cn } from '../../../lib/utils';
 import { getLangNameFromCode } from '../utils/getLangNameFromCode';
+import { useDeleteAllMsgs } from '../api/message/deleteAllMessages';
 
 interface LanguageSelectProps {
   // isNewConversationState: {
@@ -31,11 +32,13 @@ interface LanguageSelectProps {
   languageDataState: {
     languageData: LanguageData;
     setLanguageData: React.Dispatch<React.SetStateAction<LanguageData>>;
-  }
+  },
+  handleOnLangSelect: (voiceName: string) => void;
 }
 
 export const LanguageDataSelect = ({ 
-  languageDataState
+  languageDataState,
+  handleOnLangSelect
 }: LanguageSelectProps) => {
   
   const [open, setOpen] = useState(false);
@@ -44,25 +47,28 @@ export const LanguageDataSelect = ({
   
   const { languageData, setLanguageData } = languageDataState;
 
-  const handleOnSelect = (voiceName: string) => {
+  const deleteAllMsgs = useDeleteAllMsgs();
 
-    const [languageCode, countryCode, _, __] = voiceName.split("-");
-    const languageName = languageNameAndCodes.find(lang => lang.languageCode === languageCode)?.languageName;
-    const name = data?.voices.find(voice => voice.name.toLowerCase() === voiceName)?.name;
-    const ssmlGender = data?.voices.find(voice => voice.name.toLowerCase() === voiceName)?.ssmlGender;
+  // const handleOnSelect = (voiceName: string) => {
 
-    if(!name || !languageCode || !countryCode || !languageName || !ssmlGender) {
-      return 
-    };
+  //   const [languageCode, countryCode, _, __] = voiceName.split("-");
+  //   const languageName = languageNameAndCodes.find(lang => lang.languageCode === languageCode)?.languageName;
+  //   const name = data?.voices.find(voice => voice.name.toLowerCase() === voiceName)?.name;
+  //   const ssmlGender = data?.voices.find(voice => voice.name.toLowerCase() === voiceName)?.ssmlGender;
+
+  //   if(!name || !languageCode || !countryCode || !languageName || !ssmlGender) {
+  //     return 
+  //   };
     
-    setLanguageData({
-      languageName,
-      languageCode,
-      countryCode,
-      voiceName: name,
-      ssmlGender,
-    });
-  };
+  //   setLanguageData(prev => ({
+  //     ...prev,
+  //     languageName,
+  //     languageCode,
+  //     countryCode,
+  //     voiceName: name,
+  //     ssmlGender,
+  //   }));
+  // };
 
   const resetLanguageData = () => {
     setLanguageData({
@@ -128,7 +134,7 @@ export const LanguageDataSelect = ({
                     key={voice.name}
                     value={voice.name}
                     onSelect={(currentValue) => {
-                      handleOnSelect(currentValue);
+                      handleOnLangSelect(currentValue);
                       setOpen(false);
                     }}
                   >

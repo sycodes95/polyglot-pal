@@ -6,7 +6,7 @@ import { config } from "../../../../config"
 export const deleteAllMsgs = async (conversationId?: number) => {
   try {
     if(!conversationId) return null
-    const data = await axios.delete(config.API_DOMAIN + `message?conversationId=${conversationId}`);
+    const data = await axios.delete(config.API_DOMAIN + `message/${conversationId}`);
 
     if(data && data.data) return data.data as Message;
 

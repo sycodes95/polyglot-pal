@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
 import { useCreateLanguageData } from "../features/chat/api/language-data/createLanguageData";
 import { LanguageData, Message, Settings } from '../features/chat/types/types';
-import { useCreateConversation } from "../features/chat/api/conversation/createConversation";
-import { useUpdateLanguageData } from "../features/chat/api/language-data/updateLanguageData";
+import { useCreateConversation, ConversationId } from '../features/chat/api/conversation/createConversation';
+import { useUpdateLanguageData, updateLanguageData } from '../features/chat/api/language-data/updateLanguageData';
 import { getGptPrompt } from "../features/chat/utils/getGptPrompt";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCreateSettings } from "../features/chat/api/settings/createSettings";
@@ -12,6 +12,12 @@ import { getAllMessages, useQueryMessages } from "../features/chat/api/message/g
 import { getSettings, useQuerySettings } from "../features/chat/api/settings/getSettings";
 import { useQueryClient } from "react-query";
 import { createGPTResponse, useGPTResponse } from '../features/chat/api/openAI/createGPTResponse';
+import { setFetch } from 'convex/dist/cjs-types/browser/http_client';
+import { set } from 'date-fns';
+import { useGoogleVoiceData } from '../features/chat/api/google/getVoiceDatas';
+import { languageNameAndCodes } from '../constants/languageNameAndCodes';
+import { useDeleteAllMsgs } from '../features/chat/api/message/deleteAllMessages';
+import { useCreateMessage } from '../features/chat/api/message/createMessage';
 
 // interface UseInitConversationProps {
 //   messages: Message[];
@@ -43,19 +49,34 @@ export const useConversation = () => {
 
   const [languageData, setLanguageData] = useState<LanguageData>(defaultLanguageData);
 
+  const { data } = useGoogleVoiceData();
+
   const [settings, setSettings] = useState<Settings>(defaultSettings);
 
   const [messages, setMessages] = useState<Message[]>([]);
 
-  useEffect(() => {
-  },[]);
+  const [stateIsInit, setStateIsInit] = useState(false);
 
-  const [input, setInput] = useState("");
-  
-  const initialPrompt = {
+  const [initialPrompt, setInitialPrompt] = useState({
     role: "user",
     content: getGptPrompt(languageData, settings.cefrLevel)
-  };
+  })
+
+  const [lastMsg, setLastMsg] = useState<Message | undefined>(messages[messages.length - 1] ?? undefined);
+
+  useEffect(() => {
+    if(messages.length > 0) {
+      setLastMsg(messages[messages.length - 1]);
+    }
+  },[messages]);
+
+  const [input, setInput] = useState("");
+
+  const updateLanguageData = useUpdateLanguageData(languageData);
+
+  const deleteAllMsgs = useDeleteAllMsgs(Number(conversationId));
+
+  const createMsg = useCreateMessage(lastMsg);
 
   const createGptResponse = useGPTResponse(messages, input);
 
@@ -70,6 +91,7 @@ export const useConversation = () => {
     // cIdRef = conversationId;
     const gptTranscript = await createGptResponse.mutateAsync();
     if(gptTranscript) {
+      gptTranscript.conversationId = Number(conversationId);
       // check if user has quickly switched to different conversation while gptresponse was fetching or loading
       if(conversationId === cIdRef.current) {
         setMessages(prev => [...prev, gptTranscript]);
@@ -77,30 +99,93 @@ export const useConversation = () => {
     };
   };
 
+  
+
   // const initializeConversation = () => {
   // };
 
-  useEffect(() => {
-    if(conversationId && messages.length > 0 && messages[messages.length - 1].role === "user") {
-      console.log("gptresponse call")
-      handleCreateGptResponse();
-    } else if(conversationId && messages.length > 0 && messages[messages.length - 1].role === "assistant") {
-      //do tts
-    }
+  useEffect(()=> {
+    if(conversationId && lastMsg && lastMsg.conversationId && !lastMsg.id) {
+      createMsg.mutateAsync();
+    };
 
-    // save message if conversationId does not exist.
-  },[messages]);
+    if(conversationId && lastMsg && lastMsg.conversationId) {
+      if(lastMsg.role === "user") {
+        handleCreateGptResponse();
+      } else if(lastMsg.role === "assistant") {
+        //do tts
+      }
+    } 
+  },[lastMsg])
+
+  // useEffect(() => {
+  //   if(conversationId && messages.length > 0 && !messages[messages.length - 1].id) {
+  //     createMsg.mutateAsync();
+  //   }
+  //   if(conversationId && messages.length > 0 && messages[messages.length - 1].role === "user") {
+  //     console.log("gptresponse call")
+  //     handleCreateGptResponse();
+  //   } else if(conversationId && messages.length > 0 && messages[messages.length - 1].role === "assistant") {
+  //     //do tts
+  //   }
+
+  //   // save message if conversationId does not exist.
+  // },[messages]);
 
   useEffect(()=> {
-    // initialize conversation
-    if(languageData.voiceName && conversationId && !languageData.conversationId) {
-      setSettings(defaultSettings);
-      setMessages([initialPrompt]);
+
+    if(conversationId && languageData.conversationId && languageData.id && !stateIsInit) {
+      updateLanguageData.mutateAsync();
     };
+
+    // if state is initial fetch set it to false after first call of useEffect
+    setStateIsInit(false);
+
   },[languageData]);
 
+  const handleOnLangSelect = async (voiceName: string) => {
+
+    const [languageCode, countryCode, _, __] = voiceName.split("-");
+    const languageName = languageNameAndCodes.find(lang => lang.languageCode === languageCode)?.languageName;
+    const name = data?.voices.find(voice => voice.name.toLowerCase() === voiceName)?.name;
+    const ssmlGender = data?.voices.find(voice => voice.name.toLowerCase() === voiceName)?.ssmlGender;
+
+    if(!name || !languageCode || !countryCode || !languageName || !ssmlGender) {
+      return 
+    };
+
+    deleteAllMsgs.mutateAsync()
+
+    setMessages([
+      { 
+        role: "user", 
+        content: getGptPrompt({
+          languageName,
+          languageCode,
+          countryCode,
+          voiceName: name,
+          ssmlGender,
+          }, 
+          settings.cefrLevel
+        ), 
+        conversationId: Number(conversationId)
+      }
+    ]);
+
+    setSettings(defaultSettings);
+    
+    setLanguageData(prev => ({
+      ...prev,
+      languageName,
+      languageCode,
+      countryCode,
+      voiceName: name,
+      ssmlGender,
+    }));
+  };
+
   const submitUserInput = async () => {
-    setMessages(prev => [...prev, { content: input, role: "user"}]);
+    setMessages(prev => [...prev, { content: input, role: "user", conversationId: Number(conversationId)}]);
     setInput("");
   };
 
@@ -112,16 +197,44 @@ export const useConversation = () => {
     setMessages,
     settings,
     setSettings,
-    resetState
+    resetState,
+    
   });
+
+  // const fetchConversation = async ()=> {
+  //   setIsFetching(true);
+
+  //   const languageData = await getLanguageData(Number(conversationId));
+  //   const messages = await getAllMessages(Number(conversationId));
+  //   const settings = await getSettings(Number(conversationId));
+
+  //   if(languageData && messages && settings) {
+
+  //     setLanguageData(languageData);
+
+  //     setMessages(messages);
+
+  //     setSettings(settings);
+  //   }
+
+  //   setIsFetching(false);
+
+  // }
 
   useEffect(() => {
     // console.log(conversationId)
-    queryClient.invalidateQueries({queryKey: ["language-data"]});
+    // queryClient.invalidateQueries({queryKey: ["language-data"]});
     cIdRef.current = conversationId;
     if(conversationId) {
-      // resetState()
-      getLanguageData(Number(conversationId)).then(data => data && setLanguageData(data));
+      setStateIsInit(true);
+      
+      // resetState()네네티비
+      getLanguageData(Number(conversationId)).then(data => {
+        console.log(data)
+        if(data ) {
+          setLanguageData(data)
+        }
+      });
       getAllMessages(Number(conversationId)).then(data => data ? setMessages(data) : setMessages([]));
       getSettings(Number(conversationId)).then(data => data && setSettings(data));
     } else {
@@ -139,7 +252,8 @@ export const useConversation = () => {
     input,
     setInput,
     handleCreateGptResponse,
-    submitUserInput
+    submitUserInput,
+    handleOnLangSelect
   };
 
 };
