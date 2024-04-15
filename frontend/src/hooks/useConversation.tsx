@@ -20,6 +20,7 @@ import { useCreateMessage } from '../features/chat/api/message/createMessage';
 import { useMessages } from './useMessages';
 import { useLanguageData } from './useLanguageData';
 import { getConversationById } from '../features/chat/api/conversation/getConversationById';
+import { useSettings } from './useSettings';
 
 // interface UseInitConversationProps {
 //   messages: Message[];
@@ -76,21 +77,34 @@ export const useConversation = () => {
 
   };
 
-  const [ settings, setSettings ] = useState<Settings>(defaultSettings);
-
   const [ isInitialFetchData, setIsInitialFetchData ] = useState(false);
 
   const [ input, setInput ] = useState("");
 
-  const { messages, setMessages, deleteAllMsgs } = useMessages({ conversationId, input, cIdRef });
+  const { 
+    messages, 
+    setMessages, 
+    deleteAllMsgs 
+  } = useMessages({ conversationId, input, cIdRef });
 
-  const { languageData, setLanguageData, handleLanguageSelect } = useLanguageData({ 
+  const { 
+    languageData, 
+    setLanguageData, 
+    handleLanguageSelect 
+  } = useLanguageData({ 
     conversationId, 
     initConversation, 
     isInitialFetchData, 
     setIsInitialFetchData,
     googleVoiceData
   });
+
+  const {
+    settings,
+    setSettings,
+    handleLevelChange,
+    handleTtsEnabled
+  } = useSettings({conversationId});
 
   const resetState = () => {
     setSettings(defaultSettings);
@@ -101,6 +115,13 @@ export const useConversation = () => {
   const submitUserInput = async () => {
     setMessages(prev => [...prev, { content: input, role: "user", conversationId: Number(conversationId)}]);
     setInput("");
+  };
+
+  const checkIfParamIsValid = async () => {
+    const convo = await getConversationById(Number(conversationId));
+    if(convo && convo.id !== Number(conversationId)) {
+      navigate("/");
+    };
   };
 
   const { errorCreating } = useInitNewConversation({
@@ -120,12 +141,7 @@ export const useConversation = () => {
     // queryClient.invalidateQueries({queryKey: ["language-data"]});
     cIdRef.current = conversationId;
     if(conversationId) {
-      getConversationById(Number(conversationId)).then(conv => {
-        console.log(conv, conversationId)
-        if(conv?.id !== Number(conversationId)) {
-          navigate("/");
-        };
-      });
+      checkIfParamIsValid();
       setIsInitialFetchData(true);
       getLanguageData(Number(conversationId)).then(data => setLanguageData(data ?? defaultLanguageData));
       getAllMessages(Number(conversationId)).then(data => setMessages(data ?? []));
@@ -138,6 +154,8 @@ export const useConversation = () => {
   return {
     settings,
     setSettings,
+    handleLevelChange,
+    handleTtsEnabled,
     languageData,
     setLanguageData,
     messages,
