@@ -7,7 +7,7 @@ export const updateSettings = async (settings : Settings) => {
 
   try {
     if(!settings.conversationId || !settings.id) return null;
-    const data = await axios.put(config.API_DOMAIN + "settings", settings);
+    const data = await axios.put(config.API_DOMAIN + `settings/${settings.id}`, settings);
 
     console.log(data)
     if(data && data.data) return data.data as Settings;

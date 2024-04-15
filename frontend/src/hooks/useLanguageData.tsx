@@ -7,6 +7,7 @@ import { ConversationId } from '../features/chat/api/conversation/createConversa
 import { inject } from "vitest";
 import { cefrLevels } from '../constants/cefrLevels';
 import { UseQueryResult } from "react-query";
+import { InitConversationParam } from "./useConversation";
 
 const defaultLanguageData: LanguageData = {
   languageName: "",
@@ -18,7 +19,7 @@ const defaultLanguageData: LanguageData = {
 
 interface UseLanguageDataProps {
   conversationId: string | undefined;
-  initConversation: (langData: LanguageData)=> void;
+  initConversation: (initializer: InitConversationParam)=> void;
   isInitialFetchData: boolean;
   setIsInitialFetchData: React.Dispatch<React.SetStateAction<boolean>>;
   googleVoiceData: UseQueryResult<VoiceData, unknown>;
@@ -46,20 +47,21 @@ export const useLanguageData = ( {
     if(!name || !languageCode || !countryCode || !languageName || !ssmlGender) {
       return 
     };
-    
-    const langData: LanguageData = {
+
+    setLanguageData(prev => ({
+      ...prev,
       languageName,
       languageCode,
       countryCode,
       voiceName: name,
-      ssmlGender,
-    };
+      ssmlGender
+    }));
 
-    initConversation(langData);
   };
 
   useEffect(()=> {
     if(conversationId && languageData.conversationId && languageData.id && !isInitialFetchData) {
+      initConversation("language-data");
       updateLanguageData.mutateAsync();
     };
     // if state is initial fetch set it to false after first call of useEffect

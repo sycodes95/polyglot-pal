@@ -12,13 +12,12 @@ namespace api.Dtos.Conversation
     public class ConversationDto
     {
         public int Id { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now; 
+
         // public string AppUserId { get; set; }
 
         //type workaround due to conflict with a namespace also called languageData
-        public List<MessageDto> Messages { get; set; }
-        public LanguageDataDto LanguageData { get; set; }
-        public SettingsDto Settings { get; set; }
-
+        
     }
 }
 

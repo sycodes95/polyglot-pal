@@ -8,8 +8,9 @@ import defaultFlag from "../../assets/flag/default-flag.png"
 
 
 export default function CountryFlag ({ countryCode, className } : CountryFlagProps) {
-  const [flagImage, setFlagImage] = useState(`https://flagsapi.com/${countryCode}/flat/64.png`)
+  const [flagImage, setFlagImage] = useState(defaultFlag)
   useEffect(()=> {
+
     setFlagImage(`https://flagsapi.com/${countryCode}/flat/64.png`)
   },[countryCode])
   
@@ -17,3 +18,14 @@ export default function CountryFlag ({ countryCode, className } : CountryFlagPro
     <img className={`${className}`} src={flagImage} alt='' onError={()=> setFlagImage(defaultFlag)} />
   )
 }
+
+// export default function CountryFlag ({ countryCode, className } : CountryFlagProps) {
+//   const [flagImage, setFlagImage] = useState(`https://flagsapi.com/${countryCode}/flat/64.png`)
+//   useEffect(()=> {
+//     setFlagImage(`https://flagsapi.com/${countryCode}/flat/64.png`)
+//   },[countryCode])
+  
+//   return (
+//     <img className={`${className}`} src={flagImage} alt='' onError={()=> setFlagImage(defaultFlag)} />
+//   )
+// }

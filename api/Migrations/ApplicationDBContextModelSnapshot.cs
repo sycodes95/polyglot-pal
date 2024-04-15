@@ -51,13 +51,13 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7d856893-297f-4740-995e-aaa4751cc31d",
+                            Id = "4262da65-e3e6-47f7-bcb6-f6203b7655fe",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "f72ce006-89da-4676-abf0-dd1ba73a39b9",
+                            Id = "bec1fc9d-0ec4-47c4-a8ca-fc612e065d2f",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -245,6 +245,9 @@ namespace api.Migrations
                     b.Property<string>("AppUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

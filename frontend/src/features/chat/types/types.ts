@@ -1,5 +1,6 @@
 export interface ConversationDto {
   id: number;
+  createdAt: Date;
   messages: Message[];
   languageData: LanguageData | null;
   settings: Settings | null;

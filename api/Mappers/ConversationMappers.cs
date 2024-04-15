@@ -15,20 +15,18 @@ namespace api.Mappers
             return new ConversationDto
             {
                 Id = conversation.Id,
-                // Messages = conversation.Messages.Select(c => c.MessageToMessageDto()).ToList(),
-                // LanguageData = conversation.LanguageData?.ToLanguageDataDtoFromLanguageData(),
-                // Settings = conversation.Settings?.SettingsToSettingsDto()
+                CreatedAt = conversation.CreatedAt,
             };
 
 
         }
 
-        public static ConversationDto FromConversationToAllDto(this Conversation conversation)
+        public static AllConversationDto FromConversationToAllDto(this Conversation conversation)
         {
-            
-            return new ConversationDto
+            return new AllConversationDto
             {
                 Id = conversation.Id,
+                CreatedAt = conversation.CreatedAt,
                 Messages = conversation.Messages.Select(c => c.MessageToMessageDto()).ToList(),
                 LanguageData = conversation.LanguageData?.ToLanguageDataDtoFromLanguageData(),
                 Settings = conversation.Settings?.SettingsToSettingsDto()

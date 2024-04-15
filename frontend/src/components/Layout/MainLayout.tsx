@@ -152,7 +152,7 @@ export const Header = ({
   const navigate = useNavigate();
   const { user } = useAuth();
   return (
-    <div className="top-0 z-10 flex items-center justify-center w-full h-16 border-b border-border bg-background">
+    <div className="top-0 z-10 flex items-center justify-center w-full h-16 border-b border-border/20 bg-black/20">
       {
       user ? 
       <div className="relative flex justify-between w-full p-4 max-w-full">
@@ -194,7 +194,7 @@ export const Header = ({
 
 const Footer = () => {
   return (
-    <div className="bottom-0 flex justify-center w-full h-10 border-t bg-background border-border">
+    <div className="bottom-0 flex justify-center w-full h-10 border-t bg-black/20 border-border/20">
       <div className="max-w-7xl">
         <div className="flex items-center h-full gap-1 text-xs text-primary">
           <span className='whitespace-nowrap'>Made with</span>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Settings } from "../features/chat/types/types";
 import { useUpdateSettings } from "../features/chat/api/settings/updateSettings";
+import { InitConversationParam } from "./useConversation";
 
 const defaultSettings: Settings = {
   cefrLevel: "C2",
@@ -9,9 +10,10 @@ const defaultSettings: Settings = {
 
 interface UseSettingsProps {
   conversationId: string | undefined;
-}
+  initConversation: (initializer: InitConversationParam)=> void;
+};
 
-export const useSettings = ({ conversationId } : UseSettingsProps) => {
+export const useSettings = ({ conversationId, initConversation } : UseSettingsProps) => {
 
   const [ settings, setSettings ] = useState<Settings>(defaultSettings);
 
@@ -28,8 +30,15 @@ export const useSettings = ({ conversationId } : UseSettingsProps) => {
   useEffect(()=> {
     if(conversationId) {
       updateSettings.mutateAsync();
-    }
-  },[settings])
+    };
+  },[settings]);
+
+  useEffect(() => {
+    if(settings.cefrLevel) {
+      initConversation("settings");
+    };
+
+  },[settings.cefrLevel])
 
   return {
     settings,

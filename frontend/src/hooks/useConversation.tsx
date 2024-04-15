@@ -29,6 +29,8 @@ import { useSettings } from './useSettings';
 
 // }
 
+export type InitConversationParam = "language-data" | "settings";
+
 const defaultLanguageData: LanguageData = {
   languageName: "",
   languageCode: "",
@@ -52,28 +54,20 @@ export const useConversation = () => {
 
   const googleVoiceData = useGoogleVoiceData();
 
-  function initConversation (langData: LanguageData) {
+  function initConversation (initializer: InitConversationParam ) {
+
+    // reset settings if function was called from useLanguageData hook
+    if(initializer === "language-data") setSettings(defaultSettings);
 
     deleteAllMsgs.mutateAsync();
-
-    setSettings(defaultSettings);
 
     setMessages([
       { 
         role: "user", 
-        content: getGptPrompt(langData, settings.cefrLevel), 
+        content: getGptPrompt(languageData, settings.cefrLevel), 
         conversationId: Number(conversationId)
       }
     ]);
-
-    setLanguageData(prev => ({
-      ...prev,
-      languageName: langData.languageName,
-      languageCode: langData.languageCode,
-      countryCode: langData.countryCode,
-      voiceName: langData.voiceName,
-      ssmlGender: langData.ssmlGender,
-    }));
 
   };
 
@@ -104,7 +98,7 @@ export const useConversation = () => {
     setSettings,
     handleLevelChange,
     handleTtsEnabled
-  } = useSettings({conversationId});
+  } = useSettings({conversationId, initConversation});
 
   const resetState = () => {
     setSettings(defaultSettings);

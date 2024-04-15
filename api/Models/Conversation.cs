@@ -8,6 +8,8 @@ namespace api.Models
     public class Conversation
     {
         public int Id { get; set; } 
+
+        public DateTime CreatedAt { get; set; } = DateTime.Now; 
         //fk
         public string AppUserId { get; set; }
         //nav props

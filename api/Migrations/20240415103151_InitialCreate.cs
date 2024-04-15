@@ -164,6 +164,7 @@ namespace api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -272,8 +273,8 @@ namespace api.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "7d856893-297f-4740-995e-aaa4751cc31d", null, "Admin", "ADMIN" },
-                    { "f72ce006-89da-4676-abf0-dd1ba73a39b9", null, "User", "USER" }
+                    { "4262da65-e3e6-47f7-bcb6-f6203b7655fe", null, "Admin", "ADMIN" },
+                    { "bec1fc9d-0ec4-47c4-a8ca-fc612e065d2f", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(

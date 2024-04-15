@@ -18,6 +18,8 @@ export const Conversation = () => {
   const { 
     settings,
     setSettings,
+    handleLevelChange,
+    handleTtsEnabled,
     languageData,
     setLanguageData,
     messages,
@@ -29,17 +31,17 @@ export const Conversation = () => {
     googleVoiceData
   } = useConversation();
   
-  return (
-    <div className="w-full flex flex-col items-center">
+  return ( 
+    <div className="w-full flex flex-col items-center bg-black/10 p-4">
 
-      <div className="flex flex-col w-full ">
+      <div className="flex flex-col w-full gap-4 ">
         <LanguageDataSelect 
           googleVoiceData={googleVoiceData}
           handleLanguageSelect={handleLanguageSelect}
           languageDataState={{ languageData, setLanguageData }}
           />
     
-        <SettingsBar settings={settings} setSettings={setSettings} />
+        <SettingsBar settings={settings} setSettings={setSettings} languageData={languageData} />
       </div>
   
       <div className=" max-w-5xl w-full h-full grow flex flex-col rounded-md">

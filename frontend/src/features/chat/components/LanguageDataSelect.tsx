@@ -96,13 +96,17 @@ export const LanguageDataSelect = ({
               variant="outline"
               role="combobox"
               aria-expanded={open}
-              className="w-full flex gap-4 justify-between"
+              className="w-full max-w-[300px] flex gap-4 justify-between h-8 border-border/20"
             >
-              <div className='flex gap-4 items-center'>
-                <span className='text-white'>{languageData.languageName}</span>
-                <span className='text-white'>{languageData.voiceName}</span>
-              </div>
+              
               {
+                languageData.voiceName ?
+                <div className='flex gap-4 items-center '>
+                  <span className='text-white'>{languageData.languageName}</span>
+                  <span className='text-white'>{languageData.voiceName}</span>
+                </div>
+                :
+                <span className='text-xs'>Select a language</span>
               }
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>

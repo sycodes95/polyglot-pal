@@ -7,6 +7,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { NativeLanguageSelect } from '../components/NativeLanguageSelect';
 import { useQueryClient } from 'react-query';
 
+import VoiceChatIcon from '@mui/icons-material/VoiceChat';
+import { NewConversation } from '../components/NewConversation';
+
 export const Chat = () => {
   const navigate = useNavigate();
 
@@ -20,8 +23,8 @@ export const Chat = () => {
   return (
     <>
       <div className="flex w-full  ">
-        <Sidebar className='w-64 flex flex-col h-full overflow-y-auto'>
-          <button className='whitespace-nowrap flex justify-center w-full bg-border hover:bg-white/5 transition-colors text-sm pr-4 pl-4 p-2 border text-white' onClick={()=> handleNewConversation()} >+ New Conversation</button>
+        <Sidebar className='w-64 flex flex-col h-full overflow-y-auto p-4 gap-4 bg-black/30'>
+          <NewConversation />
           <NativeLanguageSelect />
           <ConversationList />
         </Sidebar>

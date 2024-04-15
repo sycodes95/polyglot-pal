@@ -112,17 +112,17 @@ export const VoiceAndTextInput = ({
           submitUserInput();
         }}
       > 
-        <div className={`relative flex items-center w-full border border-border rounded-lg bg-background gap-1 p-1`}>
+        <div className={`relative flex items-center w-full border border-border/30 rounded-lg bg-background gap-1 p-1`}>
           {
           !languageData &&
           <div className="absolute top-0 left-0 z-10 w-full h-full bg-white rounded-lg dark:bg-zinc-500 bg-opacity-70 dark:bg-opacity-30 group">
             <span 
-            className="absolute right-0 hidden p-4 mb-2 text-sm bg-white border rounded-lg dark:bg-foreground text-primary border-border bottom-full group-hover:flex"
+            className="absolute right-0 hidden p-4 mb-2 text-sm bg-white border rounded-lg dark:bg-foreground text-primary border-border/30 bottom-full group-hover:flex"
             >Please select a language</span>
           </div>
           }
           <input
-            className={` w-full h-full bg-foreground outline-none text-primary rounded-lg p-2`}
+            className={` w-full h-full bg-foreground/50 outline-none text-xs text-primary rounded-lg p-2`}
             type="text"
             value={input}
             placeholder="Say hi to your pal ..."
@@ -130,7 +130,7 @@ export const VoiceAndTextInput = ({
             onChange={(e) => setInput(e.target.value)}
           />
 
-          <div className="flex items-center justify-center w-40 h-full border rounded-lg border-border">
+          <div className="flex items-center justify-center w-40 h-full border rounded-lg border-border/30">
             {
             mediaRecorderRef && mediaRecorderRef.current && recording &&
             <LiveAudioVisualizer
@@ -145,7 +145,7 @@ export const VoiceAndTextInput = ({
             }
             
           </div>
-          <div className="flex items-center justify-center w-10 gap-2 p-2 border rounded-lg border-border">
+          <div className="flex items-center justify-center w-10 gap-2 p-2 border rounded-lg border-border/30">
             {
             recording ?
             <button data-testid="stop-voice-record" type="button" onClick={stopVoiceRecord}>
@@ -161,7 +161,7 @@ export const VoiceAndTextInput = ({
           </div>
           
           <button
-            className="flex items-center justify-center w-10 p-2 border rounded-lg border-border"
+            className="flex items-center justify-center w-10 p-2 border rounded-lg border-border/30"
             type="submit"
           >
             <Icon className="text-primary" path={mdiSendOutline} size={1} />
