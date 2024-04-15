@@ -35,19 +35,17 @@ interface LanguageSelectProps {
     setLanguageData: React.Dispatch<React.SetStateAction<LanguageData>>;
   },
   googleVoiceData: UseQueryResult<VoiceData, unknown>,
-  handleOnLangSelect: (voiceName: string) => void;
+  handleLanguageSelect: (voiceName: string) => void;
 }
 
 export const LanguageDataSelect = ({ 
   languageDataState,
   googleVoiceData,
-  handleOnLangSelect
+  handleLanguageSelect
 }: LanguageSelectProps) => {
   
   const [open, setOpen] = useState(false);
 
-  const { data } = useGoogleVoiceData();
-  
   const { languageData, setLanguageData } = languageDataState;
 
   const deleteAllMsgs = useDeleteAllMsgs();
@@ -137,7 +135,7 @@ export const LanguageDataSelect = ({
                     key={voice.name}
                     value={voice.name}
                     onSelect={(currentValue) => {
-                      handleOnLangSelect(currentValue);
+                      handleLanguageSelect(currentValue);
                       setOpen(false);
                     }}
                   >

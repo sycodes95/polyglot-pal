@@ -39,7 +39,10 @@ namespace api.Controllers
 
             var conversations = await _conversationRepo.GetAllAsync(appUser);
 
-            var conversationDtos = conversations.Select(c => c.FromConversationToDto());
+            var conversationDtos = conversations
+            .Select(c => c.FromConversationToAllDto())
+            .OrderByDescending(x => x.Id)
+            .ToList();
             
             return Ok(conversationDtos);
         }

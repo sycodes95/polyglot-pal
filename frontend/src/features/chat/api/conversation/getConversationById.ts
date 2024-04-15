@@ -7,7 +7,7 @@ type ConversationId = number;
 
 export const getConversationById = async (conversationId?: ConversationId) => {
   try {
-    const data = await axios.get(config.API_DOMAIN + `conversation/?id=${conversationId}`);
+    const data = await axios.get(config.API_DOMAIN + `conversation/${conversationId}`);
 
     if(data) return data.data as ConversationDto;
     // if(data) return data.data;

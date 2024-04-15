@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getAllMessages } from '../features/chat/api/message/getAllMessages';
-import { Message } from "../features/chat/types/types";
+import { LanguageData, Message } from "../features/chat/types/types";
 import { useCreateMessage } from "../features/chat/api/message/createMessage";
 import { useDeleteAllMsgs } from "../features/chat/api/message/deleteAllMessages";
 import { useGPTResponse } from "../features/chat/api/openAI/createGPTResponse";
@@ -24,7 +22,7 @@ export const useMessages = ( { conversationId, input, cIdRef }: UseMessagesProps
 
   const createGptResponse = useGPTResponse(messages, input);
 
-  const handleCreateGptResponse = useCallback( async () => {
+  const handleCreateGptResponse = async () => {
     const gptTranscript = await createGptResponse.mutateAsync();
     if(gptTranscript) {
       gptTranscript.conversationId = Number(conversationId);
@@ -34,9 +32,10 @@ export const useMessages = ( { conversationId, input, cIdRef }: UseMessagesProps
       };
     };
 
-  },[conversationId]);
-
+  };
+  
   useEffect(() => {
+    //set last msg
     if(messages.length > 0) {
       setLastMsg(messages[messages.length - 1]);
     }
@@ -55,16 +54,7 @@ export const useMessages = ( { conversationId, input, cIdRef }: UseMessagesProps
         //do tts
       }
     } 
-  },[lastMsg])
-
-  useEffect(() => {
-    if(conversationId) {
-      getAllMessages(Number(conversationId)).then(data => data ? setMessages(data) : setMessages([]));
-    } else {
-
-    }
-
-  },[conversationId])
+  },[lastMsg]);
 
   return {
     messages,
