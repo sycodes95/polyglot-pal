@@ -102,11 +102,11 @@ export const LanguageDataSelect = ({
               {
                 languageData.voiceName ?
                 <div className='flex gap-4 items-center '>
-                  <span className='text-white'>{languageData.languageName}</span>
-                  <span className='text-white'>{languageData.voiceName}</span>
+                  <span className='text-yellow-100'>{languageData.languageName}</span>
+                  <span className='text-yellow-100'>{languageData.voiceName}</span>
                 </div>
                 :
-                <span className='text-xs'>Select a language</span>
+                <span className='text-sm'>Select a language</span>
               }
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
@@ -117,7 +117,7 @@ export const LanguageDataSelect = ({
               <CommandEmpty>No framework found.</CommandEmpty>
               <CommandGroup className='overflow-y-auto max-h-[400px]'>
                 <CommandItem
-                className='text-white'
+                className='text-yellow-100'
                   value={undefined}
                   onSelect={() => {
                     resetLanguageData();
@@ -135,7 +135,7 @@ export const LanguageDataSelect = ({
 
                 {googleVoiceData.data.voices.map((voice) => (
                   <CommandItem
-                  className='text-white'
+                  className='text-yellow-100'
                     key={voice.name}
                     value={voice.name}
                     onSelect={(currentValue) => {

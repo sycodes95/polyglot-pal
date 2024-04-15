@@ -5,7 +5,7 @@ export default function Footer () {
   return (
     <div className="bottom-0 flex justify-center w-full h-10 border-t bg-background border-border">
       <div className="max-w-7xl">
-        <div className="flex items-center h-full gap-1 text-xs text-primary">
+        <div className="flex items-center h-full gap-1 text-sm text-primary">
           <span className='whitespace-nowrap'>Made with</span>
           <Icon className='text-red-600' path={mdiHeart} size={0.7} />
           <span className='whitespace-nowrap'>by</span>

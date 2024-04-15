@@ -15,7 +15,7 @@ export const Landing = () => {
   
     return (
       <div className="flex justify-center w-full">
-        <Link className="flex justify-center items-center w-40 h-8 text-xs font-normal transition-all duration-300 bg-yellow-400 border border-yellow-500 rounded-lg bg-opacity-20 text-primary font-main glow-box-yellow" to={"/register"}>
+        <Link className="flex justify-center items-center w-40 h-8 text-sm font-normal transition-all duration-300 bg-yellow-400 border border-yellow-500 rounded-lg bg-opacity-20 text-primary font-main glow-box-yellow" to={"/register"}>
           Sign Me Up!
         </Link>
       </div>
@@ -62,7 +62,7 @@ export const Landing = () => {
       {/* <div className="absolute top-0 z-10 w-64 h-0 glow-box-yellow-top"></div> */}
       <div className="flex flex-col w-full h-full gap-16 p-4 pt-12 pb-12 border-l border-r md:pt-24 md:pb-24 max-w-7xl border-border bg-black/20">
           
-        <div className="relative flex flex-col items-center justify-start h-full gap-8 text-4xl font-semibold text-white transition-all duration-500 md:text-6xl text-opacity-80 font-display-2">
+        <div className="relative flex flex-col items-center justify-start h-full gap-8 text-4xl font-semibold text-yellow-100 transition-all duration-500 md:text-6xl text-opacity-80 font-display-2">
           <div className="z-50 flex flex-col items-center">
             <p className="text-center">
               Practice conversation skills 
@@ -74,7 +74,7 @@ export const Landing = () => {
           </div>
 
           <div className="flex flex-col items-center max-w-2xl gap-2 p-4 text-sm text-center rounded-lg font-main border-border ">
-            <span className="text-xs font-semibold text-center md:text-sm" style={{lineHeight: '200%'}}>
+            <span className="text-sm font-semibold text-center md:text-sm" style={{lineHeight: '200%'}}>
               Polyglot Pal is an application that helps language learners improve their speaking abilities.
               With voice chat ability and an AI powered bot with realistic sounding TTS capabilities,
               it's a way to get the practice in without having to travel.
@@ -95,7 +95,7 @@ export const Landing = () => {
                 </div>
                 <span className="text-lg font-bold text-primary" data-atropos-offset="3" data-atropos-opacity="1;0.6">{card.name}</span>
                 <span 
-                className="text-xs font-semibold text-center text-zinc-500" 
+                className="text-sm font-semibold text-center text-zinc-500" 
                 style={{lineHeight: '1.5'}}
                 data-atropos-offset="1" data-atropos-opacity="1;0.6"
                 >
@@ -124,10 +124,10 @@ export const Landing = () => {
           }
         </div>
 
-        <div className="flex flex-col items-center gap-8 text-white text-opacity-80">
+        <div className="flex flex-col items-center gap-8 text-yellow-100 text-opacity-80">
           <span className="text-5xl font-semibold font-display-2">Why?</span>
 
-          <span className="max-w-sm text-xs text-center text-zinc-500 md:text-sm" style={{lineHeight: '200%'}}>
+          <span className="max-w-sm text-sm text-center text-zinc-500 md:text-sm" style={{lineHeight: '200%'}}>
             Learning or maintaining language conversation skills can be difficult if you can't travel much.
             We understand conversing with AI is not the same as conversing with real people.
             However it can be a great way to keep your skills sharp and get the practice in when options are limited.

@@ -441,7 +441,7 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         pausePalVoice={pausePalVoice}
         />
         <div className="top-0 right-0 z-50 text-2xl text-black" onClick={()=> setShowMobileSideBar(false)}>
-          <Icon className={`pt-1 text-white  `}  path={mdiAlphaXBoxOutline} size={2} />
+          <Icon className={`pt-1 text-yellow-100  `}  path={mdiAlphaXBoxOutline} size={2} />
         </div>
       </div>
       {

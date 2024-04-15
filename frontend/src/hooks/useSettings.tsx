@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Settings } from "../features/chat/types/types";
+import { LanguageData, Settings } from "../features/chat/types/types";
 import { useUpdateSettings } from "../features/chat/api/settings/updateSettings";
 import { InitConversationParam } from "./useConversation";
+import { useQueryClient } from "react-query";
 
 const defaultSettings: Settings = {
   cefrLevel: "C2",
@@ -10,10 +11,16 @@ const defaultSettings: Settings = {
 
 interface UseSettingsProps {
   conversationId: string | undefined;
-  initConversation: (initializer: InitConversationParam)=> void;
+  initConversation: (initializer: InitConversationParam,
+    data: {
+      langData?: LanguageData,
+      cefrLevel?: Settings["cefrLevel"]
+    })=> void;
 };
 
 export const useSettings = ({ conversationId, initConversation } : UseSettingsProps) => {
+
+  const queryClient = useQueryClient();
 
   const [ settings, setSettings ] = useState<Settings>(defaultSettings);
 
@@ -21,6 +28,7 @@ export const useSettings = ({ conversationId, initConversation } : UseSettingsPr
 
   const handleLevelChange = (cefrLevel: Settings["cefrLevel"]) => {
     setSettings(prev => ({...prev, cefrLevel}));
+    initConversation("settings", { cefrLevel });
   };
 
   const handleTtsEnabled = (ttsEnabled: boolean) => {
@@ -33,12 +41,11 @@ export const useSettings = ({ conversationId, initConversation } : UseSettingsPr
     };
   },[settings]);
 
-  useEffect(() => {
-    if(settings.cefrLevel) {
-      initConversation("settings");
-    };
-
-  },[settings.cefrLevel])
+  useEffect(()=> {
+    if(updateSettings.isSuccess) {
+      queryClient.invalidateQueries({ queryKey: ["all-conversations"]});
+    }
+  },[updateSettings.isSuccess])
 
   return {
     settings,

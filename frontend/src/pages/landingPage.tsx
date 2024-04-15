@@ -51,7 +51,7 @@ export default function LandingPage () {
       <div className="absolute top-0 z-10 w-64 h-0 glow-box-red-top"></div>
       <div className="flex flex-col w-full h-full gap-16 p-4 pt-12 pb-12 border-l border-r md:pt-24 md:pb-24 max-w-7xl border-border bg-dark-gradient">
           
-        <div className="relative flex flex-col items-center justify-start h-full gap-8 text-4xl font-semibold text-white transition-all duration-500 md:text-6xl text-opacity-80 font-display-2">
+        <div className="relative flex flex-col items-center justify-start h-full gap-8 text-4xl font-semibold text-yellow-100 transition-all duration-500 md:text-6xl text-opacity-80 font-display-2">
           <div className="z-50 flex flex-col items-center">
             <p className="text-center">
               Practice conversation skills 
@@ -63,7 +63,7 @@ export default function LandingPage () {
           </div>
 
           <div className="flex flex-col items-center max-w-2xl gap-2 p-4 text-sm text-center rounded-lg font-main border-border ">
-            <span className="text-xs font-semibold text-center md:text-sm" style={{lineHeight: '200%'}}>
+            <span className="text-sm font-semibold text-center md:text-sm" style={{lineHeight: '200%'}}>
               Polyglot Pal is an application that helps language learners improve their speaking abilities.
               With voice chat ability and an AI powered bot with realistic sounding TTS capabilities,
               it's a way to get the practice in without having to travel.
@@ -84,7 +84,7 @@ export default function LandingPage () {
                 </div>
                 <span className="text-lg font-bold text-primary" data-atropos-offset="3" data-atropos-opacity="1;0.6">{card.name}</span>
                 <span 
-                className="text-xs font-semibold text-center text-zinc-500" 
+                className="text-sm font-semibold text-center text-zinc-500" 
                 style={{lineHeight: '1.5'}}
                 data-atropos-offset="1" data-atropos-opacity="1;0.6"
                 >
@@ -113,10 +113,10 @@ export default function LandingPage () {
           }
         </div>
 
-        <div className="flex flex-col items-center gap-8 text-white text-opacity-80">
+        <div className="flex flex-col items-center gap-8 text-yellow-100 text-opacity-80">
           <span className="text-5xl font-semibold font-display-2">Why?</span>
 
-          <span className="max-w-sm text-xs text-center text-zinc-500 md:text-sm" style={{lineHeight: '200%'}}>
+          <span className="max-w-sm text-sm text-center text-zinc-500 md:text-sm" style={{lineHeight: '200%'}}>
             Learning or maintaining language conversation skills can be difficult if you can't travel much.
             We understand conversing with AI is not the same as conversing with real people.
             However it can be a great way to keep your skills sharp and get the practice in when options are limited.

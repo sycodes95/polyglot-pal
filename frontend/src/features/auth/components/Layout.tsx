@@ -4,7 +4,7 @@ interface LayoutProps {
 
 export const Layout = ( { children }: LayoutProps) => {
   return (
-    <div className="text-white bg-background rounded-sm w-96 min-h-[400px] flex flex-col
+    <div className="text-yellow-100 bg-background rounded-sm w-96 min-h-[400px] flex flex-col
     items-center">
       {children}
     </div>

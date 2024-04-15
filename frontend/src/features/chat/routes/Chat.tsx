@@ -13,17 +13,10 @@ import { NewConversation } from '../components/NewConversation';
 export const Chat = () => {
   const navigate = useNavigate();
 
-  const queryClient = useQueryClient();
-
-  const handleNewConversation = () => {
-    navigate("/");
-  };
-  useEffect(() => {
-  },[])
   return (
     <>
       <div className="flex w-full  ">
-        <Sidebar className='w-64 flex flex-col h-full overflow-y-auto p-4 gap-4 bg-black/30'>
+        <Sidebar className='w-72 flex flex-col h-full overflow-y-auto p-4 gap-4 bg-black/30 border-r border-border/20'>
           <NewConversation />
           <NativeLanguageSelect />
           <ConversationList />

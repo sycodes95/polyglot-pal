@@ -42,20 +42,20 @@ export const RegisterPwChecker = ({ form, show = false } : FormPwCheckerProps) =
     <>
       {
       show &&
-      <div className="p-4 border border-border bg-border rounded-md text-sm text-white/50 flex flex-col gap-2">
-        <span className="text-white">Your password must contain:</span>
+      <div className="p-4 border border-border bg-border rounded-md text-sm text-yellow-100/50 flex flex-col gap-2">
+        <span className="text-yellow-100">Your password must contain:</span>
         <div className="flex flex-col gap-2">
-          <li className={`${isMinLength ? "text-green-500" : "text-white/50"}`}>More than 6 characters.</li>
+          <li className={`${isMinLength ? "text-green-500" : "text-yellow-100/50"}`}>More than 6 characters.</li>
         </div>
 
-        <span className=" text-white">Atleast one of the following:</span>  
+        <span className=" text-yellow-100">Atleast one of the following:</span>  
 
         <div className="flex flex-col gap-2">
           
-          <li className={`${hasLowercase ? "text-green-500" : "text-white/50"}`}>- Lowercase letters (a - z)</li>
-          <li className={`${hasUppercase ? "text-green-500" : "text-white/50"}`}>- Lowercase letters (A - Z)</li>
-          <li className={`${hasDigit ? "text-green-500" : "text-white/50"}`}>- Numbers (0-9)</li>
-          <li className={`${hasSpecialChar ? "text-green-500" : "text-white/50"}`}>- Special characters (e.g. !@#$%^&*)</li>
+          <li className={`${hasLowercase ? "text-green-500" : "text-yellow-100/50"}`}>- Lowercase letters (a - z)</li>
+          <li className={`${hasUppercase ? "text-green-500" : "text-yellow-100/50"}`}>- Lowercase letters (A - Z)</li>
+          <li className={`${hasDigit ? "text-green-500" : "text-yellow-100/50"}`}>- Numbers (0-9)</li>
+          <li className={`${hasSpecialChar ? "text-green-500" : "text-yellow-100/50"}`}>- Special characters (e.g. !@#$%^&*)</li>
 
         </div>
         

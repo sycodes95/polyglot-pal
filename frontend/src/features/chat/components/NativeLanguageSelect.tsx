@@ -77,7 +77,7 @@ export const NativeLanguageSelect = () => {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-full rounded-md justify-between text-xs h-fit"
+            className="w-full rounded-md justify-between text-sm h-fit"
           >
             {
               selectedLanguage.languageName 
@@ -109,11 +109,11 @@ export const NativeLanguageSelect = () => {
                   `}
                 />
 
-                <span className="text-white">None</span>
+                <span className="text-yellow-100">None</span>
               </CommandItem>
               {NativeLanguageOptions.map((langObj) => (
                 <CommandItem
-                className="text-white"
+                className="text-yellow-100"
                   key={langObj.languageCode}
                   value={langObj.languageName}
                   onSelect={(currentValue) => {

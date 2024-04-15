@@ -100,7 +100,7 @@ export const RegisterForm = () => {
   return(
     <Form {...form}>
       <div className="flex flex-col gap-4 w-full items-center bg-black/50 p-6">
-        <Icon className="text-white blur-[0.5px]" path={mdiEarth} size={3} />
+        <Icon className="text-yellow-100 blur-[0.5px]" path={mdiEarth} size={3} />
         <h1 className="text-2xl font-display-2 font-semibold  pt-2 pb-2 text-center  w-full">Welcome</h1>
         <span className="text-sm p-2 font-semibold rounded-sm  w-full text-center border border-border/20 bg-border/10">Register to continue to PolyglotPal.</span>
       </div>
@@ -116,13 +116,13 @@ export const RegisterForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white">Email</FormLabel>
+              <FormLabel className="text-yellow-100">Email</FormLabel>
               <FormControl>
                 <Input placeholder="username" {...field} />
               </FormControl>
               <FormDescription>
               </FormDescription>
-              <FormMessage className=" font-normal text-xs" />
+              <FormMessage className=" font-normal text-sm" />
             </FormItem>
           )}
         />
@@ -132,13 +132,13 @@ export const RegisterForm = () => {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white">Username</FormLabel>
+              <FormLabel className="text-yellow-100">Username</FormLabel>
               <FormControl>
                 <Input placeholder="username" {...field} />
               </FormControl>
               <FormDescription>
               </FormDescription>
-              <FormMessage className=" font-normal text-xs" />
+              <FormMessage className=" font-normal text-sm" />
             </FormItem>
           )}
         />
@@ -148,13 +148,13 @@ export const RegisterForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white">Password</FormLabel>
+              <FormLabel className="text-yellow-100">Password</FormLabel>
               <FormControl>
                 <Input placeholder="password" {...field} />
               </FormControl>
               <FormDescription>
               </FormDescription>
-              <FormMessage className=" font-normal text-xs" />
+              <FormMessage className=" font-normal text-sm" />
             </FormItem>
           )}
         />
@@ -164,13 +164,13 @@ export const RegisterForm = () => {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white">Confirm Password</FormLabel>
+              <FormLabel className="text-yellow-100">Confirm Password</FormLabel>
               <FormControl>
                 <Input placeholder="password" {...field} />
               </FormControl>
               <FormDescription>
               </FormDescription>
-              <FormMessage className=" font-normal text-xs" />
+              <FormMessage className=" font-normal text-sm" />
             </FormItem>
           )}
         />
@@ -179,7 +179,7 @@ export const RegisterForm = () => {
 
         <Button className="bg-black w-full hover:bg-black/50" type="submit">Continue</Button>
 
-        <div className=" w-full flex justify-center text-xs hover:text-red-500 transition-colors">
+        <div className=" w-full flex justify-center text-sm hover:text-red-500 transition-colors">
           <Link to={"/login"}>
             Already have an account? Log In Here.
           </Link>

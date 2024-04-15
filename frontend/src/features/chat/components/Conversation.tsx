@@ -41,7 +41,12 @@ export const Conversation = () => {
           languageDataState={{ languageData, setLanguageData }}
           />
     
-        <SettingsBar settings={settings} setSettings={setSettings} languageData={languageData} />
+        <SettingsBar 
+        settings={settings} 
+        setSettings={setSettings} 
+        languageData={languageData} 
+        handleLevelChange={handleLevelChange}
+        />
       </div>
   
       <div className=" max-w-5xl w-full h-full grow flex flex-col rounded-md">

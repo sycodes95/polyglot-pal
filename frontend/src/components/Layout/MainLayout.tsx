@@ -42,7 +42,7 @@ const UserDropdownMenu = () => {
           userMenuIsOpen &&
             <>
               <ul className="absolute right-0 z-50 flex flex-col gap-1 p-4 border rounded-lg cursor-default border-border bg-background whitespace-nowrap top-full ">
-                <li className="z-50 text-xs text-red-400 transition-all cursor-pointer hover:text-red-600" onClick={
+                <li className="z-50 text-sm text-red-400 transition-all cursor-pointer hover:text-red-600" onClick={
                   ()=> {
                   window.onbeforeunload = null;
                   logout();
@@ -116,7 +116,7 @@ const ModeToggle = () => {
     <div className="hidden md:flex">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className="text-black dark:text-foreground hover:dark:text-white hover:bg-foreground border-border" variant="outline" size="icon">
+          <Button className="text-black dark:text-foreground hover:dark:text-yellow-100 hover:bg-foreground border-border" variant="outline" size="icon">
             <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
             <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             <span className="sr-only">Toggle theme</span>
@@ -178,7 +178,7 @@ export const Header = ({
         />
         <MobileLogo className="flex items-center md:hidden" />
         <div className="flex items-center justify-end w-full ">
-          <button className="h-8 p-2 text-xs font-normal transition-all duration-300 bg-red-400 border border-red-500 rounded-lg w-fit bg-opacity-20 text-primary font-main flex items-center " onClick={()=> {
+          <button className="h-8 p-2 text-sm font-normal transition-all duration-300 bg-red-400 border border-red-500 rounded-lg w-fit bg-opacity-20 text-primary font-main flex items-center " onClick={()=> {
             navigate("/login");
             }}>
             Log In / Sign Up
@@ -196,7 +196,7 @@ const Footer = () => {
   return (
     <div className="bottom-0 flex justify-center w-full h-10 border-t bg-black/20 border-border/20">
       <div className="max-w-7xl">
-        <div className="flex items-center h-full gap-1 text-xs text-primary">
+        <div className="flex items-center h-full gap-1 text-sm text-primary">
           <span className='whitespace-nowrap'>Made with</span>
           <Icon className='text-red-600' path={mdiHeart} size={0.7} />
           <span className='whitespace-nowrap'>by</span>

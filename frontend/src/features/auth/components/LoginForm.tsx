@@ -79,7 +79,7 @@ export const LoginForm = () => {
       
       <Form {...form}>
         <div className="flex flex-col gap-4 w-full items-center bg-black/50 p-6">
-          <Icon className="text-white blur-[0.5px]" path={mdiEarth} size={3} />
+          <Icon className="text-yellow-100 blur-[0.5px]" path={mdiEarth} size={3} />
           <h1 className="text-2xl font-display-2 font-semibold  pt-2 pb-2 text-center  w-full">Welcome</h1>
           <span className="text-sm p-2 font-semibold rounded-sm  w-full text-center border border-border/20 bg-border/10">Log in to continue to PolyglotPal.</span>
         </div>
@@ -95,13 +95,13 @@ export const LoginForm = () => {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-white">Username</FormLabel>
+                <FormLabel className="text-yellow-100">Username</FormLabel>
                 <FormControl>
                   <Input placeholder="username" {...field} />
                 </FormControl>
                 <FormDescription>
                 </FormDescription>
-                <FormMessage className=" font-normal text-xs" />
+                <FormMessage className=" font-normal text-sm" />
               </FormItem>
             )}
           />
@@ -111,18 +111,18 @@ export const LoginForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-white">Password</FormLabel>
+                <FormLabel className="text-yellow-100">Password</FormLabel>
                 <FormControl>
                   <Input placeholder="password" {...field} />
                 </FormControl>
                 <FormDescription>
                 </FormDescription>
-                <FormMessage className=" font-normal text-xs" />
+                <FormMessage className=" font-normal text-sm" />
               </FormItem>
             )}
           />
           <Button className="bg-black w-full hover:bg-black/50" type="submit">Continue</Button>
-          <div className=" w-full flex justify-center text-xs hover:text-red-500 transition-colors">
+          <div className=" w-full flex justify-center text-sm hover:text-red-500 transition-colors">
             <Link to={"/register"}>
               Don't have an account? Register here.
             </Link>

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { LanguageData, VoiceData } from "../features/chat/types/types";
+import { LanguageData, Settings, VoiceData } from "../features/chat/types/types";
 import { useUpdateLanguageData } from '../features/chat/api/language-data/updateLanguageData';
 import { useGoogleVoiceData } from "../features/chat/api/google/getVoiceDatas";
 import { languageNameAndCodes } from "../constants/languageNameAndCodes";
 import { ConversationId } from '../features/chat/api/conversation/createConversation';
 import { inject } from "vitest";
 import { cefrLevels } from '../constants/cefrLevels';
-import { UseQueryResult } from "react-query";
+import { UseQueryResult, useQueryClient } from "react-query";
 import { InitConversationParam } from "./useConversation";
 
 const defaultLanguageData: LanguageData = {
@@ -19,7 +19,11 @@ const defaultLanguageData: LanguageData = {
 
 interface UseLanguageDataProps {
   conversationId: string | undefined;
-  initConversation: (initializer: InitConversationParam)=> void;
+  initConversation: (initializer: InitConversationParam,
+    data: {
+      langData?: LanguageData,
+      cefrLevel?: Settings["cefrLevel"]
+    })=> void;
   isInitialFetchData: boolean;
   setIsInitialFetchData: React.Dispatch<React.SetStateAction<boolean>>;
   googleVoiceData: UseQueryResult<VoiceData, unknown>;
@@ -32,6 +36,8 @@ export const useLanguageData = ( {
   setIsInitialFetchData,
   googleVoiceData
 }: UseLanguageDataProps) => {
+
+  const queryClient = useQueryClient();
    
   const [languageData, setLanguageData] = useState<LanguageData>(defaultLanguageData);
 
@@ -48,25 +54,31 @@ export const useLanguageData = ( {
       return 
     };
 
-    setLanguageData(prev => ({
-      ...prev,
+    const langData: LanguageData = {
       languageName,
       languageCode,
       countryCode,
       voiceName: name,
       ssmlGender
-    }));
+    }; 
 
+    initConversation("language-data", { langData });
   };
 
   useEffect(()=> {
     if(conversationId && languageData.conversationId && languageData.id && !isInitialFetchData) {
-      initConversation("language-data");
       updateLanguageData.mutateAsync();
     };
     // if state is initial fetch set it to false after first call of useEffect
     setIsInitialFetchData(false);
   },[languageData]);
+
+  useEffect(()=> {
+    if(updateLanguageData.isSuccess) {
+      queryClient.invalidateQueries({ queryKey: ["all-conversations"]});
+    }
+
+  },[updateLanguageData.isSuccess])
 
 
   return {

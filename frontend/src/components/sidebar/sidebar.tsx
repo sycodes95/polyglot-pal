@@ -195,8 +195,8 @@ export default function Sidebar ({
               <CountryFlag className="object-contain w-6 h-6 rounded-2xl" countryCode={c.selectedLanguageData.countryCode} />
               <span>{c.selectedLanguageData.languageName} {c.cefrLevel}</span>
             </div>
-            <span className="text-xs font-light">{c.selectedLanguageData.voiceName} {c.selectedLanguageData.ssmlGender}</span>
-            <span className="text-xs font-light">{format(new Date(c._creationTime), 'yyyy-MM-dd HH:mm:ss')}</span>
+            <span className="text-sm font-light">{c.selectedLanguageData.voiceName} {c.selectedLanguageData.ssmlGender}</span>
+            <span className="text-sm font-light">{format(new Date(c._creationTime), 'yyyy-MM-dd HH:mm:ss')}</span>
             {
             currentConversationId === c._id &&
             <div className="absolute top-0 right-0">

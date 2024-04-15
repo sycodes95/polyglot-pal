@@ -166,7 +166,7 @@ export default function TalkSetupOptions ({
             <PopoverContent className="grid w-full grid-cols-3 gap-2">
               {
               Object.keys(cefrLevels).map((level) => (
-                <button className={`flex items-center border text-black ${level === conversation.cefrLevel ? 'bg-black text-white ' : 'border-stone-300 text-stone-400'} hover:bg-foreground justify-center w-12 h-12 text-sm rounded-full transition-all`} 
+                <button className={`flex items-center border text-black ${level === conversation.cefrLevel ? 'bg-black text-yellow-100 ' : 'border-stone-300 text-stone-400'} hover:bg-foreground justify-center w-12 h-12 text-sm rounded-full transition-all`} 
                 onClick={()=> handleCefrLevelSelect(level)}
                 key={level}>{level}</button>
               ))

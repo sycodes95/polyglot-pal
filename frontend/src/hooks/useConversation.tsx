@@ -44,27 +44,56 @@ const defaultSettings: Settings = {
   ttsEnabled: true
 };
 
+
+
 export const useConversation = () => {
 
   const navigate = useNavigate();
 
   const { conversationId } = useParams();
 
+  const queryClient = useQueryClient();
+
   const cIdRef = useRef<string | undefined>(undefined); 
 
   const googleVoiceData = useGoogleVoiceData();
 
-  function initConversation (initializer: InitConversationParam ) {
+  function initConversation (
+    initializer: InitConversationParam,
+    data: {
+      langData?: LanguageData,
+      cefrLevel?: Settings["cefrLevel"]
+    }
+  ) {
+
+    /*
+    initConversation essentially resets and starts the conversation by
+    deleting all messages tied to this conversation using conversationId
+    and also resetting messages state and injecting the prompt as the first message
+    */
+
+    const { langData, cefrLevel} = data;
 
     // reset settings if function was called from useLanguageData hook
-    if(initializer === "language-data") setSettings(defaultSettings);
+    if(initializer === "language-data" && langData) {
+      console.log("check")
+      setSettings(defaultSettings);
+      setLanguageData(prev => ({
+        ...prev,
+        languageName: langData.languageName,
+        languageCode: langData.languageCode,
+        countryCode: langData.countryCode,
+        voiceName: langData.voiceName,
+        ssmlGender: langData.ssmlGender
+      }));
+    }
 
     deleteAllMsgs.mutateAsync();
 
     setMessages([
       { 
         role: "user", 
-        content: getGptPrompt(languageData, settings.cefrLevel), 
+        content: getGptPrompt(langData ?? languageData, cefrLevel ?? settings.cefrLevel), 
         conversationId: Number(conversationId)
       }
     ]);
@@ -129,6 +158,10 @@ export const useConversation = () => {
     resetState,
     
   });
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ["all-conversations"]});
+  },[languageData, settings.cefrLevel])
 
   useEffect(() => {
     // console.log(conversationId)

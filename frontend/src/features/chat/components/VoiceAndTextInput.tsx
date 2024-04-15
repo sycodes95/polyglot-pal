@@ -122,7 +122,7 @@ export const VoiceAndTextInput = ({
           </div>
           }
           <input
-            className={` w-full h-full bg-foreground/50 outline-none text-xs text-primary rounded-lg p-2`}
+            className={` w-full h-full bg-foreground/50 outline-none text-sm text-primary rounded-lg p-2`}
             type="text"
             value={input}
             placeholder="Say hi to your pal ..."
