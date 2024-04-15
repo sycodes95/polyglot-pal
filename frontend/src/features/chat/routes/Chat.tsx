@@ -15,8 +15,8 @@ export const Chat = () => {
 
   return (
     <>
-      <div className="flex w-full  ">
-        <Sidebar className='w-72 flex flex-col h-full overflow-y-auto p-4 gap-4 bg-black/30 border-r border-border/20'>
+      <div className="flex w-full   ">
+        <Sidebar className='w-72 flex flex-col h-full overflow-y-auto p-4 gap-4 bg-black/30 border-r border-border/20 grow'>
           <NewConversation />
           <NativeLanguageSelect />
           <ConversationList />

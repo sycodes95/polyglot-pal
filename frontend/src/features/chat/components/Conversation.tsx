@@ -32,14 +32,14 @@ export const Conversation = () => {
   } = useConversation();
   
   return ( 
-    <div className="w-full flex flex-col items-center bg-black/10 p-4">
+    <div className="w-full flex flex-col  items-center bg-black/10  relative ">
 
-      <div className="flex flex-col w-full gap-4 ">
+      <div className="flex flex-col w-fit gap-4 absolute top-4 left-4 z-10 backdrop-blur-md rounded-md">
         <LanguageDataSelect 
-          googleVoiceData={googleVoiceData}
-          handleLanguageSelect={handleLanguageSelect}
-          languageDataState={{ languageData, setLanguageData }}
-          />
+        googleVoiceData={googleVoiceData}
+        handleLanguageSelect={handleLanguageSelect}
+        languageDataState={{ languageData, setLanguageData }}
+        />
     
         <SettingsBar 
         settings={settings} 
@@ -49,21 +49,23 @@ export const Conversation = () => {
         />
       </div>
   
-      <div className=" max-w-5xl w-full h-full grow flex flex-col rounded-md">
-  
-        <Messages 
-        messagesState={{messages, setMessages}}
-        />
-  
-        <VoiceAndTextInput 
+      <div className="  h-full w-full grow flex flex-col rounded-md relative overflow-y-auto">
+
+        <div className="h-full w-full flex justify-center absolute top-0 pb-[4rem]">
+          <Messages 
+          messagesState={{messages, setMessages}}
+          />
+        </div>
+      </div>
+
+      <VoiceAndTextInput 
         languageData={languageData}
         inputState={{input, setInput}}
         // setUserVoiceBase64={setUserVoiceBase64}
         // getGptResponse={handleCreateGptResponse}
         submitUserInput={submitUserInput}
         />
-        
-      </div>
+
     </div>
 
   );

@@ -15,7 +15,7 @@ export const Messages = ( {messagesState}: MessagesProps) => {
   const { messages, setMessages} = messagesState;
   
   return (
-    <div className="w-full h-full flex flex-col gap-6">
+    <div className="w-full max-w-5xl h-full flex flex-col gap-6 overflow-">
       {
         messages && messages.length > 1 &&
         messages.map((message, index) => (

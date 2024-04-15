@@ -15,7 +15,7 @@ export const ConversationList = () => {
 
   }
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col overflow-y-auto">
       {
         !isFetching && !isError && data ?
         data.map((conversation) => (
