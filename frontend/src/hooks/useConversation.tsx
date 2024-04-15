@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useCreateLanguageData } from "../features/chat/api/language-data/createLanguageData";
 import { LanguageData, Message, Settings } from '../features/chat/types/types';
 import { useCreateConversation, ConversationId } from '../features/chat/api/conversation/createConversation';
@@ -12,7 +12,6 @@ import { getAllMessages, useQueryMessages } from "../features/chat/api/message/g
 import { getSettings, useQuerySettings } from "../features/chat/api/settings/getSettings";
 import { useQueryClient } from "react-query";
 import { createGPTResponse, useGPTResponse } from '../features/chat/api/openAI/createGPTResponse';
-import { setFetch } from 'convex/dist/cjs-types/browser/http_client';
 import { set } from 'date-fns';
 import { useGoogleVoiceData } from '../features/chat/api/google/getVoiceDatas';
 import { languageNameAndCodes } from '../constants/languageNameAndCodes';
@@ -49,7 +48,7 @@ export const useConversation = () => {
 
   const [languageData, setLanguageData] = useState<LanguageData>(defaultLanguageData);
 
-  const { data } = useGoogleVoiceData();
+  const googleVoiceData = useGoogleVoiceData();
 
   const [settings, setSettings] = useState<Settings>(defaultSettings);
 
@@ -86,9 +85,7 @@ export const useConversation = () => {
     setMessages([]);
   };
 
-  const handleCreateGptResponse = async () => {
-    console.log("check")
-    // cIdRef = conversationId;
+  const handleCreateGptResponse = useCallback( async () => {
     const gptTranscript = await createGptResponse.mutateAsync();
     if(gptTranscript) {
       gptTranscript.conversationId = Number(conversationId);
@@ -97,14 +94,11 @@ export const useConversation = () => {
         setMessages(prev => [...prev, gptTranscript]);
       };
     };
-  };
 
-  
-
-  // const initializeConversation = () => {
-  // };
+  },[conversationId]);
 
   useEffect(()=> {
+    // save messages if not saved already by checking for id.
     if(conversationId && lastMsg && lastMsg.conversationId && !lastMsg.id) {
       createMsg.mutateAsync();
     };
@@ -117,20 +111,6 @@ export const useConversation = () => {
       }
     } 
   },[lastMsg])
-
-  // useEffect(() => {
-  //   if(conversationId && messages.length > 0 && !messages[messages.length - 1].id) {
-  //     createMsg.mutateAsync();
-  //   }
-  //   if(conversationId && messages.length > 0 && messages[messages.length - 1].role === "user") {
-  //     console.log("gptresponse call")
-  //     handleCreateGptResponse();
-  //   } else if(conversationId && messages.length > 0 && messages[messages.length - 1].role === "assistant") {
-  //     //do tts
-  //   }
-
-  //   // save message if conversationId does not exist.
-  // },[messages]);
 
   useEffect(()=> {
 
@@ -147,13 +127,13 @@ export const useConversation = () => {
 
     const [languageCode, countryCode, _, __] = voiceName.split("-");
     const languageName = languageNameAndCodes.find(lang => lang.languageCode === languageCode)?.languageName;
-    const name = data?.voices.find(voice => voice.name.toLowerCase() === voiceName)?.name;
-    const ssmlGender = data?.voices.find(voice => voice.name.toLowerCase() === voiceName)?.ssmlGender;
+    const name = googleVoiceData.data?.voices.find(voice => voice.name.toLowerCase() === voiceName)?.name;
+    const ssmlGender = googleVoiceData.data?.voices.find(voice => voice.name.toLowerCase() === voiceName)?.ssmlGender;
 
     if(!name || !languageCode || !countryCode || !languageName || !ssmlGender) {
       return 
     };
-
+    
     deleteAllMsgs.mutateAsync()
 
     setMessages([
@@ -201,26 +181,6 @@ export const useConversation = () => {
     
   });
 
-  // const fetchConversation = async ()=> {
-  //   setIsFetching(true);
-
-  //   const languageData = await getLanguageData(Number(conversationId));
-  //   const messages = await getAllMessages(Number(conversationId));
-  //   const settings = await getSettings(Number(conversationId));
-
-  //   if(languageData && messages && settings) {
-
-  //     setLanguageData(languageData);
-
-  //     setMessages(messages);
-
-  //     setSettings(settings);
-  //   }
-
-  //   setIsFetching(false);
-
-  // }
-
   useEffect(() => {
     // console.log(conversationId)
     // queryClient.invalidateQueries({queryKey: ["language-data"]});
@@ -253,7 +213,8 @@ export const useConversation = () => {
     setInput,
     handleCreateGptResponse,
     submitUserInput,
-    handleOnLangSelect
+    handleOnLangSelect,
+    googleVoiceData
   };
 
 };

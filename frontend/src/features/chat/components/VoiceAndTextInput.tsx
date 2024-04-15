@@ -17,7 +17,6 @@ interface VoiceAndTextInputProps {
     setInput: React.Dispatch<React.SetStateAction<string>>;
   }
   // setUserVoiceBase64: React.Dispatch<React.SetStateAction<string>>;
-  getGptResponse: ()=> void,
   submitUserInput: ()=> void
 };
 
@@ -26,7 +25,6 @@ export const VoiceAndTextInput = ({
   languageData,
   inputState,
   // setUserVoiceBase64,
-  getGptResponse,
   submitUserInput
 }: VoiceAndTextInputProps) => {
   
@@ -84,7 +82,7 @@ export const VoiceAndTextInput = ({
       ) {
         const audioBlob = new Blob(audioChunks, { type: mimeType });
         // set voiceBase64 to base64
-        blobToBase64(audioBlob, setUserVoiceBase64);
+        blobToBase64(audioBlob, setVoiceBase64);
         mediaRecorderRef.current = null;
       }
       

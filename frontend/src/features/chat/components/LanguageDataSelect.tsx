@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LanguageData } from "../types/types"
+import { LanguageData, VoiceData } from '../types/types';
 
 import { Check, ChevronsUpDown } from "lucide-react"
  
@@ -22,6 +22,7 @@ import { languageNameAndCodes } from '../../../constants/languageNameAndCodes';
 import { cn } from '../../../lib/utils';
 import { getLangNameFromCode } from '../utils/getLangNameFromCode';
 import { useDeleteAllMsgs } from '../api/message/deleteAllMessages';
+import { UseQueryResult } from 'react-query';
 
 interface LanguageSelectProps {
   // isNewConversationState: {
@@ -33,11 +34,13 @@ interface LanguageSelectProps {
     languageData: LanguageData;
     setLanguageData: React.Dispatch<React.SetStateAction<LanguageData>>;
   },
+  googleVoiceData: UseQueryResult<VoiceData, unknown>,
   handleOnLangSelect: (voiceName: string) => void;
 }
 
 export const LanguageDataSelect = ({ 
   languageDataState,
+  googleVoiceData,
   handleOnLangSelect
 }: LanguageSelectProps) => {
   
@@ -88,7 +91,7 @@ export const LanguageDataSelect = ({
   return (
     <>
       {
-        data && 
+        googleVoiceData && googleVoiceData.data && 
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -128,7 +131,7 @@ export const LanguageDataSelect = ({
                   ...
                 </CommandItem>
 
-                {data.voices.map((voice) => (
+                {googleVoiceData.data.voices.map((voice) => (
                   <CommandItem
                   className='text-white'
                     key={voice.name}

@@ -26,7 +26,8 @@ export const Conversation = () => {
     setInput,
     handleCreateGptResponse,
     submitUserInput,
-    handleOnLangSelect
+    handleOnLangSelect,
+    googleVoiceData
   } = useConversation();
   
   return (
@@ -34,11 +35,12 @@ export const Conversation = () => {
 
       <div className="flex flex-col w-full ">
         <LanguageDataSelect 
+          googleVoiceData={googleVoiceData}
           handleOnLangSelect={handleOnLangSelect}
           languageDataState={{ languageData, setLanguageData }}
           />
     
-        <SettingsBar />
+        <SettingsBar settings={settings} setSettings={setSettings} />
       </div>
   
       <div className=" max-w-5xl w-full h-full grow flex flex-col rounded-md">
@@ -51,7 +53,7 @@ export const Conversation = () => {
         languageData={languageData}
         inputState={{input, setInput}}
         // setUserVoiceBase64={setUserVoiceBase64}
-        getGptResponse={handleCreateGptResponse}
+        // getGptResponse={handleCreateGptResponse}
         submitUserInput={submitUserInput}
         />
         

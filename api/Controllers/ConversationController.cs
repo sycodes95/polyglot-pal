@@ -20,10 +20,7 @@ namespace api.Controllers
     public class ConversationController : ControllerBase
     {
         private readonly IConversationRepository _conversationRepo;
-
         private readonly UserManager<AppUser> _userManager;
-
-
         public ConversationController(
             IConversationRepository conversationRepo,
             UserManager<AppUser> userManager 
