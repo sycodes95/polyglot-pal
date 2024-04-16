@@ -90,7 +90,7 @@ export const VoiceAndTextInput = ({
     mediaRecorderRef.current.start();
     setRecording(true);
   };
-
+ 
   const stopVoiceRecord = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();

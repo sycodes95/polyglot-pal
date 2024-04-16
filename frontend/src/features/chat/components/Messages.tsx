@@ -21,20 +21,23 @@ export const Messages = ( {messagesState}: MessagesProps) => {
   },[messages])
   
   return (
-    <div className="w-full max-w-5xl h-full flex flex-col gap-6 pb-12">
-      {
-        messages && messages.length > 1 &&
-        messages.map((message, index) => (
-          index !== 0 &&
-          <div key={index} 
-          className={`p-4 w-full flex ${message.role === "user" ? 'justify-start' : 'justify-end'}`}>
-            <span className={`text-yellow-100 text-sm max-w-[300px] p-4 rounded-2xl ${message.role === "user" ? "bg-accent " : "bg-black/25"}`}>{message.content}</span>
-          </div>
-        ))
-      }
-
-      <div ref={scrollRef}/>
-
+    <div className="h-full w-full grow flex flex-col rounded-md relative overflow-y-auto pb-4">
+      <div className="h-full w-full flex justify-center absolute ">
+        <div className="w-full max-w-5xl h-full flex flex-col gap-6">
+          {
+            messages && messages.length > 1 &&
+            messages.map((message, index) => (
+              index !== 0 &&
+              <div key={index} 
+              className={`p-4 w-full flex ${message.role === "user" ? 'justify-start'   : 'justify-end'}`}>
+                <span className={`text-yellow-100 text-sm max-w-[300px] p-4   rounded-2xl ${message.role === "user" ? "bg-accent " : "bg-black/25"} `}>{message.content}</span>
+              </div>
+            ))
+          }
+  
+          <div ref={scrollRef}/>
+        </div>
+      </div>
     </div>
   )
 }
