@@ -103,7 +103,7 @@ export const VoiceAndTextInput = ({
   // }, [voiceBase64]);
 
   return (
-    <div className={`${className} flex w-full max-w-5xl p-2 absolute bottom-0 left-1/2 -translate-x-1/2`}>
+    <div className={`${className} flex w-full max-w-5xl p-2`}>
       <form
         aria-label="form"
         className="flex w-full h-full gap-2 "

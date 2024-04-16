@@ -152,7 +152,7 @@ export const Header = ({
   const navigate = useNavigate();
   const { user } = useAuth();
   return (
-    <div className="top-0 z-10 flex items-center justify-center w-full h-16 border-b border-border/20 bg-black/20">
+    <div className="top-0 z-10 flex items-center justify-center w-full h-16 border-b border-border/20 backdrop-blur-md bg-black/30">
       {
       user ? 
       <div className="relative flex justify-between w-full p-4 max-w-full">

@@ -1,14 +1,6 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useQueryConversation } from "../api/conversation/getConversationById";
-import { useCreateConversation } from "../api/conversation/createConversation";
 import { LanguageDataSelect } from "./LanguageDataSelect";
-import { LanguageData, Message, Settings } from "../types/types";
 import { Messages } from "./Messages";
-import { createGPTResponse, useGPTResponse } from "../api/openAI/createGPTResponse";
-import { getGptPrompt } from "../utils/getGptPrompt";
 import { VoiceAndTextInput } from "./VoiceAndTextInput";
-import { useQueryLanguageData } from "../api/language-data/getLanguageData";
 import { useConversation } from "../../../hooks/useConversation";
 import { SettingsBar } from "./SettingsBar";
 
@@ -49,22 +41,26 @@ export const Conversation = () => {
         />
       </div>
   
-      <div className="  h-full w-full grow flex flex-col rounded-md relative overflow-y-auto">
+      <div className="h-full w-full grow flex flex-col rounded-md relative overflow-y-auto pb-4">
 
-        <div className="h-full w-full flex justify-center absolute top-0 pb-[4rem]">
+        <div className="h-full w-full flex justify-center absolute ">
           <Messages 
           messagesState={{messages, setMessages}}
           />
+          
         </div>
+        
       </div>
 
       <VoiceAndTextInput 
-        languageData={languageData}
-        inputState={{input, setInput}}
-        // setUserVoiceBase64={setUserVoiceBase64}
-        // getGptResponse={handleCreateGptResponse}
-        submitUserInput={submitUserInput}
-        />
+      languageData={languageData}
+      inputState={{input, setInput}}
+      // setUserVoiceBase64={setUserVoiceBase64}
+      // getGptResponse={handleCreateGptResponse}
+      submitUserInput={submitUserInput}
+      />
+
+      
 
     </div>
 
