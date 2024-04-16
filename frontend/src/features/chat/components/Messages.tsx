@@ -58,8 +58,6 @@ export const Messages = ({ gptResIsLoading, messagesState }: MessagesProps) => {
               
             </div>
           }
-              
-
   
           <div ref={scrollRef}/>
         </div>

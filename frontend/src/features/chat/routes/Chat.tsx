@@ -15,12 +15,16 @@ export const Chat = () => {
 
   return (
     <>
-      <div className="flex w-full   ">
-        <Sidebar className='w-72 flex flex-col h-full overflow-y-auto p-4 gap-4 bg-black/30 border-r border-border/20 grow'>
-          <NewConversation />
-          <NativeLanguageSelect />
+      <div className="flex w-full relative grow">
+        
+        <Sidebar className='w-72 flex flex-col h-full overflow-y-auto bg-black/30 border-r border-border/20 grow relative'>
+          <div className='sticky top-0 flex flex-col gap-4  p-4'>
+            <NewConversation />
+            <NativeLanguageSelect />
+          </div>
           <ConversationList />
         </Sidebar>
+
         <Conversation />
       </div>
     </>

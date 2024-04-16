@@ -70,7 +70,7 @@ export const NativeLanguageSelect = () => {
   };
 
   return (
-    <div className="flex justify-center w-full">
+    <div className="flex justify-center w-full sticky">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
