@@ -17,6 +17,7 @@ export const Conversation = () => {
     setLanguageData,
     messages,
     setMessages,
+    gptResIsLoading,
     input,
     setInput,
     submitUserInput,
@@ -25,7 +26,7 @@ export const Conversation = () => {
   } = useConversation();
   
   return ( 
-    <div className="w-full flex flex-col  items-center bg-black/10  relative ">
+    <div className="w-full flex flex-col  items-center bg-black/10 relative ">
 
       <OptionsLayout>
         <LanguageDataSelect 
@@ -45,6 +46,7 @@ export const Conversation = () => {
       
       <Messages 
       messagesState={{messages, setMessages}}
+      gptResIsLoading={gptResIsLoading}
       />
         
       <VoiceAndTextInput 

@@ -20,9 +20,12 @@ export const useMessages = ( { conversationId, input, cIdRef }: UseMessagesProps
 
   const createMsg = useCreateMessage(lastMsg);
 
+  const [gptResIsLoading, setGptResIsLoading] = useState(false);
+
   const createGptResponse = useGPTResponse(messages, input);
 
   const handleCreateGptResponse = async () => {
+    setGptResIsLoading(true);
     const gptTranscript = await createGptResponse.mutateAsync();
     if(gptTranscript) {
       gptTranscript.conversationId = Number(conversationId);
@@ -31,7 +34,7 @@ export const useMessages = ( { conversationId, input, cIdRef }: UseMessagesProps
         setMessages(prev => [...prev, gptTranscript]);
       };
     };
-
+    setGptResIsLoading(false);
   };
   
   useEffect(() => {
@@ -40,6 +43,10 @@ export const useMessages = ( { conversationId, input, cIdRef }: UseMessagesProps
       setLastMsg(messages[messages.length - 1]);
     }
   },[messages]);
+
+  useEffect(()=> {
+    console.log(gptResIsLoading)
+  },[gptResIsLoading])
 
   useEffect(()=> {
     // save messages if not saved already by checking for id.
@@ -61,7 +68,8 @@ export const useMessages = ( { conversationId, input, cIdRef }: UseMessagesProps
     setMessages,
     lastMsg,
     setLastMsg,
-    deleteAllMsgs
+    deleteAllMsgs,
+    gptResIsLoading
   };
 
 };

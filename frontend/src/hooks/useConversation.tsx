@@ -107,7 +107,8 @@ export const useConversation = () => {
   const { 
     messages, 
     setMessages, 
-    deleteAllMsgs 
+    deleteAllMsgs,
+    gptResIsLoading
   } = useMessages({ conversationId, input, cIdRef });
 
   const { 
@@ -159,9 +160,9 @@ export const useConversation = () => {
     
   });
 
-  useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["all-conversations"]});
-  },[languageData, settings.cefrLevel])
+  // useEffect(() => {
+  //   queryClient.invalidateQueries({ queryKey: ["all-conversations"]});
+  // },[languageData, settings.cefrLevel])
 
   useEffect(() => {
     // console.log(conversationId)
@@ -187,6 +188,7 @@ export const useConversation = () => {
     setLanguageData,
     messages,
     setMessages,
+    gptResIsLoading,
     input,
     setInput,
     // handleCreateGptResponse,

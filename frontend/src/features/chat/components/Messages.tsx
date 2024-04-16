@@ -3,14 +3,20 @@ import { useQueryMessages } from "../api/message/getAllMessages";
 import { useEffect, useRef, useState } from "react";
 import { Message } from "../types/types";
 
+import { ThreeDots } from "react-loader-spinner";
+import { useTheme } from "@/components/themeProvider/theme-provider";
+
 interface MessagesProps {
+  gptResIsLoading: boolean;
   messagesState: {
     messages: Message[];
     setMessages: React.Dispatch<React.SetStateAction<Message[]>>
   }
 };
 
-export const Messages = ( {messagesState}: MessagesProps) => {
+export const Messages = ({ gptResIsLoading, messagesState }: MessagesProps) => {
+
+  const theme = useTheme();
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const { messages, setMessages} = messagesState;
 
@@ -19,6 +25,10 @@ export const Messages = ( {messagesState}: MessagesProps) => {
       scrollRef.current.scrollIntoView({ behavior: "smooth"})
     }
   },[messages])
+
+  useEffect(() => {
+    console.log("wowowowo", gptResIsLoading)
+  },[gptResIsLoading])
   
   return (
     <div className="h-full w-full grow flex flex-col rounded-md relative overflow-y-auto pb-4">
@@ -34,6 +44,22 @@ export const Messages = ( {messagesState}: MessagesProps) => {
               </div>
             ))
           }
+          {
+            gptResIsLoading &&
+            <div 
+            className={`p-4 w-full flex justify-end`}>
+              <div className="w-fit p-2  bg-black/25 rounded-xl" >
+              <ThreeDots
+              height={20}
+              width={30} 
+              color={`${theme.theme === "dark" ? "white" : "black"}`} 
+              />
+              </div>
+              
+            </div>
+          }
+              
+
   
           <div ref={scrollRef}/>
         </div>

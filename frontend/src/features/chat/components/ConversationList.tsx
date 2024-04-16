@@ -7,13 +7,7 @@ import CountryFlag from "@/components/countryFlag/countryFlag";
 export const ConversationList = () => {
 
   const { isFetching, isError, data } = useAllConversations();
-  useEffect(() => {
-    console.log(data)
-  },[data])
-
-  const getVoiceType = () => {
-
-  }
+  
   return (
     <div className="flex flex-col overflow-y-auto">
       {
