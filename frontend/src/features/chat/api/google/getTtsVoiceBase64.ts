@@ -37,6 +37,8 @@ export const getTtsVoiceBase64 = async (input: string, languageData: LanguageDat
     voice: voiceObject
   };
 
+  console.log(textToSpeechData)
+
   try {
     const data = await axios.post(config.API_DOMAIN + "google-api/text-to-speech", textToSpeechData);
 

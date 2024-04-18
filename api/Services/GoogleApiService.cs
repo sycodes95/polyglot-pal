@@ -56,6 +56,7 @@ namespace api.Services
         public async Task<string?> GetSpeechToTextAsync(CreateSpeechToTextDto createSTTDto)
         {
             //string base64Audio, string languageCode, int sampleRateHertz
+
             try
             {
 
@@ -101,6 +102,8 @@ namespace api.Services
                     CredentialsPath = _config["GCServiceAccountPath"]
                 }.Build();
 
+                // var pitch = createTextToSpeechDto.Voice.ssmlGender == "MALE" ? 0 : 10;
+
                 var request = new SynthesizeSpeechRequest
                 {
                     Input = new SynthesisInput { Text = createTextToSpeechDto.Input },
@@ -113,7 +116,7 @@ namespace api.Services
                     AudioConfig = new AudioConfig
                     {
                         AudioEncoding = (AudioEncoding)Enum.Parse(typeof(AudioEncoding), "LINEAR16", true),
-                        SpeakingRate = 1
+                        SpeakingRate = 1,
                     }
                 };
 

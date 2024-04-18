@@ -40,8 +40,6 @@ export const useMessages = ( { conversationId, input, cIdRef, languageData, setT
     setGptResIsLoading(false);
   };
 
-  
-
   useEffect(() => {
     //set last msg
     if(messages.length > 0) {

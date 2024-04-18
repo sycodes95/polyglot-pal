@@ -53,10 +53,10 @@ export const useLanguageData = ( {
     if(!name || !languageCode || !countryCode || !languageName || !ssmlGender) {
       return 
     };
-
+    
     const langData: LanguageData = {
       languageName,
-      languageCode,
+      languageCode: languageCode + "-" + countryCode.toUpperCase(),
       countryCode,
       voiceName: name,
       ssmlGender
