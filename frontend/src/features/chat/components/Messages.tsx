@@ -31,9 +31,9 @@ export const Messages = ({ gptResIsLoading, messagesState }: MessagesProps) => {
   },[gptResIsLoading])
   
   return (
-    <div className="h-full w-full grow flex flex-col rounded-md relative overflow-y-auto pb-4">
+    <div className="h-full w-full grow flex flex-col rounded-md relative overflow-y-auto">
       <div className="h-full w-full flex justify-center absolute ">
-        <div className="w-full max-w-5xl h-full flex flex-col gap-6">
+        <div className="w-full max-w-5xl h-full flex flex-col gap-6  pt-8">
           {
             messages && messages.length > 1 &&
             messages.map((message, index) => (

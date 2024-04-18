@@ -71,7 +71,7 @@
 
 
 .glow-box {
-  box-shadow: 0 0 2px 2px rgb(34, 190, 125);
+  box-shadow: 0 0 20px 20px rgb(0, 0, 0);
   transition: box-shrgb(0, 255, 153) 0.3s ease;
 }
 

@@ -103,7 +103,7 @@ export const VoiceAndTextInput = ({
   // }, [voiceBase64]);
 
   return (
-    <div className={`${className} flex w-full max-w-5xl p-2`}>
+    <div className={`${className} ${languageData?.voiceName ? "opacity-100" : "opacity-0"} transition-all flex w-full max-w-5xl p-2`}>
       <form
         aria-label="form"
         className="flex w-full h-full gap-2 "
