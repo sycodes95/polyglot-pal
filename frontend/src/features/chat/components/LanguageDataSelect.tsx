@@ -82,7 +82,6 @@ export const LanguageDataSelect = ({
   };
 
   useEffect(()=> {
-    console.log(languageData)
   },[languageData])
 
 

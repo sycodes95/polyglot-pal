@@ -8,7 +8,7 @@ export const DeletePopover = ( { } ) => {
   return (
     <Popover>
       <PopoverTrigger></PopoverTrigger>
-      <PopoverContent>Place content for the popover here.</PopoverContent>
+      <PopoverContent></PopoverContent>
     </Popover>
   )
 }

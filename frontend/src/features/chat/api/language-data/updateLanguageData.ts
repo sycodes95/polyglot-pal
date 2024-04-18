@@ -22,7 +22,6 @@ export const updateLanguageData = async (languageData: LanguageData) => {
       ssmlGender: languageData.ssmlGender,
     } as LanguageData);
     if(data && data.data) return data.data as LanguageData;
-    console.log(data)
     return null;
   } catch (error) {
     console.error(error);

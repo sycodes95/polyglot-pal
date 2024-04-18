@@ -46,6 +46,8 @@ export const useInitNewConversation = ({
     content: getGptPrompt(languageData, settings.cefrLevel)
   };
 
+  const [newConversationId, setNewConversationId] = useState<number | null>(null);
+
   const [ errorCreating, setErrorCreating ] = useState(false);
 
   const createConversation = useCreateConversation();
@@ -69,16 +71,17 @@ export const useInitNewConversation = ({
 
   useEffect(() => {
     if(!conversationId && languageData.voiceName) {
+      console.log("start create")
         // create conversation after user selects language & voice
       const handleConversationCreate = async () => {
         const conversationData = await createConversation.mutateAsync();
         if(conversationData) {
           setIsCreated(prev => ({...prev, conversation: true}));
+          setNewConversationId(conversationData.id);
           // if conversation is created, insert convo id as foreign key into children tables
           setLanguageData(prev => ({...prev, conversationId: conversationData.id}));
           setSettings(prev => ({...prev, conversationId: conversationData.id}));
           setMessages([{...initialPrompt, conversationId: conversationData.id}]);
-          setNavigateParam(conversationData.id);
         } else {
           setErrorCreating(true);
         };
@@ -91,7 +94,7 @@ export const useInitNewConversation = ({
   useEffect(()=> {
     // save prompt msg
     if(
-      !conversationId &&
+      newConversationId &&
       messages.length === 1 &&
       messages[0].role === "user"
     ) {
@@ -99,21 +102,24 @@ export const useInitNewConversation = ({
         const msgData = await createMessage.mutateAsync();
         if(msgData) {
           setIsCreated(prev => ({...prev, message: true}));
+
         } else {
           setErrorCreating(true);
         }
       };
       handleMessageCreate();
-      setMessages([]);
+
+      // setMessages([]);
     };
   },[messages]);
 
   useEffect(() => {
     // save language data
-    if(!conversationId && languageData.conversationId) {
+    if(newConversationId && languageData.conversationId) {
       const handleLanguageDataCreate = async () => {
         const langData = await createLangData.mutateAsync();
         if(langData) {
+          // setLanguageData(langData);
           setIsCreated(prev => ({...prev, languageData: true}));
         } else {
           setErrorCreating(true);
@@ -122,36 +128,38 @@ export const useInitNewConversation = ({
       handleLanguageDataCreate();
 
       //reset
-      setLanguageData({
-        languageName: "",
-        languageCode: "",
-        countryCode: "",
-        voiceName: "",
-        ssmlGender: "",
-      })
+
+      // setLanguageData({
+      //   languageName: "",
+      //   languageCode: "",
+      //   countryCode: "",
+      //   voiceName: "",
+      //   ssmlGender: "",
+      // })
     };
 
   },[languageData.conversationId])
 
   useEffect(() => {
     // save settings
-    if(!conversationId && settings.conversationId) {
+    if(newConversationId && languageData.conversationId) {
       const handleSettingsCreate = async () => {
         const settings = await createSettings.mutateAsync();
         if(settings) {
+          // setSettings(settings);
           setIsCreated(prev => ({...prev, settings: true}));
         } else {
           setErrorCreating(true);
         }
       };
       handleSettingsCreate();
-      setSettings({
-        cefrLevel: "C2",
-        ttsEnabled: true
-      })
+      // setSettings({
+      //   cefrLevel: "C2",
+      //   ttsEnabled: true
+      // })
     };
 
-  },[settings.conversationId]);
+  },[newConversationId]);
 
   useEffect(() => {
     if(
@@ -159,7 +167,7 @@ export const useInitNewConversation = ({
       isCreated.languageData &&
       isCreated.message &&
       isCreated.settings &&
-      navigateParam &&
+      newConversationId &&
       !conversationId
     ) {
       setIsCreated({
@@ -168,11 +176,12 @@ export const useInitNewConversation = ({
         settings: false,
         message: false,
       });
-      setNavigateParam(null);
+      console.log("isCreated")
+      setNewConversationId(null);
       setErrorCreating(false);
       // resetState();
       queryClient.invalidateQueries( {queryKey: ["all-conversations"]});
-      navigate(`/c/${navigateParam}`);
+      navigate(`/c/${newConversationId}`);
     }
   },[isCreated]);
 

@@ -27,7 +27,6 @@ export const Messages = ({ gptResIsLoading, messagesState }: MessagesProps) => {
   },[messages])
 
   useEffect(() => {
-    console.log("wowowowo", gptResIsLoading)
   },[gptResIsLoading])
   
   return (

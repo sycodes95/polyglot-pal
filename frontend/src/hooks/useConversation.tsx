@@ -76,7 +76,6 @@ export const useConversation = () => {
 
     // reset settings if function was called from useLanguageData hook
     if(initializer === "language-data" && langData) {
-      console.log("check")
       setSettings(defaultSettings);
       setLanguageData(prev => ({
         ...prev,
@@ -163,17 +162,44 @@ export const useConversation = () => {
   // useEffect(() => {
   //   queryClient.invalidateQueries({ queryKey: ["all-conversations"]});
   // },[languageData, settings.cefrLevel])
+  const getValidLanguageData = async () => {
+    const data = await getLanguageData(Number(conversationId));
+    if(data) {
+      const dataCId = data.conversationId;
+      if(languageData.conversationId !== dataCId) {
+        setLanguageData(data);
+      }
+    }
+  }
+
+  const getAllValidMessages = async () => {
+    const data = await getAllMessages(Number(conversationId));
+    console.log(data)
+    if(!data || data.length < 1) return
+    if(data[0].conversationId == conversationId || (data[0].conversationId === messages[0].conversationId)  ) {
+      setMessages(data);
+    };
+  }
+
+  const getValidSettings = async () => {
+    const data = await getSettings(Number(conversationId));
+    if(data) {
+      const dataCId = data.conversationId;
+      if(settings.conversationId !== dataCId) {
+        setSettings(data);
+      }
+    }
+  }
 
   useEffect(() => {
-    // console.log(conversationId)
     // queryClient.invalidateQueries({queryKey: ["language-data"]});
     cIdRef.current = conversationId;
     if(conversationId) {
       checkIfParamIsValid();
       setIsInitialFetchData(true);
-      getLanguageData(Number(conversationId)).then(data => setLanguageData(data ?? defaultLanguageData));
-      getAllMessages(Number(conversationId)).then(data => setMessages(data ?? []));
-      getSettings(Number(conversationId)).then(data => setSettings(data ?? defaultSettings));
+      getValidLanguageData();
+      getAllValidMessages();
+      getValidSettings();
     } else {
       resetState();
     };

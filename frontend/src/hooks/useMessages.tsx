@@ -45,17 +45,21 @@ export const useMessages = ( { conversationId, input, cIdRef }: UseMessagesProps
   },[messages]);
 
   useEffect(()=> {
-    console.log(gptResIsLoading)
   },[gptResIsLoading])
 
   useEffect(()=> {
+
     // save messages if not saved already by checking for id.
     if(conversationId && lastMsg && lastMsg.conversationId && !lastMsg.id) {
+      console.log(lastMsg.id)
       createMsg.mutateAsync();
     };
 
+    console.log("last msg")
+
     if(conversationId && lastMsg && lastMsg.conversationId) {
       if(lastMsg.role === "user") {
+        console.log("create gpt")
         handleCreateGptResponse();
       } else if(lastMsg.role === "assistant") {
         //do tts
