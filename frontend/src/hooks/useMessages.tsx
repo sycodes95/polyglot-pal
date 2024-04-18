@@ -3,14 +3,17 @@ import { LanguageData, Message } from "../features/chat/types/types";
 import { useCreateMessage } from "../features/chat/api/message/createMessage";
 import { useDeleteAllMsgs } from "../features/chat/api/message/deleteAllMessages";
 import { useGPTResponse } from "../features/chat/api/openAI/createGPTResponse";
+import { getTtsVoiceBase64, useGetTtsVoiceBase64 } from "../features/chat/api/google/getTtsVoiceBase64";
 
 interface UseMessagesProps {
   conversationId: string | undefined;
   input: string;
-  cIdRef: React.MutableRefObject<string | undefined>
+  cIdRef: React.MutableRefObject<string | undefined>;
+  languageData: LanguageData;
+  setTtsBase64: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const useMessages = ( { conversationId, input, cIdRef }: UseMessagesProps ) => {
+export const useMessages = ( { conversationId, input, cIdRef, languageData, setTtsBase64 }: UseMessagesProps ) => {
 
   const [messages, setMessages] = useState<Message[]>([]);
 
@@ -36,12 +39,14 @@ export const useMessages = ( { conversationId, input, cIdRef }: UseMessagesProps
     };
     setGptResIsLoading(false);
   };
+
   
+
   useEffect(() => {
     //set last msg
     if(messages.length > 0) {
       setLastMsg(messages[messages.length - 1]);
-    }
+    };
   },[messages]);
 
   useEffect(()=> {
@@ -55,14 +60,12 @@ export const useMessages = ( { conversationId, input, cIdRef }: UseMessagesProps
       createMsg.mutateAsync();
     };
 
-    console.log("last msg")
-
     if(conversationId && lastMsg && lastMsg.conversationId) {
       if(lastMsg.role === "user") {
-        console.log("create gpt")
         handleCreateGptResponse();
       } else if(lastMsg.role === "assistant") {
-        //do tts
+        getTtsVoiceBase64(lastMsg.content, languageData)
+        .then(data => data && setTtsBase64(data));
       }
     } 
   },[lastMsg]);

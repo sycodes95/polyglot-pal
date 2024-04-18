@@ -1,33 +1,19 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
-import { useCreateLanguageData } from "../features/chat/api/language-data/createLanguageData";
-import { LanguageData, Message, Settings } from '../features/chat/types/types';
-import { useCreateConversation, ConversationId } from '../features/chat/api/conversation/createConversation';
-import { useUpdateLanguageData, updateLanguageData} from '../features/chat/api/language-data/updateLanguageData';
+import { useEffect, useState, useRef,  } from 'react';
+import { LanguageData, Settings } from '../features/chat/types/types';
 import { getGptPrompt } from "../features/chat/utils/getGptPrompt";
 import { useNavigate, useParams } from "react-router-dom";
-import { useCreateSettings } from "../features/chat/api/settings/createSettings";
 import {  useInitNewConversation } from "./useInitNewConversation";
-import { getLanguageData, useQueryLanguageData } from '../features/chat/api/language-data/getLanguageData';
-import { getAllMessages, useQueryMessages } from "../features/chat/api/message/getAllMessages";
-import { getSettings, useQuerySettings } from "../features/chat/api/settings/getSettings";
-import { useQueryClient } from "react-query";
-import { createGPTResponse, useGPTResponse } from '../features/chat/api/openAI/createGPTResponse';
-import { set } from 'date-fns';
+import { getLanguageData,  } from '../features/chat/api/language-data/getLanguageData';
+import { getAllMessages,  } from "../features/chat/api/message/getAllMessages";
+import { getSettings,  } from "../features/chat/api/settings/getSettings";
 import { useGoogleVoiceData } from '../features/chat/api/google/getVoiceDatas';
-import { languageNameAndCodes } from '../constants/languageNameAndCodes';
-import { useDeleteAllMsgs } from '../features/chat/api/message/deleteAllMessages';
-import { useCreateMessage } from '../features/chat/api/message/createMessage';
 import { useMessages } from './useMessages';
 import { useLanguageData } from './useLanguageData';
 import { getConversationById } from '../features/chat/api/conversation/getConversationById';
 import { useSettings } from './useSettings';
+import { useTts } from './useTts';
 
-// interface UseInitConversationProps {
-//   messages: Message[];
-//   isNewConversation: boolean;
-//   languageData: LanguageData;
 
-// }
 
 export type InitConversationParam = "language-data" | "settings";
 
@@ -44,15 +30,11 @@ const defaultSettings: Settings = {
   ttsEnabled: true
 };
 
-
-
 export const useConversation = () => {
 
   const navigate = useNavigate();
 
   const { conversationId } = useParams();
-
-  const queryClient = useQueryClient();
 
   const cIdRef = useRef<string | undefined>(undefined); 
 
@@ -103,12 +85,9 @@ export const useConversation = () => {
 
   const [ input, setInput ] = useState("");
 
-  const { 
-    messages, 
-    setMessages, 
-    deleteAllMsgs,
-    gptResIsLoading
-  } = useMessages({ conversationId, input, cIdRef });
+  const [ ttsBase64, setTtsBase64 ] = useState(""); 
+
+  const { ttsBase64IsEmpty, ttsAudio, resetUseTts } = useTts({ttsBase64});
 
   const { 
     languageData, 
@@ -121,6 +100,13 @@ export const useConversation = () => {
     setIsInitialFetchData,
     googleVoiceData
   });
+
+  const { 
+    messages, 
+    setMessages, 
+    deleteAllMsgs,
+    gptResIsLoading
+  } = useMessages({ conversationId, input, cIdRef, languageData, setTtsBase64 });
 
   const {
     settings,
@@ -159,18 +145,15 @@ export const useConversation = () => {
     
   });
 
-  // useEffect(() => {
-  //   queryClient.invalidateQueries({ queryKey: ["all-conversations"]});
-  // },[languageData, settings.cefrLevel])
   const getValidLanguageData = async () => {
     const data = await getLanguageData(Number(conversationId));
     if(data) {
       const dataCId = data.conversationId;
       if(languageData.conversationId !== dataCId) {
         setLanguageData(data);
-      }
-    }
-  }
+      };
+    };
+  };
 
   const getAllValidMessages = async () => {
     const data = await getAllMessages(Number(conversationId));
@@ -179,7 +162,7 @@ export const useConversation = () => {
     if(data[0].conversationId == conversationId || (data[0].conversationId === messages[0].conversationId)  ) {
       setMessages(data);
     };
-  }
+  };
 
   const getValidSettings = async () => {
     const data = await getSettings(Number(conversationId));
@@ -187,9 +170,9 @@ export const useConversation = () => {
       const dataCId = data.conversationId;
       if(settings.conversationId !== dataCId) {
         setSettings(data);
-      }
-    }
-  }
+      };
+    };
+  };
 
   useEffect(() => {
     // queryClient.invalidateQueries({queryKey: ["language-data"]});
@@ -220,7 +203,10 @@ export const useConversation = () => {
     // handleCreateGptResponse,
     submitUserInput,
     handleLanguageSelect,
-    googleVoiceData
+    googleVoiceData,
+    ttsBase64IsEmpty, 
+    ttsAudio, 
+    resetUseTts
   };
 
 };

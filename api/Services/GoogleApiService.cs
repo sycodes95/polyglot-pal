@@ -123,7 +123,7 @@ namespace api.Services
 
                 var base64String = Convert.ToBase64String(byteArray);
                 
-                return base64String;
+                return "data:audio/wav;base64," + base64String;
                 
             }
             catch (Exception e)
