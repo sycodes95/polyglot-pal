@@ -120,7 +120,7 @@ export default function TalkMessages ({
 
     try {
 
-      const ttsBase64 = await getTextToSpeech({
+      const ttsData = await getTextToSpeech({
         input: {
           text: palMessage,
         },
@@ -130,10 +130,10 @@ export default function TalkMessages ({
         },
       });
 
-      if(ttsBase64) {
+      if(ttsData) {
         if (palVoiceData && palVoiceData?.element){
 
-          const palVoiceAudio = new Audio(ttsBase64)
+          const palVoiceAudio = new Audio(ttsData)
           
           setPalVoiceData({
             element: palVoiceAudio,

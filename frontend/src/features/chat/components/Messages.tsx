@@ -5,16 +5,20 @@ import { Message } from "../types/types";
 
 import { ThreeDots } from "react-loader-spinner";
 import { useTheme } from "@/components/themeProvider/theme-provider";
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import { TtsData } from "../../../hooks/useConversation";
 
 interface MessagesProps {
   gptResIsLoading: boolean;
   messagesState: {
     messages: Message[];
     setMessages: React.Dispatch<React.SetStateAction<Message[]>>
-  }
+  };
+  ttsData: TtsData;
+  ttsIsPlaying: boolean;
 };
 
-export const Messages = ({ gptResIsLoading, messagesState }: MessagesProps) => {
+export const Messages = ({ gptResIsLoading, messagesState, ttsData, ttsIsPlaying }: MessagesProps) => {
 
   const theme = useTheme();
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -24,10 +28,10 @@ export const Messages = ({ gptResIsLoading, messagesState }: MessagesProps) => {
     if(scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: "smooth"})
     }
-  },[messages])
+  },[messages]);
 
   useEffect(() => {
-  },[gptResIsLoading])
+  },[gptResIsLoading]);
   
   return (
     <div className="h-full w-full grow flex flex-col rounded-md relative overflow-y-auto">
@@ -37,9 +41,21 @@ export const Messages = ({ gptResIsLoading, messagesState }: MessagesProps) => {
             messages && messages.length > 1 &&
             messages.map((message, index) => (
               index !== 0 &&
-              <div key={index} 
-              className={`p-4 w-full flex ${message.role === "user" ? 'justify-start'   : 'justify-end'}`}>
-                <span className={`text-yellow-100 text-sm max-w-[300px] p-4   rounded-2xl ${message.role === "user" ? "bg-accent " : "bg-black/25"} `}>{message.content}</span>
+
+              <div className={`${message.role === "user" ? 'justify-start'   : 'justify-end'} flex w-full`}>
+                <div key={index} 
+                className={` w-fit relative flex `}>
+                  <span className={`text-yellow-100 text-sm max-w-[300px] p-4   rounded-2xl ${message.role === "user" ? "bg-accent " : "bg-black/25"} `}>{message.content}</span>
+                  <div className={`${message.role === "assistant" ? "content" : "hidden"} absolute -bottom-8 left-0 rounded-xl h-8 pl-2 pr-2 text-xs flex items-center text-white w-full justify-between `}>
+                    <div className="h-full w-fit flex items-center">
+                      <SupportAgentIcon className={`${ttsData.messageIndex === index && ttsIsPlaying ? "text-green-400" : "text-white"}`} fontSize="small" />
+                    </div>
+                    <div className="h-full w-fit border border-border flex items-cente">
+
+                    </div>
+                  </div>
+
+                </div>
               </div>
             ))
           }

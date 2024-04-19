@@ -59,7 +59,7 @@ export const useLanguageData = ( {
       languageCode: languageCode + "-" + countryCode.toUpperCase(),
       countryCode,
       voiceName: name,
-      ssmlGender
+      ssmlGender 
     }; 
 
     initConversation("language-data", { langData });

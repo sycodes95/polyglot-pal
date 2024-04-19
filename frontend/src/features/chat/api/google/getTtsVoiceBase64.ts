@@ -29,7 +29,7 @@ export const getTtsVoiceBase64 = async (input: string, languageData: LanguageDat
   const voiceObject: VoiceObject = {
     languageCode: languageData.languageCode,
     name: languageData.voiceName,
-    ssmlGender: languageData.ssmlGender,
+    ssmlGender: languageData.ssmlGender, 
   };
 
   const textToSpeechData: TextToSpeechData = {

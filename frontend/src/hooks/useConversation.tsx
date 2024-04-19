@@ -17,6 +17,11 @@ import { useTts } from './useTts';
 
 export type InitConversationParam = "language-data" | "settings";
 
+export interface TtsData {
+  base64: string;
+  messageIndex: number | null;
+};
+
 const defaultLanguageData: LanguageData = {
   languageName: "",
   languageCode: "",
@@ -85,9 +90,11 @@ export const useConversation = () => {
 
   const [ input, setInput ] = useState("");
 
-  const [ ttsBase64, setTtsBase64 ] = useState(""); 
+  const [ ttsData, setTtsData ] = useState<{
+    base64: string;
+    messageIndex: number | null;
+  }>({base64: "", messageIndex: null}); 
 
-  const { ttsBase64IsEmpty, ttsAudio, resetUseTts } = useTts({ttsBase64});
 
   const { 
     languageData, 
@@ -106,7 +113,7 @@ export const useConversation = () => {
     setMessages, 
     deleteAllMsgs,
     gptResIsLoading
-  } = useMessages({ conversationId, input, cIdRef, languageData, setTtsBase64 });
+  } = useMessages({ conversationId, input, cIdRef, languageData, setTtsData });
 
   const {
     settings,
@@ -114,6 +121,9 @@ export const useConversation = () => {
     handleLevelChange,
     handleTtsEnabled
   } = useSettings({conversationId, initConversation});
+
+  const { ttsDataIsEmpty, ttsAudio, resetUseTts, ttsIsPlaying } = useTts({ttsData, settings});
+
 
   const resetState = () => {
     setSettings(defaultSettings);
@@ -204,9 +214,11 @@ export const useConversation = () => {
     submitUserInput,
     handleLanguageSelect,
     googleVoiceData,
-    ttsBase64IsEmpty, 
+    ttsDataIsEmpty, 
     ttsAudio, 
-    resetUseTts
+    ttsData,
+    resetUseTts,
+    ttsIsPlaying
   };
 
 };

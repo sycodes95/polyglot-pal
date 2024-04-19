@@ -20,9 +20,13 @@ export const Conversation = () => {
     gptResIsLoading,
     input,
     setInput,
+    // handleCreateGptResponse,
     submitUserInput,
     handleLanguageSelect,
-    googleVoiceData
+    googleVoiceData,
+    ttsData,
+    ttsAudio,
+    ttsIsPlaying
   } = useConversation();
   
   return ( 
@@ -47,6 +51,8 @@ export const Conversation = () => {
       <Messages 
       messagesState={{messages, setMessages}}
       gptResIsLoading={gptResIsLoading}
+      ttsData={ttsData}
+      ttsIsPlaying={ttsIsPlaying}
       />
         
       <VoiceAndTextInput 
@@ -55,6 +61,7 @@ export const Conversation = () => {
         // setUserVoiceBase64={setUserVoiceBase64}
         // getGptResponse={handleCreateGptResponse}
         submitUserInput={submitUserInput}
+
       />
 
     </div>

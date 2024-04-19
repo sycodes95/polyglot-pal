@@ -1,0 +1,220 @@
+"filename", "language", "JSON", "TypeScript", "JavaScript", "JSON with Comments", "TypeScript JSX", "CSS", "Markdown", "XML", "HTML", "C#", "comment", "blank", "total"
+"c:\Users\sycod\source\repos\polyglot-pal\api\Controllers\AccountController.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 0, 19, 108
+"c:\Users\sycod\source\repos\polyglot-pal\api\Controllers\ConversationController.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 77, 0, 19, 96
+"c:\Users\sycod\source\repos\polyglot-pal\api\Controllers\GoogleApiController.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 56, 0, 21, 77
+"c:\Users\sycod\source\repos\polyglot-pal\api\Controllers\LanguageDataController.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 73, 9, 32, 114
+"c:\Users\sycod\source\repos\polyglot-pal\api\Controllers\MessageController.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 71, 0, 20, 91
+"c:\Users\sycod\source\repos\polyglot-pal\api\Controllers\NativeLanguageController.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 71, 0, 28, 99
+"c:\Users\sycod\source\repos\polyglot-pal\api\Controllers\OpenAIApiController.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 29, 0, 11, 40
+"c:\Users\sycod\source\repos\polyglot-pal\api\Controllers\SettingsController.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 71, 1, 24, 96
+"c:\Users\sycod\source\repos\polyglot-pal\api\Data\ApplicationDBContext.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 42, 0, 6, 48
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Account\LoginDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 2, 17
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Account\NewUserDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 3, 16
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Account\RegisterDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 18, 0, 3, 21
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Conversation\AllConversationDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 18, 0, 1, 19
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Conversation\ConversationDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 2, 6, 24
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Conversation\CreateConversationDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 2, 13
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Google\CreateSpeechToTextDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 4, 17
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Google\CreateTextToSpeechDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 18, 0, 7, 25
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Google\GetTranslationDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 1, 13
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Google\GoogleTTSVoice.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 18, 0, 2, 20
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\LanguageData\CreateLanguageDataDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 1, 2, 19
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\LanguageData\LanguageDataDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 0, 1, 18
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\LanguageData\UpdateLanguageDataRequestDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 2, 17
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Message\CreateMessageDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 1, 1, 15
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Message\GptMessageDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 1, 13
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Message\MessageDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 1, 15
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Message\UpdateMessageRequestDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 2, 14
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\NativeLanguage\CreateNativeLanguageDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 1, 13
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\NativeLanguage\DeleteNativeLanguageDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 2, 12
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\NativeLanguage\NativeLanguageDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 1, 14
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\NativeLanguage\UpdateNativeLanguageRequestDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 1, 14
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\OpenAI\CreateGPTResponseDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 0, 4, 21
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\OpenAI\GPTResponseRequestDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 29, 0, 3, 32
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Settings\CreateSettingsDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 1, 14
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Settings\SettingsDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 1, 15
+"c:\Users\sycod\source\repos\polyglot-pal\api\Dtos\Settings\UpdateSettingsDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 1, 14
+"c:\Users\sycod\source\repos\polyglot-pal\api\Extensions\ClaimsExtensions.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 1, 16
+"c:\Users\sycod\source\repos\polyglot-pal\api\Helpers\AppUserHelpers.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 1, 12
+"c:\Users\sycod\source\repos\polyglot-pal\api\Interface\IConversationRepository.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 4, 20
+"c:\Users\sycod\source\repos\polyglot-pal\api\Interface\IGoogleApiService.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 2, 17
+"c:\Users\sycod\source\repos\polyglot-pal\api\Interface\ILanguageDataRepository.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 1, 7, 25
+"c:\Users\sycod\source\repos\polyglot-pal\api\Interface\IMessageRepository.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 0, 5, 22
+"c:\Users\sycod\source\repos\polyglot-pal\api\Interface\INativeLanguageRepository.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 4, 20
+"c:\Users\sycod\source\repos\polyglot-pal\api\Interface\IOpenApiService.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 1, 14
+"c:\Users\sycod\source\repos\polyglot-pal\api\Interface\ISettingsRepository.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 0, 4, 21
+"c:\Users\sycod\source\repos\polyglot-pal\api\Interface\ITokenService.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 1, 13
+"c:\Users\sycod\source\repos\polyglot-pal\api\Mappers\ConversationMappers.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 31, 0, 7, 38
+"c:\Users\sycod\source\repos\polyglot-pal\api\Mappers\LanguageDataMappers.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 37, 0, 4, 41
+"c:\Users\sycod\source\repos\polyglot-pal\api\Mappers\MessageMappers.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 5, 37
+"c:\Users\sycod\source\repos\polyglot-pal\api\Mappers\NativeLanguageMappers.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 31, 0, 4, 35
+"c:\Users\sycod\source\repos\polyglot-pal\api\Mappers\SettingsMappers.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 0, 2, 26
+"c:\Users\sycod\source\repos\polyglot-pal\api\Migrations\20240415103151_InitialCreate.Designer.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 378, 2, 126, 506
+"c:\Users\sycod\source\repos\polyglot-pal\api\Migrations\20240415103151_InitialCreate.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 345, 3, 40, 388
+"c:\Users\sycod\source\repos\polyglot-pal\api\Migrations\ApplicationDBContextModelSnapshot.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 376, 1, 126, 503
+"c:\Users\sycod\source\repos\polyglot-pal\api\Models\AppUser.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 1, 12
+"c:\Users\sycod\source\repos\polyglot-pal\api\Models\Conversation.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 2, 2, 21
+"c:\Users\sycod\source\repos\polyglot-pal\api\Models\LanguageData.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 18, 1, 4, 23
+"c:\Users\sycod\source\repos\polyglot-pal\api\Models\Message.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 1, 1, 17
+"c:\Users\sycod\source\repos\polyglot-pal\api\Models\NativeLanguage.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 2, 1, 18
+"c:\Users\sycod\source\repos\polyglot-pal\api\Models\Settings.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 1, 1, 17
+"c:\Users\sycod\source\repos\polyglot-pal\api\Program.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 107, 3, 17, 127
+"c:\Users\sycod\source\repos\polyglot-pal\api\Properties\launchSettings.json", "JSON", 41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 42
+"c:\Users\sycod\source\repos\polyglot-pal\api\Repository\ConversationRepository.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 53, 0, 12, 65
+"c:\Users\sycod\source\repos\polyglot-pal\api\Repository\LanguageDataRepository.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 52, 4, 14, 70
+"c:\Users\sycod\source\repos\polyglot-pal\api\Repository\MessageRepository.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 61, 0, 31, 92
+"c:\Users\sycod\source\repos\polyglot-pal\api\Repository\NativeLanguageRepository.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 49, 0, 16, 65
+"c:\Users\sycod\source\repos\polyglot-pal\api\Repository\SettingsRepository.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 57, 0, 17, 74
+"c:\Users\sycod\source\repos\polyglot-pal\api\Services\GoogleApiService.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 127, 2, 43, 172
+"c:\Users\sycod\source\repos\polyglot-pal\api\Services\OpenApiService.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 65, 0, 24, 89
+"c:\Users\sycod\source\repos\polyglot-pal\api\Services\TokenService.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 0, 43, 0, 8, 51
+"c:\Users\sycod\source\repos\polyglot-pal\api\api.csproj", "XML", 0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 4, 34
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\.eslintrc.cjs", "JavaScript", 0, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 1, 19
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\README.md", "Markdown", 0, 0, 0, 0, 0, 0, 65, 0, 0, 0, 0, 48, 113
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\components.json", "JSON", 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\cypress.config.ts", "TypeScript", 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 10
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\cypress\e2e\spec.cy.ts", "TypeScript", 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\cypress\fixtures\example.json", "JSON", 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 6
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\cypress\support\commands.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 37, 0, 37
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\cypress\support\e2e.ts", "TypeScript", 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 17, 2, 20
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\index.html", "HTML", 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 1, 15
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\package-lock.json", "JSON", 28831, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 28832
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\package.json", "JSON", 105, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 106
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\postcss.config.js", "JavaScript", 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 1, 7
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\public\vite.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\App.css", "CSS", 0, 0, 0, 0, 0, 76, 0, 0, 0, 0, 0, 26, 102
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\App.tsx", "TypeScript JSX", 0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 5, 16
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\assets\react.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\Footer\Footer.tsx", "TypeScript JSX", 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 1, 17
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\Layout\AuthLayout.tsx", "TypeScript JSX", 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 1, 11
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\Layout\ContentLayout.tsx", "TypeScript JSX", 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 2, 11
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\Layout\MainLayout.tsx", "TypeScript JSX", 0, 0, 0, 0, 197, 0, 0, 0, 0, 0, 1, 44, 242
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\Layout\index.ts", "TypeScript", 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\atropos\atroposEffect.tsx", "TypeScript JSX", 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 2, 34
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\countryFlag\countryFlag.tsx", "TypeScript JSX", 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 9, 7, 31
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\loadSpinners\ ovalSpinnerBlackGray.tsx", "TypeScript JSX", 0, 0, 0, 0, 19, 0, 0, 0, 0, 0, 0, 2, 21
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\mobileSideBar\mobileSideBar.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\sidebar\sidebar.tsx", "TypeScript JSX", 0, 0, 0, 0, 199, 0, 0, 0, 0, 0, 1, 36, 236
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\talkSetupOptionContainer\talkSetupOptionContainer.tsx", "TypeScript JSX", 0, 0, 0, 0, 17, 0, 0, 0, 0, 0, 0, 4, 21
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\themeProvider\theme-provider.tsx", "TypeScript JSX", 0, 0, 0, 0, 57, 0, 0, 0, 0, 0, 0, 17, 74
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\ui\DeletePopover.tsx", "TypeScript JSX", 0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 0, 1, 14
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\ui\button.tsx", "TypeScript JSX", 0, 0, 0, 0, 51, 0, 0, 0, 0, 0, 0, 6, 57
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\ui\command.tsx", "TypeScript JSX", 0, 0, 0, 0, 136, 0, 0, 0, 0, 0, 0, 18, 154
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\ui\dialog.tsx", "TypeScript JSX", 0, 0, 0, 0, 110, 0, 0, 0, 0, 0, 0, 12, 122
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\ui\dropdown-menu.tsx", "TypeScript JSX", 0, 0, 0, 0, 181, 0, 0, 0, 0, 0, 0, 18, 199
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\ui\form.tsx", "TypeScript JSX", 0, 0, 0, 0, 152, 0, 0, 0, 0, 0, 0, 25, 177
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\ui\input.tsx", "TypeScript JSX", 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 5, 26
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\ui\label.tsx", "TypeScript JSX", 0, 0, 0, 0, 20, 0, 0, 0, 0, 0, 0, 5, 25
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\ui\popover.tsx", "TypeScript JSX", 0, 0, 0, 0, 24, 0, 0, 0, 0, 0, 0, 5, 29
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\ui\select.tsx", "TypeScript JSX", 0, 0, 0, 0, 108, 0, 0, 0, 0, 0, 0, 12, 120
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\ui\switch.tsx", "TypeScript JSX", 0, 0, 0, 0, 24, 0, 0, 0, 0, 0, 0, 5, 29
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\ui\toast.tsx", "TypeScript JSX", 0, 0, 0, 0, 115, 0, 0, 0, 0, 0, 0, 13, 128
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\ui\toaster.tsx", "TypeScript JSX", 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 3, 34
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\ui\tooltip.tsx", "TypeScript JSX", 0, 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 7, 29
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\components\ui\use-toast.ts", "TypeScript", 0, 159, 0, 0, 0, 0, 0, 0, 0, 0, 3, 31, 193
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\config.ts", "TypeScript", 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\constants\cefrLevels.ts", "TypeScript", 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 10
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\constants\languageNameAndCodes.ts", "TypeScript", 0, 109, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 110
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\declarations.d.ts", "TypeScript", 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\auth\components\FormErrorBox.tsx", "TypeScript JSX", 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 2, 12
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\auth\components\Layout.tsx", "TypeScript JSX", 0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 1, 12
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\auth\components\LoginForm.tsx", "TypeScript JSX", 0, 0, 0, 0, 114, 0, 0, 0, 0, 0, 2, 18, 134
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\auth\components\RegisterForm.tsx", "TypeScript JSX", 0, 0, 0, 0, 168, 0, 0, 0, 0, 0, 2, 22, 192
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\auth\components\RegisterPwChecker.tsx", "TypeScript JSX", 0, 0, 0, 0, 51, 0, 0, 0, 0, 0, 1, 14, 66
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\auth\routes\Login.tsx", "TypeScript JSX", 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 2, 11
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\auth\routes\Register.tsx", "TypeScript JSX", 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 1, 10
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\auth\routes\index.tsx", "TypeScript JSX", 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 3
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\conversation\createConversation.ts", "TypeScript", 0, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 33
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\conversation\deleteConversation.ts", "TypeScript", 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 21
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\conversation\getAllConversations.ts", "TypeScript", 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5, 27
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\conversation\getConversationById.ts", "TypeScript", 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 1, 6, 30
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\google\getTtsVoiceBase64.ts", "TypeScript", 0, 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 62
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\google\getVoiceDatas.ts", "TypeScript", 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 25
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\language-data\createLanguageData.ts", "TypeScript", 0, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 32
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\language-data\getLanguageData.ts", "TypeScript", 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 28
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\language-data\updateLanguageData.ts", "TypeScript", 0, 28, 0, 0, 0, 0, 0, 0, 0, 0, 9, 1, 38
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\message\createMessage.ts", "TypeScript", 0, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 29
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\message\deleteAllMessages.ts", "TypeScript", 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 29
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\message\getAllMessages.ts", "TypeScript", 0, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 26
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\native-language\createNativeLanguage.ts", "TypeScript", 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 27
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\native-language\getNativeLanguage.ts", "TypeScript", 0, 22, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4, 27
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\native-language\updateNativeLanguage.ts", "TypeScript", 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 27
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\openAI\createGPTResponse.ts", "TypeScript", 0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 28
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\settings\createSettings.ts", "TypeScript", 0, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 29
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\settings\getSettings.ts", "TypeScript", 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 24
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\api\settings\updateSettings.ts", "TypeScript", 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 29
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\components\Conversation.tsx", "TypeScript JSX", 0, 0, 0, 0, 50, 0, 0, 0, 0, 0, 2, 11, 63
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\components\ConversationList.tsx", "TypeScript JSX", 0, 0, 0, 0, 67, 0, 0, 0, 0, 0, 0, 14, 81
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\components\LanguageDataSelect.tsx", "TypeScript JSX", 0, 0, 0, 0, 124, 0, 0, 0, 0, 0, 22, 20, 166
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\components\Messages.tsx", "TypeScript JSX", 0, 0, 0, 0, 57, 0, 0, 0, 0, 0, 0, 9, 66
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\components\NativeLanguageSelect.tsx", "TypeScript JSX", 0, 0, 0, 0, 119, 0, 0, 0, 0, 0, 4, 16, 139
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\components\NewConversation.tsx", "TypeScript JSX", 0, 0, 0, 0, 17, 0, 0, 0, 0, 0, 0, 2, 19
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\components\OptionsLayout.tsx", "TypeScript JSX", 0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 1, 12
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\components\SettingsBar.tsx", "TypeScript JSX", 0, 0, 0, 0, 52, 0, 0, 0, 0, 0, 3, 12, 67
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\components\Sidebar.tsx", "TypeScript JSX", 0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 1, 12
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\components\VoiceAndTextInput.tsx", "TypeScript JSX", 0, 0, 0, 0, 142, 0, 0, 0, 0, 0, 7, 26, 175
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\constants\nativeLanguageOptions.ts", "TypeScript", 0, 114, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 116
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\index.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\routes\Chat.tsx", "TypeScript JSX", 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 4, 25
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\routes\index.tsx", "TypeScript JSX", 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 2, 12
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\types\Conversation.ts", "TypeScript", 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\types\Message.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\types\NativeLanguage.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\types\types.ts", "TypeScript", 0, 43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 52
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\utils\getGptPrompt.ts", "TypeScript", 0, 19, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 22
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\chat\utils\getLangNameFromCode.ts", "TypeScript", 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\landingPage\landingPageHeader.tsx", "TypeScript JSX", 0, 0, 0, 0, 25, 0, 0, 0, 0, 0, 0, 8, 33
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\landingPage\signUpButton.tsx", "TypeScript JSX", 0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 0, 3, 16
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\misc\index.ts", "TypeScript", 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\misc\routes\Landing.tsx", "TypeScript JSX", 0, 0, 0, 0, 120, 0, 0, 0, 0, 0, 1, 25, 146
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\misc\routes\index.tsx", "TypeScript JSX", 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\talkWithPolyglot\components\palSpeechIndicator\palSpeechIndicator.tsx", "TypeScript JSX", 0, 0, 0, 0, 27, 0, 0, 0, 0, 0, 0, 9, 36
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\talkWithPolyglot\components\talkMessageInput\talkMessageInput.test.tsx", "TypeScript JSX", 0, 0, 0, 0, 40, 0, 0, 0, 0, 0, 2, 14, 56
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\talkWithPolyglot\components\talkMessageInput\talkMessageInput.tsx", "TypeScript JSX", 0, 0, 0, 0, 145, 0, 0, 0, 0, 0, 1, 27, 173
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\talkWithPolyglot\components\talkMessages\messageOptions\messageOptions.tsx", "TypeScript JSX", 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 4, 10
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\talkWithPolyglot\components\talkMessages\message\message.tsx", "TypeScript JSX", 0, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 6, 107
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\talkWithPolyglot\components\talkMessages\talkMessages.tsx", "TypeScript JSX", 0, 0, 0, 0, 192, 0, 0, 0, 0, 0, 2, 49, 243
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\talkWithPolyglot\components\talkSetupOptions\__tests__\talkSetupOptions.test.tsx", "TypeScript JSX", 0, 0, 0, 0, 60, 0, 0, 0, 0, 0, 1, 17, 78
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\talkWithPolyglot\components\talkSetupOptions\selectALanguage.tsx", "TypeScript JSX", 0, 0, 0, 0, 75, 0, 0, 0, 0, 0, 0, 7, 82
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\talkWithPolyglot\components\talkSetupOptions\talkSetupOptions.tsx", "TypeScript JSX", 0, 0, 0, 0, 208, 0, 0, 0, 0, 0, 3, 31, 242
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\talkWithPolyglot\constants.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\talkWithPolyglot\hooks\useLanguageOptions.tsx", "TypeScript JSX", 0, 0, 0, 0, 19, 0, 0, 0, 0, 0, 0, 5, 24
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\talkWithPolyglot\services\getGPTMessageResponse.ts", "TypeScript", 0, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 33
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\talkWithPolyglot\services\getGPTPrompt.ts", "TypeScript", 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 13
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\talkWithPolyglot\types.ts", "TypeScript", 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 19
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\features\talkWithPolyglot\util\pausePalVoice.ts", "TypeScript", 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\hooks\useAuth.tsx", "TypeScript JSX", 0, 0, 0, 0, 107, 0, 0, 0, 0, 0, 0, 27, 134
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\hooks\useConversation.tsx", "TypeScript JSX", 0, 0, 0, 0, 169, 0, 0, 0, 0, 0, 8, 37, 214
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\hooks\useInitNewConversation.tsx", "TypeScript JSX", 0, 0, 0, 0, 135, 0, 0, 0, 0, 0, 145, 51, 331
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\hooks\useLanguageData.tsx", "TypeScript JSX", 0, 0, 0, 0, 72, 0, 0, 0, 0, 0, 1, 17, 90
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\hooks\useMessages.tsx", "TypeScript JSX", 0, 0, 0, 0, 61, 0, 0, 0, 0, 0, 3, 16, 80
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\hooks\useSettings.tsx", "TypeScript JSX", 0, 0, 0, 0, 45, 0, 0, 0, 0, 0, 0, 11, 56
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\hooks\useTts.tsx", "TypeScript JSX", 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 1, 11, 44
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\index.css", "CSS", 0, 0, 0, 0, 0, 70, 0, 0, 0, 0, 1, 29, 100
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\lib\utils.ts", "TypeScript", 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 7
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\main.tsx", "TypeScript JSX", 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 7, 4, 18
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\pages\__tests__\talkWithPolyglot.tsx", "TypeScript JSX", 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 1, 6
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\pages\landingPage.tsx", "TypeScript JSX", 0, 0, 0, 0, 112, 0, 0, 0, 0, 0, 0, 23, 135
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\pages\talkWithPolyglot.tsx", "TypeScript JSX", 0, 0, 0, 0, 346, 0, 0, 0, 0, 0, 18, 124, 488
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\providers\app.tsx", "TypeScript JSX", 0, 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 5, 27
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\routes\index.tsx", "TypeScript JSX", 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 1, 5, 16
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\routes\protected.tsx", "TypeScript JSX", 0, 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 2, 24
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\routes\public.tsx", "TypeScript JSX", 0, 0, 0, 0, 38, 0, 0, 0, 0, 0, 0, 5, 43
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\services\AuthService.ts", "TypeScript", 0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 1, 14, 75
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\test\setup.ts", "TypeScript", 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\types\User.ts", "TypeScript", 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 11
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\types\react-speech-recognition\index.d.ts", "TypeScript", 0, 38, 0, 0, 0, 0, 0, 0, 0, 0, 4, 7, 49
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\types\types.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\utils\base64ToBlob.ts", "TypeScript", 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 18
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\utils\combineLangAndCountryCode.ts", "TypeScript", 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\utils\formatGCTTSVoiceOptions.ts", "TypeScript", 0, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 34
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\utils\getAudioDuration.ts", "TypeScript", 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\utils\getBase64FromBlob.ts", "TypeScript", 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\utils\getErrorStatusMessage.ts", "TypeScript", 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 6
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\utils\getSampleRateFromBase64.ts", "TypeScript", 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 21
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\src\vite-env.d.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\tailwind.config.js", "JavaScript", 0, 0, 79, 0, 0, 0, 0, 0, 0, 0, 1, 0, 80
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\tsconfig.json", "JSON with Comments", 0, 0, 0, 30, 0, 0, 0, 0, 0, 0, 2, 3, 35
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\tsconfig.node.json", "JSON", 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 11
+"c:\Users\sycod\source\repos\polyglot-pal\frontend\vite.config.ts", "TypeScript", 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 20
+"Total", "-", 29008, 1219, 103, 30, 4860, 146, 65, 32, 14, 3072, 371, 2075, 40995

@@ -235,16 +235,16 @@ export default function TalkWithPolyGlot({ showMobileSideBar, setShowMobileSideB
         setPalVoiceData((prev) => ({ ...prev, messageIndex: conversation.messages.length - 1, isLoading: true }));
 
         // Get text-to-speech from Pal's last message
-        const ttsBase64 = await getTextToSpeech({
+        const ttsData = await getTextToSpeech({
           input: { text: lastMessage.content },
           voice: { languageCode: combinedLanguageCode, name: voiceName },
         });
 
         // Check if conversation ID matches and TTS data is available
-        if (!ttsBase64 || conversation_id.current !== c_id) return;
+        if (!ttsData || conversation_id.current !== c_id) return;
         
         // Create and set Pal voice data
-        const palVoiceAudio = new Audio(ttsBase64);
+        const palVoiceAudio = new Audio(ttsData);
         setPalVoiceData((prev) => {
           return {
             ...prev,
