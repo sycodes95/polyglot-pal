@@ -7,6 +7,9 @@ import { ThreeDots } from "react-loader-spinner";
 import { useTheme } from "@/components/themeProvider/theme-provider";
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import { TtsData } from "../../../hooks/useConversation";
+import TranslateIcon from '@mui/icons-material/Translate';
+import ReplayIcon from '@mui/icons-material/Replay';
+import { Separator } from "@/components/ui/separator";
 
 interface MessagesProps {
   gptResIsLoading: boolean;
@@ -36,7 +39,7 @@ export const Messages = ({ gptResIsLoading, messagesState, ttsData, ttsIsPlaying
   return (
     <div className="h-full w-full grow flex flex-col rounded-md relative overflow-y-auto">
       <div className="h-full w-full flex justify-center absolute ">
-        <div className="w-full max-w-5xl h-full flex flex-col gap-6  pt-8">
+        <div className="w-full max-w-5xl h-full flex flex-col gap-6 p-2 pt-8">
           {
             messages && messages.length > 1 &&
             messages.map((message, index) => (
@@ -46,12 +49,14 @@ export const Messages = ({ gptResIsLoading, messagesState, ttsData, ttsIsPlaying
                 <div key={index} 
                 className={` w-fit relative flex `}>
                   <span className={`text-yellow-100 text-sm max-w-[300px] p-4   rounded-2xl ${message.role === "user" ? "bg-accent " : "bg-black/25"} `}>{message.content}</span>
-                  <div className={`${message.role === "assistant" ? "content" : "hidden"} absolute -bottom-8 left-0 rounded-xl h-8 pl-2 pr-2 text-xs flex items-center text-white w-full justify-between `}>
+                  <div className={`${message.role === "assistant" ? "content" : "hidden"} absolute -bottom-8 left-0 rounded-xl h-8 text-xs flex items-center text-primary w-full justify-between `}>
                     <div className="h-full w-fit flex items-center">
-                      <SupportAgentIcon className={`${ttsData.messageIndex === index && ttsIsPlaying ? "text-green-400" : "text-white"}`} fontSize="small" />
+                      <SupportAgentIcon className={`${ttsData.messageIndex === index && ttsIsPlaying ? "text-green-400" : "text-primary"}`} fontSize="small" />
                     </div>
-                    <div className="h-full w-fit border border-border flex items-cente">
-
+                    <div className="h-full w-fit border border-border p-2 rounded-lg flex items-center gap-2">
+                      <TranslateIcon className="text-primary " fontSize="small"/>
+                      <Separator orientation="vertical"/>
+                      <ReplayIcon fontSize="small"/>
                     </div>
                   </div>
 
