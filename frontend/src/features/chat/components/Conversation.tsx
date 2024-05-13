@@ -53,6 +53,7 @@ export const Conversation = () => {
       gptResIsLoading={gptResIsLoading}
       ttsData={ttsData}
       ttsIsPlaying={ttsIsPlaying}
+      languageData={languageData}
       />
         
       <VoiceAndTextInput 

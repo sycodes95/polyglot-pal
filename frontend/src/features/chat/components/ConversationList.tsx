@@ -37,6 +37,10 @@ export const ConversationList = () => {
     };
   },[]);
 
+  useEffect(()=> {
+    console.log(isFetching, data);
+  },[isFetching, data])
+
   return (
     <div className=' h-full overflow-y-auto overflow-x-hidden relative flex flex-col'>
       <div className='absolute top-0 h-full w-full grow p-2'>

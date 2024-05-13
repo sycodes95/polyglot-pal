@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQueryMessages } from "../api/message/getAllMessages";
 import { useEffect, useRef, useState } from "react";
-import { Message } from "../types/types";
+import { LanguageData, Message } from "../types/types";
 
 import { ThreeDots } from "react-loader-spinner";
 import { useTheme } from "@/components/themeProvider/theme-provider";
@@ -10,6 +10,7 @@ import { TtsData } from "../../../hooks/useConversation";
 import TranslateIcon from '@mui/icons-material/Translate';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { Separator } from "@/components/ui/separator";
+import { getTranslation } from "../api/google/getTranslation";
 
 interface MessagesProps {
   gptResIsLoading: boolean;
@@ -19,13 +20,31 @@ interface MessagesProps {
   };
   ttsData: TtsData;
   ttsIsPlaying: boolean;
+  languageData: LanguageData;
 };
 
-export const Messages = ({ gptResIsLoading, messagesState, ttsData, ttsIsPlaying }: MessagesProps) => {
+export const Messages = ({ 
+  gptResIsLoading, 
+  messagesState, 
+  ttsData, 
+  ttsIsPlaying,
+  languageData
+}: MessagesProps) => {
 
   const theme = useTheme();
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const { messages, setMessages} = messagesState;
+
+  const handleTextTranslation = async (message: Message) => {
+    const requestData = {
+      // targetLanguage : languageData.languageCode.split("-")[0], 
+      targetLanguage: "en",
+      text : message.content
+    };
+
+    const data = await getTranslation(requestData);
+
+  };
 
   useEffect(() => {
     if(scrollRef.current) {
@@ -34,12 +53,13 @@ export const Messages = ({ gptResIsLoading, messagesState, ttsData, ttsIsPlaying
   },[messages]);
 
   useEffect(() => {
-  },[gptResIsLoading]);
+    console.log(languageData);
+  },[languageData]);
   
   return (
     <div className="h-full w-full grow flex flex-col rounded-md relative overflow-y-auto">
       <div className="h-full w-full flex justify-center absolute ">
-        <div className="w-full max-w-5xl h-full flex flex-col gap-6 p-2 pt-8">
+        <div className="w-full max-w-5xl h-full flex flex-col gap-12 p-2 pt-8">
           {
             messages && messages.length > 1 &&
             messages.map((message, index) => (
@@ -54,8 +74,12 @@ export const Messages = ({ gptResIsLoading, messagesState, ttsData, ttsIsPlaying
                       <SupportAgentIcon className={`${ttsData.messageIndex === index && ttsIsPlaying ? "text-green-400" : "text-primary"}`} fontSize="small" />
                     </div>
                     <div className="h-full w-fit border border-border p-2 rounded-lg flex items-center gap-2">
-                      <TranslateIcon className="text-primary " fontSize="small"/>
+                      <button onClick={()=> handleTextTranslation(message)}>
+                        <TranslateIcon className="text-primary " fontSize="small"/>
+                      </button>
+
                       <Separator orientation="vertical"/>
+
                       <ReplayIcon fontSize="small"/>
                     </div>
                   </div>
